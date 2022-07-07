@@ -1,0 +1,25 @@
+
+
+.social-call{
+    height:40px;
+    justify-content: center;
+    align-items:center;
+    display:flex;
+    background-color: black; 
+}
+
+.phone,.social a {
+    color:white;
+    margin-left:20px;
+    font-size:0.8rem;
+    font-weight: bold;
+    display:inline;
+}
+ .social a:hover{
+    color:rgb(250, 0, 0);
+    transition: all ease 0.3s;
+}
+
+
+
+
