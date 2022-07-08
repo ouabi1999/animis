@@ -11,6 +11,7 @@ import Billing from "./Billing";
 import Steps from "./Steps";
 import SkeletonLoader from "../Skeleton";
 import { FormContext } from "../CheckoutContainer";
+import {OrderContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm() {
@@ -20,9 +21,10 @@ export default function CheckoutForm() {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const { activeStepIndex, setActiveStepIndex, formData, setFormData } =
-    useContext(FormContext);
+  const { activeStepIndex, setActiveStepIndex} = useContext(FormContext);
+    const {formData, setFormData } =  useContext(OrderContext);
 
+ 
   useEffect(() => {
     if (!stripe) {
       return;
@@ -40,7 +42,6 @@ export default function CheckoutForm() {
       switch (paymentIntent.status) {
         case "succeeded":
           setMessage("Payment succeeded!");
-          
           break;
         case "processing":
           setMessage("Your payment is processing.");
@@ -62,18 +63,15 @@ export default function CheckoutForm() {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
-      
     }
-
 
     setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
-
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: navigate("/checkout"),
+        return_url: "http://localhost:3000/successful-order",
       },
     });
 
@@ -89,7 +87,6 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(false);
-    
   };
 
  
@@ -106,8 +103,9 @@ export default function CheckoutForm() {
             </button>
             {/* Show any error or success messages */}
             {message && <div id="payment-message">{message}</div>}
-            
+            <button onClick={()=> setActiveStepIndex(activeStepIndex - 1 )}>Back</button>
         </form>
+        
          
 
     </Container>
@@ -169,6 +167,7 @@ form {
   transition: all 0.2s ease;
   box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
   width: 100%;
+  margin-bottom:8px;
 }
 
 button:hover {

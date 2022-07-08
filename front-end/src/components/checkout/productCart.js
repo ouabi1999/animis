@@ -3,12 +3,14 @@ import styled from 'styled-components'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useSelector } from "react-redux"
 import { useState, useContext} from 'react';
-import { FormContext } from "./CheckoutContainer";
+import { OrderContext } from "../../App"
+import { FormContext } from "./CheckoutContainer"
 
 
 
 function ProductCart(props) {
-  const {formData, total} = useContext(FormContext);
+  const {total} = useContext(FormContext);
+  const {formData} = useContext(OrderContext);
   useEffect(() => {
     console.log(props.cartItems)
   }, [])

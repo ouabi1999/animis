@@ -1,6 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component , createContext} from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import { connect } from 'react-redux'
+import { useContext, useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
+
 
 import Girls from "./components/categories/girls"
 import Boys from "./components/categories/boys"
@@ -33,11 +36,30 @@ import TermsOfServices from './screens/polices/TermsOfServices';
 import Footer from './components/Footer/footer';
 import styled from 'styled-components';
 import RefundPolicy from './screens/polices/RefundPolicy';
-import SuccessfulOrder from './screens/SuccessfulOrder';
+import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
 
 
+export const OrderContext = createContext();
+function App() {
+ const dispatch = useDispatch()
+  const [formData, setFormData ] = useState({
+    firstName: "",
+    lastName:"",
+    userId:"",
+    email: "",
+    city:"",
+    address2:"",
+    zip:"",
+    state:"",
+    country:"",
+    address1:"",
+    shippingMethod:"",
+    shippingPrice:"",
+    totalPrice:10,
+    currency:"usd",
+    products:"",
 
-class App extends Component {
+});
 
   /* getUser = () =>{
      fetch("/user")
@@ -56,44 +78,45 @@ class App extends Component {
      
      .catch(error=> console.log(error))
    }*/
-  getProductsInfo = () => {
+  const getProductsInfo = () => {
     fetch('/productsinfo').then(response => {
       if (response.ok) {
         return response.json()
       }
-    }).then(data => this.props.dispatch(setProducts(data)))
+    }).then(data => dispatch(setProducts(data)))
       .then(err => console.log(err))
   }
-  // fetch product info grom the backend or server
-  componentDidMount() {
 
-    //this.getUser()
-    this.getProductsInfo()
-    this.props.dispatch(getUser())
+  // fetch product info from the backend or server
+  useEffect(() => {
+    getProductsInfo()
+    dispatch(getUser())
     console.log("its working ")
+  }, [])
+  
+  
 
-  }
-
-  render() {
     return (
       <Container>
+        <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
 
           <Routes>
             <Route path = "/" element={<Header />} />
           </Routes>
-          
+          <Route path = "successful-order" element={<SuccessfulOrder/>}/>
           <Routes>
             <Route   path = "/"                   element={<><Nav/><Footer/></>}>
               <Route path = "/"                   element = {<Home />} />
               <Route path = "girls"               element = {<Girls />} />
               <Route path = "boys"                element = {<Boys />} />
-              <Route path = "contact-us"             element = {<Contact />} />
+              <Route path = "contact-us"          element = {<Contact />} />
               <Route path = "about-us"            element = {<About />} />
               <Route path = "shopping-cart"       element = {<Card />} />
               <Route path = "privacy-policy"      element = {<PrivacyPolicy/>}/>
               <Route path = "terms-of-services"   element = {<TermsOfServices/>}/>
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
+              
 
              
               <Route path = "/login"         element = {<LoginForm />} />
@@ -111,7 +134,7 @@ class App extends Component {
               </Route>
             </Route>
             <Route path = "/checkout"      element = {<CheckoutContainer/>} />
-            <Route path = "/successful-order" element = {<SuccessfulOrder/>}/>
+
             <Route   path = "/admin"       element = {<DashLayout />} >
               <Route path = "/admin"       element = {<Dashboard />} />
               <Route path = "dashproducts" element = {<ProductsLayout />} />
@@ -120,19 +143,14 @@ class App extends Component {
 
           </Routes>
         </BrowserRouter>
+        </OrderContext.Provider>
       </Container>
     )
   }
-}
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartItems,
-    products: state.products,
-    auth : state.auth
-  };
-};
 
-export default connect(mapStateToProps)(App)
+
+
+export default App
 
 const Container = styled.div`
 
@@ -141,6 +159,10 @@ const Container = styled.div`
 
 
 `
+
+
+
+
 
 
 

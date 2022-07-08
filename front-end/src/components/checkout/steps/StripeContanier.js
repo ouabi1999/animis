@@ -8,7 +8,7 @@ import Billing from "./Billing";
 import { FormContext } from "../CheckoutContainer";
 import Skeleton from "../Skeleton";
 import SkeletonLoader from "../Skeleton";
-
+import {OrderContext } from "../../../App";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
@@ -17,8 +17,9 @@ const stripePromise = loadStripe("pk_test_51LH58oGw1CxnQh9eQ8lKmbZx0yO348wmVYEaY
 export default function StripeContanier() {
   const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(false)
-  const { activeStepIndex, setActiveStepIndex, formData, setFormData } =
+  const { activeStepIndex, setActiveStepIndex } =
     useContext(FormContext);
+  const {formData, setFormData } =  useContext(OrderContext);
 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -30,7 +31,6 @@ export default function StripeContanier() {
         userId: formData.userId,
         firstName: formData.firstName,
         lastName: formData.lastName,
-        userId: formData.userId,
         email: formData.email,
         city: formData.city,
         address1: formData.address1,
@@ -67,7 +67,7 @@ export default function StripeContanier() {
     ):
     <div><SkeletonLoader/></div>
   }
-   <button onClick={()=> setActiveStepIndex(activeStepIndex - 1 )}>Back</button>
+   
     </Container>
   )
   

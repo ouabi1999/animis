@@ -6,39 +6,20 @@ import { useContext } from 'react';
 import * as yup from "yup"
 import { useSelector, useDispatch } from 'react-redux'
 
-
 import Stepper from './Stepper'
 import Steps from './steps/Steps';
 import ProductCart from './productCart';
 
+
 export const FormContext = createContext();
 function CheckoutContainer() {
  const cartItems =  useSelector((state) => state.cartItems.cartItems)
-
-  const [formData, setFormData ] = useState({
-      firstName: "",
-      lastName:"",
-      userId:"",
-      email: "",
-      city:"",
-      address2:"",
-      zip:"",
-      state:"",
-      country:"",
-      address1:"",
-      shippingMethod:"",
-      shippingPrice:"",
-      totalPrice:10,
-      currency:"usd",
-      products:cartItems,
-
-});
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [total, setTotal] = useState(cartItems.reduce((a, c) => a + c.price * c.count, 0).toFixed(2))
   
   return (
 
-    <FormContext.Provider value={{ activeStepIndex, setActiveStepIndex, formData, setFormData, total, setTotal}}>
+    <FormContext.Provider value={{ activeStepIndex, setActiveStepIndex, total, setTotal}}>
     <Conatiner>
       <Left_Section>
         <ProductCart cartItems = {cartItems}/>
@@ -48,6 +29,7 @@ function CheckoutContainer() {
         <Steps/>
       </Right_Section>
     </Conatiner>
+    
     </FormContext.Provider>
     
   )

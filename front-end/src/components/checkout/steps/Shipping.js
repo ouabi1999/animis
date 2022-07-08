@@ -2,9 +2,11 @@ import React, {useContext, useState}  from 'react'
 import styled from "styled-components"
 import InfoIcon from '@mui/icons-material/Info';
 import { FormContext } from '../CheckoutContainer';
+import {OrderContext} from "../../../App"
 
 function Shipping() {
-    const { activeStepIndex, setActiveStepIndex, formData, setFormData , total} = useContext(FormContext);
+    const { activeStepIndex, setActiveStepIndex, total} = useContext(FormContext);
+    const { formData, setFormData} = useContext(OrderContext);
     const [shippingMethod, setShippingMethod] = useState("")
     const [shippingPrice, setShippingPrice] = useState(0)
 
@@ -86,8 +88,8 @@ function Shipping() {
       </div>
     </div>
     <Buttons_container>
-            <button className='Back-button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
-            <button  className="Next-button" onClick={nextStep} type="submit">Next</button>
+            <button className='.button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
+            <button  className=".button" onClick={nextStep} type="submit">Next</button>
     </Buttons_container>
   </ShippingMethods>
   )
@@ -166,14 +168,19 @@ const ShippingMethods = styled.div`
 const Buttons_container =  styled.div`
   display:flex;
   justify-content:space-evenly;
+  button{
+    color:#fff;
+    background:blue;
+    padding:8px 15px;
+    border-radius:6px;
+    margin-top:10px;
+    font-size: 17px;
+
+    &:hover{
+      opacity:0.8;
+    }
+  }
  
 
-button{
 
-  color: #fff;
-  background:blue;
-  padding: 10px 16px;
-  border-radius:8px;
-
-}
 `

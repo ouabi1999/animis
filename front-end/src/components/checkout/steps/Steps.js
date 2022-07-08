@@ -9,6 +9,7 @@ import LoginForm from "../../../screens/LoginForm"
 import { FormContext } from '../CheckoutContainer';
 import LogendIn from './LogendIn';
 import Shipping from './Shipping';
+import {OrderContext} from "../../../App"
  
 function Steps() {
  
@@ -16,8 +17,9 @@ function Steps() {
     const user = useSelector((state) => state.auth.user)
     const [signInMessage, setsignInMessage] = useState(null)
   
-    const { activeStepIndex, setActiveStepIndex, formData, setFormData } =
+    const { activeStepIndex, setActiveStepIndex } =
     useContext(FormContext);
+    const { formData, setFormData} = useContext(OrderContext);
     
     
     const backButton =() => {
@@ -83,18 +85,21 @@ function Steps() {
         top:0;
     
       
-        button{
+
+        
+        .button{
           color:#fff;
           background:blue;
-          padding:10px 15px;
+          padding:8px 15px;
           border-radius:6px;
           margin-top:10px;
-          font-size: 16px;
+          font-size: 17px;
+      
           &:hover{
             opacity:0.8;
           }
         }
-
+        
        
   `
 

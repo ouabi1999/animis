@@ -6,6 +6,7 @@ import * as Yup from "yup"
 import {Grid, Typography, TextField, FormControlLabel, Checkbox } from "@mui/material";
 
 import { FormContext } from '../CheckoutContainer';
+import {OrderContext} from "../../../App"
 import { useState } from 'react';
 
 const ValidationSchema  =  Yup.object().shape({
@@ -21,8 +22,9 @@ const ValidationSchema  =  Yup.object().shape({
   
 })
 function Billing() {
-  const { activeStepIndex, setActiveStepIndex, formData, setFormData } =
+  const { activeStepIndex, setActiveStepIndex } =
     useContext(FormContext);
+  const { formData, setFormData} = useContext(OrderContext);
     
   return (
     <Conatiner>
@@ -186,8 +188,8 @@ function Billing() {
 
       </Grid>
         <Buttons_container>
-            <button className='Back-button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
-            <button  className="Next-button" type="submit">Next</button>
+            <button className='button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
+            <button  className="button" type="submit">Next</button>
         </Buttons_container>
         
       </Form>
@@ -208,14 +210,18 @@ const Buttons_container =  styled.div`
   display:flex;
   justify-content:space-evenly;
  
+  button{
+    color:#fff;
+    background:blue;
+    padding:8px 15px;
+    border-radius:6px;
+    margin-top:10px;
+    font-size: 17px;
 
-button{
-
-  color: #fff;
-  background:blue;
-  padding: 10px 16px;
-  border-radius:8px;
-
-}
+    &:hover{
+      opacity:0.8;
+    }
+  }
+  
 `
 
