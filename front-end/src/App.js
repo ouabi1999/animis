@@ -103,8 +103,9 @@ function App() {
 
           <Routes>
             <Route path = "/" element={<Header />} />
+            <Route path = "/successful-order" element={<SuccessfulOrder/>}/>
           </Routes>
-          <Route path = "successful-order" element={<SuccessfulOrder/>}/>
+          
           <Routes>
             <Route   path = "/"                   element={<><Nav/><Footer/></>}>
               <Route path = "/"                   element = {<Home />} />
@@ -116,12 +117,9 @@ function App() {
               <Route path = "privacy-policy"      element = {<PrivacyPolicy/>}/>
               <Route path = "terms-of-services"   element = {<TermsOfServices/>}/>
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
-              
-
-             
-              <Route path = "/login"         element = {<LoginForm />} />
-              <Route path = "/register"      element = {<Signup />} />
-              <Route path = "/userinfo"      element = {<Userinfo />} />
+              <Route path = "/login"              element = {<LoginForm />} />
+              <Route path = "/register"           element = {<Signup />} />
+              <Route path = "/userinfo"           element = {<Userinfo />} />
 
 
               <Route   path = "/profile"       element = {<UserLayout />} >

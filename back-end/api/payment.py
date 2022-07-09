@@ -36,13 +36,10 @@ def create_payment():
         return jsonify(error=str(e)), 403
 
 
-@payment.route('/create-order', methods=['POST'])
-
 @payment.route('/webhook', methods=['POST'])
 def webhook():
     event = None
     payload = request.data
-    request_data = json.loads(request.data)
     try:
         event = json.loads(payload)
     except:
@@ -64,25 +61,6 @@ def webhook():
     if event and event['type'] == 'payment_intent.succeeded':
         payment_intent = event['data']['object']  # contains a stripe.PaymentIntent
         print('Payment for {} succeeded'.format(payment_intent['amount']))
-        userorder = Orders(
-            firstName      = request_data["firstName"],
-            lastName       = request_data["lastName"],
-            email          = request_data["email"],
-            address1       = request_data["address1"],
-            address2       = request_data["address2"],
-            country        = request_data["country"],
-            city           = request_data["city"],
-            state          = request_data["state"],
-            zipcode        = request_data["zip"],
-            #products      = request_data["products"] , 
-            shippingMethod = request_data["shippingMethod"],
-            shippingPrice  = request_data["shippingPrice"],
-            totalPrice     = request_data["totalPrice"],
-            user_id        = request_data["userId"],
-        )
-        db.session.add(userorder)
-        db.session.commit()
-        
         # Then define and call a method to handle the successful payment intent.
         # handle_payment_intent_succeeded(payment_intent)
     elif event['type'] == 'payment_method.attached':
@@ -94,6 +72,31 @@ def webhook():
         print('Unhandled event type {}'.format(event['type']))
 
     return jsonify(success=True)
+
+
+
+@payment.route("/create-order", methods = ["POST"])
+def createOrder():
+    request_data = json.loads(request.data)
+    userorder = Orders(
+            firstName      = request_data["firstName"],
+            lastName       = request_data["lastName"],
+            email          = request_data["email"],
+            address1       = request_data["address1"],
+            address2       = request_data["address2"],
+            country        = request_data["country"],
+            city           = request_data["city"],
+            state          = request_data["state"],
+            zipcode        = request_data["zip"],
+            #products      = event["products"] , 
+            shippingMethod = request_data["shippingMethod"],
+            shippingPrice  = request_data["shippingPrice"],
+            totalPrice     = request_data["totalPrice"],
+            user_id        = request_data["userId"],
+        )
+    db.session.add(userorder)
+    db.session.commit()
+    return jsonify([*map(orders_serializer, Orders.query.all())])
 
 
 

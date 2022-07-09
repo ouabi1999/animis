@@ -22,7 +22,7 @@ export default function CheckoutForm() {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { activeStepIndex, setActiveStepIndex} = useContext(FormContext);
-    const {formData, setFormData } =  useContext(OrderContext);
+  const {formData, setFormData } =  useContext(OrderContext);
 
  
   useEffect(() => {
@@ -74,7 +74,6 @@ export default function CheckoutForm() {
         return_url: "http://localhost:3000/successful-order",
       },
     });
-
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
