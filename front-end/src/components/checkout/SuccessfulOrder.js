@@ -11,7 +11,7 @@ function SuccessfulOrder() {
   const {formData, setFormData } =  useContext(OrderContext);
   const [order, setOrder] = useState({})
 
-  useEffect(() => {
+  /*useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     fetch("/create-order", {
       method: "POST",
@@ -36,7 +36,7 @@ function SuccessfulOrder() {
     })
       .then((res) => res.json())
       .then((data) => setOrder(data));
-  }, []);
+  }, []);*/
 
   return (
     <Container>

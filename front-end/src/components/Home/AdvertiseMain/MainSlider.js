@@ -22,13 +22,13 @@ const MainSlider = () => {
       <div className="center-aside ">
         <Slider {...settings}>
           <div>
-            <img src="shop/background-img.jpg" alt="Los Angeles" />
+            <img src="image-slide/background-img.jpg" alt="image-slide" />
           </div>
           <div>
-            <img src="shop/image-slide/toy-3631315.jpg" alt="Chicago" />
+            <img src="image-slide/toy-3631315.jpg" alt="image-slide" />
           </div>
           <div>
-            <img src="shop/image-slide/danbo-1206484.jpg" alt="New York" />
+            <img src="image-slide/danbo-1206484.jpg" alt="image-slide" />
           </div>
         </Slider>
       </div>
