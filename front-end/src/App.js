@@ -91,7 +91,6 @@ function App() {
   useEffect(() => {
     getProductsInfo()
     dispatch(getUser())
-    console.log("its working ")
   }, [])
   
   
@@ -103,7 +102,7 @@ function App() {
 
           <Routes>
             <Route path = "/" element={<Header />} />
-            <Route path = "/successful-order" element={<SuccessfulOrder/>}/>
+            <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
           </Routes>
           
           <Routes>

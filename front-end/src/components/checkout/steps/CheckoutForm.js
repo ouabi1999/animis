@@ -13,6 +13,7 @@ import SkeletonLoader from "../Skeleton";
 import { FormContext } from "../CheckoutContainer";
 import {OrderContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
+import {Redirect} from "react-router-dom"
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -23,6 +24,7 @@ export default function CheckoutForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { activeStepIndex, setActiveStepIndex} = useContext(FormContext);
   const {formData, setFormData } =  useContext(OrderContext);
+  const [successOrder, setSuccessOrder] = useState(false)
 
  
   useEffect(() => {
@@ -64,16 +66,24 @@ export default function CheckoutForm() {
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
-
     setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/successful-order",
+        return_url: "http://localhost:3000/successful-order"
+      
       },
-    });
+
+    },
+   
+    );
+    
+  
+
+   
+    
     // This point will only be reached if there is an immediate error when
     // confirming the payment. Otherwise, your customer will be redirected to
     // your `return_url`. For some payment methods like iDEAL, your customer will
@@ -81,12 +91,13 @@ export default function CheckoutForm() {
     // redirected to the `return_url`.
     if (error.type === "card_error" || error.type === "validation_error") {
       setMessage(error.message);
-    } else {
+    } 
+    else {
       setMessage("An unexpected error occurred.");
     }
-
+     
     setIsLoading(false);
-  };
+  }
 
  
   return (

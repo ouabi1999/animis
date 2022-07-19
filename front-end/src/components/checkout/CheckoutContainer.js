@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 import {Formik} from "formik"
-import { useContext } from 'react';
 import * as yup from "yup"
 import { useSelector, useDispatch } from 'react-redux'
 
 import Stepper from './Stepper'
 import Steps from './steps/Steps';
 import ProductCart from './productCart';
+import { useNavigate } from 'react-router-dom'
 
 
 export const FormContext = createContext();
@@ -16,10 +16,27 @@ function CheckoutContainer() {
  const cartItems =  useSelector((state) => state.cartItems.cartItems)
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [total, setTotal] = useState(cartItems.reduce((a, c) => a + c.price * c.count, 0).toFixed(2))
+  const navigate = useNavigate()
+  useEffect(() => {
+    
+  
+        if(cartItems.length === 0){
+        navigate("/") 
+        console.log("test")
+     }
+      
+  }, [])
   
   return (
-
+    
     <FormContext.Provider value={{ activeStepIndex, setActiveStepIndex, total, setTotal}}>
+
+    
+    {cartItems.length === 0 ?(
+      ""
+    )
+    
+    :
     <Conatiner>
       <Left_Section>
         <ProductCart cartItems = {cartItems}/>
@@ -28,7 +45,10 @@ function CheckoutContainer() {
         <Stepper/>
         <Steps/>
       </Right_Section>
-    </Conatiner>
+        </Conatiner>
+  }
+
+    
     
     </FormContext.Provider>
     
