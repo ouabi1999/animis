@@ -13,6 +13,7 @@ import SkeletonLoader from "../Skeleton";
 import { FormContext } from "../CheckoutContainer";
 import {OrderContext } from "../../../App";
 import { useNavigate } from "react-router-dom";
+import {Redirect} from "react-router-dom"
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -71,11 +72,14 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/successful-order",
+        return_url: "http://localhost:3000/successful-order"
+      
       },
+
     },
    
     );
+    
   
 
    

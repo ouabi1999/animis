@@ -3,47 +3,33 @@ import React from 'react'
 import { FormContext } from "./CheckoutContainer";
 import { OrderContext } from "../../App"
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link,  unstable_HistoryRouter,  useNavigate} from "react-router-dom";
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 
 
-function SuccessfulOrder() {
+function SuccessfulOrder(props) {
   const {formData, setFormData } =  useContext(OrderContext);
   const [order, setOrder] = useState({})
+  const navigate = useNavigate()
+  const [isBackButtonClicked, setBackbuttonPress] = useState(false)
 
-  /*useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/create-order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
 
-      body: JSON.stringify({
-        userId: formData.userId,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        city: formData.city,
-        address1: formData.address1,
-        address2: formData.address2,
-        zip: formData.zip,
-        state: formData.state,
-        country: formData.country,
-        shippingMethod: formData.shippingMethod,
-        shippingPrice: formData.shippingPrice,
-        totalPrice: formData.totalPrice
+ /*useEffect( () =>{
+  window.history.pushState(null, null, window.location.href);
+  window.onpopstate = function () {
+      window.history.go(1);
+      console.log("history")
+  };
 
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setOrder(data));
-  }, []);*/
+ })*/
 
+ 
   return (
     <Container>
       <div className="close-container">
-        <Link to = "/">
-         <DisabledByDefaultIcon className="close-icon"/>
-      </Link>
+        <Link to="/">
+          <DisabledByDefaultIcon className="close-icon" />
+        </Link>
 
       </div>
       <Wrapper>
@@ -94,16 +80,15 @@ const Container = styled.div`
   .close-icon:hover{
     color:lightblue;
     transition:250ms;
-   }
-
+  }
 
 `
 const Wrapper = styled.div`
-        background-image:url("./images/congratulation.jpg");
-        height: 100vh; /* You must set a specified height */
-        background-position: center; /* Center the image */
-        background-repeat: no-repeat; /* Do not repeat the image */
-        background-size: cover;
-        opacity:.4
+    background-image:url("./images/congratulation.jpg");
+    height: 100vh; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover;
+    opacity:.4
          
 `
