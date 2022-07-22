@@ -3,7 +3,7 @@ import styled from "styled-components"
 function Banner() {
   return (
     <Container>
-        <img src="./shop/banner.jpg" alt=""/>
+        <img src="./images/banner.jpg" alt=""/>
     </Container>
   )
 }

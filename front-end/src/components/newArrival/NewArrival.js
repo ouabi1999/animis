@@ -32,8 +32,8 @@ function NewArrival() {
      <Slide_Container ref={carousel}>
         {products.map((item, index) => {
            return (
-              <Wrapp>
-                  <img src={item.product_images[0]} key={index} alt="" />
+              <Wrapp key={index}>
+                  <img src={item.product_images[0]}  alt="" />
               </Wrapp>
            )
         })} 

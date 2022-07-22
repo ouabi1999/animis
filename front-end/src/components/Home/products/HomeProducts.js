@@ -8,11 +8,11 @@ import {useSelector} from "react-redux"
  
 
 function HomeProducts(props) {
-    const [items, setItems] = useState(5)
+  
    
   const products = useSelector((state) => state.products.products)
   const isProducts = useSelector((state) => state.products.isProducts)
-  const slice = products.slice(0, items);
+  
   const {openModal} = props;
   return (
     <Product_contianer>
@@ -23,7 +23,7 @@ function HomeProducts(props) {
                   return (
                       <div  key={item.id} className="product_container">
                         <a href={"#" + item.id} onClick={() => props.openModal(item)}>
-                          <img src={item.product_images[0]} title={item.title} />
+                          <img src={item.product_images[0]} alt="img"/>
                         </a>
                       <Product_info>
                     

@@ -1,11 +1,21 @@
 import { style } from '@mui/system'
-import React from 'react'
+import React , {useState} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Fade from "react-reveal/Fade"
+import { Link } from 'react-router-dom'
 import styled from "styled-components"
+import { filterByCategory } from '../../features/categories/categorySlice'
 
 
 const Categories = () => {
+  const [Data , setData] = useState([])
+  const products = useSelector(state => state.products.products)
+  const dispatch = useDispatch()
 
+  const filter = (itemCategory) =>{
+      dispatch(filterByCategory(itemCategory)) 
+  }
+  
     return (
         <>
         <Categories_header>
@@ -20,9 +30,9 @@ const Categories = () => {
                 <h2>Clothes</h2>
 
                 <Wrapp>
-                    <a href="#">
+                    <Link to = "category" onClick={filter("Clothes")}>
                         <img src="catogorey/anime-clothes.jpg" alt="clothes" />
-                    </a>
+                    </Link>
                     <a href="#">
                         <img src="catogorey/anime-clothes.jpg" alt="clothes" />
                     </a>

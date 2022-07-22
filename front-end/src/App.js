@@ -1,8 +1,7 @@
-import React, { Component , createContext} from 'react'
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import { connect } from 'react-redux'
-import { useContext, useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
+import React, {createContext} from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux'
 
 
 import Girls from "./components/categories/girls"
@@ -12,7 +11,7 @@ import About from "./screens/about"
 import Card from "./screens/shoppingCart/Card"
 import Header from './components/Header/Header'
 import LoginForm from './screens/LoginForm'
-import Signup from './components/Home/signup'
+import Signup from './screens/signup'
 import Userinfo from './components/Home/userInfo'
 import Dashboard from './components/Dashboard/Dashboard'
 import Chart from './components/Dashboard/Chart'
@@ -37,6 +36,8 @@ import Footer from './components/Footer/footer';
 import styled from 'styled-components';
 import RefundPolicy from './screens/polices/RefundPolicy';
 import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
+import CategoryFilter from './screens/CategoryFilter';
+import { getProducts } from './features/categories/categorySlice';
 
 
 export const OrderContext = createContext();
@@ -91,6 +92,7 @@ function App() {
   useEffect(() => {
     getProductsInfo()
     dispatch(getUser())
+    dispatch(getProducts())
   }, [])
   
   
@@ -116,13 +118,11 @@ function App() {
               <Route path = "privacy-policy"      element = {<PrivacyPolicy/>}/>
               <Route path = "terms-of-services"   element = {<TermsOfServices/>}/>
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
-              <Route path = "/login"              element = {<LoginForm />} />
-              <Route path = "/register"           element = {<Signup />} />
               <Route path = "/userinfo"           element = {<Userinfo />} />
-
+              <Route path= "category"             element =  {<CategoryFilter/>}/>
 
               <Route   path = "/profile"       element = {<UserLayout />} >
-                <Route path = "/profile"       element = {<Profile />} />
+                <Route path = "profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
                 <Route path = "setting"        element = {<Setting />} />
                 <Route path = "help-center"    element = {<HelpCenter />} />
@@ -130,6 +130,8 @@ function App() {
                 <Route path = "notifications"  element = {<Notifications />} />
               </Route>
             </Route>
+            <Route path = "/login"              element = {<LoginForm />} />
+              <Route path = "/register"           element = {<Signup />} />
             <Route path = "/checkout"      element = {<CheckoutContainer/>} />
 
             <Route   path = "/admin"       element = {<DashLayout />} >

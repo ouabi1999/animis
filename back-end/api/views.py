@@ -94,9 +94,9 @@ def edit_product(id):
         quantity = request.form["quantity"],
         description = request.form["description"],
         reviews = request.form["reviews"],
-        #availability = request_data["availability"],
-        #category = request.form["category"],
-        )
+        availability = request.form["availability"],
+        category = request.form["category"],
+    )
     )
     db.session.commit()
     return jsonify(*map(productInfo_serializer, product))
