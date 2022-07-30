@@ -15,6 +15,7 @@ export const getProducts = createAsyncThunk("category/getProducts", () => {
 
 const initialState = {
     data: [],
+    filteredData : [],
     loading: false,
     hasErrors: false,
 
@@ -28,12 +29,16 @@ export const category_Slice = createSlice({
 
         filterByCategory(state, action) {
 
-            const items = state.data.slice()
-            items?.filter(curData => {
-                return curData.colors === action.payload;
-            })
-            state.data = items
-            console.log(items)
+            let items = state.data.slice()
+            const result = items?.filter(curData => {
+                
+                return curData.category === action.payload
+            }
+           
+        )
+        state.filteredData = result
+           
+           
         }
     },
     extraReducers: {

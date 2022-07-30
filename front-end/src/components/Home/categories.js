@@ -14,6 +14,7 @@ const Categories = () => {
 
   const filter = (itemCategory) =>{
       dispatch(filterByCategory(itemCategory)) 
+
   }
   
     return (
@@ -30,15 +31,16 @@ const Categories = () => {
                 <h2>Clothes</h2>
 
                 <Wrapp>
-                    <Link to = "category" onClick={filter("Clothes")}>
+                    <Link to ="category" onClick={filter("clothes")}>
                         <img src="catogorey/anime-clothes.jpg" alt="clothes" />
+                
+                    
+                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
+                    
+                    
+                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
+                
                     </Link>
-                    <a href="#">
-                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
-                    </a>
-                    <a href="#">
-                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
-                    </a>
                 </Wrapp>
 
             </Clothes_conatiner>
@@ -46,52 +48,46 @@ const Categories = () => {
             <Toyes_container className='box-shadow'>
                 <h2>Toyes</h2>
                 <Wrapp>
-                <a href="#">
+                <Link to="/category" onClick={filter("toys")}>
                     <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-                </a>
-                <a href="#">
                     <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-                </a>
-                <a href="#">
+
                     <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-                </a>
+                </Link>
+                
                 </Wrapp>
             </Toyes_container>
 
                 <Bags_container className='box-shadow'>
                     <h2>Bags</h2>
                     <Wrapp>
-                        <a href="#">
+                    <Link to="/category" onClick={filter("toys")}>
                             <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
-                        </a>
-                        <a href="#">
+                       
                             <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
-                        </a>
-                        <a href="#">
+                        
                             <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
-                        </a>
+                    </Link>
                     </Wrapp>
                 </Bags_container>
 
             <Accessories_container className='box-shadow'>
                 <h2>Accessories</h2>
                 <Wrapp className='accessories box-shadow'/>
-
+                <Link to="/category" onClick={filter("accessories")}></Link>
                 <Wrapp/>
 
             </Accessories_container>
             <Poster_container className='box-shadow'>
                 <h2>Posters</h2>
                 <Wrapp> 
-                <a href="#">
+                <Link to="/category" onClick={filter("posters")}>
+
                     <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-                </a>
-                <a href="#">
                     <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-                </a>
-                <a href="#">
                     <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-                </a>
+
+                </Link>
                 </Wrapp>
             </Poster_container>     
     </Categories_container>
@@ -197,8 +193,9 @@ const Poster_container = styled.div`
 `
 const Wrapp = styled.div`
     
-    display:flex;
-    justify-content:space-between;
-
+    a{
+        display:flex;
+        justify-content:space-between;
+    }
 `
 
