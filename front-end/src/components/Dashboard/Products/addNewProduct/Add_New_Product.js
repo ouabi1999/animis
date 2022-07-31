@@ -21,6 +21,9 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
       reviews: "",
       availability: "",
       product_type:"",
+      pics_info : "",
+      shipping_Method:"",
+      seo : "",
       category: "",
       tags: [],
       products: [],
@@ -68,6 +71,14 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
       data.append("description", formData.description);
       data.append("reviews", formData.reviews);
       data.append("category", formData.category);
+      data.append("shipping_Method", formData.shipping_Method);
+      data.append("seo", formData.seo);
+      data.append("pics_info", formData.pics_info);
+      data.append("product_type", formData.product_type);
+      
+
+
+
       fetch("/products", {
         method: "POST",
         body: data,

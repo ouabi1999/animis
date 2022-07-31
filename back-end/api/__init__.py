@@ -24,7 +24,7 @@ def create_app():
     app.secret_key = "mysecretket"
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:mina9991rwina@localhost/corazondata"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:mina9991rwina@localhost/corazon_DB"
     app.config['SESSION_USE_SIGNER'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SESSION_SQLALCHEMY'] = db 
@@ -40,8 +40,8 @@ def create_app():
     app.register_blueprint(payment)
    
 
-    #db.create_all(app = app)
-    #db.create_all(app = app)
+    db.create_all(app = app)
+   
     return app
 
 

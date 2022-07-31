@@ -60,16 +60,19 @@ class Products(db.Model):
     price =  db.Column(db.Integer(), nullable = False)
     discount = db.Column(db.Integer(), nullable = False)
     quantity = db.Column(db.Integer(), nullable = False)
-    description =  db.Column(db.Text(), nullable = False)
-    reviews =  db.Column(db.Integer)
-    availability = db.Column(db.String())
+    description =  db.Column(db.PickleType(), nullable = False)
+    reviews =  db.Column(db.PickleType())
+    availability = db.Column(db.PickleType())
     category =  db.Column(db.String())
-    #product_type =  db.Column(db.String())
-    ratings = db.relationship('Ratings', backref='products', lazy=True, cascade="all, delete-orphan")
-    
+    product_type =  db.Column(db.String())
+    pics_info = db.Column(db.PickleType())
+    shipping_Method = db.Column(db.PickleType())
+    seo = db.Column(db.PickleType())
+    ratings = db.relationship('Ratings', backref='products', lazy = True, cascade="all, delete-orphan")
+
 
     def __str__(self):
-        return f'{self.id} {self.title} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
+        return f'{self.id} {self.seo} {self.title} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
 def productInfo_serializer(info):
     rats = [*map(ratings_serializer , (info.ratings))]
  
@@ -87,9 +90,12 @@ def productInfo_serializer(info):
         "availability":info.availability,
         "category":info.category,
         "tags":info.tags,
+        "product_type": info.product_type,
+        "pics_info" : info.pics_info,
+        "shipping_Method" : info.shipping_Method,
+        "seo" : info.seo,
         "ratings" : rats #str([*map(ratings_serializer, rats)])}
         
-
     }
 
 class Orders(db.Model):

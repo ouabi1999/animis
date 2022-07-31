@@ -54,6 +54,10 @@ def products():
     reviews = request.form["reviews"],
     #availability = request_data["availability"],
     category = request.form["category"],
+    product_type = request.form["product_type"],
+    pics_info =  request.form["pics_info"],
+    shipping_Method = request.form["shipping_Method"],
+    seo =    request.form["seo"],
     
 ) 
     db.session.add(newproducts)
