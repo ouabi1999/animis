@@ -64,6 +64,7 @@ class Products(db.Model):
     reviews =  db.Column(db.Integer)
     availability = db.Column(db.String())
     category =  db.Column(db.String())
+    #product_type =  db.Column(db.String())
     ratings = db.relationship('Ratings', backref='products', lazy=True, cascade="all, delete-orphan")
     
 

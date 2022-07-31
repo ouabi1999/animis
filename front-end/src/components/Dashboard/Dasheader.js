@@ -41,6 +41,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 export default Dasheader
 
 const HeaderWrap = styled.div`
+   z-index:1000;
    background:rgb(245, 245, 245);
    box-shadow:10px 4px 15px  rgb(150,150,150,0.8);
    height:65px;
