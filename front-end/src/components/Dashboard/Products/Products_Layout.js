@@ -4,7 +4,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import AdminProducts from './Admin_Products';
 import EditProduct from './Edit_Product';
 import DashProductdetails from './DashProduct_details';
-import AddNewProduct from './Add_New_Product';
+import AddNewProduct from './addNewProduct/Add_New_Product';
 
 export default class ProductsLayout extends Component {
     constructor(props){
@@ -34,6 +34,31 @@ export default class ProductsLayout extends Component {
         }
         this.imgInput = createRef()
     }
+    responseData =(data)=>{
+        this.setState({
+        
+            products: data
+
+        })
+    }
+    
+    componentDidMount() {
+        fetch("/productsinfo")
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+          })
+          .then((data) =>
+            this.setState({
+              
+              products: data,
+              AdminProducts: true,
+            })
+          )
+  
+          .then((err) => console.log(err));
+      }
 
     updatedProduct = (editedProduct) =>{
         const newProducts = this.state.products.map(product=>{
@@ -50,151 +75,7 @@ export default class ProductsLayout extends Component {
 
     }
 
-     /// send products info to the backend
-     AddNew_Product_submit = (event)=>{
-        event.preventDefault()
-        const data = new FormData();
-        for (let i = 0; i < this.state.product_images.length; i++) {
-            data.append("images", this.state.product_images[i]);
-        }
-
-        this.state.sizes.forEach(size => {
-            data.append("sizes", size)
-        });
-        this.state.colors.forEach(color => {
-            data.append("colors", color)
-        });
-        this.state.tags.forEach(tag => {
-            data.append("tags", tag)
-        });
-        data.append("title", this.state.title)
-        data.append("quantity", this.state.quantity)
-        data.append("price", this.state.price)
-        data.append("discount", this.state.discount)
-        data.append("description",this.state.description)
-        data.append("reviews", this.state.reviews)
-        data.append("category",this.state.category)
-         fetch("/products",{
-          method:"POST",
-          body: data,
-       }).then(response => response.json())
-        .then( data => this.setState({products : data}))
-       .catch(err => console.log(err))
-     }
-
-    // fetch product info grom the backend or server
-    componentDidMount(){   
-        fetch('/productsinfo').then(response=>{
-            if( response.ok){
-              return  response.json()
-            }
-           
-          }).then(data => this.setState({
-              products:data,
-              AdminProducts:true,
-              
-            }))
-          
-          .then(err=> console.log(err))
-        
-    }
     
-    /// add colors
-addColor = (e) => {
-    if (e.key === "Enter") {
-      if (e.target.value.length > 0) {
-        this.setState({
-            colors:[...this.state.colors, e.target.value]
-        });
-        e.target.value = "";
-      }
-      console.log(this.state.colors)
-    }
-}
-//remove colors
-removeColors = (color) => {
-    const colors = this.state.colors.slice();
-    this.setState({
-        colors: colors.filter((x) => x !== color),
-    })
-}
-/// add tags
-addTag = (e) => {
-    if (e.key === "Enter") {
-      if (e.target.value.length > 0) {
-        this.setState({
-            tags:[...this.state.tags, e.target.value]
-        });
-        e.target.value = "";
-      }
-    }
-}
-removeImage = (index) => {
-    const product_images = this.state.product_images.slice();
-    this.setState({
-        product_images: product_images.filter((x) => x !== index),
-    })
-}
-/// remove tags 
-removeTag = (tag) => {
-    const tags = this.state.tags.slice();
-    this.setState({
-        tags: tags.filter((x) => x !== tag),
-    })
-}
-///remove size
-removeSize = (size) =>{
-    const sizes = this.state.sizes.slice();
-    this.setState({
-        sizes: sizes.filter((x) => x !== size)
-    })
-}
-///add size
-addSize = (e) =>{
-    if (e.key === "Enter") {
-        if (e.target.value.length > 0) {
-          this.setState({
-              sizes:[...this.state.sizes, e.target.value]
-          });
-          e.target.value = "";
-    }   }
-}
-// handle change input
-handelChange = (event) =>{
-    this.setState({
-      [event.target.name]:event.target.value,
-      
-    })
-    console.log(event.target.value)
-   
-  }
-
-// handle image input 
-handleImageInput = (e) =>{
-    e.preventDefault()
-    if(e.target.id === e.target.name){
-        return false
-    }else{
-        this.imgInput.current.click()
-    }
-}
-
-    /// handel image change
-    handleImageChange = (e) => {
-        e.preventDefault()
-    if (e.target.files){
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                this.setState({
-                    product_images: [...this.state.product_images, reader.result]
-                })
-            }
-        }
-        reader.readAsDataURL(e.target.files[0])
- 
-    }
-};
 
     OpenAddNewProduct =()=>{
         this.setState({
@@ -264,20 +145,8 @@ handleImageInput = (e) =>{
                 <AddNewProduct
                     CloseAddNewProduct = {this.CloseAddNewProduct}
                     products = {this.state.products}
+                    responseData = {this.responseData}
                     is_addNewProduct_open = {this.state.is_addNewProduct_open}
-                    addColor = {this.addColor}
-                    removeColors = {this.removeColors}
-                    addTag = {this.addTag}
-                    removeTag = {this.removeTag}
-                    removeImage = {this.removeImage}
-                    removeSize = {this.removeSize}
-                    addSize = {this.addSize}
-                    handleImageChange = {this.handleImageChange}
-                    imgInput = {this.imgInput}
-                    handleImageInput = {this.handleImageInput}
-                    state = {this.state}
-                    AddNew_Product_submit = {this.AddNew_Product_submit}
-                    handelChange = {this.handelChange}
                       
                 />
                 
@@ -289,16 +158,6 @@ handleImageInput = (e) =>{
                 )}
 
                 <EditProduct
-                    addColor = {this.addColor}
-                    removeColors = {this.removeColors}
-                    addTag = {this.addTag}
-                    removeTag = {this.removeTag}
-                    removeSize = {this.removeSize}
-                    addSize = {this.addSize}
-                    handleImageChange = {this.handleImageChange}
-                    imgInput = {this.imgInput}
-                    handleImageInput = {this.handleImageInput}
-                    handelChange = {this.handelChange}
                     close_Edit_Modal = {this.close_Edit_Modal}
                     Editproduct = {this.state.Editproduct}
                     Update_Product_submit = {this.Update_Product_submit}

@@ -146,6 +146,7 @@ handleImageInput = (e) =>{
           
         })
         console.log(event.target.value)
+        console.log(this.state)
        
       }
 
@@ -230,146 +231,264 @@ handleImageInput = (e) =>{
         const { Editproduct, close_Edit_Modal } = this.props;
         const { product_images, sizes, colors, isDisabled, price, discount, quantity, productId , title, description, reviews, availability, category, tags, isUpdated, isLoading} = this.state;
         return (
-            <div>
-                {Editproduct && (
-                    <Modal isOpen={true} ariaHideApp={false}  >
-                        <Zoom>
-                            <Edit_Product  ref={this.disableRef}>
-                                <div className="close-button">
-                                    <button onClick={()=> {
-                                        close_Edit_Modal() 
-                                        this.close_Saved_Modal()
-                                    }}
-                                    > X </button>
-                                </div>
-                                <form id="useform">
-                                    <label htmlFor='Preview image'> Products Images</label>
-                                    <input type="file" name="product_images" ref={this.imgInput} id="file" style={{ display: "none" }} accept="image/*" onChange={this.handleImageChange} />
-                                    <div>
-                                        <button className="add-image" name="imageinput" id="imageinput" onClick={this.handleImageInput} onChange={this.handleImageChange} >
-                                            <AddPhotoAlternateIcon />
-                                        </button>
-                                    </div>
-                                    <div className="productImg-container">
-                                        {product_images.map(img => {
-                                            return (
-                                                <img src={`data:image/jpeg;base64,${img}`} alt="img" key={img} className="imgprview" onClick={this.handleImageInput} />
-                                            )
-                                        })
-                                        }
-                                    </div>
-                                    <label htmlFor='title'> Product Title:</label>
-                                    <input type="text" name="title" value={title} onChange={this.handelChange} />
-                                    <label htmlFor='quantity'>Quantity:</label>
-                                    <input type="text" value={quantity} name="quantity" onChange={this.handelChange} />
-                                    <label htmlFor='reviews'>Reviews:</label>
-                                    <input type="text" value={reviews} name="reviews" onChange={this.handelChange} />
-                                    <label htmlFor='color'>Color:</label>
-                                    <div className="colors-container">
-                                        {colors.map((color, index) => {
-                                            return (
-                                                <div key={index} className="color_wrapper">
-                                                    <span className='color_name'>{color} </span>
-                                                    <span className="remove_color" onClick={() => this.removeColors(color)}>x</span>
-                                                </div>
-                                            );
-                                        })}
+          <div>
+            {Editproduct && (
+              <Modal isOpen={true} ariaHideApp={false}>
+                <Zoom>
+                  <Edit_Product ref={this.disableRef}>
+                    <div className="close-button">
+                      <button
+                        onClick={() => {
+                          close_Edit_Modal();
+                          this.close_Saved_Modal();
+                        }}
+                      >
+                        X
+                      </button>
+                    </div>
+                    <form id="useform">
+                      <label htmlFor="Preview image"> Products Images</label>
+                      <input
+                        type="file"
+                        name="product_images"
+                        ref={this.imgInput}
+                        id="file"
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        onChange={this.handleImageChange}
+                      />
+                      <div>
+                        <button
+                          className="add-image"
+                          name="imageinput"
+                          id="imageinput"
+                          onClick={this.handleImageInput}
+                          onChange={this.handleImageChange}
+                        >
+                          <AddPhotoAlternateIcon />
+                        </button>
+                      </div>
+                      <div className="productImg-container">
+                        {product_images.map((img) => {
+                          return (
+                            <img
+                              src={`data:image/jpeg;base64,${img}`}
+                              alt="img"
+                              key={img}
+                              className="imgprview"
+                              onClick={this.handleImageInput}
+                            />
+                          );
+                        })}
+                      </div>
+                      <label htmlFor="title"> Product Title:</label>
+                      <input
+                        type="text"
+                        name="title"
+                        value={title}
+                        onChange={this.handelChange}
+                      />
+                      <label htmlFor="quantity">Quantity:</label>
+                      <input
+                        type="text"
+                        value={quantity}
+                        name="quantity"
+                        onChange={this.handelChange}
+                      />
+                      <label htmlFor="reviews">Reviews:</label>
+                      <input
+                        type="text"
+                        value={reviews}
+                        name="reviews"
+                        onChange={this.handelChange}
+                      />
+                      <label htmlFor="color">Color:</label>
+                      <div className="colors-container">
+                        {colors.map((color, index) => {
+                          return (
+                            <div key={index} className="color_wrapper">
+                              <span className="color_name">{color} </span>
+                              <span
+                                className="remove_color"
+                                onClick={() => this.removeColors(color)}
+                              >
+                                x
+                              </span>
+                            </div>
+                          );
+                        })}
 
-                                        <input className='color-input' type="text" onKeyDown={this.addColor} onChange={this.handelChange} />
-                                    </div>
-                                    <label htmlFor='size'>Size:</label>
-                                    <div className="size-container">
-                                        {sizes.map((size, index) => {
-                                            return (
-                                                <div key={index} className="size_wrapper">
-                                                    <span className='size_name'>{size} </span>
-                                                    <span className="remove_size" onClick={() => this.removeSize(size)}>x</span>
-                                                </div>
-                                            );
-                                        })}
+                        <input
+                          className="color-input"
+                          type="text"
+                          onKeyDown={this.addColor}
+                          onChange={this.handelChange}
+                        />
+                      </div>
+                      <label htmlFor="size">Size:</label>
+                      <div className="size-container">
+                        {sizes.map((size, index) => {
+                          return (
+                            <div key={index} className="size_wrapper">
+                              <span className="size_name">{size} </span>
+                              <span
+                                className="remove_size"
+                                onClick={() => this.removeSize(size)}
+                              >
+                                x
+                              </span>
+                            </div>
+                          );
+                        })}
 
-                                        <input className='size-input' type="text" onKeyDown={this.addSize} onChange={this.handelChange} />
-                                    </div>
-                                    <label htmlFor='discount'>Discount:</label>
-                                    <input type="text" value={discount} name="discount" required onChange={this.handelChange} />
-                                    <label htmlFor='Price'>Price:</label>
-                                    <input type="text" value={price} name="price" required onChange={this.handelChange} />
-                                    <label htmlFor="availablity">Availability:</label>
-                                    <select id="">
-                                        <option value={availability} name="availability" onChange={this.handelChange}>InStock</option>
-                                        <option value={availability} name="availability" onChange={this.handelChange}>Not InStock</option>
-                                    </select>
-                                    <label htmlFor="category">Category:</label>
-                                    <select id="category">
-                                        <option value={""} name="category" onChange={this.handelChange}>Girls</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Boys</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Poster</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Clothes</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Notebooks</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Toyes</option>
-                                        <option value={""} name="category" onChange={this.handelChange}>Accessoires</option>
-                                    </select>
-                                    <label htmlFor='size'>Tags:</label>
-                                    <div className="size-container">
-                                        {tags.map((tag, index) => {
-                                            return (
-                                                <div key={index} className="size_wrapper">
-                                                    <span className='size_name'>{tag} </span>
-                                                    <span className="remove_size" onClick={() => this.removeTags(tag)}>x</span>
-                                                </div>
-                                            );
-                                        })}
-                                        <input className='tag-input' type="text" onKeyDown={this.addTags} onChange={this.handelChange} />
-                                    </div>
-                                    <div className="description-container">
-                                        <label htmlFor="Description">Description:</label>
-                                        <textarea form='useform' name="description" value={description} onChange={this.handelChange} placeholder='Description'></textarea>
-                                        <button type="button" onClick={() => {
-                                            this.Update_Product_submit(productId)
-                                            this.disableContent()
-                                        }
-                                        } className='submitButton'> Save </button>
-                                    </div>
-                                </form>
-                                {isUpdated  &&(
-                                    
-                                    <SavedWrapp>
-                                        
-                                        <Slide left>
-                                        <div className='saved-container'>
-                                        <div className='circle-1'>
-                                            <div className='circle-2'>
-                                                <CheckCircleIcon className='check-icon' />
-                                            </div>
-                                        </div>
-                                        <span> Updated Succesfully</span>
-                                        <button className='close-button'>
-                                            <HighlightOffIcon className='close-icon' />
-                                        </button>
-                                        </div>
-                                        </Slide>
-                                    </SavedWrapp>
-                                    
-                                )
-                            }{isLoading &&(
-                                <SavedWrapp>
-                                    <Spinner />
-                                </SavedWrapp> 
-                            )
-                            }
-                            {this.state.error && (
-                                <SavedWrapp>
-                                    <p> somthing went wrong pleas try again</p>
-                                </SavedWrapp> 
-                            )
-                            }
-                                </Edit_Product>
-                        </Zoom>
-                    </Modal>
-                )}
-            </div>
+                        <input
+                          className="size-input"
+                          type="text"
+                          onKeyDown={this.addSize}
+                          onChange={this.handelChange}
+                        />
+                      </div>
+                      <label htmlFor="discount">Discount:</label>
+                      <input
+                        type="text"
+                        value={discount}
+                        name="discount"
+                        required
+                        onChange={this.handelChange}
+                      />
+                      <label htmlFor="Price">Price:</label>
+                      <input
+                        type="text"
+                        value={price}
+                        name="price"
+                        required
+                        onChange={this.handelChange}
+                      />
+                      <label htmlFor="availablity">Availability:</label>
+                      <select id="">
+                        <option
+                          value={availability}
+                          name="availability"
+                          onChange={this.handelChange}
+                        >
+                          InStock
+                        </option>
+                        <option
+                          value={availability}
+                          name="availability"
+                          onChange={this.handelChange}
+                        >
+                          Not InStock
+                        </option>
+                      </select>
+                      <label htmlFor="category">Category:</label>
+                      <select
+                        id="category"
+                        onChange={this.handelChange}
+                        value={category}
+                        name="category"
+                      >
+                        <option value="girls">Girls</option>
+                        <option value="boys" name="boys">
+                          Boys
+                        </option>
 
-        )
+                        <option value="posters" name=" posters">
+                          Posters
+                        </option>
+
+                        <option value="clothes" name="clothes">
+                          Clothes
+                        </option>
+
+                        <option value="notebooks" name="notebooks">
+                          Notebooks
+                        </option>
+
+                        <option value="toys" name="toys">
+                          Toyes
+                        </option>
+
+                        <option value="accessories" name="accessories">
+                          Accessoires
+                        </option>
+                      </select>
+                      <label htmlFor="size">Tags:</label>
+                      <div className="size-container">
+                        {tags.map((tag, index) => {
+                          return (
+                            <div key={index} className="size_wrapper">
+                              <span className="size_name">{tag} </span>
+                              <span
+                                className="remove_size"
+                                onClick={() => this.removeTags(tag)}
+                              >
+                                x
+                              </span>
+                            </div>
+                          );
+                        })}
+                        <input
+                          className="tag-input"
+                          type="text"
+                          onKeyDown={this.addTags}
+                          onChange={this.handelChange}
+                        />
+                      </div>
+                      <div className="description-container">
+                        <label htmlFor="Description">Description:</label>
+                        <textarea
+                          form="useform"
+                          name="description"
+                          value={description}
+                          onChange={this.handelChange}
+                          placeholder="Description"
+                        ></textarea>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            this.Update_Product_submit(productId);
+                            this.disableContent();
+                          }}
+                          className="submitButton"
+                        >
+                          Save
+                        </button>
+                      </div>
+                    </form>
+                    {isUpdated && (
+                      <SavedWrapp>
+                        <Slide left>
+                          <div className="saved-container">
+                            <div className="circle-1">
+                              <div className="circle-2">
+                                <CheckCircleIcon className="check-icon" />
+                              </div>
+                            </div>
+                            <span> Updated Succesfully</span>
+                            <button className="close-button">
+                              <HighlightOffIcon className="close-icon" />
+                            </button>
+                          </div>
+                        </Slide>
+                      </SavedWrapp>
+                    )}
+                    {isLoading && (
+                      <SavedWrapp>
+                        <Spinner />
+                      </SavedWrapp>
+                    )}
+                    {this.state.error && (
+                      <SavedWrapp>
+                        <p> somthing went wrong pleas try again</p>
+                      </SavedWrapp>
+                    )}
+                  </Edit_Product>
+                </Zoom>
+              </Modal>
+            )}
+          </div>
+        );
     }
 }
       

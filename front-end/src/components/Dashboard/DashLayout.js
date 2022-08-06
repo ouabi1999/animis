@@ -62,6 +62,7 @@ const Wrapper = styled.div`
        position:fixed;
        flex:4;
        width:100%;
+       z-index:1000;
    }
    .outlet{
        border-radius:6px;
@@ -81,6 +82,7 @@ const Wrapper = styled.div`
         left:0px;
         flex:0;
         width:100%;
+        
 
     }
   }

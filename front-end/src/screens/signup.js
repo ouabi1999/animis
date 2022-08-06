@@ -12,9 +12,7 @@ import { Link}  from "react-router-dom"
             confirmPassword:""
          }
      }
-     componentDidMount(){
 
-     }
      handel_Register_Submit = (event) =>{
         event.preventDefault()
         fetch("/register",{
@@ -39,14 +37,15 @@ import { Link}  from "react-router-dom"
     }
     render(){
         return(
-            <Form >
+            <Form>
+                <h3>Sign up</h3>
                 <Formwrapper>
                     <input type="text"  value={this.state.fullname} onChange={this.handleChange} placeholder='Full Name' name="fullname" required />
                     <input type="email" value={this.state.email} onChange={this.handleChange} placeholder='Email' name="email" required />
-                    <input type="date" value={this.state.date}  onChange={this.handleChange} name="date"required />
+                    <input type="date" value={this.state.date}  onChange={this.handleChange} name="date" required />
                     <input type="password" value={this.state.password} onChange={this.handleChange} name="password" placeholder='Password' />
                     <input type="password"   placeholder='Confirme password' />
-                    <input type="submit"  onClick={this.handel_Register_Submit} value="Sign Up" />
+                    <input type="submit"  onClick={this.handel_Register_Submit} value="Sign up" />
                 </Formwrapper>
                 <Wrapper>
                     <span>By clicking "Sign up", I agree to the</span>
@@ -61,15 +60,19 @@ import { Link}  from "react-router-dom"
 export default Signup
 const Form = styled.form`
     margin:auto;
-    margin-top:10px;
-    width:28%;
-    border-radius:15px;
+    margin-top:40px;
+    width:30%;
+    max-width:30%;
+    min-width:300px;
+    border-radius:8px;
     border-style:none;
-    height:440px;
+    
     box-shadow:0px 5px 5px 5px rgba(27, 27, 27, 0.3);
     background-color: azure;
-    padding-left:10px;
-
+    padding:10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 `
 const Formwrapper = styled.div`
     display:flex;
@@ -78,25 +81,29 @@ const Formwrapper = styled.div`
     flex-direction:column;
     input:not(input[type="submit"]){
         margin:10px;
-        width:300px;
-        height:40px;
+       
+        width:25vw;
+        min-width:250px;
+        max-width:30vw;
+        height:45px;
         outline:none;
-        border-radius:10px 0px;
+        border-radius:6px;
         border-style: none;
         box-shadow:2px 5px 6px rgb(151, 151, 151);
         padding:10px 5px;
     }
 
     input[type="submit"]{
-        background-color:green;
-        width:25%;
+        background-color: rgba(59, 73, 223, 1);;
+        width:200px;
         color:#ffff;
-        border-radius:8px;
+        border-radius:6px;
         outline:none;
         border-style: none;
-        padding:7px; 
+        padding:8px; 
         font-weight:normal;
         margin-bottom:12px;
+        height:40px;
     }
 
 `

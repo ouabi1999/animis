@@ -1,131 +1,138 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import Zoom from 'react-reveal/Zoom'
-import { Link}  from 'react-router-dom'
+import { Link, Navigate, useNavigate}  from 'react-router-dom'
 import styled from 'styled-components';
 import { login } from "../features/auth/authSlice";
 
-class LoginForm extends React.Component{
-  constructor(){
-    super();
-    this.state={
-      userinfo:[],
-      email:"",
-      password:"",
-      error:null,
-      message:null,
-      isLoaded:null,
-    }
-  }
- 
 
-   handleChange =(event)=>{
-    this.setState({
+function LoginForm() {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const user = useSelector(state => state.auth.auth)
+  const [formData, setFormData] = useState({email:"", password:""})
+  const [isLoading, setIsLoading] = useState(false)
+  const [error , setError] = useState(false)
+
+
+  const handleChange =(event)=>{
+    setFormData({...formData,
       [event.target.name] : event.target.value,
       
-    })
-  }
-
-  hideerror =()=>{
-    this.setState({
-      error:null,
       
     })
+    console.log(formData)
+  }
+
+  const hideerror =()=>{
+    setError(null)
   }
 
 
-    Login_Submit = (event)=>{
+  const Login_Submit = (event)=>{
      event.preventDefault()
+     setIsLoading(true)
       fetch("/login",{
       method:"POST",
       credentials: 'same-origin',
       body: JSON.stringify({
-        email:this.state.email,
-        password:this.state.password
+        email:formData.email,
+        password:formData.password
       }),
       
       headers:{
         "Content-type":"application/json; charset=UTF-8"
       }
-    }).then(res => {
-      if(res.ok){
-        return res.json()
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not OK');
       }
+      return response.json()
+
+    }).then(result => {
+      dispatch(login(result))
+      setIsLoading(false);
+      navigate("/") 
     })
-    .then(data => this.props.dispatch(login(data)))
-    .catch((error) => {
-        console.log(error) })
+    .catch(error => {
+      console.error('There has been a problem with your fetch operation:', error);
+      setIsLoading(false)
 
+    });
   }
-
-  render(){
-    let { isLoaded, error} = this.state;
-    if (isLoaded){
-      return(<p> login succcsufuly</p>)
+ 
+  useEffect(() => {
+    if(user == null ) {
+        return ""
     }
-    return (
-        <Container>
-          <form className="form">
-            {error && (<p> invalid password or Email </p>)}
-            <i className="fas fa-user-circle" />
-            <strong>Login</strong>
-            <div>
-            <label htmlFor='EMAIL'>Email </label>
-            <input type="email" value={this.state.email}
-                    name="email"  
-                    onMouseDown={this.hideerror} 
-                    onChange={this.handleChange} 
-                    placeholder="Email"
-                    required autoFocus 
-                />
-            </div>
-            <div>
-              <label htmlFor='password'>Password </label>
-            <input type="password" 
-                   value={this.state.password}
-                   name="password" onMouseDown={this.hideerror} 
-                   onChange={this.handleChange} 
-                   placeholder="Password" required 
-                />
-              </div>
-            <button type="submit"
-                 onClick={this.Login_Submit}>
-                   Login
-            </button>
+    else{
+      navigate("/")
+    }
+  }, [])
+  
+  return (
+    <Container>
+        {user == null ? (
+            
 
-            <div className="forgit-already">
-              <a href="#" className="f-password"> Forget Password</a>
-              <Link to="/register">Create an account</Link>
-            </div>
-          </form>
-          </Container>
-     
-      
+        <form className="form">
+          <i className="fas fa-user-circle" />
+          <strong>Sign in</strong>
 
-    )
-  }
+          <div>
+            <input type="email" value={formData.email}
+              name="email"
+              onMouseDown={hideerror}
+              onChange={handleChange}
+              placeholder="Email"
+              required autoFocus
+            />
+          </div>
+          <div>
+
+            <input type="password"
+              value={formData.password}
+              name="password" onMouseDown={hideerror}
+              onChange={handleChange}
+              placeholder="Password" required
+            />
+          </div>
+          <button type="button" disabled={isLoading} id="submit" onClick={Login_Submit} >
+            <span id="button-text">
+              {isLoading ? <div className="spinner" id="spinner"></div> : "Login"}
+            </span>
+          </button>
+          <div className="forgit-already">
+            <a href="#" className="f-password"> Forget Password</a>
+            <Link to="/register">Create an account</Link>
+          </div>
+        </form>
+         ) :""
+
+        }
+      </Container>
+  )
 }
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartItems,
-    products: state.products,
-    auth: state.auth
-  };
-};
-export default  connect(mapStateToProps)(LoginForm)
+
+export default LoginForm
+
+ 
+
+
 const Container = styled.div`
   display:flex;
   justify-content:center;
   align-content:center;
   margin-top:15px;
+  height:100vh;
 .form input{
   display:flex;
   align-items:center;
   justify-content:center;
   width:300px;
-  height:40px;
+  height:50px;
   border-radius:6px;
-  border:none;
+  border:1px solid lightblue;
   padding-left:10px;
   margin:10px 0px;
 
@@ -166,14 +173,14 @@ form .fa-times{
 
 .form button{
   color:white;
-
   background-color: rgba(59, 73, 223, 1);
   border-radius:6px;
   padding:6px 8px;
   letter-spacing:1px;
   font-weight: bold;
-   width:10rem;
-   height:40px;
+  width:10rem;
+  height:40px;
+  margin-top:10px;
 }
 
 .form input[type="submit"]:hover{
@@ -192,6 +199,79 @@ form .fa-times{
 
 .form label{
   margin-left:5px;
+}
+
+button:hover {
+  opacity:0.9;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* spinner/processing state, errors */
+.spinner,
+.spinner:before,
+.spinner:after {
+  border-radius: 50%;
+}
+
+.spinner {
+  color: #ffffff;
+  font-size: 22px;
+  text-indent: -99999px;
+  margin: 0px auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.spinner:before,
+.spinner:after {
+  position: absolute;
+  content: '';
+}
+
+.spinner:before {
+  width: 10.4px;
+  height: 20.4px;
+  background: #5469d4;
+  border-radius: 20.4px 0 0 20.4px;
+  top: -0.2px;
+  left: -0.2px;
+  -webkit-transform-origin: 10.4px 10.2px;
+  transform-origin: 10.4px 10.2px;
+  -webkit-animation: loading 2s infinite ease 1.5s;
+  animation: loading 2s infinite ease 1.5s;
+}
+
+.spinner:after {
+  width: 10.4px;
+  height: 10.2px;
+  background: #5469d4;
+  border-radius: 0 10.2px 10.2px 0;
+  top: -0.1px;
+  left: 10.2px;
+  -webkit-transform-origin: 0px 10.2px;
+  transform-origin: 0px 10.2px;
+  -webkit-animation: loading 2s infinite ease;
+  animation: loading 2s infinite ease;
+}
+
+@keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 
 `

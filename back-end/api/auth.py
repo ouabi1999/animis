@@ -31,7 +31,7 @@ def register():
     user_exist = Users.query.filter_by(email = email).first()
     if user_exist is not None:
         return {"409":"the user already exist"}
-    hashed_password = bcrypt.generate_password_hash(password)
+    hashed_password = bcrypt.generate_password_hash(password).decode("utf-8") 
     new_user = Users(
         full_name = request_data["fullname"],
         email = request_data["email"],
@@ -51,9 +51,9 @@ def login():
     password = request_data["password"]
     user = Users.query.filter_by(email = email).first()
     if user is None:
-        return {"this email are not valid":401},401
+        return jsonify({"error": "this email are not valid"}), 401
     if not bcrypt.check_password_hash(user.password, password):
-        return {"password or email are not valid":401},401
+        return jsonify({"error": "email  or password is not valid"}), 401
 
     session["user_id"] = user.id
     return jsonify({

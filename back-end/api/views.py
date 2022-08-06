@@ -54,6 +54,10 @@ def products():
     reviews = request.form["reviews"],
     #availability = request_data["availability"],
     category = request.form["category"],
+    product_type = request.form["product_type"],
+    pics_info =  request.form["pics_info"],
+    shipping_Method = request.form["shipping_Method"],
+    seo =    request.form["seo"],
     
 ) 
     db.session.add(newproducts)
@@ -94,9 +98,9 @@ def edit_product(id):
         quantity = request.form["quantity"],
         description = request.form["description"],
         reviews = request.form["reviews"],
-        #availability = request_data["availability"],
-        #category = request.form["category"],
-        )
+        availability = request.form["availability"],
+        category = request.form["category"],
+    )
     )
     db.session.commit()
     return jsonify(*map(productInfo_serializer, product))

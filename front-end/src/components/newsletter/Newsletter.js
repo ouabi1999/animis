@@ -19,7 +19,7 @@ class Newsletter extends Component {
                         <span>
                         <MailOutlineIcon  className="mail-icon" />
                         </span>
-                        <input type="email" placeholder="Email" required autoComplete/>
+                        <input type="email" placeholder="Email" required/>
                         <button type="submit" > Subscribe</button>
                     </div>
                 </Wrapp>

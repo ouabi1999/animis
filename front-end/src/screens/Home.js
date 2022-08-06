@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import MainSlider from '../components/Home/AdvertiseMain/MainSlider'
 import Categories from '../components/Home/categories'
 import ProductsLyout from '../components/Home/products/ProductsLyout'
@@ -12,6 +12,11 @@ import MainFilter from '../components/Navbar/mainFilter'
 
 
 function Home() {
+  useEffect(() => {
+ 
+     // 👇️ scroll to top on page load
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  }, [])
   return (
     <div>
         <MainFilter/>

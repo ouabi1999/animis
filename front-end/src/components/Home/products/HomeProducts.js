@@ -8,11 +8,11 @@ import {useSelector} from "react-redux"
  
 
 function HomeProducts(props) {
-    const [items, setItems] = useState(5)
+  
    
   const products = useSelector((state) => state.products.products)
   const isProducts = useSelector((state) => state.products.isProducts)
-  const slice = products.slice(0, items);
+  
   const {openModal} = props;
   return (
     <Product_contianer>
@@ -23,7 +23,7 @@ function HomeProducts(props) {
                   return (
                       <div  key={item.id} className="product_container">
                         <a href={"#" + item.id} onClick={() => props.openModal(item)}>
-                          <img src={item.product_images[0]} title={item.title} />
+                          <img src={item.product_images[0]} alt="img"/>
                         </a>
                       <Product_info>
                     
@@ -68,15 +68,15 @@ const Product_contianer = styled.div`
   .grid-container{
       padding:10px;
       display: grid;
-      grid-template-columns: repeat(6,auto);
-      gap:12px;
+      grid-template-columns: repeat(5,auto);
+      gap:15px;
       place-content: center;
       
 
       img{
         border-image: round;
-        width:190px;
-        height:200px;
+        width:100%;
+        height:215px;
         background-color:rgb(255, 255, 255);
         border-radius: 6px 6px 0 0;
         object-fit:conatin;
@@ -87,7 +87,7 @@ const Product_contianer = styled.div`
    background-color:rgb(250, 250, 250);
    border-radius:8px;
    border:none;
-   width:190px;
+   width:220px;
    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
 
@@ -111,7 +111,7 @@ const FirstSection = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap; 
       font-size:13px;
-      width:170px;
+      width:215px;
       margin-top:0;
     }  
 

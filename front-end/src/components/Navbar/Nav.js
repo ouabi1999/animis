@@ -7,9 +7,10 @@ import { logout } from "../../features/auth/authSlice"
 import DropDownMenu from './dropDownMenu';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
-import SearchIcon from '@mui/icons-material/Search';
+
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DrpDwnMenu_lang from './DrpDwnMenu_lang';
+import SearchInput from './SearchInput';
 
 class Nav extends React.Component {
   constructor(props) {
@@ -44,17 +45,9 @@ class Nav extends React.Component {
               <Link to="/">
                 <img src="./CORAZON_LOGO-01.png" alt="" /></Link>
             </div>
-            <div className="search-container">
-              <input type="search"
-                value={this.state.searchInput}
-                onChange={this.handlChange}
-                onKeyPress={this.searchProduct}
-                placeholder="Search For Product"
-              />
-              <button className="search-btn">
-                <SearchIcon className='search-icon' />
-              </button>
-            </div>
+            <>
+              <SearchInput/>
+            </>
           </Left_section>
           <Right_section>
           <DrpDwnMenu_lang/>
@@ -134,35 +127,9 @@ const Left_section = styled.div`
   min-width:200px;
   
   }
-  .search-container{
-    display:flex;
-    position:relative;
-    margin-left:10px;
-  }
-
-  .search-container  input{
-      width:40rem;
-      height:40px;
-      border:none;
-      outline:none;
-      padding:0 10px;
-      border-radius:5px;
-      &:focus{
-        outline:2px solid orange;
-      }
-  
-  }
-  .search-btn{
-    background:orange;
-    display:flex;
-    align-items:center;
-    justify-content:flex-end;
-    position:relative;
-    right:35px;
-    border-radius:0px 5px 5px 0px;
-    width:40px;
-  }
  
+
+  
 
 `
 
