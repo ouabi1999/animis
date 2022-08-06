@@ -1,10 +1,10 @@
 import { style } from '@mui/system'
-import React , {useState} from 'react'
+import React , {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Fade from "react-reveal/Fade"
 import { Link } from 'react-router-dom'
 import styled from "styled-components"
-import { filterByCategory } from '../../features/categories/categorySlice'
+import { applyFilters, filterByCategory, handleSelectCategory } from '../../features/categories/categorySlice'
 
 
 const Categories = () => {
@@ -13,10 +13,13 @@ const Categories = () => {
   const dispatch = useDispatch()
 
   const filter = (itemCategory) =>{
-      dispatch(filterByCategory(itemCategory)) 
-
+  
+    dispatch(handleSelectCategory(itemCategory))
+      
   }
   
+ 
+
     return (
         <>
         <Categories_header>
@@ -31,7 +34,7 @@ const Categories = () => {
                 <h2>Clothes</h2>
 
                 <Wrapp>
-                    <Link to ="category" onClick={filter("clothes")}>
+                    <Link to ="category" onClick={()=> filter("clothes")}>
                         <img src="catogorey/anime-clothes.jpg" alt="clothes" />
                 
                     
@@ -48,7 +51,7 @@ const Categories = () => {
             <Toyes_container className='box-shadow'>
                 <h2>Toyes</h2>
                 <Wrapp>
-                <Link to="/category" onClick={filter("toys")}>
+                <Link to="/category" onClick={ ()=> filter("toys")}>
                     <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
                     <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
 
@@ -61,7 +64,7 @@ const Categories = () => {
                 <Bags_container className='box-shadow'>
                     <h2>Bags</h2>
                     <Wrapp>
-                    <Link to="/category" onClick={filter("toys")}>
+                    <Link to="/category" onClick={()=> filter("bags")}>
                             <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
                        
                             <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
@@ -74,14 +77,14 @@ const Categories = () => {
             <Accessories_container className='box-shadow'>
                 <h2>Accessories</h2>
                 <Wrapp className='accessories box-shadow'/>
-                <Link to="/category" onClick={filter("accessories")}></Link>
+                <Link to="/category" onClick={ ()=> filter("accessories")}></Link>
                 <Wrapp/>
 
             </Accessories_container>
             <Poster_container className='box-shadow'>
                 <h2>Posters</h2>
                 <Wrapp> 
-                <Link to="/category" onClick={filter("posters")}>
+                <Link to="/category" onClick={()=> filter("posters")}>
 
                     <img src="catogorey/poster-wall.jpg" alt="poster wall" />
                     <img src="catogorey/poster-wall.jpg" alt="poster wall" />

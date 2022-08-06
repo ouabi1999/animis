@@ -7,8 +7,7 @@ from flask import json, jsonify
 
 def get_uuid():
     return uuid4().hex
-
-
+    
 class Users(db.Model):
     id = db.Column(db.String(40), primary_key = True, unique=True, default=get_uuid)
     email = db.Column(db.String(200),  unique=True,  nullable = False)

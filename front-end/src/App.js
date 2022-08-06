@@ -36,7 +36,7 @@ import Footer from './components/Footer/footer';
 import styled from 'styled-components';
 import RefundPolicy from './screens/polices/RefundPolicy';
 import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
-import CategoryFilter from './screens/CategoryFilter';
+import ProductsFilter from './screens/ProductsFilter';
 import { getProducts } from './features/categories/categorySlice';
 
 
@@ -93,6 +93,8 @@ function App() {
     getProductsInfo()
     dispatch(getUser())
     dispatch(getProducts())
+     // 👇️ scroll to top on page load
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
   }, [])
   
   
@@ -119,7 +121,7 @@ function App() {
               <Route path = "terms-of-services"   element = {<TermsOfServices/>}/>
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
               <Route path = "/userinfo"           element = {<Userinfo />} />
-              <Route path= "category"             element =  {<CategoryFilter/>}/>
+              <Route path= "category"             element =  {<ProductsFilter/>}/>
 
               <Route   path = "/profile"       element = {<UserLayout />} >
                 <Route path = "profile"       element = {<Profile />} />
