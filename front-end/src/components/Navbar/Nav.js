@@ -1,40 +1,39 @@
 import React from 'react';
-//import component
-import LoginForm from "../../screens/LoginForm"
-import { Link, Outlet } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { logout } from "../../features/auth/authSlice"
-import DropDownMenu from './dropDownMenu';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
-
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import SearchIcon from '@mui/icons-material/Search';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Link, Outlet } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+
+//import component
+import LoginForm from "../../screens/LoginForm"
+import { logout } from "../../features/auth/authSlice"
+import DropDownMenu from './dropDownMenu';
 import DrpDwnMenu_lang from './DrpDwnMenu_lang';
 import SearchInput from './SearchInput';
+import MainMenu from './MainMenu';
 
 class Nav extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchInput: "",
-
+    this.state={
+      showMenu: false
     }
-
   }
 
-  handlChange = (event) => {
+  
+  showMenu = ()=>{
     this.setState({
-      searchInput: event.target.value
+      showMenu: true
     })
   }
-
-  hideLoginBar = () => {
-    let loginBar = document.querySelector(".form")
-    if (loginBar.style.display === "none") {
-      loginBar.style.display = "flex";
-    } else {
-      loginBar.style.display = "none";
-    }
+  hideMenu = () =>{
+    this.setState({
+      showMenu: false
+    })
   }
   render() {
     return (
@@ -45,12 +44,14 @@ class Nav extends React.Component {
               <Link to="/">
                 <img src="./CORAZON_LOGO-01.png" alt="" /></Link>
             </div>
-            <>
-              <SearchInput/>
-            </>
+
+            <div>
+              <SearchInput />
+            </div>
+            
           </Left_section>
-          <Right_section>
-          <DrpDwnMenu_lang/>
+
+          <Right_section className="right_section">
             <div className="shopping-cart-container">
             <Link to="/shopping-cart" onClick={this.props.switchMode}>
               <ShoppingCartIcon className='shopping-cart-icon' />
@@ -59,25 +60,34 @@ class Nav extends React.Component {
               </span>
             </Link>
             </div>
-
+            <div className="langMenu">
+              <DrpDwnMenu_lang />
+            </div>
             <User_container>
             {this.props.auth.user !== null ?
               <DropDownMenu/>
 
               : 
 
-              <button className="sign_in_button" onClick={this.hideLoginBar}>
+              <Link to ="/login" className="sign_in_button" >
                 <span>
                   <PersonIcon />
                 </span>
                 <span>
                   Sign in
                 </span>
-              </button>
+              </Link>
             } 
+            
               
             </User_container>
             
+            <button className="menu_container" onClick={this.showMenu}>
+              <MenuIcon className="mainMenu" />
+            </button>
+             <div style={{ display : !this.state.showMenu ? "none": ""}}>
+                  <MainMenu  hideMenu = {this.hideMenu} />
+             </div>
           </Right_section>
           
         </Nav_container>
@@ -99,6 +109,8 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(Nav)
 
 const Nav_container = styled.div`
+  width:100%;
+  min-width:358px;
   position:sticky;
   top:0;
   z-index:1;
@@ -108,7 +120,32 @@ const Nav_container = styled.div`
   padding:2px 0px;
   border-bottom: 1px solid rgb(184, 184, 184); 
   display:flex;
+  align-items:center;
   padding:15px 2px;
+  
+  .menu_container{
+    display:none;
+  }
+  @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    
+    
+  }
+  @media only screen and (max-width: 1022px) {
+    .langMenu{
+      display:none;
+      
+    }
+    .menu_container{
+      display:flex;
+    }
+  }
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+   
+    
+   
+  }
  
 `
 const Left_section = styled.div`
@@ -116,15 +153,19 @@ const Left_section = styled.div`
   display:flex; 
   align-items: center; 
   justify-content:space-between;
+ 
+  
 
   .logo{
-    margin:0 15px;
+    margin-left:5px;
+    margin-top:7px;
   }
 
 .logo img{
   width:16vw;
   max-width:320px;
-  min-width:200px;
+  min-width:150px;
+  height:auto;
   
   }
  
@@ -136,16 +177,18 @@ const Left_section = styled.div`
 const Right_section = styled.div`
   display:flex;
   flex:1;
-  justify-content:flex-end;
+  justify-content:space-around;
   align-items:center;
 
   .shopping-cart-container{
     position:relative;
+    margin-top:10px;
     color:rgb(255, 255, 255);
     &:hover{
       color:rgb(245, 229, 10);
     }
   }
+ 
  
   .shopping-cart-icon{
       font-size:30px;
@@ -166,6 +209,15 @@ const Right_section = styled.div`
     padding:1px 4px;
 
   }
+  button.menu_container{
+    
+    background:none
+  }
+  .mainMenu{
+    background:none;
+    font-size:35px;
+    color:#fff;
+  }
 
   `
 const User_container = styled.div`
@@ -173,12 +225,25 @@ const User_container = styled.div`
   .sign_in_button{
     display:flex;
     align-items:center;
-    justify-content:center;
     background:#007CFF;
     border-radius:6px;
     color:#ffff;
-    margin: 0 0 10px 8px;
-    padding:4px 8px;
+    
+    
+    
+    padding:3px 8px;
 
+  }
+  .sign_in_button span{
+    font-size:13px;
+    white-space: nowrap;
+    
+  }
+  @media only screen and (max-width: 1022px) {
+    &{
+      display:none;
+      
+    }
+   
   }
 `

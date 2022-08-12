@@ -33,36 +33,47 @@ function CategorieMain() {
 export default CategorieMain
 
 const Container =  styled.div`
-    width:100%;
-    min-width:500px;
+    
+    
+    
+    height:52vh;
+    
     display:grid;
     gap: 10px;
-    margin-left:10px;
-    
-    div{
-      display:flex;
-      justify-content:center;
-      align-items:center;
+
+  
+
+   div{
+      
       border-radius: 4px;
       background-color: lightblue;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     }
+    
     .item1{
         grid-column: 1 / span 1;
         grid-row: 1 /span 2;
         background:url("./catogorey/anime-clothes.jpg");
+      
     }
 
     .item2{
       grid-column: 2 / span 1;
       grid-row: 1 / span 2;
       background:url("./catogorey/braclet.jpg");
+      background-repeat:no-repeat;
+      
     }
 
     .item3{
       grid-column: 3 / span 2;
       grid-row: 1 /span 2;
       background:url("./catogorey/anime-toys.jpg");
+      background-repeat:no-repeat;
+      width:100%;
+      height:auto;
+      object-fit:cover;
+     
 
     }
 
@@ -70,25 +81,23 @@ const Container =  styled.div`
       grid-column: 1 / span 2;
       grid-row: 3 / span 2;
       background:url("./catogorey/anime-bags.jpg");
+      background-repeat:no-repeat;
     }
 
     .item5{
       grid-column: 3 / span 1;
       grid-row: 3 / span 2;
       background:url("./catogorey/poster-wall.jpg");
+      background-repeat:no-repeat;
     }
     .item6{
       grid-column: 4 / span 1;
       grid-row: 3 / span 2;
       background:url("./catogorey/anime-clothes.jpg");
+      background-repeat:no-repeat;
     }
 
-  .item1 img{
-    width: 200px;
-    height: 300px;
-    
-    
-  }
+
  
        
 `

@@ -40,13 +40,11 @@ def create_app():
     app.register_blueprint(payment)
    
 
-<<<<<<< HEAD
+
     db.create_all(app = app)
    
-=======
     #db.create_all(app = app)
     #db.create_all(app = app)
->>>>>>> main
     return app
 
 

@@ -5,12 +5,14 @@ import styled from 'styled-components'
 function AdvertiseMain() {
   return (
     <Container>
-      
+       
+        <div className="main-slider">
         <MainSlider />
+        </div>
       
-    
+      <div className="categorie-main">
         <CategorieMain />
-    
+      </div>
 
     </Container>
   )
@@ -18,14 +20,48 @@ function AdvertiseMain() {
 export default AdvertiseMain
 
 const Container = styled.div`
-    display:flex;
-    background: rgb(63,94,251);
-    background: radial-gradient(circle, rgba(63,94,251,0.5746673669467788) 0%, rgba(252,70,107,0.227328431372549) 100%);
-    padding:18px 25px;
-    width:95%; 
+    
+    
+    height:100%;
+    width:95%;
+    background: #83a4d4;
+    /* fallback for old browsers */
+    background:#fff;
+    padding:18px 15px;
+     
+    border-radius:6px;
     margin: 50px auto;
-    border-top: 1px solid rgb(194, 193, 193);
-    border-bottom: 1px solid rgb(194, 193, 193);
+    border-top: 1px solid rgb(255, 165, 0, 0.4);
+    border-bottom: 1px solid rgb(255, 165, 0, 0.4);
+
+    display:grid;
+    grid-gap:10px;
+  
+  
+    grid-template-columns: 55%  44%;
+    
+     .main-slider{
+       
+        margin-bottom:10px;
+     }
+     .categorie-main{
+       
+      
+     }
+     .container{
+          
+          
+    
+     }
+    
+    @media only screen and (max-width:1112px) {
+      &{
+        
+        grid-template-columns: 100%;
+      
+      }
+    
+    }
 
     
 
