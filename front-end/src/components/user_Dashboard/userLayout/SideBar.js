@@ -7,6 +7,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import FeedIcon from '@mui/icons-material/Feed';
 import { Link } from 'react-router-dom';
+import EmailIcon from '@mui/icons-material/Email';
+import EditIcon from '@mui/icons-material/Edit';
 
 function SideBar() {
   return (
@@ -14,9 +16,9 @@ function SideBar() {
     <ol>
       <li>
         <FeedIcon className="sidebar_icons" />
-        <Link to="profile">
+        <Link to="/profile">
           <span>
-            My Details
+            My Profile
           </span>
         </Link>
       </li>
@@ -35,10 +37,10 @@ function SideBar() {
         </Link>
       </li>
       <li>
-        <SettingsIcon className="sidebar_icons" />
-        <Link to="setting">
+        <EmailIcon className="sidebar_icons" />
+        <Link to="chat">
           <span>
-            Settings
+            Chat
           </span>
         </Link>
       </li>
@@ -50,14 +52,6 @@ function SideBar() {
           </span>
         </Link>
       </li>
-      <li>
-        <DeleteIcon className="sidebar_icons" />
-        <Link to="delete-account">
-          <span>
-            Delete Account
-          </span>
-        </Link>
-      </li>
     </ol>
   </Side_Bar>
   )
@@ -66,33 +60,36 @@ function SideBar() {
 export default SideBar
 
 const Side_Bar = styled.div`
-    position: sticky;
-    z-index:1;
-    top:67px;
-    height:100%;
-    flex:0.4;
-    background:rgb(255, 255, 255);
+  
+   
+    
+    background-color:#fff;
+    width:100%;
+    flex:0.6;
     box-shadow: 5px 8px 12px rgb(100, 100, 100, 0.4);
+    padding-left:10px;
     
     ol{
        margin-left:-40px;
        margin-top:0px;
     }
-    li{
-        background:lightgray;
+
+    li{ 
         margin-bottom:5px;
         padding:10px 5px;
         display:flex;
         align-items:stretch;
+
         i{
-            color:#ffff;
+          color:#ffff;
         }
+
        a{
-            color:black;
-            margin-left:2px;
+          color:black;
+          margin-left:2px;
        }
     }
     .sidebar_icons{
-        color:rgb(179, 255, 255);
+      color:orange;
     }
 `

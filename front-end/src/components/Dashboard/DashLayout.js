@@ -1,54 +1,96 @@
-import React, { Component } from 'react'
-import { Outlet } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import { getUser } from '../../features/auth/authSlice';
 import Dasheader from './Dasheader';
 
 import DashSideBar from './DashSideBar';
-class DashLayout extends Component {
-    constructor(props) {
-      super(props)
-      this.state = {
-        isOpen :null,
-        showBar:""
 
 
-      }
-    }
+
+function DashLayout(props){
+
+    const user = useSelector( state => state.auth.user)
+    const auth = window.localStorage.getItem("isAuthenticated")
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     
-    showSidebar = () =>{
+    
+    
+   
+        
+
+        
+
+     
+      const [data , setData] = useState({
+        isOpen : null,
+        showBar : ""
+
+
+      })
+    
+    
+    const showSidebar = () =>{
         if (this.state.isOpen){
-            this.setState({
+            setData({
+                ...data,
                 showBar:"none",
                 isOpen:false,
                 
             })
         }
         else{
-            this.setState({
+            setData({
+                ...data,
                 showBar:"flex",
                 isOpen:true,
             })
         }
     }
     
-    render() {
-        const { showBar} = this.state;
+    useEffect(() => {
+       
+        if (auth === "false"){
+    
+            navigate("/" )
+            
+        }
+        
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+        
+       
+       }, [])
+    
+        const { showBar} = data;
         return (
+            <>
+          
+           
+           {user?.admin === true  ?  (
+
             <Wrapper>
                 <div className='sidebar' style={{ display: showBar}}>
                     <DashSideBar/>
                 </div>
                 <div className='Headbar'>
-                    <Dasheader showSidebar={this.showSidebar}/>
+                    <Dasheader showSidebar={showSidebar}/>
                 </div>
                 <div className='outlet'>
                     <Outlet />
                </div>
             </Wrapper>
+            ):
+            navigate("/")
+            
+            }
+            
+            </>
         )
+    
     }
 
-}
 export default DashLayout
 
 const Wrapper = styled.div`
@@ -86,7 +128,7 @@ const Wrapper = styled.div`
 
     }
   }
-}
+
 
 
 `

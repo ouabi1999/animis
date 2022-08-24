@@ -1,6 +1,6 @@
 from flask  import Blueprint, jsonify, request, json, session
 from api import db
-from .models import Users, user_serializer
+from .models import Users, user_serializer, orders_serializer 
 from . import bcrypt, server_session
 import stripe
 
@@ -15,12 +15,20 @@ def get_current_user():
         return jsonify({"error": "Unauthorized"}), 401
     
     user = Users.query.filter_by(id = user_id).first()
+    orders = [*map(orders_serializer , user.userOrders)]
     return jsonify({
         "id": user.id,
         "email": user.email,
-        "fullname": user.full_name,
-        "birthday" : user.birthday,
-        "avatar" : user.userAvatar
+        "firstName": user.firstName,
+        "lastName" : user.lastName,
+        "birthDate" : user.birthDate,
+        "avatar" : user.userAvatar,
+        "country" : user.country,
+        "joined_at": user.joined_at,
+        "admin" : user.admin,
+        "orders" : orders
+        
+
     }) 
 
 @auth.route("/register", methods=["POST"])
@@ -29,20 +37,26 @@ def register():
     email = request_data["email"]
     password = request_data["password"]
     user_exist = Users.query.filter_by(email = email).first()
+
     if user_exist is not None:
-        return {"409":"the user already exist"}
+        return {"error" : "User already exist please choose another email "}
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8") 
+
     new_user = Users(
-        full_name = request_data["fullname"],
-        email = request_data["email"],
-        password = hashed_password,
-        birthday = request_data["birthday"]      
+        email = email,
+        password = hashed_password, 
+        firstName = request_data["firstName"],
+        lastName = request_data["lastName"],
+        country = request_data["country"],
+        gender = request_data["gender"],
+        birthDate = request_data["birthDate"]    
     )
 
     db.session.add(new_user)
     db.session.commit()
     session["user_id"] = new_user.id
-    return {"user": new_user.full_name}
+    return {"user": new_user.firstName}
+
 
 @auth.route("/login", methods=["POST"])
 def login():
@@ -53,14 +67,18 @@ def login():
     if user is None:
         return jsonify({"error": "this email are not valid"}), 401
     if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "email  or password is not valid"}), 401
+        return jsonify({"error": "email  or password are not valid"}), 401
 
     session["user_id"] = user.id
     return jsonify({
         "email": user.email,
-        "fullname": user.full_name,
-        "birthday" : user.birthday,
-        "avatar" : user.userAvatar
+        "firstName": user.firstName,
+        "lastName": user.lastName,
+        "gender": user.gender,
+        "country" : user.country,
+        "birthDate" : user.birthDate,
+        "avatar" : user.userAvatar,
+        "admin" : user.admin,
     }) 
 
 @auth.route("/logout", methods = ["POST"])

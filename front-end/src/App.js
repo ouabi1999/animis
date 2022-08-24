@@ -1,7 +1,7 @@
 import React, {createContext} from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import {useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 import Girls from "./components/categories/girls"
@@ -21,12 +21,11 @@ import { setProducts } from "./features/products/productsSlice"
 
 import Home from "./screens/Home"
 import Nav from './components/Navbar/Nav'
-import Profile from './components/user_Dashboard/profile'
+
 import { getUser } from "./features/auth/authSlice"
 import UserLayout from './components/user_Dashboard/userLayout/UserLayout'
 import MyOrders from './components/user_Dashboard/MyOrders'
-import Setting from './components/user_Dashboard/Setting'
-import DeleteAccount from './components/user_Dashboard/DeleteAccount'
+import Chat from './components/user_Dashboard/Chat'
 import Notifications from './components/user_Dashboard/Notifications'
 import HelpCenter from './components/user_Dashboard/HelpCenter'
 import CheckoutContainer from './components/checkout/CheckoutContainer'
@@ -38,11 +37,13 @@ import RefundPolicy from './screens/polices/RefundPolicy';
 import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
 import ProductsFilter from './screens/ProductsFilter';
 import { getProducts } from './features/categories/categorySlice';
+import Profile from './components/user_Dashboard/profile/profile';
 
 
 export const OrderContext = createContext();
 function App() {
  const dispatch = useDispatch()
+ 
   const [formData, setFormData ] = useState({
     firstName: "",
     lastName:"",
@@ -59,6 +60,7 @@ function App() {
     totalPrice:10,
     currency:"usd",
     products:"",
+    orderInfo:"",
 
 });
 
@@ -92,12 +94,12 @@ function App() {
   useEffect(() => {
     getProductsInfo()
     dispatch(getUser())
-<<<<<<< HEAD
+
     dispatch(getProducts())
      // 👇️ scroll to top on page load
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-=======
->>>>>>> main
+   
+
   }, [])
   
   
@@ -106,7 +108,6 @@ function App() {
       <Container>
         <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
-
           <Routes>
             <Route path = "/" element={<Header />} />
             <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
@@ -127,23 +128,25 @@ function App() {
               <Route path= "category"             element =  {<ProductsFilter/>}/>
 
               <Route   path = "/profile"       element = {<UserLayout />} >
-                <Route path = "profile"       element = {<Profile />} />
+                <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
-                <Route path = "setting"        element = {<Setting />} />
+                <Route path = "chat"        element = {<Chat />} />
                 <Route path = "help-center"    element = {<HelpCenter />} />
-                <Route path = "delete-account" element = {<DeleteAccount />} />
+             
                 <Route path = "notifications"  element = {<Notifications />} />
               </Route>
             </Route>
             <Route path = "/login"              element = {<LoginForm />} />
               <Route path = "/register"           element = {<Signup />} />
             <Route path = "/checkout"      element = {<CheckoutContainer/>} />
-
+            
             <Route   path = "/admin"       element = {<DashLayout />} >
               <Route path = "/admin"       element = {<Dashboard />} />
               <Route path = "dashproducts" element = {<ProductsLayout />} />
               <Route path = "analytics"    element = {<Chart />} />
             </Route>
+
+            
 
           </Routes>
         </BrowserRouter>

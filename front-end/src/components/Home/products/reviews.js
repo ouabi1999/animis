@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import StarIcon from '@mui/icons-material/Star';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import {useSelector} from "react-redux"
 
 function Reviews(props) {
 
     const [star_rating, set_star_rating] = useState(null);
     const [comment, setComment] = useState({ image:[], text:""})
     const [hoverValue, setHoverValue] = useState(null)
+    const user = useSelector(state => state.auth.user)
 
     const { product_id, user_id } = props;
 
@@ -35,7 +37,7 @@ function Reviews(props) {
             method: "POST",
             body: JSON.stringify({
                 product_id: product_id,
-                user_id: 1,
+                user_id: user.id,
                 stars: star_rating,
                 comment: comment,
             }),

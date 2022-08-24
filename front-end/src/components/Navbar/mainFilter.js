@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from "styled-components"
+import SearchInput from './SearchInput'
 
 function MainFilter() {
   return (
@@ -22,6 +23,8 @@ function MainFilter() {
         <Wrapp>
            <span> Baki </span>
         </Wrapp>
+        
+        
     </Container>
   )
 }
@@ -34,8 +37,20 @@ const Container = styled.div`
      align-items:center;
      padding-right:10px;
      color:rgba(60, 60, 60, 0.9);
+
      border-bottom:1px solid lightgray;
 
+     
+     @media only screen and (max-width: 1022px) {
+    &{
+      display:none;
+      
+     
+      
+    }
+    
+   
+  }
 
 
 `

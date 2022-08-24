@@ -40,7 +40,8 @@ export default function StripeContanier() {
         country: formData.country,
         shippingMethod: formData.shippingMethod,
         shippingPrice: formData.shippingPrice,
-        totalPrice: formData.totalPrice
+        totalPrice: formData.totalPrice,
+        orderInfo : formData.orderInfo
 
       }),
     })

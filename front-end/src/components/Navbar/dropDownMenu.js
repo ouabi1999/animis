@@ -2,14 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import OutsideClickHandler from 'react-outside-click-handler';
 import { logout } from '../../features/auth/authSlice'
 
-
-
 export class DropDownMenu extends Component {
-  state = {
-    isOpen : false,
+
+  constructor(props) {
+    super(props);
+    this.state={
+      isOpen : false,
+    }
   }
+
+  
 
   logout = () =>{
     fetch("/logout",{
@@ -25,7 +30,11 @@ export class DropDownMenu extends Component {
 }
   render() {
     return (
-      <>
+      <OutsideClickHandler
+      onOutsideClick={() => {
+          this.setState({isOpen:false})
+      }}
+    >
       {this.props.auth.user !== null ?
       <Contanier>
         <Profile_wrap>
@@ -39,14 +48,13 @@ export class DropDownMenu extends Component {
           <DropDown_Container>
             <ul className='DropDown_Container'>
               <li>
-                <Link to="profile">Profile</Link>
+                
+                <Link  onClick={this.props.hideMenu} to="profile">Profile</Link>
               </li>
-              <li>
-                <Link to="">setting</Link>
-              </li>
+              
               <li>
                 <button onClick={this.logout}>
-                  logout
+                  Logout
                 </button>
               </li>
             </ul>
@@ -55,7 +63,7 @@ export class DropDownMenu extends Component {
       </Contanier>
       : ""
      }
-      </>
+      </OutsideClickHandler>
     )
   }
 }
@@ -99,13 +107,13 @@ const Image = styled.img`
 `
 const DropDown_Container = styled.div`
     width:150px;
-    border-radius:6px;
-    background:lightgray;
+    border-radius:4px;
+    background:#fff;
     position:absolute;
     left:-140px;
-    bottom:-100px;
-    z-index:1;
-   
+    bottom:-80px;
+    z-index:2;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 
 
 `

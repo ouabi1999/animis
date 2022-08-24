@@ -45,7 +45,7 @@ function Shipping() {
         name="DHL"
         onChange={handleChange}
         value={0}
-        checked={formData.shippingPrice == 0 &&  formData.shippingMethod === "DHL" }
+        checked={formData.shippingPrice === 0 &&  formData.shippingMethod === "DHL" }
       />
 
       </div>
@@ -64,7 +64,7 @@ function Shipping() {
          name="FEDEX"
          onChange={handleChange}
          value={2.99}
-         checked={formData.shippingPrice == 2.99 &&  formData.shippingMethod === "FEDEX"}
+         checked={formData.shippingPrice === 2.99 &&  formData.shippingMethod === "FEDEX"}
          
          />
       </div>
@@ -83,7 +83,7 @@ function Shipping() {
         name="UPS"
         onChange={handleChange}
         value={10.89}
-        checked = {formData.shippingPrice == 10.89 &&  formData.shippingMethod === "UPS"} 
+        checked = {formData.shippingPrice === 10.89 &&  formData.shippingMethod === "UPS"} 
        />
       </div>
     </div>

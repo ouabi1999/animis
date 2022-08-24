@@ -8,6 +8,7 @@ import {Grid, Typography, TextField, FormControlLabel, Checkbox } from "@mui/mat
 import { FormContext } from '../CheckoutContainer';
 import {OrderContext} from "../../../App"
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ValidationSchema  =  Yup.object().shape({
   firstName : Yup.string().required(),
@@ -25,7 +26,8 @@ function Billing() {
   const { activeStepIndex, setActiveStepIndex } =
     useContext(FormContext);
   const { formData, setFormData} = useContext(OrderContext);
-    
+ 
+  
   return (
     <Conatiner>
     <Formik
@@ -33,7 +35,7 @@ function Billing() {
         validationSchema = {ValidationSchema}
         onSubmit={(values) => {
         setActiveStepIndex(activeStepIndex +1 )
-        setFormData({...values})
+        setFormData({...formData, ...values})
 
     }}
     
