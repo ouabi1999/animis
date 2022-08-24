@@ -5,12 +5,16 @@ import styled from 'styled-components'
 import OutsideClickHandler from 'react-outside-click-handler';
 import { logout } from '../../features/auth/authSlice'
 
-
-
 export class DropDownMenu extends Component {
-  state = {
-    isOpen : false,
+
+  constructor(props) {
+    super(props);
+    this.state={
+      isOpen : false,
+    }
   }
+
+  
 
   logout = () =>{
     fetch("/logout",{
@@ -44,7 +48,8 @@ export class DropDownMenu extends Component {
           <DropDown_Container>
             <ul className='DropDown_Container'>
               <li>
-                <Link to="profile">Profile</Link>
+                
+                <Link  onClick={this.props.hideMenu} to="profile">Profile</Link>
               </li>
               
               <li>

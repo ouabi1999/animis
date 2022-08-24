@@ -1,64 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import Zoom from 'react-reveal/Zoom'
-import { Link, Navigate, useNavigate}  from 'react-router-dom'
+import { Grid, TextField, MenuItem, Button, IconButton, InputAdornment } from '@mui/material';
+import { Link, useNavigate}  from 'react-router-dom'
 import styled from 'styled-components';
 import { login } from "../features/auth/authSlice";
+import LoginIcon from '@mui/icons-material/Login';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {Formik, useFormik } from 'formik';
+import * as Yup from "yup"
+import CircularProgress, {
+  circularProgressClasses,
+} from '@mui/material/CircularProgress';
 
 
 function LoginForm() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.auth)
-  const [formData, setFormData] = useState({email:"", password:""})
+  
   const [isLoading, setIsLoading] = useState(false)
   const [error , setError] = useState(false)
+  const [formData, setFormData] = useState({
+    email:"",
+    password:"",
+    showPassword:""
+  
+  })
+  
+  
 
-
-  const handleChange =(event)=>{
-    setFormData({...formData,
-      [event.target.name] : event.target.value,
-      
-      
-    })
-    console.log(formData)
-  }
-
-  const hideerror =()=>{
+  const hideerror = () => {
     setError(null)
   }
+  const handleClickShowPassword = () => {
 
+
+    setFormData({
+      ...formData,
+      showPassword: !formData.showPassword,
+    });
+
+  }
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+
+  
 
   const Login_Submit = (event)=>{
      event.preventDefault()
-     setIsLoading(true)
-      fetch("/login",{
-      method:"POST",
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        email:formData.email,
-        password:formData.password
-      }),
-      
-      headers:{
-        "Content-type":"application/json; charset=UTF-8"
-      }
-    }).then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not OK');
-      }
-      return response.json()
-
-    }).then(result => {
-      dispatch(login(result))
-      setIsLoading(false);
-      navigate("/") 
-    })
-    .catch(error => {
-      console.error('There has been a problem with your fetch operation:', error);
-      setIsLoading(false)
-
-    });
+   
   }
  
   useEffect(() => {
@@ -69,48 +63,160 @@ function LoginForm() {
       navigate("/")
     }
   }, [])
+
+  const editSechema = Yup.object({
+    email: Yup.string().email('Invalid email address').required('Required'),
+    password: Yup.string()
+      .required("Please Enter your password")
+
+  })
+
+
+  const formik = useFormik({
+    initialValues: formData,
+    validationSchema: editSechema,
+    onSubmit: values => {
+
+      // same shape as initial values
+      setFormData({ ...values })
+      console.log(values);
+ 
+      setIsLoading(true)
+      fetch("/login", {
+        method: "POST",
+        credentials: 'same-origin',
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password
+        }),
+
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      }).then(response => response.json())
+
+        .then(result => {
+          if (result.error) {
+            console.log(result.error)
+            setError(result.error)
+            setIsLoading(false);
+          } else {
+
+            dispatch(login(result))
+            setIsLoading(false);
+            window.location.href = "/"
+          }
+
+
+        })
+        .catch(error => {
+          console.error('There has been a problem with your fetch operation:', error);
+          setError("Somthing went wrong..!")
+          setIsLoading(false)
+
+        });
+    },
+  });
   
   return (
-    <Container>
-        {user == null ? (
-            
+    <Form onSubmit = {formik.handleSubmit}>
+     
+        
+      <LoginIcon className="fa-user-circle" />
+      <strong style={{marginBottom:"4px"}}>Login</strong>
 
-        <form className="form">
-          <i className="fas fa-user-circle" />
-          <strong>Sign in</strong>
+      {user == null ? (
+     <Grid container spacing={2}>
 
-          <div>
-            <input type="email" value={formData.email}
+          <Grid item xs={12}>
+            <TextField
+              label="email"
+              id="filled-size-small"
+              fullWidth
+              variant="filled"
+         
               name="email"
               onMouseDown={hideerror}
-              onChange={handleChange}
-              placeholder="Email"
-              required autoFocus
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
             />
-          </div>
-          <div>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Password"
+              id="filled-size-small"
+              fullWidth
+              variant="filled"
+         
+              name="password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              onMouseDown={hideerror}
+              type={formData.showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {formData.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
 
-            <input type="password"
-              value={formData.password}
-              name="password" onMouseDown={hideerror}
-              onChange={handleChange}
-              placeholder="Password" required
+                </InputAdornment>,
+              }}
             />
-          </div>
-          <button type="button" disabled={isLoading} id="submit" onClick={Login_Submit} >
-            <span id="button-text">
-              {isLoading ? <div className="spinner" id="spinner"></div> : "Login"}
-            </span>
-          </button>
-          <div className="forgit-already">
+           
+          </Grid>
+          {error && (
+            <Grid item xs={12} container
+              justifyContent="center" >
+              <span style={{ color: "red", fontSize: "14px" }}>{error}</span>
+            </Grid>
+          )}
+          
+          <Grid item xs={12} 
+                  container    
+                  justifyContent="center"
+                  
+          
+          >
+            <Button type="submit" variant="contained" disabled={isLoading} >
+
+             {isLoading ? (
+                  <>
+                   <span>Login</span>
+                    <CircularProgress 
+                      style={{marginLeft:"3px"}}
+                        size={22} 
+                        thickness={6} 
+                        value={100}
+                                  />
+                    </>) 
+                  : "Login"}
+
+            </Button>
+          </Grid>
+          <Grid item xs={12}
+              container 
+              justifyContent="space-evenly" 
+              className="other-info" >
+         
             <a href="#" className="f-password"> Forget Password</a>
             <Link to="/register">Create an account</Link>
-          </div>
-        </form>
-         ) :""
 
+          </Grid>
+          
+        </Grid>
+         ) :""
+         
         }
-      </Container>
+    
+      </Form>
   )
 }
 
@@ -119,96 +225,48 @@ export default LoginForm
  
 
 
-const Container = styled.div`
-  display:flex;
-  justify-content:center;
-  align-content:center;
-  margin-top:15px;
-  height:100vh;
-.form input{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:300px;
-  height:50px;
-  border-radius:6px;
-  border:1px solid lightblue;
-  padding-left:10px;
-  margin:10px 0px;
-
-  &:focus{
-    outline:1px solid lightblue;
+const Form = styled.form`
     
- 
- }
-}
+    margin:auto;
+    margin-top:8%;
+    width:30%;
+   
+    min-width:300px;
+    border-radius:8px;
+    border-style:none;
+    box-shadow:0 5px 8px 6px rgba(27, 27, 27, 0.1);
+    background-color: #fff;
+    padding:0 10px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
 
-.form{
-  display:flex;
-  align-items:center;
-  flex-direction:column;
-  border:1px solid black;
-  border-radius:6px;
-  border-style:none;
-  width:350px;
-  height:420px;
- 
-  box-shadow:0 5px 8px 6px rgba(27, 27, 27, 0.1);
-  padding-left:10px;
+
 
   
-}
-.form i{
-  font-size:100px;
-  margin: 10px 10px;
-  color:rgb(107, 107, 107);
-}
-form .fa-times{ 
-  font-size:25px;
-  position:relative;
-  left:170px;
-  top:-18px;
-  text-shadow:6px 6px 20px rgb(71, 71, 71);
+
+.fa-user-circle{
+   width:100px;
+   height:100px;
+   color:lightgray;
 }
 
-.form button{
-  color:white;
-  background-color: rgba(59, 73, 223, 1);
-  border-radius:6px;
-  padding:6px 8px;
-  letter-spacing:1px;
-  font-weight: bold;
-  width:10rem;
-  height:40px;
-  margin-top:10px;
-}
-
-.form input[type="submit"]:hover{
-  background-color:rgb(2, 92, 39);
-}
-.forgit-already{
+.other-info{
   margin-top:25px;
+  margin-bottom:15px;
 }
-.forgit-already a{
+.other-info a{
   font-size:0.8rem;
   font-weight:bold;
   color:rgb(30, 100, 80);
-  margin-left:20px;
+  
   
 }
 
-.form label{
-  margin-left:5px;
-}
 
-button:hover {
-  opacity:0.9;
-}
 
-button:disabled {
-  opacity: 0.5;
-  cursor: default;
-}
+
+
 
 /* spinner/processing state, errors */
 .spinner,
@@ -273,5 +331,10 @@ button:disabled {
     transform: rotate(360deg);
   }
 }
+
+`
+const FormWrapper = styled.div`
+
+
 
 `

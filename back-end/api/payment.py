@@ -6,7 +6,8 @@ import os
 
 payment = Blueprint("payment", __name__)
 
-endpoint_secret = 'whsec_81f09f5e4585bd1e3c03677f29218c76cce56a39546d7e016dad1700396b6d67'
+endpoint_secret = "whsec_xcu6H6cQpa4L8Z9bnnXFkBvasZSwfbzJ"
+
 stripe.api_key = 'sk_test_51LH58oGw1CxnQh9eyl2XxZsoIRqZWWfGlpgHZoYk8o1YqEbeZnAF36bFJm8HKx43HxeZnMXCWaOpOJO4qUSkrvSj00zRVERDWj'
 
 def calculate_order_amount(price):
@@ -53,11 +54,12 @@ def createOrder():
             city           = request_data["city"],
             state          = request_data["state"],
             zipcode        = request_data["zip"],
-            #products      = event["products"] , 
+            products      = request_data["orderInfo"] , 
             shippingMethod = request_data["shippingMethod"],
             shippingPrice  = request_data["shippingPrice"],
             totalPrice     = request_data["totalPrice"],
             user_id        = request_data["userId"],
+            
         )
     db.session.add(userorder)
     db.session.commit()
@@ -108,6 +110,7 @@ def webhook():
             shippingPrice  = request_data["shippingPrice"],
             totalPrice     = request_data["totalPrice"],
             user_id        = request_data["userId"],
+            products      = request_data["orderInfo"],
         )
         db.session.add(userorder)
         db.session.commit()

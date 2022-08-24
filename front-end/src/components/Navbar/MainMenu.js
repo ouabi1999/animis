@@ -37,8 +37,8 @@ function MainMenu(props) {
           <User_container>
           {user !== null ?
               <div className="user">
-                <span> {user.fullname.slice(0,20)} </span>
-                <DropDownMenu />
+                <span> Hello, {user.firstName.slice(0,20)} </span>
+                <DropDownMenu  hideMenu = {props.hideMenu} />
                 
               </div>
 

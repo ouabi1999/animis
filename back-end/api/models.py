@@ -9,26 +9,47 @@ def get_uuid():
     return uuid4().hex
     
 class Users(db.Model):
-    id = db.Column(db.String(40), primary_key = True, unique=True, default=get_uuid)
+    id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
     email = db.Column(db.String(200),  unique=True,  nullable = False)
-    full_name = db.Column(db.String(30),  nullable = False)
-    password = db.Column(db.String(200), nullable = False)
-    birthday = db.Column(db.String(10),  nullable = False)
+    firstName = db.Column(db.String(30),  nullable = False)
+    lastName  = db.Column(db.String(30),  nullable = False)
+    gender = db.Column(db.String(30),  nullable = False)
+    country =  db.Column(db.String(30),  nullable = False)
+    password  = db.Column(db.String(200), nullable = False)
+    birthDate  = db.Column(db.String(30),  nullable = False)
     userAvatar = db.Column(db.String(50), default= "boy.jpg")
     joined_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    admin = db.Column(db.Boolean, nullable = False, default = False)
     #rating_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False) 
-    order_id = db.relationship('Orders', cascade='all, delete', backref='user', lazy=True)
+    userOrders = db.relationship('Orders', cascade='all, delete', backref='user', lazy=True)
     ratings = db.relationship('Ratings', backref='user', lazy=True)
 
+
     def __str__(self):
-        return f"{self.id} {self.full_name} {self.birthday} {self.email} {self.password} {self.userAvatar}"
+        return f"{self.id} {self.gender} {self.admin} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
+def user_serializer(user):
+
+   
+    return{
+        "id":user.id,
+        "email":user.email,
+        "birthDate":user.birthDate,
+        "firstName" : user.firstName,
+        "lastName" : user.lastName,
+        "gender" : user.gender,
+        "country" : user.country,
+        "userAvatar" : user.userAvatar,
+        "admin" : user.admin,
+        "joined_at" : user.joined_at,
+        
+    }
 
 class Ratings(db.Model):
     id = db.Column(db.String(), primary_key=True, unique=True, default=get_uuid)
     stars = db.Column(db.Integer(), nullable = False)
     comment = db.Column(db.PickleType())
-    product_id = db.Column(db.String(), db.ForeignKey('products.id'), nullable=False)
-    user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable=False)
+    product_id = db.Column(db.String(), db.ForeignKey('products.id'), nullable = False)
+    user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable = False)
 
     def __str__(self):
         return f"{self.id} {self.stars}  {self.product_id}  {self.comment}"
@@ -41,13 +62,7 @@ def ratings_serializer(rate):
         "product_id" : rate.product_id
     }
 
-def user_serializer(user):
-    return{
-        "id":user.id,
-        "email":user.email,
-        "birthday":user.birthday,
-        "fullname" : user.full_name,
-    }
+
     
 class Products(db.Model):
     id = db.Column(db.String(40), primary_key=True, unique=True, default=get_uuid)
@@ -63,6 +78,7 @@ class Products(db.Model):
     reviews =  db.Column(db.PickleType())
     availability = db.Column(db.PickleType())
     category =  db.Column(db.String())
+    gender =  db.Column(db.String())
     product_type =  db.Column(db.String())
     pics_info = db.Column(db.PickleType())
     shipping_Method = db.Column(db.PickleType())
@@ -71,7 +87,7 @@ class Products(db.Model):
 
 
     def __str__(self):
-        return f'{self.id} {self.seo} {self.title} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
+        return f'{self.id} {self.seo} {self.title} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
 def productInfo_serializer(info):
     rats = [*map(ratings_serializer , (info.ratings))]
  

@@ -41,11 +41,12 @@ const Container = styled.div`
   width:100%;
   padding:10px;
   background-color:white;
-  display:flex;
-  justify-content: center;
+  
   margin: 20px auto;
  
- 
+  display:grid;
+  grid-template-columns: repeat(4, auto) ;
+  grid-gap:10px;
 
   
   div{
@@ -56,6 +57,7 @@ const Container = styled.div`
     
    
   }
+  
   p{
      width:50%;
      margin-bottom: 0;
@@ -72,5 +74,17 @@ const Container = styled.div`
       font-size:40px;
       color: rgb(194, 193, 193);
   }
+  @media only screen and (max-width: 1000px) {
+  &{
+     
+    grid-template-columns: repeat(2,auto);
+  }
+}
+@media only screen and (max-width: 760px) {
+  &{
+     
+    grid-template-columns: repeat(1,auto);
+  }
+}
 
 `

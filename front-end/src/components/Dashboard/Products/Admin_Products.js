@@ -53,7 +53,7 @@ export default class AdminProducts extends Component {
                 </tr>
               </thead>
               <tbody>
-                {products.map((product) => {
+                {products?.map((product) => {
                   return (
                     <tr key={product.id} >
                       <td>
@@ -114,7 +114,7 @@ const TableWrap = styled.div`
      display:flex;
  }
  .imgprview{
-     margin-right:25px
+     margin-right:25px;
      width:150px;
      height:150px;
      object-fit:cover;
@@ -178,7 +178,7 @@ const TableWrap = styled.div`
       background:green;
       border-radius:8px;
       color:white;
-      font-weight:bold
+      font-weight:bold;
       width:80px;
       margin:auto;
   }

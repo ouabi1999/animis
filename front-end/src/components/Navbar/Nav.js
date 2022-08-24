@@ -42,7 +42,8 @@ class Nav extends React.Component {
           <Left_section>
             <div className="logo">
               <Link to="/">
-                <img src="./CORAZON_LOGO-01.png" alt="" /></Link>
+                <img src="./CORAZON_LOGO-01.png" alt="" />
+                </Link>
             </div>
 
             <div>
@@ -65,7 +66,7 @@ class Nav extends React.Component {
             </div>
             <User_container>
             {this.props.auth.user !== null ?
-              <DropDownMenu/>
+              <DropDownMenu  />
 
               : 
 
@@ -113,7 +114,7 @@ const Nav_container = styled.div`
   min-width:358px;
   position:sticky;
   top:0;
-  z-index:1;
+  z-index:2;
   background: #0052D4;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #6FB1FC, #4364F7, #0052D4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */

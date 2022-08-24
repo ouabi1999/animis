@@ -117,6 +117,7 @@ def rating():
     db.session.add(user_rating)
     db.session.commit()
     return jsonify([*map(ratings_serializer, Ratings.query.all())])
+    
 @views.route("/getratings",methods = ["GET"])
 def getrating():
     return jsonify([*map(ratings_serializer, Ratings.query.all())])

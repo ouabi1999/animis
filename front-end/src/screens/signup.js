@@ -1,113 +1,395 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import styled from "styled-components";
-import { Link}  from "react-router-dom"
- class Signup extends Component {
-     constructor(props) {
-         super(props)
-         this.state = {
-            fullname:"",
-            date:"",
-            email:"",
-            password:"",
-            confirmPassword:""
-         }
-     }
+import { Link, Navigate, useNavigate}  from 'react-router-dom'
+import { Grid, TextField, MenuItem, Button, IconButton, InputAdornment, CircularProgress } from '@mui/material';
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import Flag from 'react-world-flags';
+import countriesData from "../common/countries.json"
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
-     handel_Register_Submit = (event) =>{
-        event.preventDefault()
-        fetch("/register",{
-            method:"POST",
-            body:JSON.stringify({
-                fullname:this.state.fullname,
-                birthday:this.state.date,
-                email:this.state.email,
-                password:this.state.password,
-            }),
-            headers:{
-            "Content-type":"application/json; charset=UTF-8"
-            }
-        }).then(response=> response.json())
-          .then(message=>{console.log(message)})
-     }
-     handleChange = (event) =>{
-         this.setState({
-            [event.target.name]:event.target.value
-        })
-        console.log(this.state.date)
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import {useFormik } from 'formik';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import * as Yup from "yup"
+import { useDispatch } from 'react-redux';
+import { login } from '../features/auth/authSlice';
+
+
+
+
+
+
+
+  
+ 
+
+function Signup() {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [formData, setFormData] = useState({
+
+        firstName: "",
+        lastName : "",
+        gender : "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        country : "",
+        birthDate: new Date(),
+        isLoading : false,
+        showPassword : false,
+        error : null,
+
+    })
+
+
+
+    
+        
+      
+
+
+   
+
+    const genders = [
+        { gender: "Male", icon: <MaleIcon /> },
+        { gender: "Female", icon: <FemaleIcon /> }
+    ]
+
+    const handleClickShowPassword = () => {
+
+        
+        setFormData({
+          ...formData,
+          showPassword: !formData.showPassword,
+        });
+      
     }
-    render(){
-        return(
-            <Form>
-                <h3>Sign up</h3>
-                <Formwrapper>
-                    <input type="text"  value={this.state.fullname} onChange={this.handleChange} placeholder='Full Name' name="fullname" required />
-                    <input type="email" value={this.state.email} onChange={this.handleChange} placeholder='Email' name="email" required />
-                    <input type="date" value={this.state.date}  onChange={this.handleChange} name="date" required />
-                    <input type="password" value={this.state.password} onChange={this.handleChange} name="password" placeholder='Password' />
-                    <input type="password"   placeholder='Confirme password' />
-                    <input type="submit"  onClick={this.handel_Register_Submit} value="Sign up" />
-                </Formwrapper>
-                <Wrapper>
-                    <span>By clicking "Sign up", I agree to the</span>
-                    <Link to="/Terms_of_service"> Terms of service</Link>
-                    <Link to="/login"> I have already an account</Link>
-                </Wrapper>
-             </Form>    
-        )
-    }
+
+      const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      };
+    
+
+    const editSechema = Yup.object({
+        firstName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Please enter your Fist Name'),
+          
+        
+        lastName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        country: Yup.string().required("Please select yoyr country "),
+        email: Yup.string().email('Invalid email address').required('Required'),
+        gender :  Yup.mixed().oneOf(['Male', 'Female']).defined(),
+        birthDate: Yup.date().required('Please enter a date of birth')
+        .max(new Date(), "You can't be born in the future!"),
+        password: Yup.string()
+        .required("Please Enter your password"),
+
+        
+        
+    })
+        
+
+    const formik = useFormik({
+        initialValues : formData,
+        validationSchema :editSechema,
+        onSubmit: values => {
+           
+            // same shape as initial values
+            setFormData({...formData, isLoading : true })
+          
+
+            fetch("/register", {
+                method: "POST",
+                body: JSON.stringify({
+
+                    firstName: values.firstName,
+                    lastName : values.lastName,
+                    gender : values.gender,
+                    email: values.email,
+                    password: values.password,
+                    confirmPassword: values.confirmPassword,
+                    country : values.country,
+                    birthDate : values.birthDate,
+
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(response => response.json())
+            .then(result => {
+                if (result.error) {
+                  console.log(result.error)
+                  setFormData({...formData, isLoading : false , error : result.error})
+            
+                } else {
+      
+                  dispatch(login(result))
+                  setFormData({...formData, isLoading : false })
+                  window.location.href= "/"
+                }
+      
+      
+              })
+              .catch(error => {
+                console.error('There has been a problem with your fetch operation:', error);
+            
+                setFormData({...formData, isLoading : false , error:"Somthing went wrong..!"})
+      
+              });
+        },
+    });
+    return (
+        <Form onSubmit = {formik.handleSubmit}>
+
+            <AccountCircleIcon className="sign-in-icon" />
+            <h3>SIGN UP</h3>
+            <Formwrapper>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            autoComplete="given-name"
+                            name="firstName"
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            variant="filled"
+                            size="small"
+                            value={formik.values.firstName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+                            helperText={formik.touched.firstName && formik.errors.firstName}
+
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            autoComplete="given-name"
+                            name="lastName"
+                            fullWidth
+                            id="firstName"
+                            label="Last Name"
+                            variant="filled"
+                            size="small"
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+                            helperText={formik.touched.lastName && formik.errors.lastName}
+
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth
+                            id="email"
+                            label="Email Address"
+                            name="email"
+                            autoComplete="email"
+                            variant="filled"
+                            size="small"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
+                            
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Gender"
+                            id="filled-size-small"
+                            fullWidth
+                            variant="filled"
+                            size="small"
+                            name="gender"
+                            select
+                            error={formik.touched.gender && Boolean(formik.errors.gender)}
+                            helperText={formik.touched.gender && formik.errors.gender}
+                            value={formik.values.gender}
+                            onChange={formik.handleChange}
+
+                        >
+                            {genders.map((sex, index) => {
+                                return (
+                                    <MenuItem key={index} value={sex.gender} >
+                                        <div style={{ display: "flex", alignItems: "center" }}>
+                                            {sex.icon}
+                                            <span>{sex.gender}</span>
+                                        </div>
+                                    </MenuItem>
+                                )
+                            })}
+                        </TextField>
+                    </Grid>
+
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            label="Country"
+                            id="filled-size-small"
+                            select
+                            fullWidth
+                            variant="filled"
+                            name="country"
+                            size="small"
+                           
+                            value = {formik.values.country}
+                            error = {formik.touched.country && Boolean(formik.errors.country)}
+                            helperText = {formik.touched.country && formik.errors.country}
+                       
+                         onChange={formik.handleChange}
+                        >
+                    {countriesData.map((country, index) => {
+                        return (
+
+                            <MenuItem key={index} value={country.name}>
+                                <div style={{ display: "flex", alignItems: "center" }}>
+                                    <Flag code={country.code} style={{ width: "30px", height: "20px", marginRight: "10px" }} />
+                                    <span>{country.name}</span>
+                                </div>
+                            </MenuItem>
+                          )
+
+                        }
+                        )}
+                        </TextField>
+                    </Grid>
+                    <Grid item xs={12} >
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <DatePicker
+                            renderInput={(props) => <TextField  
+                                error={formik.touched.birthDate && Boolean(formik.errors.birthDate )}
+                                helperText={formik.touched.birthDate  && formik.errors.birthDate }
+                                fullWidth size="small"  variant="filled" {...props} />}
+                            label="Birth Date"
+                            
+                            value={formik.values.birthDate}
+                            name = "birthDate"
+                            onChange= {value => formik.setFieldValue("birthDate", value)}
+                        />
+                    </LocalizationProvider>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <TextField
+                            label="Password"
+                            id="filled-size-small"
+                            fullWidth
+                            variant="filled"
+                            size="small"
+                            name="password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
+                            type={formData.showPassword ? "text" : "password"}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={ handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                    >
+                                        {formData.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+
+                                </InputAdornment>,
+                            }}
+                        />
+                    </Grid>
+                    {formData.error && (
+                        <Grid item xs={12} container
+                            justifyContent="center" >
+                            <span style={{ color: "red", fontSize: "14px" }}>{formData.error}</span>
+                        </Grid>
+                    )}
+                    <Grid item xs={12}
+                        container
+                        justifyContent="center"
+                        alignItems="center">
+                        <Button type="submit" variant="contained" disabled={formData.isLoading} >
+                            
+                            {formData.isLoading ? (
+                                <>
+                                    <span>Sign up</span>
+
+                                    <CircularProgress
+                                        style={{ marginLeft: "3px" }}
+                                        size={22}
+                                        thickness={6}
+                                        value={100}
+                                    />
+                                </>)
+                                : "Sign up"}
+
+                        </Button>
+                    </Grid>
+
+               
+                </Grid>
+        
+            </Formwrapper>
+            
+            <Wrapper>
+                <span> By clicking "Sign up", I agree to the </span>
+                <Link to = "/Terms_of_service"> Terms of service</Link>
+                <Link to = "/login"> I have already an account</Link>
+            </Wrapper>       
+        </Form>
+    )
+
 }
 
 export default Signup
 const Form = styled.form`
     margin:auto;
-    margin-top:40px;
-    width:30%;
-    max-width:30%;
+    margin-top:15px;
+    
+    width:40%;
+    position:relative;
+    
+    max-width:33%;
     min-width:300px;
     border-radius:8px;
     border-style:none;
-    
-    box-shadow:0px 5px 5px 5px rgba(27, 27, 27, 0.3);
-    background-color: azure;
-    padding:10px;
+    box-shadow:0px 5px 5px 3px rgba(27, 27, 27, 0.1);
+    background-color: #fff;
+    padding:0 10px;
     display:flex;
     flex-direction:column;
     align-items:center;
+
+    .sign-in-icon{
+        color:lightblue;
+        position:relative;
+        padding:0;
+        margin:0;
+        width:120px;
+        height:120px;
+    }
+    h3{
+        margin-bottom:15px;
+        margin-top:0;
+        letter-spacing:2px;
+    }
+
+
+   
 `
 const Formwrapper = styled.div`
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    input:not(input[type="submit"]){
-        margin:10px;
-       
-        width:25vw;
-        min-width:250px;
-        max-width:30vw;
-        height:45px;
-        outline:none;
-        border-radius:6px;
-        border-style: none;
-        box-shadow:2px 5px 6px rgb(151, 151, 151);
-        padding:10px 5px;
-    }
 
-    input[type="submit"]{
-        background-color: rgba(59, 73, 223, 1);;
-        width:200px;
-        color:#ffff;
-        border-radius:6px;
-        outline:none;
-        border-style: none;
-        padding:8px; 
-        font-weight:normal;
-        margin-bottom:12px;
-        height:40px;
-    }
+
 
 `
+
 const Wrapper = styled.div`
+    margin-top:6px;
     span{
         font-weight:bold;
     }
@@ -117,12 +399,13 @@ const Wrapper = styled.div`
         font-size:16px;
 
     }
+
     a[href="/login"]{
         display:flex;
         justify-content:flex-end;
         font-weight:bold;
-        margin:9px 10px;
-        color:red;
+        margin:10px 10px;
+        color:gray;
     }
     a:hover{
         text-decoration:underline;
@@ -130,3 +413,9 @@ const Wrapper = styled.div`
     }
 
 `
+
+
+
+
+
+
