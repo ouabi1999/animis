@@ -18,7 +18,7 @@ function LoginForm() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.auth)
-  
+  const auth = window.localStorage.getItem("isAuthenticated")
   const [isLoading, setIsLoading] = useState(false)
   const [error , setError] = useState(false)
   const [formData, setFormData] = useState({
@@ -56,12 +56,10 @@ function LoginForm() {
   }
  
   useEffect(() => {
-    if(user == null ) {
-        return ""
+    if( auth === "true" ) {
+        navigate("/")
     }
-    else{
-      navigate("/")
-    }
+  
   }, [])
 
   const editSechema = Yup.object({
@@ -79,8 +77,7 @@ function LoginForm() {
 
       // same shape as initial values
       setFormData({ ...values })
-      console.log(values);
- 
+     
       setIsLoading(true)
       fetch("/login", {
         method: "POST",

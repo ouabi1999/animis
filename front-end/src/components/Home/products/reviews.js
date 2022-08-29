@@ -15,6 +15,7 @@ function Reviews(props) {
 
     const stars = Array(5).fill(0);
     const imgInput = React.createRef()
+
     const handel_CommentChange = (e) => {
         setComment({...comment, text:e.target.value})
     }
@@ -38,6 +39,8 @@ function Reviews(props) {
             body: JSON.stringify({
                 product_id: product_id,
                 user_id: user.id,
+                userName : user.firstName,
+                country : user.country,
                 stars: star_rating,
                 comment: comment,
             }),
@@ -55,7 +58,7 @@ function Reviews(props) {
             }
         }
         reader.readAsDataURL(e.target.files[0])
-        console.log(comment)
+     
     }
 
     const handleImageInput = (e) => {

@@ -2,13 +2,19 @@ import React, { Component, useState, createRef, useEffect } from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
+import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
 
 
 
 
 
   function AddNewProduct(props) {
+    const [shipping, setShipping]= useState({
+      type:"",
+      price:"",
+      delivery:""
+    });
+
     const [formData, setFormData] = useState({
       product_images: [],
       sizes: [],
@@ -22,12 +28,12 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
       availability: "",
       product_type:"",
       pics_info : "",
-      shipping_Method:"",
       seo : "",
       category: "",
       tags: [],
       products: [],
-      Description_images:{}
+      Description_images:{},
+      shippingData: []
     });
 
     const imgInput = createRef()
@@ -71,10 +77,11 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
       data.append("description", formData.description);
       data.append("reviews", formData.reviews);
       data.append("category", formData.category);
-      data.append("shipping_Method", formData.shipping_Method);
+      data.append("shipping_Method", JSON.stringify(formData.shippingData));
       data.append("seo", formData.seo);
       data.append("pics_info", formData.pics_info);
       data.append("product_type", formData.product_type);
+      data.append("availability", formData.availability);
       
 
 
@@ -208,14 +215,35 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
               ...formData,
               product_images: [...formData.product_images, reader.result],
             });
-            console.log(formData)
           }
         };
         reader.readAsDataURL(e.target.files[0]);
       }
     };
 
-  
+   const addShipping = (e) => {
+        e.preventDefault()
+         setFormData({
+          ...formData,
+          shippingData:[...formData.shippingData, shipping ]
+
+         })
+         setShipping({
+          type:"",
+          price:"",
+          delivery:""
+         })
+
+
+   }
+
+   const remove_ShippingMethod = (method) => {
+    const shipping_Method = formData.shippingData.slice();
+    setFormData({
+      ...formData,
+      shippingData: shipping_Method.filter((x) => x !== method),
+    });
+  };
     return (
       <>
         {is_addNewProduct_open && (
@@ -364,10 +392,10 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
 
                   <div>
                     <TextField className="text_input" 
-                               value={formData.product_type} 
-                               label="Product type" 
-                               name="product_type" 
-                               onChange = {handelChange}
+                        value={formData.product_type} 
+                        label="Product type" 
+                        name="product_type" 
+                          onChange = {handelChange}
                     />
                   </div>
                 </div>
@@ -394,6 +422,7 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
                     </TextField>
                   </div>
                 </div>
+               
                 <div>
                   <TextField
                     className = "text_input"
@@ -404,6 +433,79 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
                   />
                 </div>
               </Iventory>
+              <Shipping>
+                  <h4>Shipping</h4>
+                  {formData.shippingData?.map((item, index) => {
+                    return (
+                      <div key = {index} className="color_wrapper">
+                        <span className = "color_name">{item.shipping_Method} </span>
+                        <span
+                          className = "remove_color"
+                          onClick = {() => remove_ShippingMethod(item)}
+                        >
+                          x
+                        </span>
+                      </div>
+                    );
+                  })}
+                  <div className="availability">
+                    <TextField
+                      required
+                      className="text_input"
+                      select
+                      label="Shipping Method"
+                      /*helperText="Please select your currency"*/
+                      value={shipping.type}
+                      onChange={(event) =>
+                        setShipping({
+                          ...shipping,
+                          type: event.target.value,
+                        })
+                      }
+                    >
+                      <MenuItem value={"Free"}> Free</MenuItem>
+                      <MenuItem value={"e-Packet"}> e-Packet</MenuItem>
+                      <MenuItem value={"UPS"}>UPS</MenuItem>
+                      <MenuItem value={"USPS"}>USPS</MenuItem>
+                      <MenuItem value={"FedEx"}>FedEx</MenuItem>
+                      <MenuItem value={"DHL"}>DHL</MenuItem>
+                      <MenuItem value={"EMS"}>EMS</MenuItem>
+                      <MenuItem value={"CPO & Air Mail"}>CPO & Air Mai</MenuItem>
+                      <MenuItem value={"Standard Shipping"}> Standard Shipping </MenuItem>
+                    </TextField>
+                  </div>
+                  <div>
+                    <TextField className="text_input" 
+                        required
+                        value={shipping.price} 
+                        label="Shipping Price" 
+                        name="shipping price" 
+                        onChange={(event) =>
+                          setShipping({
+                            ...shipping,
+                            price: event.target.value,
+                          })
+                        }
+                    />
+                  </div>
+                  <div>
+                  <TextField
+                    required
+                    className = "text_input"
+                    name = "delivery"
+                    value = {shipping.delivery}
+                    label = "delivery days"
+                    onChange={(event) =>
+                      setShipping({
+                        ...shipping,
+                        delivery: event.target.value,
+                      })
+                    }
+                  />
+                </div>
+                 <Button onClick={addShipping}>Add</Button>
+          
+                </Shipping>
               <Variant>
                 <h4>Variant</h4>
                 <div>
@@ -509,13 +611,13 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
         background:blue;
         border-radius:8px;
         color:white;
-        font-weight:bold
+        font-weight:bold;
         width:80px;
         margin:auto;
     }
     
     
- `;
+ `
   const Left_container = styled.div`
     flex: 2;
 
@@ -746,5 +848,38 @@ import { InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
       }
     }
   `;
+const Shipping = styled.div`
+    margin-bottom: 10px;
+    background: rgb(245, 245, 245);
+    border-radius: 6px;
+    padding: 10px;
 
+    .size_wrapper,
+      .color_wrapper {
+        display: flex;
+        align-items: center;
+
+        .size_name,
+        .color_name {
+          padding: 0px 5px;
+          background: blue;
+          color: white;
+          border-radius: 6px;
+          margin-right: 1px;
+          margin-bottom: 2px;
+        }
+        .remove_size,
+        .remove_color {
+          cursor: pointer;
+          margin-right: 4px;
+          background: lightgrey;
+          border-radius: 50%;
+          padding: 0 5px;
+          font-size: 10px;
+          color: red;
+        }
+      }
+
+
+`
 

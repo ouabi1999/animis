@@ -24,6 +24,9 @@ def productsinfo():
 @views.route("/products", methods=["POST"])
 def products():
     #print(request.files.getlist("files"))
+    shipping_price = request.form.getlist("shipping_price")
+    shipping_type = request.form.getlist("shipping_type")
+    shipping_delivery = request.form.getlist("shipping_delivery")
     """files = request.files.getlist("files")
     images = []
     for file in files:
@@ -41,6 +44,7 @@ def products():
             images.append(encode_img_data.decode("UTF-8"))
     
 """
+    print(request.get_json())
     newproducts = Products(
     title = request.form["title"],
     product_images = request.form.getlist("images"),
@@ -52,11 +56,11 @@ def products():
     quantity = request.form["quantity"],
     description = request.form["description"],
     reviews = request.form["reviews"],
-    #availability = request_data["availability"],
+    availability = request.form["availability"],
     category = request.form["category"],
     product_type = request.form["product_type"],
     pics_info =  request.form["pics_info"],
-    shipping_Method = request.form["shipping_Method"],
+    shipping_Method = json.loads(request.form["shipping_Method"]),
     seo =    request.form["seo"],
     
 ) 
@@ -66,11 +70,33 @@ def products():
 
 
 
-
+#get specific product
 @views.route("/product/<id>", methods=["GET"])
 def get_product(id):
     product = Products.query.filter_by(id = id).first()
-    return {productInfo_serializer, product }
+    rats = [*map(ratings_serializer , (product.ratings))]
+ 
+    return{
+        "id":product.id,
+        "title":product.title,
+        "product_images": product.product_images,
+        "sizes": product.sizes,
+        "colors": product.colors,
+        "price": product.price,
+        "discount":product.discount,
+        "quantity": product.quantity,
+        "description": product.description,
+        "reviews": product.reviews,
+        "availability":product.availability,
+        "category":product.category,
+        "tags":product.tags,
+        "product_type": product.product_type,
+        "pics_info" : product.pics_info,
+        "shippingInfo" : product.shipping_Method,
+        "seo" : product.seo,
+        "ratings" : rats #str([*map(ratings_serializer, rats)])}
+        
+    }
 
 #delete specific product
 @views.route('/delete/<id>',methods=['DELETE'])

@@ -24,6 +24,7 @@ def get_current_user():
         "birthDate" : user.birthDate,
         "avatar" : user.userAvatar,
         "country" : user.country,
+        "countryCode" : user.countryCode,
         "joined_at": user.joined_at,
         "admin" : user.admin,
         "orders" : orders

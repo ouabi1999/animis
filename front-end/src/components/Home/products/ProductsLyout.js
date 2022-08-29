@@ -1,23 +1,29 @@
-import React,{useState} from 'react'
+import React,{useState,  useEffect} from 'react'
 import styled from 'styled-components'
 import HomeProducts from './HomeProducts'
 import ProductDetails from "./productDetails"
+import {useSelector, useDispatch} from "react-redux"
 
 function ProductsLyout() {
 
-    const [product, setProduct] = useState(null)
-    // show more products
+    const products = useSelector((state) => state.products.products)
+    const [viewMoreProduct, setViewMoreProduct] = useState(12)
+ 
+     // show more products
     const viewMore = () => {
-        
+      setViewMoreProduct(
+        viewMoreProduct + 10
+      )
     }
-    // show product details
-    const openModal = (product) => {
-        setProduct(product);
-    }
-    /// close product details
-    const closeModal = () => {
-        setProduct(null)
-    }
+    useEffect(() => {
+        console.log("tset")
+        window.scrollTo({bottom: -400, right: 0, behavior: 'smooth'});
+       
+      }, [viewMoreProduct])
+   
+    let products_Slice = products.slice(0, viewMoreProduct)
+    
+   
     return (
         <Container>
             <div className="product-header">
@@ -26,15 +32,10 @@ function ProductsLyout() {
                 <div className="border-headers"></div>
             </div>
         
-            <HomeProducts openModal = {openModal} />
+            <HomeProducts  products = {products_Slice} />
             <div className="veiw-more">
-                <button onClick={() => { viewMore() }}> View more</button>
-            </div>
-            <ProductDetails
-             closeModal = {closeModal}
-             product = {product}
-             
-             />
+                <button onClick={ viewMore}> View more</button>
+            </div> 
         </Container>
     )
 }

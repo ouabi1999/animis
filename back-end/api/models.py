@@ -15,6 +15,7 @@ class Users(db.Model):
     lastName  = db.Column(db.String(30),  nullable = False)
     gender = db.Column(db.String(30),  nullable = False)
     country =  db.Column(db.String(30),  nullable = False)
+    countryCode = db.Column(db.String(30))
     password  = db.Column(db.String(200), nullable = False)
     birthDate  = db.Column(db.String(30),  nullable = False)
     userAvatar = db.Column(db.String(50), default= "boy.jpg")
@@ -26,7 +27,7 @@ class Users(db.Model):
 
 
     def __str__(self):
-        return f"{self.id} {self.gender} {self.admin} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
+        return f"{self.id} {self.gender} {self.admin}{self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
 def user_serializer(user):
 
    
@@ -38,6 +39,7 @@ def user_serializer(user):
         "lastName" : user.lastName,
         "gender" : user.gender,
         "country" : user.country,
+        "countryCode" : user.countryCode,
         "userAvatar" : user.userAvatar,
         "admin" : user.admin,
         "joined_at" : user.joined_at,
@@ -107,7 +109,7 @@ def productInfo_serializer(info):
         "tags":info.tags,
         "product_type": info.product_type,
         "pics_info" : info.pics_info,
-        "shipping_Method" : info.shipping_Method,
+        "shippingInfo" : info.shipping_Method,
         "seo" : info.seo,
         "ratings" : rats #str([*map(ratings_serializer, rats)])}
         
@@ -129,28 +131,39 @@ class Orders(db.Model):
     shippingMethod = db.Column(db.String())
     shippingPrice = db.Column(db.String())
     totalPrice = db.Column(db.Integer())
+    paymentMethod = db.Column(db.PickleType())
+    deliveryStatus = db.Column(db.String())
+    trackingNumber = db.Column(db.String())
     user_id = db.Column(db.String(), db.ForeignKey("users.id"), nullable=False)
 
 
     def __str__(self):      
-        return f'{self.id}{self.orderd_at} {self.user_id} {self.firstName} {self.lastName} {self.shippingMethod} {self.shippingPrice} {self.totalPrice} {self.email} {self.address1} {self.address2} {self.country} {self.city} {self.state} {self.zipcode} {self.products}'
+        return f'{self.id} {self.orderd_at} {self.paymentMethod}{self.trackingNumber} {self. deliveryStatu} {self.user_id} {self.firstName} {self.lastName} {self.shippingMethod} {self.shippingPrice} {self.totalPrice} {self.email} {self.address1}{self.address2} {self.country}{self.city} {self.state} {self.zipcode} {self.products}'
+
 def orders_serializer(order):
     return{
-        "id":order.id,
-        "date":order.orderd_at,
-        "firstName":order.firstName,
-        "lastName":order.lastName,
-        "email":order.email,
-        "address1":order.address1,
-        "address2":order.address2,
+        "shippingInfo":{
+        "firstName" : order.firstName,
+        "lastName" : order.lastName,
+        "email" : order.email,
+        "address1" : order.address1,
+        "address2" : order.address2,
         "country":order.country,
         "city":order.city,
         "state":order.state,
         "zipcode":order.zipcode,
+        },
+        "id" : order.id,
+        "date" : order.orderd_at,
         "products":order.products,
         "shippingMethod" : order.shippingMethod,
         "shippingPrice" : order.shippingPrice,
         "totalPrice" : order.totalPrice,
+        "trackingNumber": order.trackingNumber,
+        "deliveryStatus" : order.deliveryStatus,
+
+
+        
 
 
 

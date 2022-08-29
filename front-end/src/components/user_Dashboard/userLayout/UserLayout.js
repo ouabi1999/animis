@@ -18,7 +18,6 @@ function UserLayout() {
   const user = useSelector(state=> state.auth)
   const auth = window.localStorage.getItem("isAuthenticated")
   useEffect(() => {
-    console.log(auth)
     if (auth === "false"){
 
         navigate("/" )

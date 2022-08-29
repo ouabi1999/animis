@@ -10,18 +10,18 @@ export const cart_Slice = createSlice({
     reducers:{
         // add product to the shopping cart
         addToCart(state, action){
+            console.log(action.payload)
             const cartItems = state.cartItems.slice();
             let alreadyInCart = false;
-            const already = "already in cart"
             cartItems.map((item) => {
               if (item.id === action.payload.id) {
-                item.count++
+               
                 item.subtotal += item.price
                 alreadyInCart = true;
               }
             });
             if (!alreadyInCart) {
-              cartItems.push({ ...action.payload, count: 1, subtotal:action.payload.price })
+              cartItems.push({ ...action.payload, count: 1,  subtotal:action.payload.price })
             }
 
             state.cartItems = cartItems

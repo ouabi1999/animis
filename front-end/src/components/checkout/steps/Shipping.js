@@ -45,7 +45,7 @@ function Shipping() {
         name="DHL"
         onChange={handleChange}
         value={0}
-        checked={formData.shippingPrice === 0 &&  formData.shippingMethod === "DHL" }
+        checked={formData.shippingPrice === "0" &&  formData.shippingMethod === "DHL" }
       />
 
       </div>
@@ -58,13 +58,13 @@ function Shipping() {
         <span>Free Shipping - no tracking (10-22 business days)</span>
       </div>
       <div>
-        <span>$10.85</span>
+        <span>$2.99</span>
         <input
          type="radio"
          name="FEDEX"
          onChange={handleChange}
          value={2.99}
-         checked={formData.shippingPrice === 2.99 &&  formData.shippingMethod === "FEDEX"}
+         checked={formData.shippingPrice === "2.99" &&  formData.shippingMethod === "FEDEX"}
          
          />
       </div>
@@ -82,14 +82,14 @@ function Shipping() {
         type="radio"
         name="UPS"
         onChange={handleChange}
-        value={10.89}
-        checked = {formData.shippingPrice === 10.89 &&  formData.shippingMethod === "UPS"} 
+        value={10.85}
+        checked = {formData.shippingPrice === "10.85" &&  formData.shippingMethod === "UPS"} 
        />
       </div>
     </div>
     <Buttons_container>
-            <button className='.button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
-            <button  className=".button" onClick={nextStep} type="submit">Next</button>
+            <button className='button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
+            <button  className="button" onClick={nextStep} type="submit">Next</button>
     </Buttons_container>
   </ShippingMethods>
   )

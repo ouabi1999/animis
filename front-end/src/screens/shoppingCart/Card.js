@@ -141,7 +141,7 @@ class Card extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    cartItems: state.cartItems,
+    cartItems: state.cart,
   };
 };
 
@@ -182,7 +182,7 @@ const Container = styled.div`
 
 .product-img>button{
   width:0px;
-  height:0
+  height:0;
   padding: 0;
   margin:0;
   border:none;

@@ -38,6 +38,7 @@ import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
 import ProductsFilter from './screens/ProductsFilter';
 import { getProducts } from './features/categories/categorySlice';
 import Profile from './components/user_Dashboard/profile/profile';
+import ProductDetails from './components/Home/products/productDetails';
 
 
 export const OrderContext = createContext();
@@ -126,6 +127,7 @@ function App() {
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
               <Route path = "/userinfo"           element = {<Userinfo />} />
               <Route path= "category"             element =  {<ProductsFilter/>}/>
+              <Route path= "product_details/:id"  element = {<ProductDetails/>}/>
 
               <Route   path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
@@ -160,6 +162,7 @@ function App() {
 export default App
 
 const Container = styled.div`
+  
 
   
 

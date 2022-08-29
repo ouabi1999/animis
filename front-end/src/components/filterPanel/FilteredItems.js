@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Fade from "react-reveal/Fade";
 import StarIcon from "@mui/icons-material/Star";
 import Spinner from "../Spinner/Spinner";
+import {Link } from "react-router-dom"
 
 function FilteredItems(props) {
   const filterResult = useSelector(
@@ -23,9 +24,9 @@ function FilteredItems(props) {
             {filterResult.map((item) => {
               return (
                 <div key={item.id} className="product_container">
-                  <a href={"#" + item.id} onClick={() => props.openModal(item)}>
+                   <Link to={"/product_details/" + item.id}>
                     <img src={item.product_images[0]} alt="img" />
-                  </a>
+                  </Link>
                   <Product_info>
                     <FirstSection>
                       <p className="producttitle">{item.title}</p>

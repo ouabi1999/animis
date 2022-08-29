@@ -65,7 +65,7 @@ const Side_Bar = styled.div`
     
     background-color:#fff;
     width:100%;
-    flex:0.6;
+    flex:0.5;
     box-shadow: 5px 8px 12px rgb(100, 100, 100, 0.4);
     padding-left:10px;
     

@@ -42,8 +42,8 @@ class Nav extends React.Component {
           <Left_section>
             <div className="logo">
               <Link to="/">
-                <img src="./CORAZON_LOGO-01.png" alt="" />
-                </Link>
+                <img src="/CORAZON_LOGO-01.png" alt="" />
+              </Link>
             </div>
 
             <div>
@@ -101,7 +101,7 @@ class Nav extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    cartItems: state.cartItems,
+    cartItems: state.cart,
     auth: state.auth
 
   };
