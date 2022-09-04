@@ -9,6 +9,7 @@ import SliderProton from './controls/SliderProton'
 
 function FilterPanel(props){
   const list = useSelector((state) => state.filteredProduct.filteredData);
+  
   useEffect(() => {
   
      // 👇️ scroll to top on page load

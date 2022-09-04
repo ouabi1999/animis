@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import FlipMove from "react-flip-move"
-import { removeFromCart, addToCart, subtractQuantity } from "../../features/shopping_cart/cartSlice"
+import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
 import { connect } from "react-redux"
 import { loadStripe } from "@stripe/stripe-js";
 import styled from 'styled-components';
@@ -16,24 +16,7 @@ class Card extends Component {
     }
   }
 
-  handelCheckoutSubmit = (e) => {
-    const stripePromise = loadStripe("pk_test_51Kzld4FGZ1B5XcX95l9rrN89UMl5swzNbu2a5OVXSdGnLjA9ONctUbeoQ2hG6nV3RfOr0RxuDEL6D49myf72SwEo00iOZtxg26");
 
-    e.preventDefault()
-    fetch("/create-checkout-session", {
-      method: "POST",
-      headers: { 'Content-Type': 'text/plain' },
-    })
-      .then((result) => { console.log(result.json()) })
-      .then((data) => {
-        console.log(data);
-        // Redirect to Stripe Checkout
-        return stripePromise.redirectToCheckout({ sessionId: data.sessionId })
-      })
-      .then((res) => {
-        console.log(res);
-      });
-  }
   render() {
     const { product } = this.state;
     return (
@@ -63,7 +46,6 @@ class Card extends Component {
                       leaveAnimation={'accordianVertical'}
                       typeName={"table"}
                     >
-
                       <tr>
                         <th>PRODUCT</th>
                         <th>PRICE</th>
@@ -76,10 +58,18 @@ class Card extends Component {
 
                           <tr key={item.id} style={{ position: "relative" }}>
                             <td className="product-img">
-                              <img src={item.product_images[this.state.index]} alt={item.title} />
+                              <img src={item.product_images[item.selectedColor]} alt={item.title} />
                               <div>
-                                <p>{item.title}</p>
-                                <span>{item.price}$</span>
+                                <p 
+                                  style={{
+                                  fontSize:"18px",
+                                  textTransform:"uppercase",
+                                  color:"gray"
+                                  }}>
+                                    {item.sizes[item.selectedSize]}
+                                  </p>
+                                  
+                                
                               </div>
                             </td>
 
@@ -94,10 +84,10 @@ class Card extends Component {
                                   onClick={() => this.props.dispatch(subtractQuantity(item))}>
                                   -
                                 </button>
-                                <span>{item.count}</span>
+                                <span>{item.selectedQuantity}</span>
                                 <button
                                   className="add-quantity-button"
-                                  onClick={() => this.props.dispatch(addToCart(item))}>
+                                  onClick={() => this.props.dispatch(addQuantity(item))}>
                                   +
                                 </button>
                               </div>
@@ -141,7 +131,7 @@ class Card extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    cartItems: state.cartItems,
+    cartItems: state.cart,
   };
 };
 
@@ -182,7 +172,7 @@ const Container = styled.div`
 
 .product-img>button{
   width:0px;
-  height:0
+  height:0;
   padding: 0;
   margin:0;
   border:none;

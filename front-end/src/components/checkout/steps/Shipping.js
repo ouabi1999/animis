@@ -1,14 +1,18 @@
-import React, {useContext, useState}  from 'react'
+import React, {useContext, useState, Fragment}  from 'react'
 import styled from "styled-components"
 import InfoIcon from '@mui/icons-material/Info';
 import { FormContext } from '../CheckoutContainer';
 import {OrderContext} from "../../../App"
+import Radio from '@mui/material/Radio';
+import {useSelector} from "react-redux"
 
 function Shipping() {
     const { activeStepIndex, setActiveStepIndex, total} = useContext(FormContext);
     const { formData, setFormData} = useContext(OrderContext);
     const [shippingMethod, setShippingMethod] = useState("")
     const [shippingPrice, setShippingPrice] = useState(0)
+    const [shippingDelivery, setShippingDelivery] = useState(0)
+    const cartItems =  useSelector((state) => state.cart.cartItems)
 
     const handleChange = (event) => {
       setShippingMethod(event.target.name)
@@ -31,65 +35,33 @@ function Shipping() {
       <h5>Available shipping methods</h5>
       <InfoIcon className='info-icon' />
     </div>
-    <div className='methods_container'>
-      <div>
-         <img src="./shippingMethods/dhl.png" alt=""/>
-      </div>
-      <div className='shipping-type'>
-        <span>Free Shipping - no tracking (10-22 business days)</span>
-      </div>
-      <div>
-        <span>Free</span>
-        <input 
-        type="radio"
-        name="DHL"
-        onChange={handleChange}
-        value={0}
-        checked={formData.shippingPrice === 0 &&  formData.shippingMethod === "DHL" }
-      />
+    
+    
+      {cartItems[0].shippingInfo.map(item =>{
+        return(
 
-      </div>
-    </div>
-    <div className='methods_container'>
-      <div>
-        <img src="./shippingMethods/fedex.png" alt=""/>
-      </div>
-      <div className='shipping-type'>
-        <span>Free Shipping - no tracking (10-22 business days)</span>
-      </div>
-      <div>
-        <span>$10.85</span>
-        <input
-         type="radio"
-         name="FEDEX"
-         onChange={handleChange}
-         value={2.99}
-         checked={formData.shippingPrice === 2.99 &&  formData.shippingMethod === "FEDEX"}
-         
-         />
-      </div>
-    </div>
-    <div className='methods_container'>
-      <div>
-        <img src="./shippingMethods/ups.png" alt=""/>
-      </div>
-      <div className='shipping-type'>
-        <span>Free Shipping - no tracking (10-22 business days)</span>
-      </div>
-      <div>
-        <span>$10.85</span>
-        <input 
-        type="radio"
-        name="UPS"
-        onChange={handleChange}
-        value={10.89}
-        checked = {formData.shippingPrice === 10.89 &&  formData.shippingMethod === "UPS"} 
-       />
-      </div>
-    </div>
+          <div className='methods_container'>
+            <div className='shipping-type'>
+              <span>
+                <span style={{fontSize:"14px",fontFamily:"-moz-initial", fontWeight:"900"}}>{item.type.toUpperCase()}</span>{" "}{item.delivery}
+              </span>
+            </div>
+            <div>
+              <span>${item.price}</span>
+              <Radio
+                name={item.type}
+                checked={formData.shippingMethod === item.type}
+                onChange={handleChange}
+                value={item.price}
+                inputProps={{ 'aria-label': 'A' }}
+              />
+            </div>
+          </div>
+        )
+      })}
     <Buttons_container>
-            <button className='.button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
-            <button  className=".button" onClick={nextStep} type="submit">Next</button>
+            <button className='button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
+            <button  className="button" onClick={nextStep} type="submit">Next</button>
     </Buttons_container>
   </ShippingMethods>
   )
@@ -119,7 +91,7 @@ const ShippingMethods = styled.div`
        justify-content:space-between;
        border:1px solid lightgray;
        border-radius:6px;
-       padding:10px 5px;
+       padding:3px 8px;
        margin-bottom:10px;
   }
   .methods_container img{
@@ -132,7 +104,7 @@ const ShippingMethods = styled.div`
     
   }
 
-  .shipping-type:nth-child(2){
+  .shipping-type:nth-child(1){
        font-size:12px;
   }
     .info-icon{

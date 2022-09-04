@@ -54,7 +54,7 @@ def createOrder():
             city           = request_data["city"],
             state          = request_data["state"],
             zipcode        = request_data["zip"],
-            products      = request_data["orderInfo"] , 
+            products       = request_data["orderInfo"] , 
             shippingMethod = request_data["shippingMethod"],
             shippingPrice  = request_data["shippingPrice"],
             totalPrice     = request_data["totalPrice"],
@@ -91,6 +91,9 @@ def webhook():
     if event and event['type'] == 'payment_intent.succeeded':
         payment_intent = event['data']['object']
         request_data = event['data']['object']["metadata"]
+        
+        paymentMethod = event['data']['object']["charges"]["data"][0]
+        
         # contains a stripe.PaymentIntent
         print('Payment for {} succeeded'.format(payment_intent['amount']))
         # Then define and call a method to handle the successful payment intent.
@@ -104,13 +107,16 @@ def webhook():
             country        = request_data["country"],
             city           = request_data["city"],
             state          = request_data["state"],
-            zipcode        = request_data["zip"],
-            #products      = event["products"] , 
+            zipcode        = request_data["zip"], 
             shippingMethod = request_data["shippingMethod"],
             shippingPrice  = request_data["shippingPrice"],
             totalPrice     = request_data["totalPrice"],
             user_id        = request_data["userId"],
-            products      = request_data["orderInfo"],
+            products       = request_data["orderInfo"],
+            paymentMethod  = paymentMethod ["payment_method_details"],
+            deliveryStatus = request_data["orderInfo"],
+            trackingNumber = request_data["orderInfo"],
+           
         )
         db.session.add(userorder)
         db.session.commit()

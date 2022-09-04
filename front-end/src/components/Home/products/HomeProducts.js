@@ -4,27 +4,40 @@ import styled from 'styled-components';
 import Fade from "react-reveal/Fade"
 import Spinner from '../../Spinner/Spinner';
 import StarIcon from '@mui/icons-material/Star';
-import {useSelector} from "react-redux"
- 
+import {useSelector, useDispatch} from "react-redux"
+import { Link } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
+
 
 function HomeProducts(props) {
-  
+  const dispatch = useDispatch()
    
-  const products = useSelector((state) => state.products.products)
-  const isProducts = useSelector((state) => state.products.isProducts)
   
-  const {openModal} = props;
+  const isProducts = useSelector((state) => state.products.isProducts)
+  const [viewMoreProduct, setViewMoreProduct] = useState(10)
+ 
+    
+  const viewMore = () => {
+    setViewMoreProduct(
+      viewMoreProduct.items + 10
+    )
+  }
+
+  
+  const {products} = props;
+ 
+  
   return (
     <Product_contianer>
         <Fade bottom cascade>
             {isProducts !==  null ? (
                <div className="grid-container">
-                {products.map(item => {
+                {products?.map(item => {
                   return (
                       <div  key={item.id} className="product_container">
-                        <a href={"#" + item.id} onClick={() => props.openModal(item)}>
+                        <Link to={"product_details/" + item.id}>
                           <img src={item.product_images[0]} alt="img"/>
-                        </a>
+                        </Link>
                       <Product_info>
                     
                         <FirstSection>
@@ -54,8 +67,13 @@ function HomeProducts(props) {
                 )}
                 </div>
           ) :(
-            <div style={{margin:"auto"}}> <Spinner/> </div>
-          )
+          <div style={{ height:"200px", marginTop:"100px", display:"flex" , justifyContent:"center"}}>
+             <CircularProgress
+                  size={25}
+                  thickness={4}
+              /> 
+          </div>
+        )  
         }
         </Fade>
 

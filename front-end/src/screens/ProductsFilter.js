@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo, useLayoutEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from "styled-components"
 import Fade from "react-reveal/Fade"
@@ -6,26 +6,29 @@ import StarIcon from '@mui/icons-material/Star';
 import Spinner from '../components/Spinner/Spinner';
 import FilterPanel from '../components/filterPanel/FilterPanel';
 import FilteredItems from '../components/filterPanel/FilteredItems';
-import { applyFilters, handleChangeChecked, handleChangePrice, handleSelectCategory, handleSelectRating } from '../features/categories/categorySlice';
+import { applyFilters, getProductsDetails, handleChangeChecked, handleChangePrice, handleSelectCategory, handleSelectRating } from '../features/categories/categorySlice';
 import NotFound from '../components/filterPanel/NotFound';
+import { CircularProgress } from "@mui/material";
 
 
 function ProductsFilter() {
-  
-  const list = useSelector((state) => state.filteredProduct.filteredData);
-  const selectedCategory = useSelector(state => state.filteredProduct.selectedCategory)
-  const selectedRating  = useSelector(state => state.filteredProduct.selectedRating)
-  const selectedPrice  = useSelector(state => state.filteredProduct.selectedPrice)
-  const searchInput  = useSelector(state => state.filteredProduct.searchInput)
-  const product_type  = useSelector(state => state.filteredProduct.product_type_list)
-  const resultsFound  = useSelector(state => state.filteredProduct.resultsFound)
+
   const products = useSelector((state) => state.products.products)
+  
+
+  const {
+      selectedCategory,
+      selectedRating, 
+      searchInput, 
+      selectedPrice,
+      product_type_list,
+      isLoading, hasError, filteredData
+    
+    } = useSelector((state) => state.filteredProduct);
  
 
   const dispatch = useDispatch()
-  const filterByCategory =(value)=>{
-       
-  }
+  
   const selectCategory = (value) => {
     dispatch(handleSelectCategory(value))
   }
@@ -131,15 +134,23 @@ function ProductsFilter() {
 
     !updatedList.length ? setResultsFound(false) : setResultsFound(true);
   };*/
-  const exuteFilters = (value)=>{
-    dispatch(applyFilters(value));
-  }
-  const data = useSelector(state => state.filteredProduct.filteredData)
-  useEffect(() => {
+  
+  const innerFunction = useCallback(() => {
+    // do something!
     dispatch(handleSelectCategory())
-     // 👇️ scroll to top on page load
-     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-  }, []);
+},[4]);
+useEffect(() => {
+
+
+    
+
+ 
+  
+},[])
+
+
+ 
+
  
   
   return (
@@ -150,7 +161,7 @@ function ProductsFilter() {
              selectedCategory = {selectedCategory}
              selectedRating = {selectedRating}
              selectedPrice = {selectedPrice}
-             product_type = {product_type}
+             product_type = {product_type_list}
              handleChangeChecked  = {changeChecked}
              handleSelectCategory = {selectCategory}
              handleSelectRating   = {selectRating}
@@ -162,10 +173,26 @@ function ProductsFilter() {
          
           {/* List & Empty View */}
         <div className='filteredItems'>
+        {isLoading === false && hasError === false   ? (
           
-          {list.length < 1  ? <NotFound/> :<FilteredItems list = {list} /> }
-        </div>
-     </Container>
+          
+          <FilteredItems filteredData={filteredData} />
+        ) : isLoading === true ?
+          <div style={{ display: "flex", justifyContent: "center", marginTop: "100px" }}>
+            <CircularProgress
+             
+              
+              size={25}
+              thickness={4}
+              
+             
+            />
+
+          </div> : hasError === true && <div>an error accord in the server</div>}
+      </div>
+
+
+    </Container>
   )
 
 }

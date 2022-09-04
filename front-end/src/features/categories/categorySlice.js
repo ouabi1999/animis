@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
-export const getProducts = createAsyncThunk("category/getProducts", () => {
+export const getProductsDetails = createAsyncThunk("category/getProductsDetails", () => {
     return fetch("/productsinfo")
         .then((response) => {
             if (!response.ok) {
@@ -16,8 +16,8 @@ export const getProducts = createAsyncThunk("category/getProducts", () => {
 const initialState = {
     dataList: [],
     filteredData : [],
-    loading: false,
-    hasErrors: false,
+    isLoading: false,
+    hasError: false,
     selectedCategory: null,
     selectedRating : null,
     selectedPrice : [0, 200],
@@ -41,11 +41,10 @@ export const category_Slice = createSlice({
     reducers: {
         // FILTER SPECIFIC PRODUCT BY CATEGORY
         
-        
         handleSelectCategory(state, action){
             let updatedList = state.dataList.slice()
             if(!action.payload){
-                state.filteredData = JSON.parse(window.localStorage.getItem('filtredData'))
+                state.filteredData = state.dataList
                 state.selectedCategory = window.localStorage.getItem('selectedCategory')
             }
             else if(action.payload === "all"){
@@ -53,17 +52,14 @@ export const category_Slice = createSlice({
                  state.filteredData = state.dataList
                  state.selectedCategory = "all"
                  window.localStorage.setItem('selectedCategory', action.payload)
-                 window.localStorage.setItem('filtredData', JSON.stringify(state.dataList));
             }
             else{
-               
-                 
+
                 state.selectedCategory = action.payload;
                 updatedList = updatedList.filter(
                     (item) => item.category === state.selectedCategory
                 )  
                 state.filteredData = updatedList  
-                window.localStorage.setItem('filtredData', JSON.stringify(updatedList));
                 window.localStorage.setItem('selectedCategory', action.payload)
             }
 
@@ -110,7 +106,7 @@ export const category_Slice = createSlice({
                 (item) => item.title.toLowerCase().search(action.payload.toLowerCase().trim()) !== -1
             );
             window.localStorage.setItem('selectedCategory', "all")
-            window.localStorage.setItem('filtredData', JSON.stringify(state.filteredData));
+            
 
             
           
@@ -123,15 +119,14 @@ export const category_Slice = createSlice({
              // Price Filter
             const minPrice = state.selectedPrice[0];
             const maxPrice = state.selectedPrice[1];
-            const filteredData = state.dataList.filter(
-                (item) => item.category === state.selectedCategory
-            )
             
-            state.filteredData = filteredData.filter(
+            
+            state.filteredData = state.dataList.filter(
                  (item) => item.price >= minPrice && item.price <= maxPrice
              );
         },
-
+ 
+       
        
 
        
@@ -149,8 +144,8 @@ export const category_Slice = createSlice({
             }
               */
             // Category Filter
-         /* if (state.selectedCategory === "all"){
-                updatedList = state.dataList
+          if (state.selectedCategory === "all"){
+                state.filteredData = state.dataList
                 
             }
 
@@ -159,54 +154,25 @@ export const category_Slice = createSlice({
                     (item) => item.category === state.selectedCategory
                 )       
                 
-            }*/
+            }
             // product type Filter
-            const product_type_checked = state.product_type_list.filter((item) => item.checked).map((item) => item.label.toLowerCase());
-
-            if (product_type_checked.length) {
-
-                updatedList = state.dataList.filter((item) =>
-                    product_type_checked.includes(item.product_type)
-                );
-            }
-            
-            // Price Filter
-            const minPrice = state.selectedPrice[0];
-            const maxPrice = state.selectedPrice[1];
-          
-            updatedList = state.filteredData.filter(
-                (item) => item.price >= minPrice && item.price <= maxPrice
-            );
-            
-          
-            state.filteredData = updatedList;
-            
-
-            if (!updatedList.length) {
-                state.resultsFound = false
-            }
-            else {
-                state.resultsFound = true
-            }
-
-            
-
         },
         
         
         
     },
     extraReducers: {
-        [getProducts.pending]: (state) => {
-            state.loading = true;
+        [getProductsDetails.pending]: (state) => {
+            state.isLoading = true;
         },
-        [getProducts.rejected]: (state, action) => {
-            state.loading = false;
-            state.hasErrors = action.error.message;
+        [getProductsDetails.rejected]: (state, action) => {
+            state.isLoading = false;
+            state.hasError = action.error.message;
         },
-        [getProducts.fulfilled]: (state, { payload }) => {
+        [getProductsDetails.fulfilled]: (state, { payload }) => {
             state.dataList = payload;
-            state.loading = false;
+            state.isLoading = false;
+           
         },
     },
 

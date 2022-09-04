@@ -15,6 +15,7 @@ function Reviews(props) {
 
     const stars = Array(5).fill(0);
     const imgInput = React.createRef()
+
     const handel_CommentChange = (e) => {
         setComment({...comment, text:e.target.value})
     }
@@ -38,8 +39,12 @@ function Reviews(props) {
             body: JSON.stringify({
                 product_id: product_id,
                 user_id: user.id,
+                userName : user.firstName,
+                country : user.country,
+                countryCode : user.countryCode,
                 stars: star_rating,
                 comment: comment,
+
             }),
             headers: { "Content-type": "application/json; charset=UTF-8" }
         }).then(response => response.json())
@@ -55,7 +60,7 @@ function Reviews(props) {
             }
         }
         reader.readAsDataURL(e.target.files[0])
-        console.log(comment)
+     
     }
 
     const handleImageInput = (e) => {
@@ -69,7 +74,7 @@ function Reviews(props) {
  
     return (
         <Conatiner>
-            <h2> Write a product review</h2>
+            <h3> GIVE US YOUR FEEDBACK</h3>
             <div className='Stars'>
                 {stars.map((_, index) => {
                     return (
@@ -129,7 +134,13 @@ function Reviews(props) {
 
 export default Reviews
 const Conatiner = styled.div`
-
+  h3{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing:2px;
+    border-bottom:18px solid lightgray;
+    width:fit-content;
+    margin-bottom:2px;
+  }
 .on{
     color: #FFBA5A;
     cursor:pointer;

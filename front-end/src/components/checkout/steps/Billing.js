@@ -84,7 +84,7 @@ function Billing() {
             error={touched.lastName && Boolean(errors.lastName)}
           />
         </Grid>
-        <Grid item xs={10} >
+        <Grid item xs={12} sm={10} >
           <TextField
             value={values.email} 
             onChange={handleChange}

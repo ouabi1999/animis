@@ -65,12 +65,11 @@ function EditProfile(props) {
         birthday: user?.birthday,
         country: "",
         email: user?.email,
-        oldPassword: "********",
+        oldPassword: "",
         newPassword: "",
         confirmPassword: "",
         userId: user?.userId
        })
-       console.log(formData)
     }, [props])
     
    
@@ -153,7 +152,6 @@ function EditProfile(props) {
             />
             
            
-
             <EditPassword
                 passwordEdit={passwordEdit}
                 closePasswordEdit={closePasswordEdit}

@@ -10,18 +10,29 @@ export const cart_Slice = createSlice({
     reducers:{
         // add product to the shopping cart
         addToCart(state, action){
-            const cartItems = state.cartItems.slice();
+          const cartItems = state.cartItems.slice();
+            console.log(action.payload)
             let alreadyInCart = false;
-            const already = "already in cart"
             cartItems.map((item) => {
               if (item.id === action.payload.id) {
-                item.count++
-                item.subtotal += item.price
+               
                 alreadyInCart = true;
+                
               }
             });
+            
+    
+            
             if (!alreadyInCart) {
-              cartItems.push({ ...action.payload, count: 1, subtotal:action.payload.price })
+             
+              cartItems.push({ 
+                        ...action.payload,
+                        price:parseInt(action.payload.price),
+                        subtotal:parseInt(action.payload.price),
+                        alreadyInCart:true,
+
+                              
+                })
             }
 
             state.cartItems = cartItems
@@ -42,15 +53,30 @@ export const cart_Slice = createSlice({
         const cartItems = state.cartItems.slice();
         cartItems.map(item => {
           if (item.id === action.payload.id) {
-            if (item.count > 1) {
-              item.count -= 1
+            if (item.selectedQuantity >1) {
+              item.selectedQuantity -= 1
               item.subtotal -= item.price
             }
           }
           state.cartItems = cartItems
         })
+      },
+      
+      addQuantity(state, action) {
+        const cartItems = state.cartItems.slice();
+        cartItems.map(item => {
+          if (item.id === action.payload.id) {
+            if (item.selectedQuantity < item.quantity) {
+              item.selectedQuantity += 1
+              item.subtotal += item.price
+              item.price = item.price
+            }
+          }
+          state.cartItems = cartItems
+        })
       }
+
     },
  })
- export const {removeFromCart, addToCart, subtractQuantity } = cart_Slice.actions
+ export const {removeFromCart, addQuantity, addToCart, subtractQuantity } = cart_Slice.actions
  export default cart_Slice.reducer

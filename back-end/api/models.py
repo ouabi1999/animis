@@ -7,7 +7,22 @@ from flask import json, jsonify
 
 def get_uuid():
     return uuid4().hex
-    
+class GlobalCoupon(db.Model):
+
+    id = db.Column(db.String(35), primary_key = True, unique=True, default=get_uuid)
+    globalCoupon = db.Column(db.String(30))
+    product_id = db.Column(db.String(), db.ForeignKey('products.id'))
+
+    def __str__(self):
+        return f'{self.id} {self.globalCoupon}'
+
+def globalCoupon_serializer(info):
+    return{
+        "id" :info.id,
+        "globalCoupon": info.globalCoupon,
+        
+    }
+
 class Users(db.Model):
     id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
     email = db.Column(db.String(200),  unique=True,  nullable = False)
@@ -15,6 +30,7 @@ class Users(db.Model):
     lastName  = db.Column(db.String(30),  nullable = False)
     gender = db.Column(db.String(30),  nullable = False)
     country =  db.Column(db.String(30),  nullable = False)
+    countryCode = db.Column(db.String(30))
     password  = db.Column(db.String(200), nullable = False)
     birthDate  = db.Column(db.String(30),  nullable = False)
     userAvatar = db.Column(db.String(50), default= "boy.jpg")
@@ -22,14 +38,12 @@ class Users(db.Model):
     admin = db.Column(db.Boolean, nullable = False, default = False)
     #rating_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False) 
     userOrders = db.relationship('Orders', cascade='all, delete', backref='user', lazy=True)
-    ratings = db.relationship('Ratings', backref='user', lazy=True)
 
 
     def __str__(self):
-        return f"{self.id} {self.gender} {self.admin} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
-def user_serializer(user):
+        return f"{self.id} {self.gender} {self.admin}{self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
 
-   
+def user_serializer(user):
     return{
         "id":user.id,
         "email":user.email,
@@ -38,6 +52,7 @@ def user_serializer(user):
         "lastName" : user.lastName,
         "gender" : user.gender,
         "country" : user.country,
+        "countryCode" : user.countryCode,
         "userAvatar" : user.userAvatar,
         "admin" : user.admin,
         "joined_at" : user.joined_at,
@@ -49,17 +64,24 @@ class Ratings(db.Model):
     stars = db.Column(db.Integer(), nullable = False)
     comment = db.Column(db.PickleType())
     product_id = db.Column(db.String(), db.ForeignKey('products.id'), nullable = False)
-    user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable = False)
-
+    userName  =  db.Column(db.String())
+    userCountry = db.Column(db.String())
+    userCountryCode = db.Column(db.String())
+    rateDate = db.Column(db.DateTime(), default = datetime.utcnow)
     def __str__(self):
-        return f"{self.id} {self.stars}  {self.product_id}  {self.comment}"
+        return f"{self.id} {self.userCountry} {self.userCountryCode} {self.stars} {self.userName} {self.rateDate} {self.product_id}  {self.comment}"
 
 def ratings_serializer(rate):
     return {
         "id" : rate.id,
         "stars" : rate.stars,
         "comment" : rate.comment,
-        "product_id" : rate.product_id
+        "product_id" : rate.product_id,
+        "userName" : rate.userName,
+        "userCountry" : rate.userCountry,
+        "userCountryCode" :rate.userCountryCode,
+        "rateDate" : rate.rateDate
+        
     }
 
 
@@ -83,14 +105,18 @@ class Products(db.Model):
     pics_info = db.Column(db.PickleType())
     shipping_Method = db.Column(db.PickleType())
     seo = db.Column(db.PickleType())
+    coupon = db.Column(db.String())
     ratings = db.relationship('Ratings', backref='products', lazy = True, cascade="all, delete-orphan")
+    globalCoupon = db.relationship("GlobalCoupon", backref="products", lazy = True, cascade="all, delete-orphan" )
 
 
     def __str__(self):
-        return f'{self.id} {self.seo} {self.title} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
+        return f'{self.id} {self.seo} {self.title} {self.globalCoupon} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
 def productInfo_serializer(info):
     rats = [*map(ratings_serializer , (info.ratings))]
- 
+   
+    coupon = [*map(globalCoupon_serializer, (GlobalCoupon.query.all()))]
+    
     return{
         "id":info.id,
         "title":info.title,
@@ -107,9 +133,10 @@ def productInfo_serializer(info):
         "tags":info.tags,
         "product_type": info.product_type,
         "pics_info" : info.pics_info,
-        "shipping_Method" : info.shipping_Method,
+        "shippingInfo" : info.shipping_Method,
         "seo" : info.seo,
-        "ratings" : rats #str([*map(ratings_serializer, rats)])}
+        "ratings" : rats, #str([*map(ratings_serializer, rats)])}
+        "globalCoupon":coupon
         
     }
 
@@ -129,28 +156,39 @@ class Orders(db.Model):
     shippingMethod = db.Column(db.String())
     shippingPrice = db.Column(db.String())
     totalPrice = db.Column(db.Integer())
+    paymentMethod = db.Column(db.PickleType())
+    deliveryStatus = db.Column(db.String())
+    trackingNumber = db.Column(db.String())
     user_id = db.Column(db.String(), db.ForeignKey("users.id"), nullable=False)
 
 
     def __str__(self):      
-        return f'{self.id}{self.orderd_at} {self.user_id} {self.firstName} {self.lastName} {self.shippingMethod} {self.shippingPrice} {self.totalPrice} {self.email} {self.address1} {self.address2} {self.country} {self.city} {self.state} {self.zipcode} {self.products}'
+        return f'{self.id} {self.orderd_at} {self.paymentMethod}{self.trackingNumber} {self. deliveryStatu} {self.user_id} {self.firstName} {self.lastName} {self.shippingMethod} {self.shippingPrice} {self.totalPrice} {self.email} {self.address1}{self.address2} {self.country}{self.city} {self.state} {self.zipcode} {self.products}'
+
 def orders_serializer(order):
     return{
-        "id":order.id,
-        "date":order.orderd_at,
-        "firstName":order.firstName,
-        "lastName":order.lastName,
-        "email":order.email,
-        "address1":order.address1,
-        "address2":order.address2,
+        "shippingInfo":{
+        "firstName" : order.firstName,
+        "lastName" : order.lastName,
+        "email" : order.email,
+        "address1" : order.address1,
+        "address2" : order.address2,
         "country":order.country,
         "city":order.city,
         "state":order.state,
         "zipcode":order.zipcode,
+        },
+        "id" : order.id,
+        "date" : order.orderd_at,
         "products":order.products,
         "shippingMethod" : order.shippingMethod,
         "shippingPrice" : order.shippingPrice,
         "totalPrice" : order.totalPrice,
+        "trackingNumber": order.trackingNumber,
+        "deliveryStatus" : order.deliveryStatus,
+
+
+        
 
 
 

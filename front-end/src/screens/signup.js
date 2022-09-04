@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
 import { Link, Navigate, useNavigate}  from 'react-router-dom'
 import { Grid, TextField, MenuItem, Button, IconButton, InputAdornment, CircularProgress } from '@mui/material';
@@ -17,6 +17,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Yup from "yup"
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
+import {useSelector} from "react-redux"
 
 
 
@@ -31,6 +32,8 @@ function Signup() {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const user = useSelector(state => state.auth.auth)
+    const auth = window.localStorage.getItem("isAuthenticated")
     const [formData, setFormData] = useState({
 
         firstName: "",
@@ -40,6 +43,7 @@ function Signup() {
         password: "",
         confirmPassword: "",
         country : "",
+        countryCode : "ES",
         birthDate: new Date(),
         isLoading : false,
         showPassword : false,
@@ -47,6 +51,12 @@ function Signup() {
 
     })
 
+    useEffect(() => {
+        if( auth === "true" ) {
+            navigate("/")
+        }
+      
+      }, [])
 
 
     
@@ -60,10 +70,8 @@ function Signup() {
         { gender: "Male", icon: <MaleIcon /> },
         { gender: "Female", icon: <FemaleIcon /> }
     ]
-
     const handleClickShowPassword = () => {
 
-        
         setFormData({
           ...formData,
           showPassword: !formData.showPassword,
@@ -81,7 +89,6 @@ function Signup() {
           .max(15, 'Must be 15 characters or less')
           .required('Please enter your Fist Name'),
           
-        
         lastName: Yup.string()
           .max(15, 'Must be 15 characters or less')
           .required('Required'),
@@ -91,10 +98,7 @@ function Signup() {
         birthDate: Yup.date().required('Please enter a date of birth')
         .max(new Date(), "You can't be born in the future!"),
         password: Yup.string()
-        .required("Please Enter your password"),
-
-        
-        
+        .required("Please Enter your password"), 
     })
         
 
@@ -105,19 +109,17 @@ function Signup() {
            
             // same shape as initial values
             setFormData({...formData, isLoading : true })
-          
-
             fetch("/register", {
                 method: "POST",
                 body: JSON.stringify({
-
-                    firstName: values.firstName,
+                    firstName : values.firstName,
                     lastName : values.lastName,
                     gender : values.gender,
-                    email: values.email,
-                    password: values.password,
-                    confirmPassword: values.confirmPassword,
+                    email : values.email,
+                    password : values.password,
+                    confirmPassword : values.confirmPassword,
                     country : values.country,
+                    countryCode : formData.countryCode,
                     birthDate : values.birthDate,
 
                 }),
@@ -219,7 +221,7 @@ function Signup() {
                         >
                             {genders.map((sex, index) => {
                                 return (
-                                    <MenuItem key={index} value={sex.gender} >
+                                    <MenuItem key={index} value={sex.gender}>
                                         <div style={{ display: "flex", alignItems: "center" }}>
                                             {sex.icon}
                                             <span>{sex.gender}</span>
@@ -243,15 +245,17 @@ function Signup() {
                             value = {formik.values.country}
                             error = {formik.touched.country && Boolean(formik.errors.country)}
                             helperText = {formik.touched.country && formik.errors.country}
-                       
-                         onChange={formik.handleChange}
-                        >
+                            autoComplete="false"
+                            onChange={formik.handleChange}
+                        >   
                     {countriesData.map((country, index) => {
                         return (
 
-                            <MenuItem key={index} value={country.name}>
+                            <MenuItem key={index} value={country.name} defaultValue="" 
+                                onClick = {()=> setFormData({...formData, countryCode:country.code })}
+                                >
                                 <div style={{ display: "flex", alignItems: "center" }}>
-                                    <Flag code={country.code} style={{ width: "30px", height: "20px", marginRight: "10px" }} />
+                                    <Flag  code={country.code} style={{ width: "30px", height: "20px", marginRight: "10px" }} />
                                     <span>{country.name}</span>
                                 </div>
                             </MenuItem>
