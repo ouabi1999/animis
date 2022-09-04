@@ -7,7 +7,22 @@ from flask import json, jsonify
 
 def get_uuid():
     return uuid4().hex
-    
+class GlobalCoupon(db.Model):
+
+    id = db.Column(db.String(35), primary_key = True, unique=True, default=get_uuid)
+    globalCoupon = db.Column(db.String(30))
+    product_id = db.Column(db.String(), db.ForeignKey('products.id'))
+
+    def __str__(self):
+        return f'{self.id} {self.globalCoupon}'
+
+def globalCoupon_serializer(info):
+    return{
+        "id" :info.id,
+        "globalCoupon": info.globalCoupon,
+        
+    }
+
 class Users(db.Model):
     id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
     email = db.Column(db.String(200),  unique=True,  nullable = False)
@@ -23,14 +38,12 @@ class Users(db.Model):
     admin = db.Column(db.Boolean, nullable = False, default = False)
     #rating_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False) 
     userOrders = db.relationship('Orders', cascade='all, delete', backref='user', lazy=True)
-    ratings = db.relationship('Ratings', backref='user', lazy=True)
 
 
     def __str__(self):
         return f"{self.id} {self.gender} {self.admin}{self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
-def user_serializer(user):
 
-   
+def user_serializer(user):
     return{
         "id":user.id,
         "email":user.email,
@@ -51,17 +64,24 @@ class Ratings(db.Model):
     stars = db.Column(db.Integer(), nullable = False)
     comment = db.Column(db.PickleType())
     product_id = db.Column(db.String(), db.ForeignKey('products.id'), nullable = False)
-    user_id = db.Column(db.String(), db.ForeignKey('users.id'), nullable = False)
-
+    userName  =  db.Column(db.String())
+    userCountry = db.Column(db.String())
+    userCountryCode = db.Column(db.String())
+    rateDate = db.Column(db.DateTime(), default = datetime.utcnow)
     def __str__(self):
-        return f"{self.id} {self.stars}  {self.product_id}  {self.comment}"
+        return f"{self.id} {self.userCountry} {self.userCountryCode} {self.stars} {self.userName} {self.rateDate} {self.product_id}  {self.comment}"
 
 def ratings_serializer(rate):
     return {
         "id" : rate.id,
         "stars" : rate.stars,
         "comment" : rate.comment,
-        "product_id" : rate.product_id
+        "product_id" : rate.product_id,
+        "userName" : rate.userName,
+        "userCountry" : rate.userCountry,
+        "userCountryCode" :rate.userCountryCode,
+        "rateDate" : rate.rateDate
+        
     }
 
 
@@ -85,14 +105,18 @@ class Products(db.Model):
     pics_info = db.Column(db.PickleType())
     shipping_Method = db.Column(db.PickleType())
     seo = db.Column(db.PickleType())
+    coupon = db.Column(db.String())
     ratings = db.relationship('Ratings', backref='products', lazy = True, cascade="all, delete-orphan")
+    globalCoupon = db.relationship("GlobalCoupon", backref="products", lazy = True, cascade="all, delete-orphan" )
 
 
     def __str__(self):
-        return f'{self.id} {self.seo} {self.title} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
+        return f'{self.id} {self.seo} {self.title} {self.globalCoupon} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
 def productInfo_serializer(info):
     rats = [*map(ratings_serializer , (info.ratings))]
- 
+   
+    coupon = [*map(globalCoupon_serializer, (GlobalCoupon.query.all()))]
+    
     return{
         "id":info.id,
         "title":info.title,
@@ -111,7 +135,8 @@ def productInfo_serializer(info):
         "pics_info" : info.pics_info,
         "shippingInfo" : info.shipping_Method,
         "seo" : info.seo,
-        "ratings" : rats #str([*map(ratings_serializer, rats)])}
+        "ratings" : rats, #str([*map(ratings_serializer, rats)])}
+        "globalCoupon":coupon
         
     }
 

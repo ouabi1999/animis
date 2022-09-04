@@ -136,9 +136,11 @@ def rating():
     request_data = json.loads(request.data) #covert data to python dectionerie;
     user_rating = Ratings(
                     product_id = request_data["product_id"],
-                    user_id = request_data["user_id"],
                     stars = request_data["stars"],
-                    comment = request_data["comment"]  
+                    comment = request_data["comment"] ,
+                    userName = request_data["userName"],
+                    userCountry = request_data["country"],
+                    userCountryCode = request_data["countryCode"]
                 )
     db.session.add(user_rating)
     db.session.commit()

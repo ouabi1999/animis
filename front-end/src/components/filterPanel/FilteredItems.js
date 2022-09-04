@@ -1,30 +1,44 @@
-import React,{useEffect} from "react";
-import { useSelector } from "react-redux";
+import React,{useEffect, useState} from "react";
+import { useSelector , useDispatch} from "react-redux";
 import styled from "styled-components";
 import Fade from "react-reveal/Fade";
 import StarIcon from "@mui/icons-material/Star";
 import Spinner from "../Spinner/Spinner";
 import {Link } from "react-router-dom"
+import { handleSelectCategory } from "../../features/categories/categorySlice";
+import NotFound from "./NotFound";
+
 
 function FilteredItems(props) {
-  const filterResult = useSelector(
-    (state) => state.filteredProduct.filteredData
-  );
-
+  const filteredData = useSelector((state) => state.filteredProduct.filteredData);
+  const [loaded, setLoaded] = useState(false)
+ const selectCategory = window.localStorage.getItem('selectedCategory')
+ const dispatch = useDispatch()
   useEffect(() => {
-     // 👇️ scroll to top on page load
+    dispatch(handleSelectCategory(selectCategory))
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-  }, [])
+
+    setTimeout(() => {
+       setLoaded(true)
+    },1000)
+    return () => clearTimeout()
+    
+  
+}, [])
+ 
   
   return (
+
     <Product_contianer>
-      <Fade bottom cascade>
-        
+      {filteredData.length > 1 && (
+
+        <Fade bottom cascade>
+
           <div className="grid-container">
-            {filterResult.map((item) => {
+            {props.filteredData.map((item) => {
               return (
                 <div key={item.id} className="product_container">
-                   <Link to={"/product_details/" + item.id}>
+                  <Link to={"/product_details/" + item.id}>
                     <img src={item.product_images[0]} alt="img" />
                   </Link>
                   <Product_info>
@@ -53,9 +67,15 @@ function FilteredItems(props) {
               );
             })}
           </div>
-       
-  
-      </Fade>
+        </Fade>
+
+      )}
+      
+      {filteredData.length < 1 && loaded === true  && (
+          <NotFound/>
+        )}
+    
+
     </Product_contianer>
   );
 }
@@ -76,7 +96,7 @@ const Product_contianer = styled.div`
       height: 200px;
       background-color: rgb(255, 255, 255);
       border-radius: 6px 6px 0 0;
-      object-fit: conatin;
+      object-fit: cover;
     }
   }
   .product_container {

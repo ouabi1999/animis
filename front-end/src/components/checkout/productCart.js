@@ -5,27 +5,30 @@ import { useSelector } from "react-redux"
 import { useState, useContext} from 'react';
 import { OrderContext } from "../../App"
 import { FormContext } from "./CheckoutContainer"
+import { Link } from 'react-router-dom';
 
 
 
 function ProductCart(props) {
+ 
   const {total} = useContext(FormContext);
   const {formData} = useContext(OrderContext);
-  useEffect(() => {
-    console.log(props.cartItems)
-  }, [])
+
   
   
   return (
     <Container>
-
       <div className='header-container'>
-        <span>
-          <ArrowBackIcon />
-        </span>
-        <span>
+           
+        <Link to="/shopping-cart" >
+        <div style={{display:"flex", alignItems:"stretch", justifyContent:"center"}}>
+          <span><ArrowBackIcon /></span>
+          <span>
           Back
         </span>
+        </div>
+        </Link>
+
         <div>
           <img src="./CORAZON_LOGO-01.png" alt="" />
         </div>
@@ -45,17 +48,15 @@ function ProductCart(props) {
                   <td>
                     <div className='img-container'>
                       <img src={item.product_images[0]} alt="" />
-                      <div>
-                        <p>{item.title}</p>
-                      </div>
+                      
                     </div>
                     <div className="quantity">
-                      <span>{item.count}</span>
+                      <span>{item.selectedQuantity}</span>
                     </div>
                   </td>
               
                   <td>
-                    <span>${item.price * item.count}</span>
+                    <span className='price'>${item.price * item.selectedQuantity}</span>
                   </td>
                 </tr>
               )
@@ -65,7 +66,7 @@ function ProductCart(props) {
 
         <div className='discount'>
           <input type="text" placeholder='Discount code' />
-          <button type="button"> Apply </button>
+          <button   disabled="true" /*</div>style={ formData.cartItems.coupon?{opacity:"0.8", cursor:"not-allowed"}:""}*/ type="button"> Apply </button>
         </div>
 
         <Totals>
@@ -74,15 +75,15 @@ function ProductCart(props) {
                 Subtotal
               </span>
               <span>
-               $2
+               ${total}
               </span>
             </div>
             <div>
               <span>
-                shipping
+                Shipping
               </span>
               <span>
-                 Free
+                 ${formData.shippingPrice}
               </span>
             </div>
           <div className='Total-price'>
@@ -125,7 +126,7 @@ const Container = styled.div`
       
      }
      .header-container span{
-      margin-top:15px;
+      margin-top:10px;
      }
      .header-container img{
          width:220px;
@@ -148,8 +149,7 @@ const Wrraper = styled.div`
     .product-container{
         background:rgba(255, 255, 255, 0.5);
         border-radius:6px;
-        box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-        0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+        box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
         
         padding:5px 10px;
     }
@@ -161,12 +161,15 @@ const Wrraper = styled.div`
       width:60px;
       height:75px;
       object-fit:cover;
-      box-shadow: 2px 4px 8px rgb(12, 12, 12 , 0.5);
+      box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0,);
+      border:1px solid lightgray;
+      padding:1px;
     }
     .img-container{
       display:flex;
       align-items:center;
     }
+    
      .quantity{
       border-radius:50%;
       padding:1px 4px;
@@ -177,8 +180,8 @@ const Wrraper = styled.div`
       background:#000;
       color:#ffff;
       position:relative;
-      top:-96px;
-      left:-8px;
+      top:-90px;
+      left:-6px;
      }
     table{
       width:100%;
@@ -208,6 +211,8 @@ const Wrraper = styled.div`
       padding-left:5px;
       border-radius:4px;
       border:1px solid lightgray;
+      margin-right:8px;
+      margin-bottom:3px;
 
       &:focus{
         border:1px solid lightblue;
@@ -221,8 +226,9 @@ const Wrraper = styled.div`
       background:#000;
       color:#ffff;
       border-radius:4px;
-      margin-left:8px;
+      
       padding:0 10px;
+      
       
     }
     

@@ -42,7 +42,7 @@ def create_app():
    
 
 
-    #db.create_all(app = app)
+   
    
     #db.create_all(app = app)
     #db.create_all(app = app)

@@ -13,6 +13,8 @@ import { setProductDetails, getProductDetails } from '../../../features/productD
 import { useParams } from 'react-router-dom';
 import {Link} from "react-router-dom"
 import CircularProgress from '@mui/material/CircularProgress';
+import CustomerReviews from './customerReviews';
+
 
 function ProductDetails() {
     const {product, hasError, isLoading} = useSelector(state=> state.productDetails)
@@ -20,14 +22,17 @@ function ProductDetails() {
     const user = useSelector(state=> state.auth.user)
     const products = useSelector(state=> state.products.products)
     const dispatch = useDispatch()
+    const [selected, setSelected] = useState({
+      isDescription:true,
+      isReviews : false
+    })
     const [formData, setFormData] = useState({
       items: 12,
-      color: 0,
-      picsDetailsIndex:0,
-      size:0,
+     
       rating: 0,
       IndexRating: 0,
       stars: 1,
+      
     })
     const [isColorActive, setIsColorActive] = useState(true)
     const [isPicsDetailsActive, setisPicsDetailsActive] = useState(false)
@@ -35,14 +40,9 @@ function ProductDetails() {
     
 
 
-  useEffect(() => {
-    dispatch(getProductDetails(params.id))
-   
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-   
-  }, [dispatch, params.id])
+  
     
-  // show more products
+
   
 
   
@@ -50,26 +50,28 @@ function ProductDetails() {
   // select thumb img to render specific image
   const colorRef = React.createRef();
   const sizeRef = React.createRef();
-
+  const [selectedColor, setSelectedColor] = useState(0)
+  const [selectedSize, setSelectedSize] =  useState(0)
+  const [picsDetailsIndex, setPicsDetailsActive] = useState(0)
+  const [quantity, setQuantity] = useState(1)
 
   const selectColor = index => {
-    setFormData({...formData, color: index })
+    setSelectedColor(index)
     setIsColorActive(true)
     setisPicsDetailsActive(false)
 
     
   };
+ 
   const selectPicsDetails = (index)=>{
-    setFormData({...formData, picsDetailsIndex : index })
+    setPicsDetailsActive(index)
     setIsColorActive(false)
     setisPicsDetailsActive(true)
        
   }
 
- 
 
-  const mouseLeavePicsDetails = (e)=>{
-   
+  const mouseLeavePicsDetails = (e) =>{
     e.preventDefault()
     setIsColorActive(true)
     setisPicsDetailsActive(false)
@@ -77,15 +79,47 @@ function ProductDetails() {
    }
 
   const selectSize = index =>{
-    setFormData({...formData, size : index })
+    setSelectedSize(index)
 
   }
- 
+  const addQuantity = ()=>{
+    if(quantity <product.quantity){
+      setQuantity(quantity+1)
+    }
+   
+  }
+  const subtractQuantity = ()=>{
+    
+    if(quantity>1) {
+      setQuantity(quantity-1)
+    }
+  }
+  useEffect(() => {
+    dispatch(getProductDetails(params.id))
+   
+    //window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+     
+  
+     
+  }, [dispatch, params.id, formData])
 
 
     const stars = Array(5).fill(0);
-   
-    
+    const fiveStars = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 5).reduce((total, value) => {
+      return total += value.stars
+    }, 0) : ""
+    const twoStars = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 2).reduce((total, value) => {
+      return total += value.stars
+    }, 0) : ""
+    const fourStars = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 4).reduce((total, value) => {
+      return total += value.stars
+    }, 0) : ""
+    const threeStars = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 3).reduce((total, value) => {
+      return total += value.stars
+    }, 0) : ""
+    const oneStar = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 1).reduce((total, value) => {
+      return total += value.stars
+    }, 0) : ""
     let sum_stars = product?.ratings.length > 0 ? product?.ratings.reduce((total, value) => {
       return total += value.stars
     }, 0) : ""
@@ -94,21 +128,21 @@ function ProductDetails() {
      <Product_details_Wrapp>
         {isLoading === false  && product ? (
           
-          
-          <>  
+          <>
+          <Container>
                 
           <LeftSide>
 
             <div className="product-details-img">
                 {isColorActive && (
                   <img
-                    src={product.product_images[formData.color]}
+                    src={product.product_images[selectedColor]}
                     title={product.title}
                   />
                 )}
                 {isPicsDetailsActive &&(
                   <img
-                  src={product.product_images[formData.picsDetailsIndex]}
+                  src={product.product_images[picsDetailsIndex]}
                   title={product.title}
                 />
 
@@ -130,7 +164,7 @@ function ProductDetails() {
                   
                 </LeftSide>
 
-                <RightSide>
+                <CenterSide>
                   <div className="product-title">
                     <p>{product.title}</p>
                   </div>
@@ -181,19 +215,17 @@ function ProductDetails() {
                   </div>
 
               
-                  <Product_type_of_container>
+                  <Product_info>
 
                     <h5>Color:</h5>
                     <div className='product-colors '>
                     {product.product_images.map((img, index) => (
                       <img src={img}
                        
-                        className={index === formData.color ? "active" : "notActive"}
+                        className={index === selectedColor? "active" : "notActive"}
                         alt=""
                         key={index}
                         onClick={() => selectColor(index)}
-                       
-   
                       />
           
                     ))}
@@ -206,7 +238,7 @@ function ProductDetails() {
                       <button 
                         key={index} 
                         ref = {sizeRef}
-                        className={index === formData.size ? "active": "notActive"}
+                        className={index === selectedSize ? "active": "notActive"}
                         onClick={() => selectSize(index)}
                         
                         >
@@ -216,21 +248,37 @@ function ProductDetails() {
                     </div>
                     <h4>Quantity:</h4>
                     <div className='product-quantity'>
-                      <button>
-                        <AddIcon className='add-icon'/>
-                      </button>
-                      <span>15</span>
-                      <button>
+                    <button onClick={subtractQuantity}>
                         <RemoveIcon className='minus-icon'/>
                       </button>
-                      <span>262 Pieces are available</span>
+                      <span>{quantity}</span>
+                      <button onClick={addQuantity}>
+                        <AddIcon className='add-icon'/>
+                      </button>
+                   
+                      
+                      <span className='available-qauantity'>{product.quantity - quantity} Pieces 
+                      available</span>
                     </div>
-                  </Product_type_of_container>
+                  </Product_info>
                   <Buttons_container>
                     <button
                       className="buy-button"
                       type="button" onClick={() => {
-                        dispatch(addToCart(product))
+                        dispatch(
+
+                          dispatch(addToCart(
+                            {...product,
+                               selectedColor:selectedColor, 
+                               selectedSize:selectedSize,
+                               selectedQuantity : quantity
+  
+                            
+                            }
+                            
+                            ))
+                        )
+                        
                       
                       }}>
                       Buy Now
@@ -239,7 +287,16 @@ function ProductDetails() {
                     <button
                       className="add-to-cart-button"
                       type="button" onClick={() => {
-                        dispatch(addToCart({...product, color:formData.index}))
+                        dispatch(addToCart(
+                          {...product,
+                            selectedColor:selectedColor, 
+                            selectedSize:selectedSize,
+                            selectedQuantity : quantity,
+                           
+                          
+                          }
+                          
+                          ))
                         
                        
                       }}>
@@ -249,17 +306,12 @@ function ProductDetails() {
                   <Buyer_protection_wrap>
                     <img src="../images/safe-and-secure-checkout.png" alt="image"/>
                   </Buyer_protection_wrap>
-                  <div className="description">
-                    <h1>Description:</h1>
-                    <p>{product.description}</p>
-                  </div>
 
-                  <Reviews
-                    product_id={product.id}
-                    user_id={user?.id}
-                  />
 
-                </RightSide>
+                  
+
+                </CenterSide>
+                <RightSide>
                 <RecommendedForYou>
                      <h5>Recommended For You </h5>
                      <div className="recommended-container">
@@ -280,11 +332,85 @@ function ProductDetails() {
                      </div>
                       
                 </RecommendedForYou>
+                </RightSide>
+                 
+            </Container>
 
-                </>
+            <Wrapper>
+
+              <div className="recommended-container">
+                {products.filter(item => {
+                  return item.category === product.category
+
+                }).slice(0, 3).map(product => {
+                  return (
+                    <>
+                      <Link to={"/product_details/" + product.id}>
+                        <img src={product.product_images[0]} alt="" />
+                      </Link>
+                      <span className="recommnded-product-price">${product.price}</span>
+                    </>
+                  )
+                })}
+              </div>
+
+              <div className='description-container'>
+                <div className='headers'>
+                  <button
+                    className={selected.isDescription ? "selected" : ""}
+                    onClick={() =>
+                      setSelected({isDescription: true, isReviews: false })}
+                  >
+                    Description
+                  </button>
+                  <span className="separateBorder"></span>
+                  <button
+                    className={selected.isReviews ? "selected" : ""}
+                    onClick={() =>
+                      setSelected({isDescription: false, isReviews: true })}
+                  >
+                    Customer Reviews
+                  </button>
+                </div>
+
+                {selected.isDescription && (
+                  <div className="description">
+                    <p>{product.description}</p>
+                  </div>
+                  )}
+                {selected.isReviews &&(
+                  <>
+                  <div>
+                    <CustomerReviews 
+                        fiveStars={fiveStars}
+                        twoStars={twoStars}
+                        fourStars={fourStars}
+                        threeStars={threeStars}
+                        oneStar={oneStar}
+                        ratings={product.ratings}
+                        sum_stars ={sum_stars}
+                    
+                    />
+                  </div>
+                  <Reviews
+                    product_id={product.id}
+                    user_id={user?.id}
+                  />
+  
+                  
+  
+                  </>
+
+                )}
+                </div>
+            </Wrapper>
+          </>
         ):
         <div className='loader'>
-          <CircularProgress  />
+           <CircularProgress
+             size={25}
+             thickness={4}
+           />
           </div>
         }
       </Product_details_Wrapp>
@@ -295,19 +421,27 @@ function ProductDetails() {
 export default ProductDetails
 
 const Product_details_Wrapp = styled.div`
-    display:flex;
+
+    margin: 15px auto;
     min-height:100vh;
-    width:100%;
-    margin-left:15px;
-    margin-top:15px;
+    width:96%;
+    
     padding:15px 20px;
     background:#fff;
+    
     .loader{
       width:100%;
        display:flex;
        margin-top:100px;
        justify-content:center;
     }
+
+
+    
+`
+const Container = styled.div`
+    display:flex;
+   
     .thumb img{
       width:50px;
       height:50px;
@@ -337,24 +471,9 @@ const Product_details_Wrapp = styled.div`
 
     }
 
-    .close-button-conatiner{
-      position:relative;
-      right:-98%;
-      top:-20px;
-    }
-
-    .close-button-conatiner>button{
-      border:none;
-      color:rgb(129, 126, 126);
-      background: bottom;
-      font-size: xx-large;
-      font-weight:bolder; 
-      text-shadow: 2px 4px 5px black;
-      top:-20px;
-      position:sticky;
-    }
-
     
+
+      
 `
 const LeftSide = styled.div`
     margin-right:10px;
@@ -362,15 +481,17 @@ const LeftSide = styled.div`
     
 
 `
-const RightSide = styled.div`
-     flex:1;
-     margin-left:20px;
+
+
+const CenterSide = styled.div`
+     flex:0.5;
+     padding-left:20px;
 
   .on{
     color: #FFBA5A;
     font-size:20px;
   }
-.off{
+  .off{
     color: #ccc;
     font-size:20px;
   }  
@@ -404,6 +525,13 @@ const RightSide = styled.div`
       
 
 `
+const RightSide = styled.div`
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:1;
+
+`
 const Reveiwes_container = styled.div`
        display:flex;
        border-bottom:1px solid  lightgray;
@@ -434,7 +562,7 @@ const Buttons_container = styled.div`
        padding:15px;
        border-radius:8px;
        font-size:15px;
-      font-weight:bold;
+       font-weight:bold;
      }   
 
      .buy-button{
@@ -460,9 +588,13 @@ const Buyer_protection_wrap = styled.div`
         height:100%;
       }
 `
-const Product_type_of_container = styled.div`
+const Product_info = styled.div`
     h5{
       margin:8px 0;
+    }
+    .available-qauantity{
+      color:gray;
+      font-size:14px;
     }
     .product-colors{
         display:flex;  
@@ -495,6 +627,7 @@ const Product_type_of_container = styled.div`
     .product-quantity{
       margin-bottom:10px;
       display:flex;
+      align-items:center;
     }
 
     .product-quantity button{
@@ -506,6 +639,9 @@ const Product_type_of_container = styled.div`
       font-size:20px;
       width:32px;
       height:32px;  
+    }
+    .product-quantity button:hover{
+      background:lightblue;
     }
 
     .product-quantity span{
@@ -556,52 +692,68 @@ const RecommendedForYou = styled.div`
       }
 
 `
-      
+const Wrapper =  styled.div`
+  display:flex;
+  margin-top:50px;
 
-/*
+  .headers{
+    border-radius:8px;
+    border-top:1px solid lightgray;
+    border-bottom:1px solid lightgray;
+    padding-left:3px;
+    background:#f2f2f2;
+  }
+  .selected{
+    background:#ffe680;
+    
+    
+  }
+  .separateBorder{
+    border-right:2px solid lightgray;
+    margin-right:15px;
+  }
+  .headers button{
+    margin-right:15px;
+    padding:10px 4px;
+    font-size:19px;
+    font-family:Helvetica, sans-serif
+  }
 
+  
+ 
+  .description-container{
+    flex:2;
+  }
+  .description{
+    width:75%;
+    padding:10px;
+  }
+  .recommnded-product-price{
+    position:relative;
+    
+    top:-154px;
+    left:46px;
+    background:#fff;
+    padding:2px 10px;
 
-.addToCart-details{
-  display: inline;
-  margin:0px 10px
-}
-.addToCart-details>button{
-  color:rgb(243, 241, 241);
-  background-color: darkgoldenrod;
-  border-radius: 8px;
-  position:absolute;
-  right:-100px;
-  bottom:-20px;
-  padding:5px;
-  box-shadow: 2px 4px 15px black;
-  border:none;
-  outline-style: none; 
-}
-.description{
-  color:rgb(20, 67, 236); 
-  width:600px;
-  grid-column: 2;
-}
-.d-container{
-  grid-column: 2 / span 4;
-  grid-row: 1;
-}
+  }
+  .recommended-container{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    flex:0.5;
+    
+    
 
-.description-discount{
-  color:black;
-  text-decoration:line-through 2px;
-  font-weight: bold;
-  font-size: x-large;
+  }
+  .recommended-container img{
+    position:relative;
+    width:140px;
+    margin-bottom:0px;
+    height:145px;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  }
 
-}
-.description-title, .product-type{
-  font-size: larger;
-  font-weight: 900;
-}
-.description-price{
-  font-size: larger;
-  font-weight: 900;
-  margin:10px
-}
+`
 
-}*/

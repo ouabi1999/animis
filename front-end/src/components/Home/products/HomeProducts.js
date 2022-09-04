@@ -6,6 +6,7 @@ import Spinner from '../../Spinner/Spinner';
 import StarIcon from '@mui/icons-material/Star';
 import {useSelector, useDispatch} from "react-redux"
 import { Link } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 
 function HomeProducts(props) {
@@ -66,8 +67,13 @@ function HomeProducts(props) {
                 )}
                 </div>
           ) :(
-            <div style={{margin:"auto"}}> <Spinner/> </div>
-          )
+          <div style={{ height:"200px", marginTop:"100px", display:"flex" , justifyContent:"center"}}>
+             <CircularProgress
+                  size={25}
+                  thickness={4}
+              /> 
+          </div>
+        )  
         }
         </Fade>
 
