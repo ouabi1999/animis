@@ -203,8 +203,9 @@ function Billing() {
 
 export default Billing
 const Conatiner = styled.div`
-    margin:auto;
-    padding:25px 0px;
+    
+    
+    padding:25px 15px;
   
 
 `

@@ -2,26 +2,84 @@ from email.policy import default
 from . import db
 from  datetime import datetime
 from uuid import uuid4
-from flask import json, jsonify
+from flask import json, jsonify, session
 
 
 def get_uuid():
     return uuid4().hex
-class GlobalCoupon(db.Model):
 
-    id = db.Column(db.String(35), primary_key = True, unique=True, default=get_uuid)
-    globalCoupon = db.Column(db.String(30))
-    product_id = db.Column(db.String(), db.ForeignKey('products.id'))
+
+room_user = db.Table("room_user",
+                       db.Column("room_id", db.String, db.ForeignKey("rooms.id")),
+                       db.Column("user_id", db.String, db.ForeignKey("users.id"))
+                    )
+
+
+class Messages(db.Model):
+    id = db.Column(db.String(100), primary_key = True, default = get_uuid)
+    message = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default = datetime.utcnow)
+    is_Read = db.Column(db.Boolean , default = False)
+    room_id = db.Column(db.String, db.ForeignKey('rooms.id'), nullable=False)
+    sender = db.Column(db.String,  db.ForeignKey('users.id') )
+    receiver  =  db.Column(db.String,  db.ForeignKey('users.id'))
+   
+    
+
+    def __str__(self):      
+        return f'{self.id} {self.message}{self.is_Read} {self.created_at} {self.sender} {self.room_id} {self.user_id}'
+def messages_serializer(item):
+    return{
+         "id": item.id,
+         "message" : item.message,
+         "is_Read" : item.is_Read,
+         "room_id"   : item.room_id,
+         "sender" : item.sender,
+         "created_at" :json.dumps(item.created_at),
+
+        }    
+    
+class Rooms(db.Model):
+    id = db.Column(db.String(100), primary_key=True, default = get_uuid)
+    sender = db.Column(db.String,  db.ForeignKey('users.id'))
+    receiver =  db.Column(db.String,  db.ForeignKey('users.id'))
+    room_user = db.relationship('Users', secondary = "room_user",  lazy = 'dynamic',  backref = db.backref('rooms', lazy='dynamic')) 
+    messages = db.relationship("Messages", backref="rooms", cascade='all, delete', order_by="Messages.created_at" , lazy = True)
+    
+    
+
+    def __str__(self):      
+        return f'{self.id} {self.receiver} {self.sender}'
+
+
+def room_serializer(room):
+   
+
+    return{
+        "id" : room.id,
+        "receiver" :room.receiver,
+        "sender" : room.sender
+    }
+
+class MessageNotification(db.Model):
+    id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
+    notification = db.Column(db.PickleType())
+    notify_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    receiver_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False)
+    sender = db.Column(db.String(), nullable = False) 
+    room_id = db.Column(db.String(), db.ForeignKey("rooms.id") ,nullable = False)
 
     def __str__(self):
-        return f'{self.id} {self.globalCoupon}'
-
-def globalCoupon_serializer(info):
-    return{
-        "id" :info.id,
-        "globalCoupon": info.globalCoupon,
+        return f"{self.id} {self.notification} {self.notify_at}"
+def notification_serializer(item):
         
-    }
+        return {
+        "id" : item.id ,
+        "notification" : item.notification,
+        "notify_at"  : json.dumps(item.notify_at),
+        "sender " : item.sender,
+        "room_id" : item.room_id
+        }
 
 class Users(db.Model):
     id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
@@ -37,13 +95,17 @@ class Users(db.Model):
     joined_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     admin = db.Column(db.Boolean, nullable = False, default = False)
     #rating_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False) 
-    userOrders = db.relationship('Orders', cascade='all, delete', backref='user', lazy=True)
-
-
+    userOrders = db.relationship('Orders', cascade='all, delete',  backref='user', lazy=True) 
+                                               
     def __str__(self):
-        return f"{self.id} {self.gender} {self.admin}{self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
+        return f"{self.id} {self.gender} {self.admin} {self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
 
 def user_serializer(user):
+  
+    #room = Users.query.join(room_user).join(Rooms).filter((room_user.c.user_id == user.id) & (room_user.c.room_id == Rooms.id)).all()  
+    #room =  [*map(room_serializer, user_room)]
+    #messages =  [*map(messages_serializer , user.messages)]
+    
     return{
         "id":user.id,
         "email":user.email,
@@ -56,6 +118,10 @@ def user_serializer(user):
         "userAvatar" : user.userAvatar,
         "admin" : user.admin,
         "joined_at" : user.joined_at,
+        #"messages" : messages,
+        #"rooms" : room,
+      
+
         
     }
 
@@ -108,7 +174,7 @@ class Products(db.Model):
     coupon = db.Column(db.String())
     ratings = db.relationship('Ratings', backref='products', lazy = True, cascade="all, delete-orphan")
     globalCoupon = db.relationship("GlobalCoupon", backref="products", lazy = True, cascade="all, delete-orphan" )
-
+    
 
     def __str__(self):
         return f'{self.id} {self.seo} {self.title} {self.globalCoupon} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
@@ -141,8 +207,8 @@ def productInfo_serializer(info):
     }
 
 class Orders(db.Model):
-    id = db.Column(db.String(40), primary_key=True, default=get_uuid)
-    orderd_at = db.Column(db.DateTime(), nullable=False, default=datetime.utcnow)
+    id = db.Column(db.String(13), primary_key=True, default=get_uuid)
+    orderd_at = db.Column(db.DateTime(), nullable=False, default = datetime.utcnow)
     firstName = db.Column(db.String())
     lastName = db.Column(db.String())
     email = db.Column(db.String(30), unique = False)
@@ -186,11 +252,49 @@ def orders_serializer(order):
         "totalPrice" : order.totalPrice,
         "trackingNumber": order.trackingNumber,
         "deliveryStatus" : order.deliveryStatus,
-
-
-        
-
-
-
     }   
+
+    class Display(db.Model):
+        id = db.Column(db.String(15), primary_key=True, default = get_uuid)
+        logo = db.Column(db.blob())
+        header = db.Column(db.PickleType())
+        main_category = db.Column(db.PickleType())
+        category = db.Column(db.PickleType())
+        banners = db.Column(db.PickleType())
+        slider = db.Column(db.PickleType())
+        pop_up = db.Column(db.PickleType())
+        count_Down = db.Column(db.DateTime()) 
+        def __str__(self):      
+            return f'{self.id} {self.logo} {self.header} {self.main_category} {self.category} {self.banners} {self.slider} {self.pop_up} {self.count_Down}'
+    def display_serializer(item):
+        return{
+      
+            "id": item.id,
+            "logo" : item.logo,   
+            "header ": item.header,
+            "main_category":item.main_category,
+            "category" : item.category,
+            "banners" : item.banners,
+            "slider"  : item.slider,
+            "pop_up" : item.pop_up,
+            "count_Down" : item.count_Down
+        }
+
+
+
+class GlobalCoupon(db.Model):
+
+    id = db.Column(db.String(35), primary_key = True, unique=True, default=get_uuid)
+    globalCoupon = db.Column(db.String(30))
+    product_id = db.Column(db.String(), db.ForeignKey('products.id'))
+
+    def __str__(self):
+        return f'{self.id} {self.globalCoupon}'
+
+def globalCoupon_serializer(info):
+    return{
+        "id" :info.id,
+        "globalCoupon": info.globalCoupon,
+        
+    }
 

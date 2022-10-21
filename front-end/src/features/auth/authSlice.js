@@ -40,6 +40,7 @@ export const authSlice = createSlice({
       [getUser.rejected]: (state, action) => {
       state.loading = false;
       state.hasErrors = action.error.message;
+      window.localStorage.setItem('isAuthenticated', false)
       },
       [getUser.fulfilled]: (state, { payload }) => {
       state.user = payload;

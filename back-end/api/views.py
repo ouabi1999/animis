@@ -3,17 +3,20 @@ import os
 from PIL import Image
 import base64
 import io
-from api import db
+from api import db, socketio
 from werkzeug.utils import secure_filename
-from .models import Users, Products, user_serializer, productInfo_serializer, orders_serializer, ratings_serializer, Orders, Ratings
+from .models import Users, Products, user_serializer, productInfo_serializer, orders_serializer, ratings_serializer, Orders, Ratings,notification_serializer, MessageNotification , Messages, messages_serializer, Rooms
 from flask_cors import cross_origin, CORS
+from flask_socketio import send, emit,  SocketIO, join_room
 
+from api import create_app
 views = Blueprint("views", __name__)
+
 ALLOWED_EXTENSIONS = set({ 'png', 'jpg', 'jpeg', 'gif'})
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-@views.route("/api", methods=['GET'])
+@views.route("/customers", methods=['GET'])
 def Home():
     return jsonify([*map(user_serializer, Users.query.all())])
 
@@ -44,7 +47,6 @@ def products():
             images.append(encode_img_data.decode("UTF-8"))
     
 """
-    print(request.get_json())
     newproducts = Products(
     title = request.form["title"],
     product_images = request.form.getlist("images"),
@@ -103,8 +105,6 @@ def get_product(id):
 def delet_product(id):
     product = Products.query.filter_by(id = id).first()
     db.session.delete(product)
-    
-
     db.session.commit()
     return ("Product deleted secssefully")
         
@@ -149,3 +149,117 @@ def rating():
 @views.route("/getratings",methods = ["GET"])
 def getrating():
     return jsonify([*map(ratings_serializer, Ratings.query.all())])
+
+
+
+@socketio.on("connect")
+def connected():
+    """event listener when client connects to the server"""
+    print(request.sid)
+    print("client has connected")
+    emit("connect",{"data":f"id: {request.sid} is connected"})
+
+@socketio.on('message')
+def handle_message(message):
+    sender = message["owner_id"]
+    receiver = message["receiver_id"]
+    room_id = message["room_id"]
+    message = message["text"]
+
+    user_room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
+
+    user_messages = {
+        "sender" : sender,
+        "receiver" : receiver,
+        "room_id" : room_id,
+        "message" : message
+
+    }
+
+    new_message = Messages(
+            message = message,
+            sender = sender,
+            receiver = receiver,
+            room_id = room_id
+        
+        )
+    new_notification = MessageNotification(
+            notification = message,
+            sender = sender,
+            receiver_id = receiver,
+            room_id = room_id 
+           
+        
+        )
+    
+    db.session.add(new_notification)
+    db.session.add(new_message)
+    db.session.commit()
+    emit('messages', {"messages": user_messages, "notification" : user_messages  }, broadcast=True)
+   
+    
+
+@socketio.on("disconnect")
+def disconnected():
+    """event listener when client disconnects to the server"""
+    print("user disconnected")
+    emit("disconnect",f"user {request.sid} disconnected",broadcast=True)
+
+@socketio.on('join_room')
+def on_join(data):
+    sender = data["owner_id"]
+    receiver = data["receiver_id"]
+    user_room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
+    if user_room is not None:
+        db.session.commit()
+        join_room(data["owner_id"])
+        #send({"room_id" : user_room.id ,'owner_id': owner_id, "receiver_id": receiver_id}, to=room)
+        emit('open_room', {"room_id" : user_room.id ,'owner_id': user_room.sender, "receiver_id": user_room.receiver}, broadcast=True)
+        
+    else:
+        join_room(data["owner_id"])
+        new_room = Rooms(
+            sender  =  sender,
+            receiver =   receiver,
+        )
+        #user.room.append(new_room)
+        db.session.add(new_room)
+        db.session.commit()
+        emit('open_room', {"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] }, broadcast=True)
+  
+
+
+@views.route("/getMessages/<id>", methods=["GET"])
+def get_messages(id):
+    
+    user_room = Rooms.query.filter_by(id = id).first()
+    user_messages =  [*map(messages_serializer , user_room.messages)]
+    return {"messages":user_messages}
+    
+ 
+@socketio.on("msgnotification")
+def msg_notification(notify):
+    
+ 
+    
+   
+    emit("notification", {} ,broadcast=True)
+
+  
+    
+
+    
+@views.route('/clearnotification',methods=['POST'])
+def clear_notification():
+    request_data = json.loads(request.data)
+    receiver_id = request_data["receiver_id"]
+    room_id = request_data["room_id"]
+
+    notification = MessageNotification.query.filter(MessageNotification.receiver_id.in_([receiver_id, room_id])).filter(MessageNotification.room_id.in_([receiver_id, room_id ])).all()
+    print(notification, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")     
+    for note in notification:
+
+        db.session.delete(note)
+        db.session.commit()
+        print("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+    return("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ")

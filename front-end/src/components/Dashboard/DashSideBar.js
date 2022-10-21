@@ -51,7 +51,7 @@ class DashSideBar extends Component {
                             <StoreIcon />
                         </div>
                         <div>
-                            <Link to="/orders">Orders</Link>
+                            <Link to="orders">Orders</Link>
                         </div>
                     </Wrap>
 
@@ -68,7 +68,7 @@ class DashSideBar extends Component {
                             <GroupsIcon />
                         </div>
                         <div>
-                            <Link to="/customers">Customers</Link>
+                            <Link to="customers">Customers</Link>
                         </div>
                     </Wrap>
                     <Wrap>
@@ -76,7 +76,7 @@ class DashSideBar extends Component {
                             <ChatIcon />
                         </div>
                         <div>
-                            <Link to="chat">Chat</Link>
+                            <Link to="admin-chat">Chat</Link>
                         </div>
                     </Wrap>
                     <Wrap>

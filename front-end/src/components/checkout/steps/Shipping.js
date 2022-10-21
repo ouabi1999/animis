@@ -43,7 +43,12 @@ function Shipping() {
           <div className='methods_container'>
             <div className='shipping-type'>
               <span>
-                <span style={{fontSize:"14px",fontFamily:"-moz-initial", fontWeight:"900"}}>{item.type.toUpperCase()}</span>{" "}{item.delivery}
+                <span style={{
+                          fontSize:"14px",
+                          fontFamily:"-moz-initial",
+                          fontWeight:"900"}}>
+                          {item.type.toUpperCase()}
+                  </span>{" "}{item.delivery}
               </span>
             </div>
             <div>

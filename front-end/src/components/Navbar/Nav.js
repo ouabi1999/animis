@@ -4,7 +4,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 
@@ -41,9 +41,9 @@ class Nav extends React.Component {
         <Nav_container>
           <Left_section>
             <div className="logo">
-              <Link to="/">
+              <NavLink to="/">
                 <img src="/CORAZON_LOGO-01.png" alt="" />
-              </Link>
+              </NavLink>
             </div>
 
             <div>
@@ -54,12 +54,12 @@ class Nav extends React.Component {
 
           <Right_section className="right_section">
             <div className="shopping-cart-container">
-            <Link to="/shopping-cart" onClick={this.props.switchMode}>
+            <NavLink to="/shopping-cart" onClick={this.props.switchMode}>
               <ShoppingCartIcon className='shopping-cart-icon' />
               <span className="num-cart-product">
                 {this.props.cartItems.cartItems.length}
               </span>
-            </Link>
+            </NavLink>
             </div>
             <div className="langMenu">
               <DrpDwnMenu_lang />
@@ -70,14 +70,15 @@ class Nav extends React.Component {
 
               : 
 
-              <Link to ="/login" className="sign_in_button" >
+              <NavLink to ="/login" className="sign_in_button" >
                 <span>
                   <PersonIcon />
                 </span>
                 <span>
                   Sign in
                 </span>
-              </Link>
+              </NavLink>
+              
             } 
             
               
@@ -93,7 +94,7 @@ class Nav extends React.Component {
           
         </Nav_container>
         
-        <Outlet />
+        {this.props?.outlet}
       </>
     )
   }

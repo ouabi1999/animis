@@ -16,12 +16,11 @@ function ProductsLyout() {
       )
     }
     useEffect(() => {
-        console.log("tset")
         window.scrollTo({bottom: -400, right: 0, behavior: 'smooth'});
        
       }, [viewMoreProduct])
    
-    let products_Slice = products.slice(0, viewMoreProduct)
+    let products_Slice = products?.slice(0, viewMoreProduct)
     
    
     return (

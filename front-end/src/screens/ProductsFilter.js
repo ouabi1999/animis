@@ -180,11 +180,8 @@ useEffect(() => {
         ) : isLoading === true ?
           <div style={{ display: "flex", justifyContent: "center", marginTop: "100px" }}>
             <CircularProgress
-             
-              
               size={25}
               thickness={4}
-              
              
             />
 
@@ -206,10 +203,9 @@ const Container = styled.div`
       bottom:0;
       height: calc(100vh - 80px);
       overflow-y:scroll;
-      
-       flex:0.5;
-       background:#fff;
-       padding:10px;
+      flex:0.6;
+      background:#fff;
+      padding:10px;
 
      
        ::-webkit-scrollbar {

@@ -10,6 +10,7 @@ import { useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
 import { getUser } from '../../../features/auth/authSlice'
 import { useNavigate  } from 'react-router-dom';
+import Nav from '../../Navbar/Nav'
 
 function UserLayout() {
 
@@ -31,17 +32,23 @@ function UserLayout() {
 
   
   return (
-     
-    <Container>
+    <>
+    
       {auth === "true" ? (
         <>
+        <Nav/>
+        <Container>
+        
         <SideBar />
+        
           <Outlet_container>
             <Outlet />
           </Outlet_container>
-        </>
+          </Container>
+          </>
+        
         ):""}
-    </Container>
+    </>
 
   )
 }
@@ -51,15 +58,21 @@ export default UserLayout
 
 const Container = styled.div`
   display:flex;
-  min-height:calc(100vh - 80px);
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      
+     &{
+      flex-direction:column;
+     }
+   
+  }
+
 
 `
 const Outlet_container = styled.div`
   padding:10px 2px;
   flex:2;
-  min-height:calc(100vh - 80px);
-  background-color:#f2f2f2;
   margin-left:4px;
-  padding-left:10px;
-  box-shadow: 5px 8px 12px rgb(100, 100, 100, 0.4);
+
+ 
 `

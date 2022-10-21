@@ -15,38 +15,43 @@ function SideBar() {
     <Side_Bar>
     <ol>
       <li>
+      <Link to="/profile">
         <FeedIcon className="sidebar_icons" />
-        <Link to="/profile">
+        
           <span>
             My Profile
           </span>
         </Link>
       </li>
       <li>
+      <Link to="myorders">
         <ShoppingBasketIcon className="sidebar_icons" />
-        <Link to="myorders">
+        
           <span>My Orders</span>
         </Link>
       </li>
       <li>
+      <Link to="notifications">
         <NotificationsIcon className="sidebar_icons" />
-        <Link to="notifications">
+        
           <span>
             Notifications
           </span>
         </Link>
       </li>
       <li>
+      <Link to="chat">
         <EmailIcon className="sidebar_icons" />
-        <Link to="chat">
+        
           <span>
             Chat
           </span>
         </Link>
       </li>
       <li>
+      <Link to="help-center">
         <SupportAgentIcon className="sidebar_icons" />
-        <Link to="help-center">
+        
           <span>
             Help Center
           </span>
@@ -60,36 +65,71 @@ function SideBar() {
 export default SideBar
 
 const Side_Bar = styled.div`
-  
-   
-    
     background-color:#fff;
     width:100%;
+    min-height:calc(100vh - 80px);
     flex:0.5;
-    box-shadow: 5px 8px 12px rgb(100, 100, 100, 0.4);
+
     padding-left:10px;
     
     ol{
        margin-left:-40px;
-       margin-top:0px;
+      
     }
-
+    span{
+      font-size:15px;
+    }
     li{ 
-        margin-bottom:5px;
+       
         padding:10px 5px;
-        display:flex;
-        align-items:stretch;
+       
 
         i{
           color:#ffff;
         }
 
        a{
+          display:flex;
+          align-items:center;
           color:black;
           margin-left:2px;
        }
     }
     .sidebar_icons{
-      color:orange;
+      color:#330000;
     }
+
+
+
+    @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    
+    
+  }
+  
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      
+      
+      ol{
+        display:flex;
+        width:100vw;
+        justify-content:space-between;
+      }
+      &{
+       
+        min-height:0;
+        border-bottom:1px solid lightgray;
+      }
+      
+   
+  }
+
+  @media only screen and (max-width: 600px) {
+    
+    li a span{
+        display:none;
+      }
+
+  }
 `

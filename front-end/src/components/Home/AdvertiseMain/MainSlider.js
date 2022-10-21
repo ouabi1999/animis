@@ -1,9 +1,9 @@
 import React from "react"
-import Fade from "react-reveal/Fade";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick";
 import styled from "styled-components";
+
 const MainSlider = () => {
   const settings = {
     dots: true,
@@ -50,18 +50,16 @@ const Container = styled.div`
    
    div{
       display:flex;
-      
+      max-height:53vh;
       border-radius: 4px;
       background-color: lightblue;
-      box-shadow: rgba(60, 64, 67, 0.3) j0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     }
    
    
 
  img{
-    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1),
-    0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+    
     border-radius: 4px;
     object-fit: cover;
     max-height:53vh;

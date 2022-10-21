@@ -1,12 +1,10 @@
 from flask  import Blueprint, jsonify, request, json, session
 from api import db
-from .models import Users, user_serializer, orders_serializer 
+from .models import Users, user_serializer,messages_serializer, orders_serializer, Messages, Rooms
 from . import bcrypt, server_session
-import stripe
+
 
 auth = Blueprint("auth", __name__)
-
-
 
 @auth.route("/user")
 def get_current_user():
@@ -15,7 +13,10 @@ def get_current_user():
         return jsonify({"error": "Unauthorized"}), 401
     
     user = Users.query.filter_by(id = user_id).first()
+    
+    #user_Messages = Messages.query.filter_by(room = user_id).first()
     orders = [*map(orders_serializer , user.userOrders)]
+   # messages = [*map(messages_serializer , user.messages)]
     return jsonify({
         "id": user.id,
         "email": user.email,
@@ -27,9 +28,9 @@ def get_current_user():
         "countryCode" : user.countryCode,
         "joined_at": user.joined_at,
         "admin" : user.admin,
-        "orders" : orders
+        "orders" : orders,
         
-
+        
     }) 
 
 @auth.route("/register", methods=["POST"])

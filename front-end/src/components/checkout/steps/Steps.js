@@ -83,6 +83,7 @@ function Steps() {
         align-items:center;
         position:sticky;
         top:0;
+       
     
       
 

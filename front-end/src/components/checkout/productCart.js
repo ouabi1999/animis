@@ -20,9 +20,11 @@ function ProductCart(props) {
     <Container>
       <div className='header-container'>
            
-        <Link to="/shopping-cart" >
-        <div style={{display:"flex", alignItems:"stretch", justifyContent:"center"}}>
-          <span><ArrowBackIcon /></span>
+        <Link to = "/shopping-cart" >
+        <div style = {{display:"flex", alignItems:"stretch", marginBottom:"3px"}}>
+          <span>
+            <ArrowBackIcon style={{width:"19px"}} />
+          </span>
           <span>
           Back
         </span>
@@ -30,7 +32,7 @@ function ProductCart(props) {
         </Link>
 
         <div>
-          <img src="./CORAZON_LOGO-01.png" alt="" />
+          <h3>CHECKOUT</h3>
         </div>
       </div>
       
@@ -44,19 +46,24 @@ function ProductCart(props) {
             </tr>
             {props.cartItems?.map(item => {
               return (
-                <tr>
+                <tr className="child-container">
                   <td>
                     <div className='img-container'>
                       <img src={item.product_images[0]} alt="" />
                       
                     </div>
+
                     <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
                   </td>
-              
+
+                  <td className="product-title">
+                  <span>{item.title}</span>
+                  </td>
+
                   <td>
-                    <span className='price'>${item.price * item.selectedQuantity}</span>
+                    <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
                   </td>
                 </tr>
               )
@@ -66,7 +73,7 @@ function ProductCart(props) {
 
         <div className='discount'>
           <input type="text" placeholder='Discount code' />
-          <button   disabled="true" /*</div>style={ formData.cartItems.coupon?{opacity:"0.8", cursor:"not-allowed"}:""}*/ type="button"> Apply </button>
+          <button   disabled="true" style={{ opacity:"0.8", cursor:"not-allowed"}} type="button"> Apply </button>
         </div>
 
         <Totals>
@@ -105,26 +112,31 @@ export default ProductCart
 
 const Container = styled.div`
      
-     height:100%;
-    
-     background: rgb(63,231,251);
-     background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
-     display:flex;
-     flex-direction:column;
-    
+    height:100%;
+    background: rgb(63,231,251);
+    background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
+    display:flex;
+    flex-direction:column;
 
+    h3{
+      letter-spacing:2px;
+      margin:0;
+    }
 
+    .header-container a {
+      color:black;
+    }
      .header-container{
       display:flex;
-      align-self:center;
-      padding: 15px 20px;
+      align-items:center;
+      padding: 16.50px 20px;
       border-bottom:1px solid gray;
       margin-bottom:10px;
       width:100%;
       box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
       0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-      
      }
+
      .header-container span{
       margin-top:10px;
      }
@@ -138,6 +150,20 @@ const Container = styled.div`
       margin: 0 auto;
 
      }
+     .product-title{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; 
+      width:280px;
+      
+   
+    }
+    .product-title span{
+       width:100px;
+      font-size:10px;
+      
+    }
+
 
 
 `
@@ -150,13 +176,15 @@ const Wrraper = styled.div`
         background:rgba(255, 255, 255, 0.5);
         border-radius:6px;
         box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-        
         padding:5px 10px;
     }
-
+    .child-container{
+      display:flex;
+      align-items:center;
+    }
    
     .product-container img{
-      margin-bottom:6px;
+     
       margin-right:10px;
       width:60px;
       height:75px;
@@ -166,8 +194,7 @@ const Wrraper = styled.div`
       padding:1px;
     }
     .img-container{
-      display:flex;
-      align-items:center;
+     
     }
     
      .quantity{
@@ -226,11 +253,10 @@ const Wrraper = styled.div`
       background:#000;
       color:#ffff;
       border-radius:4px;
-      
       padding:0 10px;
-      
-      
     }
+
+   
     
 `
 
