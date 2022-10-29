@@ -63,6 +63,7 @@ const Conatiner = styled.div`
     background:#fff;
     display:flex;
     flex-wrap:wrap;
+
  
 
 
@@ -71,12 +72,16 @@ const Conatiner = styled.div`
 `
 const Left_Section = styled.div`
   flex:1;
+  min-width:320px;
+  min-height:100vh;
    
 `
 const Right_Section = styled.div`
-    min-width:500px;
+    min-width:320px;
     min-height:100vh;
-    padding:0 20px;
+   
+   
+
     flex:1;
     position:relative;
     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),

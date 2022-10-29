@@ -110,7 +110,7 @@ const Wrapper = styled.div`
        border-radius:6px;
        margin-top:80px;
        padding:15px;
-       background:rgb(25, 250, 250, 0.4);
+      
        min-width:780px;
        width:calc(100vw - 260px);
        flex:4;

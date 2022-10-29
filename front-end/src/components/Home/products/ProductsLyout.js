@@ -1,4 +1,4 @@
-import React,{useState,  useEffect} from 'react'
+import React,{useState,  useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import HomeProducts from './HomeProducts'
 import ProductDetails from "./productDetails"
@@ -7,21 +7,21 @@ import {useSelector, useDispatch} from "react-redux"
 function ProductsLyout() {
 
     const products = useSelector((state) => state.products.products)
-    const [viewMoreProduct, setViewMoreProduct] = useState(12)
- 
+    const [viewMoreProduct, setViewMoreProduct] = useState(10);
+    const scrolTo = useRef()
      // show more products
     const viewMore = () => {
       setViewMoreProduct(
         viewMoreProduct + 10
       )
+      
     }
     useEffect(() => {
-        console.log("tset")
-        window.scrollTo({bottom: -400, right: 0, behavior: 'smooth'});
        
+        scrolTo.current?.scrollTo({behavior: "smooth", block: "center", inline: "nearest"});
       }, [viewMoreProduct])
    
-    let products_Slice = products.slice(0, viewMoreProduct)
+    let products_Slice = products?.slice(0, viewMoreProduct)
     
    
     return (
@@ -32,9 +32,17 @@ function ProductsLyout() {
                 <div className="border-headers"></div>
             </div>
         
-            <HomeProducts  products = {products_Slice} />
-            <div className="veiw-more">
-                <button onClick={ viewMore}> View more</button>
+        
+                
+            <HomeProducts  products = {products_Slice} scrolTo = {scrolTo}  />
+           
+          
+            
+            <div className="veiw-more"  >
+                <button   onClick={ viewMore} 
+                 className=""
+                style= { viewMoreProduct  >= products.length? {opacity:"0.5" , cursor:"not-allowed"} : {} }
+                disabled = { viewMoreProduct  >= products.length? true : false }  > View more</button>
             </div> 
         </Container>
     )

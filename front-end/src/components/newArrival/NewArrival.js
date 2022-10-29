@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState , useRef} from 'react'
 import { useSelector } from 'react-redux'
@@ -10,16 +10,18 @@ function NewArrival() {
 
    const products = useSelector((state) => state.products.products)
    const [current, setCurrent ] = useState(0);
-   const length = products.length;
+   const length = products?.length;
    const carousel = useRef(null);
 
    const nextArrow = () =>{
-       carousel.current.scrollLeft += 201;
+       carousel.current.scrollLeft += 200;
     
     }
     const prevArrow = () =>{
-      carousel.current.scrollLeft -= 201;
+      carousel.current.scrollLeft -= 200;
     }
+ 
+    
 
   return (
      <Parent_container>
@@ -30,7 +32,7 @@ function NewArrival() {
      </button>
      
      <Slide_Container ref={carousel}>
-        {products.map((item, index) => {
+        {products?.slice(0, 12).map((item, index) => {
            return (
               <Wrapp key={index}>
                   <img src={item.product_images[0]}  alt="" />
@@ -49,7 +51,7 @@ function NewArrival() {
 export default NewArrival
 const Parent_container = styled.div`
    width:95%;
-   min-height:300px;
+   min-height:260px;
    margin: 50px auto;
    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
    0px 2px 5px 0px rgba(50, 50, 93, 0.1),
@@ -62,9 +64,29 @@ const Parent_container = styled.div`
     
    }
    img.title {
-      width:200px;
-      margin:5px 30px;
+      width:120px;
+      height:auto;
+      margin-top:10px;
+      margin-bottom:2px;
+      margin-left:30px;
    }
+
+
+   @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    
+    
+  }
+  @media only screen and (max-width: 1022px) {
+    
+  }
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      button{
+         display:none;
+      }
+   
+  }
    
 `
 const Wraper = styled.div`
@@ -85,28 +107,34 @@ button{
 .next-arrow,
 .prev-arrow {
    
-   color:orange;
+   color:#000;
 }
 
 
 `
 const Slide_Container = styled.div`
+   position:relative; 
    display:flex;
-   overflow-x:hidden;
+   overflow-x:scroll;
    scroll-behavior: smooth;
+   scrollbar-width:none;
+
+   &::-webkit-scrollbar{
+   display:none;
+}
    
 `
 
 const Wrapp = styled.div` 
-   margin:0 5px;
-   
+   margin:0 10px;
+
 
    img{
-      
-      width:190px;
-      height:225px;
+   
+      width:180px;
+      height:195px;
       object-fit:cover;
-      border:1px solid lightblue;
+      border:1px solid rgba(50, 50, 93, 0.3);
       border-radius: 4px;
       box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
                   0px 2px 5px 0px rgba(50, 50, 93, 0.1),

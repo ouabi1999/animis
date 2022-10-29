@@ -7,7 +7,7 @@ import Spinner from "../Spinner/Spinner";
 import {Link } from "react-router-dom"
 import { handleSelectCategory } from "../../features/categories/categorySlice";
 import NotFound from "./NotFound";
-
+import MenuIcon from '@mui/icons-material/Menu';
 
 function FilteredItems(props) {
   const filteredData = useSelector((state) => state.filteredProduct.filteredData);
@@ -26,10 +26,19 @@ function FilteredItems(props) {
   
 }, [])
  
-  
+  const {showingMenu, showMenu} = props;
   return (
 
     <Product_contianer>
+      
+       {!showMenu &&(
+
+       <button className="menu_container" onClick={showingMenu}>
+              <MenuIcon className="mainMenu" />
+        </button>
+       )}
+      
+
       {filteredData.length > 1 && (
 
         <Fade bottom cascade>
@@ -82,32 +91,111 @@ function FilteredItems(props) {
 
 export default FilteredItems;
 const Product_contianer = styled.div`
-   margin:25px 0;
-  .grid-container {
-    padding: 10px;
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    gap: 15px;
-    place-content: center;
+   min-width:320px;
+  
+  .grid-container{
+      padding:10px;
+      display: grid;
+      grid-template-columns: repeat(4,auto);
+      gap:15px;
+      place-content: center;
+      
 
-    img {
-      border-image: round;
-      width:100%;
-      height: 200px;
-      background-color: rgb(255, 255, 255);
-      border-radius: 6px 6px 0 0;
-      object-fit: cover;
-    }
+      img{
+        border-image: round;
+        width:100%;
+        height:215px;
+        background-color:rgb(255, 255, 255);
+        border-radius: 6px 6px 0 0;
+        object-fit:cover;
+      }   
+}
+.product_container{
+   padding: 0 0  12px;
+   background-color:rgb(250, 250, 250);
+   border-radius:8px;
+   border:none;
+   width:100%;
+   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+  .menu_container{
+    display:none;
   }
+  @media only screen and (max-width: 1024px) {
+    .menu_container{
+    display:flex;
+  }
+  
+}
+
+@media only screen and (max-width: 1200px) {
+  .grid-container{
+     
+    grid-template-columns: repeat(4,auto);
+  }
+}
+
+@media only screen and (max-width: 950px) {
+  .grid-container{
+     
+    grid-template-columns: repeat(3, 25%);
+  }
+  p{
+      
+      width:100%;
+   
+  }
+
+  
+}
+  @media only screen and (max-width: 730px) {
+  .grid-container{
+      grid-template-columns: repeat(2,auto); 
+  }
+  .shipping{
+    
+    top:295px;
+  }
+}
+
+  @media only screen and (max-width:420px) {
+  .grid-container{
+     
+    grid-template-columns: repeat(2, 50%);
+    place-items:center;
+    padding:5px;
+    grid-gap:5px;
+  
   .product_container {
-    padding: 0 0 20px;
+    padding: 0 0 5px;
     background-color: rgb(250, 250, 250);
     border-radius: 6px;
     border: none;
-    width: 210px;
+    width:100%;
+    min-width: 165px;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
       rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   }
+ 
+
+      img{
+        height:180px;
+      }
+      p{
+        width:100%;
+        font-size:11px;
+      }
+     
+    .shipping{
+      font-size:10px;
+      right:5px;
+    
+      top:215px;
+    }
+  }
+  }
+  
 `;
 const Product_info = styled.div`
   display: flex;
@@ -121,7 +209,7 @@ const FirstSection = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 13px;
-    width: 170px;
+    max-width: 200px;
     margin-top: 0;
   }
 `;

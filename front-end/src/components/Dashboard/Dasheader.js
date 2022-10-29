@@ -30,9 +30,7 @@ import MenuIcon from '@mui/icons-material/Menu';
           <li>
             <MarkunreadIcon className='message' />
           </li>
-          <li>
-            <img src="../catogorey/anime-bags.jpg" alt="" />
-          </li>
+          
         </div>
       </HeaderWrap>
     )
@@ -67,9 +65,9 @@ img{
 .menu{
   flex:1;
   li>button{
-    cusor:pioter;
+    cursor:pioter;
   }
 }
 
-}
+
 `

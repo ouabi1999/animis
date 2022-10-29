@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { ToastContainer, toast } from 'react-toastify';
 
 const initialCartState = { 
     cartItems:[]
@@ -17,6 +18,15 @@ export const cart_Slice = createSlice({
               if (item.id === action.payload.id) {
                
                 alreadyInCart = true;
+                toast.success("Already in cart !")
+                state.cartItems = [
+                  {
+                      ...action.payload,
+                      price:parseInt(action.payload.price),
+                      subtotal:parseInt(action.payload.price) * action.payload.selectedQuantity ,
+                      alreadyInCart:true
+                
+                }]
                 
               }
             });
@@ -24,19 +34,17 @@ export const cart_Slice = createSlice({
     
             
             if (!alreadyInCart) {
-             
+              toast.success("A new item has been added to your Shopping Cart.")
               cartItems.push({ 
                         ...action.payload,
                         price:parseInt(action.payload.price),
-                        subtotal:parseInt(action.payload.price),
+                        subtotal:parseInt(action.payload.price) * action.payload.selectedQuantity ,
                         alreadyInCart:true,
 
                               
                 })
+                state.cartItems = cartItems
             }
-
-            state.cartItems = cartItems
-            console.log(cartItems)
             
           },
 
@@ -74,9 +82,29 @@ export const cart_Slice = createSlice({
           }
           state.cartItems = cartItems
         })
-      }
+      },
 
+    
+    buyNowItem(state, action){
+      const cartItems = state.cartItems.slice();
+
+      state.cartItems = [{ 
+                    ...action.payload,
+                    price:parseInt(action.payload.price),
+                    subtotal:parseInt(action.payload.price) * action.payload.selectedQuantity ,
+                    alreadyInCart:true,
+
+                          
+            }]
+      
+        
+
+       
+       
+        
+      },
     },
+    
  })
- export const {removeFromCart, addQuantity, addToCart, subtractQuantity } = cart_Slice.actions
+ export const {removeFromCart, addQuantity, addToCart, buyNowItem, subtractQuantity } = cart_Slice.actions
  export default cart_Slice.reducer

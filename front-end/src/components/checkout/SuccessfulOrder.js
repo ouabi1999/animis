@@ -59,13 +59,16 @@ const Container = styled.div`
      
     }
     img{
-      width:600px;
-      height:400px;
-      object-fit:cover;
+      max-width:600px;
+      width:50%;
+      min-width:350px;
+      height:auto;
+     
       box-shadow: 2px 4px 8px rgb(12, 12, 12 , 0.5);
       border-radius:6px;  
       position:absolute; 
-      top:15%;
+      top:20%;
+      
      
     }
     .close-container{
@@ -74,7 +77,7 @@ const Container = styled.div`
       
     }
     .close-icon{
-      font-size:40px;
+      font-size:30px;
       margin:15px 20px;
     }
   .close-icon:hover{

@@ -1,11 +1,9 @@
 import React, {createContext} from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import {useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 
 
-import Girls from "./components/categories/girls"
-import Boys from "./components/categories/boys"
 import Contact from "./screens/contact"
 import About from "./screens/about"
 import Card from "./screens/shoppingCart/Card"
@@ -25,7 +23,6 @@ import Nav from './components/Navbar/Nav'
 import { getUser } from "./features/auth/authSlice"
 import UserLayout from './components/user_Dashboard/userLayout/UserLayout'
 import MyOrders from './components/user_Dashboard/MyOrders'
-import Chat from './components/user_Dashboard/Chat'
 import Notifications from './components/user_Dashboard/Notifications'
 import HelpCenter from './components/user_Dashboard/HelpCenter'
 import CheckoutContainer from './components/checkout/CheckoutContainer'
@@ -39,6 +36,9 @@ import ProductsFilter from './screens/ProductsFilter';
 import Profile from './components/user_Dashboard/profile/profile';
 import ProductDetails from './components/Home/products/productDetails';
 import { getProductsDetails } from './features/categories/categorySlice';
+import { getCustomers } from './features/customers/customers_slice';
+import ClientChatLayout from './components/user_Dashboard/Chat/ClientChatLayout';
+import ChatLayout from './components/Dashboard/chat/ChatLayout';
 
 
 export const OrderContext = createContext();
@@ -57,7 +57,7 @@ function App() {
     country:"",
     address1:"",
     shippingMethod:"",
-    shippingPrice:"",
+    shippingPrice:"0.00",
     totalPrice:"",
     currency:"usd",
     products:"",
@@ -96,6 +96,7 @@ function App() {
     getProductsInfo()
     dispatch(getUser())
     dispatch(getProductsDetails())
+    dispatch(getCustomers())
     
      // 👇️ scroll to top on page load
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
@@ -115,10 +116,8 @@ function App() {
           </Routes>
           
           <Routes>
-            <Route   path = "/"                   element={<><Nav/><Footer/></>}>
+            <Route   path = "/"                   element={<><Nav outlet ={<Outlet/>}/><Footer/></>}>
               <Route path = "/"                   element = {<Home />} />
-              <Route path = "girls"               element = {<Girls />} />
-              <Route path = "boys"                element = {<Boys />} />
               <Route path = "contact-us"          element = {<Contact />} />
               <Route path = "about-us"            element = {<About />} />
               <Route path = "shopping-cart"       element = {<Card />} />
@@ -129,23 +128,27 @@ function App() {
               <Route path= "category"             element =  {<ProductsFilter/>}/>
               <Route path= "product_details/:id"  element = {<ProductDetails/>}/>
 
-              <Route   path = "/profile"       element = {<UserLayout />} >
-                <Route path = "/profile"       element = {<Profile />} />
-                <Route path = "myorders"       element = {<MyOrders />} />
-                <Route path = "chat"        element = {<Chat />} />
-                <Route path = "help-center"    element = {<HelpCenter />} />
-             
-                <Route path = "notifications"  element = {<Notifications />} />
-              </Route>
+              
             </Route>
             <Route path = "/login"              element = {<LoginForm />} />
               <Route path = "/register"           element = {<Signup />} />
             <Route path = "/checkout"      element = {<CheckoutContainer/>} />
-            
+
+
+            <Route   path = "/profile"       element = {<UserLayout />} >
+                <Route path = "/profile"       element = {<Profile />} />
+                <Route path = "myorders"       element = {<MyOrders />} />
+                <Route path = "chat"        element = {<ClientChatLayout/>} />
+                <Route path = "help-center"    element = {<HelpCenter />} />
+             
+                <Route path = "notifications"  element = {<Notifications />} />
+              </Route>
+
             <Route   path = "/admin"       element = {<DashLayout />} >
               <Route path = "/admin"       element = {<Dashboard />} />
               <Route path = "dashproducts" element = {<ProductsLayout />} />
               <Route path = "analytics"    element = {<Chart />} />
+              <Route path = "admin-chat"    element = {<ChatLayout/>}/>
             </Route>
 
             

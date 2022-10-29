@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { handleChangeChecked, handleChangePrice, handleSelectCategory, handleSelectRating } from '../../features/categories/categorySlice'
@@ -6,10 +6,10 @@ import CheckboxProton from './controls/CheckboxProton'
 import FilterCategoryToggle from './controls/FilterCategoryToggle'
 import RatinigFilterToggle from './controls/RatinigFilterToggle'
 import SliderProton from './controls/SliderProton'
-
+import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 function FilterPanel(props){
   const list = useSelector((state) => state.filteredProduct.filteredData);
-  
+
   useEffect(() => {
   
      // 👇️ scroll to top on page load
@@ -52,11 +52,19 @@ function FilterPanel(props){
     handleSelectCategory,
     handleSelectRating,
     handleChangePrice,
+    hideMenu,
+    showMenu
   } = props;
+
+  
     return (
         <Container>
+           
+            
+              
 
-            <div>
+               <div>
+                <DisabledByDefaultIcon onClick={hideMenu} className="icon" />
                 <div className='category-input-group'>
                     <p className='label'>Category</p>
                     <FilterCategoryToggle
@@ -93,6 +101,7 @@ function FilterPanel(props){
                     />
                 </div>
             </div>
+            
 
         </Container>
     )
@@ -100,15 +109,48 @@ function FilterPanel(props){
 
 export default FilterPanel 
 const Container = styled.div`
+      position:sticky;
+      top:10%;
+      bottom:0;
+      height: calc(100vh - 80px);
+      overflow-y:scroll;
+      background:#fff;
+      padding:10px 20px; 
+
+     ::-webkit-scrollbar {
+         width: 6px;
+       }
+       
+     
+       ::-webkit-scrollbar-track {
+         box-shadow: inset 0 0 5px grey; 
+         border-radius: 10px;
+       }
+        
     
-     padding:2px 15px; 
+       ::-webkit-scrollbar-thumb {
+         background: gray; 
+         border-radius: 10px;
+       }
+       
+       
+       ::-webkit-scrollbar-thumb:hover {
+         background: lightgray;
+       }
+      
     .checkbox-list{
         display:grid;
         grid-template-columns: auto auto;
         gap: 10px;
     }
+    @media only screen and (min-width: 1022px) {
+      .icon{
+      display:none;
+    }
     
-
+  }
+ 
+    
 
 
 

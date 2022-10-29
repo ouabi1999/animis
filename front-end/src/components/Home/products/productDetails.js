@@ -1,8 +1,8 @@
 import React,{useEffect, useState} from 'react'
 import Modal from "react-modal"
 import Zoom from "react-reveal/Zoom";
-import { addToCart } from '../../../features/shopping_cart/cartSlice';
-import Spinner from "../../Spinner/Spinner"
+import { addToCart, buyNowItem } from '../../../features/shopping_cart/cartSlice';
+
 import styled from 'styled-components';
 import StarIcon from '@mui/icons-material/Star';
 import Reviews from './reviews';
@@ -10,10 +10,12 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProductDetails, getProductDetails } from '../../../features/productDetails/productDetails_slice';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {Link} from "react-router-dom"
 import CircularProgress from '@mui/material/CircularProgress';
+import { ToastContainer, toast } from 'react-toastify';
 import CustomerReviews from './customerReviews';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function ProductDetails() {
@@ -21,6 +23,7 @@ function ProductDetails() {
     const params = useParams()
     const user = useSelector(state=> state.auth.user)
     const products = useSelector(state=> state.products.products)
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const [selected, setSelected] = useState({
       isDescription:true,
@@ -97,7 +100,7 @@ function ProductDetails() {
   useEffect(() => {
     dispatch(getProductDetails(params.id))
    
-    //window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
      
   
      
@@ -123,7 +126,7 @@ function ProductDetails() {
     let sum_stars = product?.ratings.length > 0 ? product?.ratings.reduce((total, value) => {
       return total += value.stars
     }, 0) : ""
-
+   
     return (
      <Product_details_Wrapp>
         {isLoading === false  && product ? (
@@ -217,7 +220,7 @@ function ProductDetails() {
               
                   <Product_info>
 
-                    <h5>Color:</h5>
+                    <h5>Color : </h5>
                     <div className='product-colors '>
                     {product.product_images.map((img, index) => (
                       <img src={img}
@@ -231,7 +234,7 @@ function ProductDetails() {
                     ))}
                      </div>
                    
-                    <h5> Size:</h5>
+                    <h5> Size :</h5>
                     <div className='product-sizes'>
 
                       {product.sizes.map((size, index) => (
@@ -246,7 +249,7 @@ function ProductDetails() {
                         </button>
                       ))}
                     </div>
-                    <h4>Quantity:</h4>
+                    <h4>Quantity :</h4>
                     <div className='product-quantity'>
                     <button onClick={subtractQuantity}>
                         <RemoveIcon className='minus-icon'/>
@@ -261,13 +264,26 @@ function ProductDetails() {
                       available</span>
                     </div>
                   </Product_info>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
+             
+               
                   <Buttons_container>
                     <button
                       className="buy-button"
                       type="button" onClick={() => {
-                        dispatch(
+                        
 
-                          dispatch(addToCart(
+                          dispatch(buyNowItem(
                             {...product,
                                selectedColor:selectedColor, 
                                selectedSize:selectedSize,
@@ -277,8 +293,8 @@ function ProductDetails() {
                             }
                             
                             ))
-                        )
-                        
+                          
+                          navigate("/checkout")
                       
                       }}>
                       Buy Now
@@ -441,6 +457,7 @@ const Product_details_Wrapp = styled.div`
 `
 const Container = styled.div`
     display:flex;
+    flex-wrap:wrap;
    
     .thumb img{
       width:50px;
@@ -486,7 +503,9 @@ const LeftSide = styled.div`
 const CenterSide = styled.div`
      flex:0.5;
      padding-left:20px;
-
+  .product-title p{
+    font-size:14px;
+  }
   .on{
     color: #FFBA5A;
     font-size:20px;
@@ -498,7 +517,7 @@ const CenterSide = styled.div`
 
   .price-info-container{
     background:rgb(237, 237, 240, 0.3);
-    padding: 5px 10px;
+    padding: 5px 0px;
   }
   .price-info-container>div{
     margin-top:9px;
@@ -509,7 +528,8 @@ const CenterSide = styled.div`
 
   }
   .price{
-    font-size:30px;
+    font-size:25px;
+    margin-right:8px;
   }
   .discount{
     text-decoration:line-through;
@@ -517,7 +537,7 @@ const CenterSide = styled.div`
 
   }
   .discount-percent{
-     background:rgb(255, 0, 0, 0.3);
+     background:rgb(255, 0, 0, 0.2);
      padding:0 2px;
      font-size:12px;
      
@@ -550,19 +570,19 @@ const Reveiwes_container = styled.div`
 
 `
 const Buttons_container = styled.div`
-      width:30vw;
+      width:35vw;
       display:flex;
-      flex-wrap:wrap;
       justify-content:space-between;
       
      .add-to-cart-button{
        width:200px;
        background:orange;
        color:white;
-       padding:15px;
-       border-radius:8px;
+       border-radius:5px;
        font-size:15px;
        font-weight:bold;
+       padding:6px 10px;
+       white-space:nowrap;
      }   
 
      .buy-button{
@@ -570,17 +590,23 @@ const Buttons_container = styled.div`
       background:lightgreen;
       color:white;
       padding:15px;
-      border-radius:8px;
+      border-radius:5px;
       font-size:15px;
       font-weight:bold;
+      margin-right:10px;
+      white-space:nowrap;
       
      }  
+     button:hover{
+           opacity:0.8;
+     }
 
 
 `
 const Buyer_protection_wrap = styled.div`
       width:40vw;
-      height:100px;
+      min-width:295px;
+      height:auto;
       margin-top:15px;
       
       img{
@@ -637,8 +663,8 @@ const Product_info = styled.div`
       background:rgb(227, 227, 227);
       border-radius:50%;
       font-size:20px;
-      width:32px;
-      height:32px;  
+      width:26px;
+      height:26px;  
     }
     .product-quantity button:hover{
       background:lightblue;
@@ -646,6 +672,7 @@ const Product_info = styled.div`
 
     .product-quantity span{
       margin:2px 10px;
+      font-size:15bpx;
     }
 
     .product-quantity{
@@ -653,7 +680,7 @@ const Product_info = styled.div`
     }
 
     .minus-icon, .add-icon{
-       font-size:14px;
+       font-size:13px;
     }
 
 `
@@ -665,15 +692,7 @@ const RecommendedForYou = styled.div`
       flex-direction:column;
       align-items:center;
       
-      .recommnded-product-price{
-        position:relative;
-        
-        top:-154px;
-        left:46px;
-        background:#fff;
-        padding:2px 10px;
-
-      }
+     
       .recommended-container{
         position:relative;
         display:flex;
@@ -756,4 +775,3 @@ const Wrapper =  styled.div`
   }
 
 `
-

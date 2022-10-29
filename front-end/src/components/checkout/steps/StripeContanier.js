@@ -66,7 +66,7 @@ export default function StripeContanier() {
           <CheckoutForm />
         </Elements>
     ):
-    <div><SkeletonLoader/></div>
+    <div style={{padding:"0 10px"}}><SkeletonLoader/></div>
   }
    
     </Container>

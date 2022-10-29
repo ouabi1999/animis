@@ -20,9 +20,11 @@ function ProductCart(props) {
     <Container>
       <div className='header-container'>
            
-        <Link to="/shopping-cart" >
-        <div style={{display:"flex", alignItems:"stretch", justifyContent:"center"}}>
-          <span><ArrowBackIcon /></span>
+        <Link to = "/shopping-cart" >
+        <div style = {{display:"flex", alignItems:"stretch", marginBottom:"3px"}}>
+          <span>
+            <ArrowBackIcon style={{width:"19px"}} />
+          </span>
           <span>
           Back
         </span>
@@ -30,43 +32,38 @@ function ProductCart(props) {
         </Link>
 
         <div>
-          <img src="./CORAZON_LOGO-01.png" alt="" />
+          <h3>CHECKOUT</h3>
         </div>
       </div>
       
       <Wrraper>
 
         <div className="product-container">
-          <table>
-            <tr>
-              <th></th>
-              <th></th>  
-            </tr>
+          
             {props.cartItems?.map(item => {
               return (
-                <tr>
-                  <td>
+                <div className="child-container">
+                  
                     <div className='img-container'>
                       <img src={item.product_images[0]} alt="" />
-                      
                     </div>
+
                     <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
-                  </td>
-              
-                  <td>
-                    <span className='price'>${item.price * item.selectedQuantity}</span>
-                  </td>
-                </tr>
+
+                  <span className="product-title">{item.title}</span>
+                  <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
+                 
+                </div>
               )
             })}
-          </table>  
+       
         </div>
 
         <div className='discount'>
           <input type="text" placeholder='Discount code' />
-          <button   disabled="true" /*</div>style={ formData.cartItems.coupon?{opacity:"0.8", cursor:"not-allowed"}:""}*/ type="button"> Apply </button>
+          <button   disabled="true" style={{ opacity:"0.8", cursor:"not-allowed"}} type="button"> Apply </button>
         </div>
 
         <Totals>
@@ -104,27 +101,32 @@ function ProductCart(props) {
 export default ProductCart
 
 const Container = styled.div`
-     
-     height:100%;
     
-     background: rgb(63,231,251);
-     background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
-     display:flex;
-     flex-direction:column;
-    
+    height:100%;
+    background: rgb(63,231,251);
+    background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
+    display:flex;
+    flex-direction:column;
 
+    h3{
+      letter-spacing:2px;
+      margin:0;
+    }
 
+    .header-container a {
+      color:black;
+    }
      .header-container{
       display:flex;
-      align-self:center;
-      padding: 15px 20px;
+      align-items:center;
+      padding: 16px 20px;
       border-bottom:1px solid gray;
       margin-bottom:10px;
       width:100%;
       box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
       0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-      
      }
+
      .header-container span{
       margin-top:10px;
      }
@@ -138,6 +140,19 @@ const Container = styled.div`
       margin: 0 auto;
 
      }
+     .product-title{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; 
+      width:100%;
+      max-width:520px;
+      font-size:14px;
+      margin-right:2px;
+      
+   
+    }
+    
+
 
 
 `
@@ -146,18 +161,20 @@ const Wrraper = styled.div`
     width:75%;
     margin: 0 auto;
 
+
     .product-container{
         background:rgba(255, 255, 255, 0.5);
         border-radius:6px;
         box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
-        
         padding:5px 10px;
     }
-
+    .child-container{
+      display:flex;
+      align-items:center;
+    }
    
     .product-container img{
-      margin-bottom:6px;
-      margin-right:10px;
+     
       width:60px;
       height:75px;
       object-fit:cover;
@@ -166,36 +183,28 @@ const Wrraper = styled.div`
       padding:1px;
     }
     .img-container{
-      display:flex;
-      align-items:center;
+     
     }
     
      .quantity{
       border-radius:50%;
       padding:1px 4px;
       font-size:12px;
-      width:20px;
-      height:20px;
+      min-width:20px;
+      min-height:20px;
       text-align:center;
       background:#000;
       color:#ffff;
       position:relative;
-      top:-90px;
-      left:-6px;
+      top:-36px;
+      left:-75px;
      }
-    table{
-      width:100%;
-    }
-
+   
      p{
       font-size:13px;
       
     }
-    td:nth-child(3){
-      text-align:center;
-      font-size:13px;
-    
-    }
+   
    
     .discount{
      
@@ -226,11 +235,10 @@ const Wrraper = styled.div`
       background:#000;
       color:#ffff;
       border-radius:4px;
-      
       padding:0 10px;
-      
-      
     }
+
+   
     
 `
 
