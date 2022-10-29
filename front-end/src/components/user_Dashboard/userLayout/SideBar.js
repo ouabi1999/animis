@@ -99,13 +99,10 @@ const Side_Bar = styled.div`
       color:#330000;
     }
 
-
-
     @media only screen and (min-width: 600px) {
     /* For tablets: */
-    
-    
   }
+
   
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */

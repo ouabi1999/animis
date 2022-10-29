@@ -87,7 +87,7 @@ function HomeProducts(props) {
 
 export default HomeProducts
 const Product_contianer = styled.div`
-  min-width:320px;
+   min-width:320px;
   .grid-container{
       padding:10px;
       display: grid;
@@ -152,7 +152,13 @@ const Product_contianer = styled.div`
     
     
  
-    
+    img{
+        border-image: round;
+        height:auto;
+        background-color:rgb(255, 255, 255);
+        border-radius: 6px 6px 0 0;
+        object-fit:contain;
+      } 
 
       .product_container{
            padding: 0 0  5px;
