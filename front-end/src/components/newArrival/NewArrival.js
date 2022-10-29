@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState , useRef} from 'react'
 import { useSelector } from 'react-redux'
@@ -14,12 +14,14 @@ function NewArrival() {
    const carousel = useRef(null);
 
    const nextArrow = () =>{
-       carousel.current.scrollLeft += 181;
+       carousel.current.scrollLeft += 200;
     
     }
     const prevArrow = () =>{
-      carousel.current.scrollLeft -= 181;
+      carousel.current.scrollLeft -= 200;
     }
+ 
+    
 
   return (
      <Parent_container>
@@ -68,6 +70,23 @@ const Parent_container = styled.div`
       margin-bottom:2px;
       margin-left:30px;
    }
+
+
+   @media only screen and (min-width: 600px) {
+    /* For tablets: */
+    
+    
+  }
+  @media only screen and (max-width: 1022px) {
+    
+  }
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+      button{
+         display:none;
+      }
+   
+  }
    
 `
 const Wraper = styled.div`
@@ -94,20 +113,26 @@ button{
 
 `
 const Slide_Container = styled.div`
+   position:relative; 
    display:flex;
-   overflow-x:hidden;
+   overflow-x:scroll;
    scroll-behavior: smooth;
+   scrollbar-width:none;
+
+   &::-webkit-scrollbar{
+   display:none;
+}
    
 `
 
 const Wrapp = styled.div` 
-   margin:0 5px;
-   
+   margin:0 10px;
+
 
    img{
-      
-      width:171px;
-      height:200px;
+   
+      width:180px;
+      height:195px;
       object-fit:cover;
       border:1px solid rgba(50, 50, 93, 0.3);
       border-radius: 4px;

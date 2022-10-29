@@ -39,36 +39,26 @@ function ProductCart(props) {
       <Wrraper>
 
         <div className="product-container">
-          <table>
-            <tr>
-              <th></th>
-              <th></th>  
-            </tr>
+          
             {props.cartItems?.map(item => {
               return (
-                <tr className="child-container">
-                  <td>
+                <div className="child-container">
+                  
                     <div className='img-container'>
                       <img src={item.product_images[0]} alt="" />
-                      
                     </div>
 
                     <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
-                  </td>
 
-                  <td className="product-title">
-                  <span>{item.title}</span>
-                  </td>
-
-                  <td>
-                    <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
-                  </td>
-                </tr>
+                  <span className="product-title">{item.title}</span>
+                  <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
+                 
+                </div>
               )
             })}
-          </table>  
+       
         </div>
 
         <div className='discount'>
@@ -111,7 +101,7 @@ function ProductCart(props) {
 export default ProductCart
 
 const Container = styled.div`
-     
+    
     height:100%;
     background: rgb(63,231,251);
     background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
@@ -129,7 +119,7 @@ const Container = styled.div`
      .header-container{
       display:flex;
       align-items:center;
-      padding: 16.50px 20px;
+      padding: 16px 20px;
       border-bottom:1px solid gray;
       margin-bottom:10px;
       width:100%;
@@ -154,15 +144,14 @@ const Container = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap; 
-      width:280px;
+      width:100%;
+      max-width:520px;
+      font-size:14px;
+      margin-right:2px;
       
    
     }
-    .product-title span{
-       width:100px;
-      font-size:10px;
-      
-    }
+    
 
 
 
@@ -171,6 +160,7 @@ const Wrraper = styled.div`
   
     width:75%;
     margin: 0 auto;
+
 
     .product-container{
         background:rgba(255, 255, 255, 0.5);
@@ -185,7 +175,6 @@ const Wrraper = styled.div`
    
     .product-container img{
      
-      margin-right:10px;
       width:60px;
       height:75px;
       object-fit:cover;
@@ -201,28 +190,21 @@ const Wrraper = styled.div`
       border-radius:50%;
       padding:1px 4px;
       font-size:12px;
-      width:20px;
-      height:20px;
+      min-width:20px;
+      min-height:20px;
       text-align:center;
       background:#000;
       color:#ffff;
       position:relative;
-      top:-90px;
-      left:-6px;
+      top:-36px;
+      left:-75px;
      }
-    table{
-      width:100%;
-    }
-
+   
      p{
       font-size:13px;
       
     }
-    td:nth-child(3){
-      text-align:center;
-      font-size:13px;
-    
-    }
+   
    
     .discount{
      

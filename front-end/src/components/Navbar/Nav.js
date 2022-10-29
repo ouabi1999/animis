@@ -54,12 +54,12 @@ class Nav extends React.Component {
 
           <Right_section className="right_section">
             <div className="shopping-cart-container">
-            <NavLink to="/shopping-cart" onClick={this.props.switchMode}>
+            <Link to="/shopping-cart" onClick={this.props.switchMode}>
               <ShoppingCartIcon className='shopping-cart-icon' />
               <span className="num-cart-product">
                 {this.props.cartItems.cartItems.length}
               </span>
-            </NavLink>
+            </Link>
             </div>
             <div className="langMenu">
               <DrpDwnMenu_lang />

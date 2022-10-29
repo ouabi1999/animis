@@ -46,17 +46,15 @@ function ClientChatLayout() {
     socket.on("messages", msg => {
       if (ReceiverUser === null){
         console.log("test1")
-       
         setNotification((prev) => [msg.messages, ...prev]);
-        console.log("test2")
-        console.log(notification)
+      
 
       } else{
         return ""
       }
     })
   
-  }, [socket,ReceiverUser ])
+  }, [socket, ReceiverUser ])
      
      
     

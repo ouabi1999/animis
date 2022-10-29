@@ -49,7 +49,7 @@ export class DropDownMenu extends Component {
             <ul className='DropDown_Container'>
               <li>
                 
-                <Link  onClick={this.props.hideMenu} to="profile">Profile</Link>
+                <Link  onClick={this.props.hideMenu} to="/profile">Profile</Link>
               </li>
               
               <li>

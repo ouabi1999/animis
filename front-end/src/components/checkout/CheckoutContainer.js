@@ -63,6 +63,7 @@ const Conatiner = styled.div`
     background:#fff;
     display:flex;
     flex-wrap:wrap;
+
  
 
 
@@ -71,6 +72,8 @@ const Conatiner = styled.div`
 `
 const Left_Section = styled.div`
   flex:1;
+  min-width:320px;
+  min-height:100vh;
    
 `
 const Right_Section = styled.div`

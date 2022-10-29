@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 
 import styled from 'styled-components';
 import Fade from "react-reveal/Fade"
@@ -11,7 +11,7 @@ import { CircularProgress } from '@mui/material';
 
 function HomeProducts(props) {
   const dispatch = useDispatch()
-   
+  const scrolltobottom = useRef()
   
   const isProducts = useSelector((state) => state.products.isProducts)
   const [viewMoreProduct, setViewMoreProduct] = useState(10)
@@ -23,19 +23,18 @@ function HomeProducts(props) {
     )
   }
 
-  
-  const {products} = props;
- 
-  
+  const {products, scrolTo} = props;
+
   return (
-    <Product_contianer>
-        <Fade bottom cascade>
+    <Product_contianer >
+        <Fade bottom cascade >
             {isProducts !==  null ? (
                <div className="grid-container">
+
                 {products?.map(item => {
                   return (
-                      <div  key={item.id} className="product_container">
-                        <Link to={"product_details/" + item.id}>
+                      <div  key={item.id} className="product_container" ref= {scrolTo}  >
+                        <Link   to={"product_details/" + item.id}>
                           <img src={item.product_images[0]} alt="img"/>
                         </Link>
                       <Product_info>
@@ -56,15 +55,20 @@ function HomeProducts(props) {
                         </SeccondSection>
 
                         <ThirthSection>
-                          <span className="productprice">${item.price}</span>
-                          <span className="productdiscount">{item.discount} % </span>
+                          <span className="productprice">${item.price}.99</span>
+                          <span className="productdiscount">{item.discount}
+                          % </span>
+                          <span className="shipping"> Free Shipping </span>
                         </ThirthSection>
 
                       </Product_info>
                     </div>
+                    
                   )
                 }
+                
                 )}
+               
                 </div>
           ) :(
           <div style={{ height:"200px", marginTop:"100px", display:"flex" , justifyContent:"center"}}>
@@ -83,7 +87,7 @@ function HomeProducts(props) {
 
 export default HomeProducts
 const Product_contianer = styled.div`
-   min-width:320px;
+  min-width:320px;
   .grid-container{
       padding:10px;
       display: grid;
@@ -98,11 +102,11 @@ const Product_contianer = styled.div`
         height:215px;
         background-color:rgb(255, 255, 255);
         border-radius: 6px 6px 0 0;
-        object-fit:contain;
+        object-fit:cover;
       }   
 }
 .product_container{
-   padding: 0 0  20px;
+   padding: 0 0  12px;
    background-color:rgb(250, 250, 250);
    border-radius:8px;
    border:none;
@@ -117,16 +121,28 @@ const Product_contianer = styled.div`
   }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 950px) {
   .grid-container{
      
-    grid-template-columns: repeat(3,auto);
+    grid-template-columns: repeat(3, 30%);
   }
+  p{
+      
+      width:100%;
+   
+  }
+
+  
 }
-@media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 730px) {
   .grid-container{
       grid-template-columns: repeat(2,auto); 
   }
+  .shipping{
+    
+    top:295px;
+  }
+}
 
   @media only screen and (max-width: 490px) {
   .grid-container{
@@ -134,22 +150,16 @@ const Product_contianer = styled.div`
     grid-template-columns: repeat(2, 50%);
     place-items: center;
     
+    
  
-    img{
-        border-image: round;
-        
-        height:auto;
-        background-color:rgb(255, 255, 255);
-        border-radius: 6px 6px 0 0;
-        object-fit:contain;
-      } 
+    
 
       .product_container{
            padding: 0 0  5px;
            background-color:rgb(250, 250, 250);
            border-radius:8px;
            border:none;
-           width:80%;
+           width:100%;
            height:auto;
            box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
            rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -157,11 +167,18 @@ const Product_contianer = styled.div`
       p{
       
         width:100%;
+        font-size:11px;
      
     } 
+    .shipping{
+      font-size:10px;
+      right:5px;
+    
+      top:215px;
+    }
   }
   }
-}
+
 
 `
 
@@ -183,7 +200,8 @@ const FirstSection = styled.div`
       text-overflow: ellipsis;
       white-space: nowrap; 
       font-size:13px;
-      width:215px;
+      max-width:220px;
+      width:100%;
       margin-top:0;
       padding:0 5px;
     }  
@@ -212,7 +230,7 @@ const SeccondSection = styled.div`
    
 }
 .star-icon{
-  color:gold;
+  color:#ff9933;
   font-size:18px;
   float:right
 
@@ -222,10 +240,16 @@ const SeccondSection = styled.div`
 }
 `
 const ThirthSection = styled.div`
-    margin-top:6px;
+    margin-top:10px;
+    width:100%;
+    display:flex;
     .productprice{
-      color:blue;
-      padding:0 5px;
+      color:#000000;
+      padding:2px 5px;
+      margin-left:2px;
+     
+      background:rgb(255, 0, 0, 0.2);
+      border-radius: 6px 6px 0 6px;
       
 
 
@@ -233,11 +257,17 @@ const ThirthSection = styled.div`
     .productdiscount{
       font-size:13px;
       text-decoration:line-through;
-      color:green;
+      color:#cc0000;
       margin-left:20px;
+      align-self:end;
       
     }
 
-
+  .shipping{
+    font-size:12px;
+    position:absolute;
+    right:4px;
+    bottom:13px;
+  }
 `
 

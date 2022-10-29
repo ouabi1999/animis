@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 
-
-  function AddNewProduct(props) {
+function AddNewProduct(props) {
     const [shipping, setShipping]= useState({
       type:"",
       price:"",
@@ -35,7 +36,7 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
       Description_images:{},
       shippingData: []
     });
-
+    const [loading , setLoading] = useState(false)
     const imgInput = createRef()
 
     const { 
@@ -56,6 +57,7 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
     /// send products info to the backend
     const AddNew_Product_submit = (event) => {
       event.preventDefault();
+      setLoading(true)
       const data = new FormData();
       for (let i = 0; i < formData.product_images.length; i++) {
         data.append("images", formData.product_images[i]);
@@ -91,8 +93,39 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
         body: data,
       })
         .then((response) => response.json())
-        .then((data) =>  props.responseData(data))
-        .catch((err) => console.log(err));
+        .then((data) =>  {
+          props.responseData(data)
+          setLoading(false)
+          setFormData({
+            ...formData,
+            product_images: [],
+            /*sizes: [],
+            colors: [],
+            price: "",
+            discount: "",
+            quantity: "",
+            title: "",
+            description: "",
+            reviews: "",
+            availability: "",
+            product_type:"",
+            pics_info : "",
+            seo : "",
+            category: "",
+            tags: [],
+            products: [],
+            Description_images:{},
+            shippingData: []*/
+          })
+          
+          toast.success("A new Product has been added .")
+          
+        })
+        .catch((err) => {
+          console.log(err)
+          setLoading(false)
+        
+        });
     };
 
     // fetch product info grom the backend or server
@@ -248,6 +281,27 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
       <>
         {is_addNewProduct_open && (
           <AddNew_Product>
+
+            {loading && (
+                 <div className='loader'>
+                 <CircularProgress
+                   size={25}
+                   thickness={4}
+                 />
+                </div>
+            )}
+           
+            <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
             <Left_container id="useform">
               <div className="exit-button">
                 <button onClick={CloseAddNewProduct}>X</button>
@@ -361,6 +415,7 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
                 type="submit"
                 onClick={AddNew_Product_submit}
                 className="submitButton"
+                
               >
                 Add New Product
               </button>
@@ -599,12 +654,17 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
 
   const AddNew_Product = styled.div`
      display:flex;
+     position:relative;
      
     
 
 
     
-    
+     .loader{
+      position:absolute;
+      top:50%;
+      right:50%;
+     }
     .submitButton{
         display:flex;
         padding:10px 20px;

@@ -76,7 +76,7 @@ const Categories = () => {
 
             <Accessories_container className='box-shadow'>
                 <h2>Accessories</h2>
-                <Wrapp className='accessories box-shadow'/>
+                <Wrapp className='accessories '/>
                 <Link to="/category" onClick={ ()=> filter("accessories")}></Link>
                 <Wrapp/>
 
@@ -121,37 +121,38 @@ const Categories_container = styled.div`
    grid-gap:10px;
    width:95%;
    margin:auto;
-   height:350px;
+   min-height:350px;
    padding:10px;
    
    img{
-      width:80px;
-      height:90px;
-    
-   }
-   a{
-    box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+      margin:0;
+      padding:0;
+      width:90px;
+      height:100px;
+      box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1),
     0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
-       border-radius:10px;
+    border-radius:6px;
+    
    }
+   
   
-   div{
-    background: rgb(211,63,251);
-    background: radial-gradient(circle, rgba(211,63,251,0.38139005602240894) 0%, rgba(251,117,55,0.227328431372549) 100%);
-        
-       border-radius:10px;
-       padding:0 5px;  
-   }
+   
 
-   h1{
+   h2{
        font-weight:small;
+       margin: 4px 0;
+       font-size:18px;
        
    }
    .box-shadow{
     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1),
     0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+    background: rgb(255, 255, 255, 0.4);
+        
+    border-radius:8px;
+    padding:5px 10px; 
 
  }
     
@@ -159,46 +160,114 @@ const Categories_container = styled.div`
 
 `
 const Accessories_container = styled.div`
-    grid-column: 1 / span 2;
+    grid-column: 1 / span 3 ;
     grid-row: 1 / span 2;
     
     .accessories{
         background-image:url("catogorey/anime-bags.jpg");
         width:100%;
-        height:245px;
+        height:270px;
+        object-fit:cover;
+        border-radius:8px;
+        box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
+    0px 2px 5px 0px rgba(50, 50, 93, 0.1),
+    0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+       
     }
 
+    @media only screen and (max-width:1112px) {
+      &{
+        grid-column: 1 / span 2;
+        
+       
+    }
+}
+    
 `
 
 const Clothes_conatiner = styled.div`
    
-    grid-column: 3 / span 1;
-    grid-row: 1 ;
+   @media only screen and (max-width:1112px) {
+      &{
+        grid-column: 1 / span 2;
+        grid-row: 3 / span 1;
+       
+    }
+}
 
 `
 const Bags_container = styled.div`
-    grid-column: 4 / span 1;
+    grid-column: 5 / span 1 ;
     grid-row: 1 ;
+    @media only screen and (max-width:1112px) {
+      &{
+        grid-column: 3 / span 1;
+        grid-row: 2 / span 1;
+       
+    }
+}
+@media only screen and (max-width:700px) {
+      &{
+        grid-column: 1 / span 2;
+        grid-row:8 ;
+        
+       
+    }
+}
     
 `
 
 
 const Toyes_container = styled.div`
-    grid-column: 5 / span 1;
+    grid-column: 4 ;
     grid-row: 1 ;
-   
+    @media only screen and (max-width:1112px) {
+      &{
+        grid-column: 3 / span 1;
+        
+       
+    }
+}  
+@media only screen and (max-width:700px) {
+      &{
+        grid-column: 1 / span 2;
+        grid-row:7 ;
+        
+       
+    }
+}
+
 
 `
 
 const Poster_container = styled.div`
-   
+    grid-column: 4 ;
+    grid-row: 2 ;
+
+    @media only screen and (max-width:1112px) {
+      &{
+        grid-column: 3 / span 1;
+        grid-row:3 ;
+        
+       
+    }
+} 
+@media only screen and (max-width:700px) {
+      &{
+        grid-column: 1 / span 2;
+        grid-row:9 ;
+        
+       
+    }
+} 
     
 `
 const Wrapp = styled.div`
-    
+    margin:0;
     a{
         display:flex;
         justify-content:space-between;
     }
+    
 `
 
