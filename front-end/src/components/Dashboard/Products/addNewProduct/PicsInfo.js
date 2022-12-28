@@ -2,7 +2,7 @@ import React,{useRef} from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-export default function DescriptionImages({ setFormData, formData}) {
+export default function PicsInfo({ setFormData, formData}) {
 
    
     const imgInput = useRef()

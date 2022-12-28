@@ -1,21 +1,75 @@
-import React from 'react'
 import styled from 'styled-components'
+import React, { useState} from 'react';
+import { useEffect } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-function Description({formData, handelChange}) {
+
+
+
+function Description({ formData, setFormData }) {
+ 
+  const [value, setValue] = useState('');
+  useEffect(() => {
+       setFormData({
+        ...formData,
+        description:value
+
+       })
+  }, [value])
+  
+  const handleChange = (content, delta, source, editor) => {
+   
+    // console.log(JSON.stringify(editor.getContents())); // delta 사용시
+    setValue(editor.getHTML());
+   
+  };
+  const modules = {
+    toolbar: [
+      //[{ 'font': [] }],
+      [{ header: [1, 2, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      [{ align: [] }, { color: [] }, { background: [] }], // dropdown with defaults from theme
+      ["clean"],
+    ],
+  };
+  
+  const formats = [
+    //'font',
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "align",
+    "color",
+    "background",
+  ];
     return (
         <Container>
-            <div>
-                <label htmlFor="Description" style={{fontFamily:"sans-serif"}} >Description</label>
-                <div className="description">
-                    <textarea
-                        form="useform"
-                        name="description"
-                        value={formData.description}
-                        onChange={handelChange}
-                        placeholder="Text"
-                    ></textarea>
-                </div>
-            </div>
+          
+            <label htmlFor="Description" style={{fontFamily:"sans-serif"}} >Description</label>
+            <ReactQuill 
+            theme="snow"
+             value={value} 
+             onChange={handleChange} 
+             modules={modules}
+             formats={formats}
+             
+             />
         </Container>
     )
 }
@@ -24,15 +78,19 @@ export default Description
 
 const Container = styled.div`
 
-    textarea {
-      height: 50vh;
-      width: 45vw;
-      border: 1px solid lightgray;
-      padding:10px;
-      border-radius: 6px;
-      &:focus {
-        outline: 1px solid lightblue;
+    .wrapper-class {
+        padding: 1rem;
+        border: 1px solid #ccc;
       }
-    }
+
+    .editor-class {
+        background-color:#fff;
+        padding: 1rem;
+        border: 1px solid #ccc;
+      }
+
+      .toolbar-class {
+          border: 1px solid #ccc;
+ }
 
   `

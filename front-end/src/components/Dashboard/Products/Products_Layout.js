@@ -2,9 +2,8 @@ import React, { Component, createRef } from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import AdminProducts from './Admin_Products';
-import EditProduct from './Edit_Product';
-import DashProductdetails from './DashProduct_details';
 import AddNewProduct from './addNewProduct/Add_New_Product';
+import EditProductLyout from './editProduct/EditProductLyout';
 
 export default class ProductsLayout extends Component {
     constructor(props){
@@ -13,24 +12,12 @@ export default class ProductsLayout extends Component {
 
             is_addNewProduct_open :false,
             products:[],
-            AdminProducts:false,
-            product_images:[],
-            product_pics:"",
-            sizes: [],
-            colors: [],
-            price:"",
-            discount:"",
-            quantity:"",
-            title: "",
-            description: "",
-            reviews: "",
-            availability:"",
-            category:"",
-            tags:[],
-            product: null,
-            Editproduct:false,
+            AdminProducts:true,
+            slectedProduct: null,
+            selectedEditProduct:false,
             dashProduct_details:null,
             isUpdated: null,
+            loaded : false
         }
         this.imgInput = createRef()
     }
@@ -53,7 +40,7 @@ export default class ProductsLayout extends Component {
             this.setState({
               
               products: data,
-              AdminProducts: true,
+              loaded : true
             })
           )
   
@@ -85,6 +72,7 @@ export default class ProductsLayout extends Component {
         })
         console.log(this.state.addNewProduct)
     }
+    
     CloseAddNewProduct =()=>{
         this.setState({
             is_addNewProduct_open:false,
@@ -105,7 +93,7 @@ export default class ProductsLayout extends Component {
     }
       // show product details
   openModal = (product) => {
-    this.setState({ product });
+    this.setState({ slectedProduct: product });
   }
   /// close product details
   closeModal = () => {
@@ -118,14 +106,16 @@ export default class ProductsLayout extends Component {
 
   open_Edit_Modal = (Editproduct)=>{
     this.setState({
-    Editproduct,
-    
+    selectedEditProduct:Editproduct,
+    AdminProducts:false,
+
      
    })
   }
   close_Edit_Modal = () =>{
     this.setState({
-      Editproduct:false,
+      selectedEditProduct:false,
+      AdminProducts:true,
       
     })
    }
@@ -133,15 +123,20 @@ export default class ProductsLayout extends Component {
     render() {
         return (
             <div>
-                <AdminProducts
-                   products = {this.state.products}
-                   openModal = {this.openModal}
-                   deleteProduct = {this.deleteProduct}
-                   open_Edit_Modal = {this.open_Edit_Modal}
-                   OpenAddNewProduct = {this.OpenAddNewProduct}
-                   AdminProducts = {this.state.AdminProducts}
-                   
-                />
+                {this.state.AdminProducts === true && (
+
+                    <AdminProducts
+                        products={this.state.products}
+                        loaded={this.state.loaded}
+                        openModal={this.openModal}
+                        deleteProduct={this.deleteProduct}
+                        open_Edit_Modal={this.open_Edit_Modal}
+                        OpenAddNewProduct={this.OpenAddNewProduct}
+                        AdminProducts={this.state.AdminProducts}
+
+                    />
+                )}
+                {this.state.is_addNewProduct_open && (
                 <AddNewProduct
                     CloseAddNewProduct = {this.CloseAddNewProduct}
                     products = {this.state.products}
@@ -149,20 +144,19 @@ export default class ProductsLayout extends Component {
                     is_addNewProduct_open = {this.state.is_addNewProduct_open}
                       
                 />
-                
-                {this.state.product && (
-                    <DashProductdetails
-                        product = {this.state.product}
-                        closeModal = {this.closeModal}
-                    />
                 )}
+                
+               
 
-                <EditProduct
+                {this.state.selectedEditProduct &&(
+
+                <EditProductLyout 
                     close_Edit_Modal = {this.close_Edit_Modal}
-                    Editproduct = {this.state.Editproduct}
+                    selectedEditProduct = {this.state.selectedEditProduct}
                     Update_Product_submit = {this.Update_Product_submit}
                     updatedProduct ={ this.updatedProduct}
                 />
+                )}
             </div>
         )
     }

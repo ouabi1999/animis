@@ -29,7 +29,7 @@ function Tags({formData, handelChange,setFormData}) {
 
   return (
         <Container>
-            <label htmlFor="tag" style ={{fontFamily:"sans-serif", marginBottom:"10px;"}}>Tags</label>
+            <label htmlFor="tag" style ={{fontFamily:"sans-serif", marginBottom:"10px"}}>Tags</label>
             <div className="tag-container">
                 {formData.tags?.map((tag, index) => {
                     return (

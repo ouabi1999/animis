@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState , useRef} from 'react'
 import { useSelector } from 'react-redux'
+import "../../App.css"
 import Slider from "react-slick"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -30,16 +31,42 @@ function NewArrival() {
      <button type="button" onClick = {prevArrow}>
          <ArrowBackIosIcon className="prev-arrow" />
      </button>
-     
-     <Slide_Container ref={carousel}>
-        {products?.slice(0, 12).map((item, index) => {
-           return (
-              <Wrapp key={index}>
-                  <img src={item.product_images[0]}  alt="" />
-              </Wrapp>
-           )
-        })} 
-     </Slide_Container>
+         <Slide_Container ref={carousel}>
+            {products.length > 0 ? (
+                  products?.slice(0, 12).map((item, index) => {
+                    return (
+                       <Wrapp key={index}>
+                          <img src={item.colors[0]} alt="" />
+                       </Wrapp>
+                    )
+                 })
+
+              ) :
+              <>
+                <Wrapp>
+                <div className="skeleton"/> 
+                </Wrapp>
+                <Wrapp>
+                <div className="skeleton"/> 
+                </Wrapp>
+                <Wrapp>
+                <div className="skeleton"/>
+                </Wrapp>
+                <Wrapp> 
+                <div className="skeleton"/> 
+                </Wrapp>
+                <Wrapp>
+                <div className="skeleton"/> 
+                </Wrapp>
+                <Wrapp>
+                <div className="skeleton"/>
+                </Wrapp> 
+
+              </>
+
+           
+            }
+           </Slide_Container>
       <button type="button" onClick = {nextArrow}>
          <ArrowForwardIosIcon className="next-arrow"  />
       </button>
@@ -86,7 +113,31 @@ const Parent_container = styled.div`
       }
    
   }
-   
+  
+   .skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+    width:180px;
+    height:195px;
+    border:1px solid lightgray;
+   }
+  
+  @-webkit-keyframes skeleton-loading {
+    0% {
+      background-color: #c2cfd6;
+    }
+    100% {
+      background-color: #f0f3f5;
+    }
+  }
+  
+  @keyframes skeleton-loading {
+    0% {
+      background-color: #c2cfd6;
+    }
+    100% {
+      background-color: #f0f3f5;
+    }
+  }
 `
 const Wraper = styled.div`
    width:100%;
@@ -130,7 +181,7 @@ const Slide_Container = styled.div`
 const Wrapp = styled.div` 
    margin:0 10px;
 
-
+   
    img{
    
       width:180px;

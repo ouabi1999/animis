@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Button, IconButton,MenuItem, InputAdornment, TextField } from '@mui/material';
+import React, { useContext } from 'react'
+import { Button, CircularProgress, MenuItem, TextField } from '@mui/material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
-import { Form, Formik, useFormik } from 'formik';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { UserContext } from '../EditProfile';
+import { useFormik } from 'formik';
+import { UserContext } from '../profile';
 import * as Yup from "yup"
 import Flag from 'react-world-flags'
 import  Data from "../../../../common/countries.json"
@@ -14,34 +11,28 @@ import  Data from "../../../../common/countries.json"
 
 function EditCountry(props) {
     const countriesData = Data.slice()
-    const { formData, setFormData} = useContext(UserContext)
+    const { formData, setFormData, updateUserInfo, loading} = useContext(UserContext)
     const editSechema = Yup.object({
-        country: Yup.string().required("Please select yoyr country "),
+        country: Yup.string().required("Please select your country "),
       
-            })
+        })
 
     const formik = useFormik({
-        initialValues : formData,
+        initialValues : {country : formData.country},
         validationSchema :editSechema,
         onSubmit: values => {
-           
             // same shape as initial values
-            setFormData({...values})
-            console.log(values);
+            updateUserInfo({...formData, country: values.country})
         },
     });
+   
+    
     const {
-        nameEdit,
-        emailEdit,
-        passwordEdit,
+       
         countryEdit,
-        genderEdit,
-        closeNameEdit,
-        closeEmailEdit,
-        closePasswordEdit,
+       
         closeCountryEdit,
-        closeGenderEdit,
-        closeAgeEdit,
+       
         ageEdit } = props;
 
     return (
@@ -79,7 +70,11 @@ function EditCountry(props) {
                             {countriesData.map((country, index) =>{
                                   return(
                                     
-                                   <MenuItem key={index}   value={country.name}>
+                                   <MenuItem key={index}   
+                                            value={country.name} 
+                                            onClick={()=> {
+                                                            setFormData({...formData, countryCode:country.code} )
+                                                        }}>  
                                     <div style={{display:"flex" , alignItems:"center"}}>
                                     <Flag code={country.code} style={{width:"30px", height:"20px" , marginRight:"10px"}} />
                                     <span>{country.name}</span>
@@ -95,8 +90,23 @@ function EditCountry(props) {
                     </div>
 
                     <div className='save-button'>
-
-                        <Button type="submit" variant="contained">Save changes</Button>
+                        <Button type="submit" variant="contained">
+                        <span>Save changes</span>
+                            {loading && (
+                                   
+                                <CircularProgress
+                                        style={{ marginLeft: "5px", color: "white" }}
+                                        size={23}
+                                        thickness={6}
+                                        
+                                        value={100}
+                                    />
+                                )
+                                
+                            }
+                            
+                        </Button>
+                          
                     </div>  
                 </PopUpEdit>
                 </form>

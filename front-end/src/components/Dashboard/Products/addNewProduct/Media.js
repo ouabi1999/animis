@@ -6,10 +6,10 @@ function Media({ setFormData, formData}) {
 
     const imgInput = useRef()
     const removeImage = (index) => {
-        const product_images = formData.product_images.slice();
+        const colors = formData.colors.slice();
         setFormData({
           ...formData,
-          product_images: product_images.filter((x) => x !== index),
+          colors: colors.filter((x) => x !== index),
         });
       };
 
@@ -32,7 +32,7 @@ function Media({ setFormData, formData}) {
             if (reader.readyState === 2) {
               setFormData({
                 ...formData,
-                product_images: [...formData.product_images, reader.result],
+                colors: [...formData.colors, reader.result],
               });
             }
           };
@@ -49,7 +49,7 @@ function Media({ setFormData, formData}) {
             <div className="productImg-container">
                 <input
                     type="file"
-                    name="product_images"
+                    name="colors"
                     ref={imgInput}
                     id="file"
                     style={{ display: "none" }}
@@ -69,7 +69,7 @@ function Media({ setFormData, formData}) {
                 </div>
 
 
-                {formData.product_images?.map((img) => {
+                {formData.colors?.map((img) => {
                     return (
                         <div key={img.index}>
                             <img

@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik, useFormik } from 'formik';
 import * as Yup from "yup"
-import { UserContext } from '../EditProfile';
+import { UserContext } from '../profile';
 
 function EditName(props) {
 
     const user = useSelector(state=> state.auth.user)
-    const { formData, setFormData} = useContext(UserContext)
-    const editSechema = Yup.object({
+    const { formData, setFormData , updateUserInfo } = useContext(UserContext)
+    const editSechema = Yup.object({ 
         firstName: Yup.string()
           .max(15, 'Must be 15 characters or less')
           .required('Required'),
@@ -24,16 +24,21 @@ function EditName(props) {
         
     
      
-     
+   
+    
 
     const formik = useFormik({
         initialValues : formData,
         validationSchema :editSechema,
+        
+
         onSubmit: values => {
            
             // same shape as initial values
-            setFormData({...formData, firstName:values.firstName, lastName : values.lastName})
-            console.log(formData);
+           
+            updateUserInfo({...formData, firstName:values.firstName, lastName : values.lastName})
+
+            
         },
     });
 

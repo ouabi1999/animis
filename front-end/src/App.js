@@ -24,7 +24,7 @@ import { getUser } from "./features/auth/authSlice"
 import UserLayout from './components/user_Dashboard/userLayout/UserLayout'
 import MyOrders from './components/user_Dashboard/MyOrders'
 import Notifications from './components/user_Dashboard/Notifications'
-import HelpCenter from './components/user_Dashboard/HelpCenter'
+import HelpCenter from './components/user_Dashboard/Help-center/HelpCenter'
 import CheckoutContainer from './components/checkout/CheckoutContainer'
 import PrivacyPolicy from './screens/polices/PrivacyPolicy';
 import TermsOfServices from './screens/polices/TermsOfServices';
@@ -39,6 +39,8 @@ import { getProductsDetails } from './features/categories/categorySlice';
 import { getCustomers } from './features/customers/customers_slice';
 import ClientChatLayout from './components/user_Dashboard/Chat/ClientChatLayout';
 import ChatLayout from './components/Dashboard/chat/ChatLayout';
+import DisplayLyout from './components/Dashboard/display/DisplayLyout';
+import { getDisplayInfo } from './features/display/displaySlice';
 
 
 export const OrderContext = createContext();
@@ -83,12 +85,13 @@ function App() {
      .catch(error=> console.log(error))
    }*/
   const getProductsInfo = () => {
-    fetch('/productsinfo').then(response => {
+    fetch('/productsinfo')
+    .then(response => {
       if (response.ok) {
         return response.json()
       }
     }).then(data => dispatch(setProducts(data)))
-      .then(err => console.log(err))
+      .catch(err => console.log(err))
   }
 
   // fetch product info from the backend or server
@@ -97,6 +100,7 @@ function App() {
     dispatch(getUser())
     dispatch(getProductsDetails())
     dispatch(getCustomers())
+    dispatch(getDisplayInfo())
     
      // 👇️ scroll to top on page load
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
@@ -111,7 +115,7 @@ function App() {
         <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
           <Routes>
-            <Route path = "/" element={<Header />} />
+            <Route path = "/" element={<Header />} /> 
             <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
           </Routes>
           
@@ -139,16 +143,18 @@ function App() {
                 <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
                 <Route path = "chat"        element = {<ClientChatLayout/>} />
+                
                 <Route path = "help-center"    element = {<HelpCenter />} />
              
                 <Route path = "notifications"  element = {<Notifications />} />
               </Route>
 
-            <Route   path = "/admin"       element = {<DashLayout />} >
-              <Route path = "/admin"       element = {<Dashboard />} />
-              <Route path = "dashproducts" element = {<ProductsLayout />} />
-              <Route path = "analytics"    element = {<Chart />} />
-              <Route path = "admin-chat"    element = {<ChatLayout/>}/>
+            <Route   path = "/admin"         element = {<DashLayout />} >
+              <Route path = "/admin"         element = {<Dashboard />} />
+              <Route path = "dashproducts"   element = {<ProductsLayout />} />
+              <Route path = "analytics"      element = {<Chart />} />
+              <Route path = "admin-chat"     element = {<ChatLayout/>}/>
+              <Route path = "displaySetting" element = {<DisplayLyout/>} />
             </Route>
 
             

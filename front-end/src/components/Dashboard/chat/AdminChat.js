@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import {useSelector} from "react-redux";
 import io from "socket.io-client";
-import  {format}  from "timeago.js";
+import * as timeago from 'timeago.js';
 let endPoint = "http://localhost:5000";
 let socket = io.connect(`${endPoint}`);
 
@@ -185,7 +185,7 @@ function AdminChat(props) {
               <span > {msg.message} </span>
 
               <span  className='time-ago'>
-                {format(msg.created_at)}
+                {timeago.format(msg.created_at)}
                 {msg.sender === user.id ? <DoneAllIcon className="sending-icon" /> : ""}
 
                </span>

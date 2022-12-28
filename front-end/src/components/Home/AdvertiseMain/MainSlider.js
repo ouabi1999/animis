@@ -4,37 +4,74 @@ import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick";
 import styled from "styled-components";
 
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// Import Swiper styles
+import 'swiper/css';
+import { useSelector } from "react-redux";
+import { Pagination, Navigation, Autoplay } from "swiper";
+
 const MainSlider = () => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    pauseOnHover: true,
-    arrows:false
-  };
+
+  const displayData = useSelector(state => state.display.display)
+  
 
   return (
     <Container>
+
+
       
-        <Slider {...settings} className="slider skeleton" >
-          
-          <div>
-            <img src="image-slide/background-img.jpg" alt="image-slide" />
-          </div>
-          <div>
-            <img src="image-slide/toy-3631315.jpg" alt="image-slide" />
-          </div>
-          <div>
-            <img src="image-slide/danbo-1206484.jpg" alt="image-slide" />
-          </div>
+        <Swiper
         
-        </Slider>
-      
-      
-      
+          loop={true}
+          
+          modules={[Pagination, Navigation, Autoplay]} 
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+          pagination={{
+          clickable: true,
+          }}
+          className="mySwiper"
+        >
+          
+        
+          {displayData.slider[0] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[0]} alt="slider" />
+              </SwiperSlide>
+            )}
+           {displayData.slider[2] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[2]} alt="slider" />
+              </SwiperSlide>
+            )}
+           {displayData.slider[3] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[3]} alt="slider" />
+              </SwiperSlide>
+            )}
+             {displayData.slider[4] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[4]} alt="slider" />
+              </SwiperSlide>
+            )}
+             {displayData.slider[5] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[5]} alt="slider" />
+              </SwiperSlide>
+            )}
+         
+            {displayData.slider[6] && (
+             <SwiperSlide>
+              <img src={displayData?.slider[6]} alt="slider" />
+              </SwiperSlide>
+            )}
+          
+
+        
+        </Swiper>
     </Container>
   )
 }
@@ -45,6 +82,8 @@ const Container = styled.div`
     
    
    min-width:200px;
+   height:52vh;
+   animation: skeleton-loading 1s linear infinite alternate;
    
   
    

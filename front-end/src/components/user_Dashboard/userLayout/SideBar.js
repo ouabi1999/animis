@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 
-function SideBar() {
+function SideBar() { 
   return (
     <Side_Bar>
     <ol>
@@ -69,11 +69,15 @@ const Side_Bar = styled.div`
     width:100%;
     min-height:calc(100vh - 80px);
     flex:0.5;
+   
 
     padding-left:10px;
     
     ol{
        margin-left:-40px;
+       position:fixed;
+       top:60px;
+       left:0%;
       
     }
     span{
@@ -84,9 +88,6 @@ const Side_Bar = styled.div`
         padding:10px 5px;
        
 
-        i{
-          color:#ffff;
-        }
 
        a{
           display:flex;
@@ -96,7 +97,8 @@ const Side_Bar = styled.div`
        }
     }
     .sidebar_icons{
-      color:#330000;
+      color:gray;
+      margin-right:8px;
     }
 
     @media only screen and (min-width: 600px) {
@@ -112,9 +114,12 @@ const Side_Bar = styled.div`
         display:flex;
         width:100vw;
         justify-content:space-between;
+        background:#fff;
+        position:sticky;
+        
       }
       &{
-       
+        
         min-height:0;
         border-bottom:1px solid lightgray;
       }

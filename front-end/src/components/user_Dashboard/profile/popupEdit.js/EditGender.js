@@ -6,13 +6,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik, useFormik } from 'formik';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { UserContext } from '../EditProfile';
+import { UserContext } from '../profile';
 import * as Yup from "yup"
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
+import CircularProgress from "@mui/material/CircularProgress"
 
 function EditGender(props) {
-    const { formData, setFormData} = useContext(UserContext)
+    const { formData, setFormData, updateUserInfo, loading} = useContext(UserContext)
     const editSechema = Yup.object({
         gender :  Yup.mixed().oneOf(['Male', 'Female'])
         .defined()
@@ -20,13 +21,15 @@ function EditGender(props) {
             })
 
     const formik = useFormik({
-        initialValues : formData,
+        initialValues :{
+            gender:formData.gender
+
+            },
         validationSchema :editSechema,
         onSubmit: values => {
            
             // same shape as initial values
-            setFormData({...values})
-            console.log(values);
+            updateUserInfo({...formData, gender:values.gender})
         },
     });  const {
         nameEdit,
@@ -93,7 +96,22 @@ function EditGender(props) {
                     </div>
                     <div className='save-button'>
 
-                        <Button type="submit" variant="contained">Save changes</Button>
+                        <Button type="submit" variant="contained">
+                        <span>Save changes</span>
+                            {loading && (
+                                   
+                                <CircularProgress
+                                        style={{ marginLeft: "5px", color: "white" }}
+                                        size={23}
+                                        thickness={6}
+                                        
+                                        value={100}
+                                    />
+                                )
+                                
+                            }
+                            
+                        </Button>
                     </div>
                 </PopUpEdit>
                 </form>

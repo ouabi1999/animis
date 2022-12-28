@@ -35,7 +35,7 @@ function HomeProducts(props) {
                   return (
                       <div  key={item.id} className="product_container" ref= {scrolTo}  >
                         <Link   to={"product_details/" + item.id}>
-                          <img src={item.product_images[0]} alt="img"/>
+                          <img src={item.colors[0]} alt="img"/>
                         </Link>
                       <Product_info>
                     
@@ -55,7 +55,7 @@ function HomeProducts(props) {
                         </SeccondSection>
 
                         <ThirthSection>
-                          <span className="productprice">${item.price}.99</span>
+                          <span className="productprice">${item.price}</span>
                           <span className="productdiscount">{item.discount > item.price ? `${((item.discount - item.price) / item.discount * 100).toFixed(0)} % `  : ""}
                           </span>
                           <span className="shipping"> Free Shipping </span>

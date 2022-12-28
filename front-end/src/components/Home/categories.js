@@ -11,6 +11,7 @@ const Categories = () => {
   const [Data , setData] = useState([])
   const products = useSelector(state => state.products.products)
   const dispatch = useDispatch()
+  const displayData = useSelector(state=> state.display.display)
 
   const filter = (itemCategory) =>{
   
@@ -18,10 +19,13 @@ const Categories = () => {
       
   }
   
+ useEffect(() => {
+   console.log(displayData)
+ }, [displayData])
  
 
     return (
-        <>
+        <Container>
         <Categories_header>
             <div className="border"></div>
             <h3>Featured Categories</h3>
@@ -31,17 +35,15 @@ const Categories = () => {
         <Categories_container>
             
             <Clothes_conatiner className='box-shadow'>
-                <h2>Clothes</h2>
+                <h2>{displayData.category[0]?.categoryName}</h2>
 
                 <Wrapp>
-                    <Link to ="category" onClick={()=> filter("clothes")}>
-                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
-                
-                    
-                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
-                    
-                    
-                        <img src="catogorey/anime-clothes.jpg" alt="clothes" />
+                    <Link to ="category" onClick={()=> filter(displayData.category[0]?.categoryName)}>
+                        
+                        <img  src={displayData.category[0]?.img1}  alt="" />
+                        <img  src={displayData.category[0]?.img2}  alt="" />
+                        <img  src={displayData.category[0]?.img3}  alt="" />
+                         
                 
                     </Link>
                 </Wrapp>
@@ -49,57 +51,70 @@ const Categories = () => {
             </Clothes_conatiner>
 
             <Toyes_container className='box-shadow'>
-                <h2>Toyes</h2>
+                <h2>{displayData.category[1]?.categoryName}</h2>
                 <Wrapp>
-                <Link to="/category" onClick={ ()=> filter("toys")}>
-                    <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-                    <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-
-                    <img src="catogorey/anime-toys.jpg" alt="anime-toys"  />
-                </Link>
+                    <Link to ="category" onClick={()=> filter(displayData.category[1]?.categoryName)}>
+                        
+                        <img  src={displayData.category[1]?.img1}  alt="" />
+                        <img  src={displayData.category[1]?.img2}  alt="" />
+                        <img  src={displayData.category[1]?.img3}  alt="" />
+                         
                 
+                    </Link>
                 </Wrapp>
             </Toyes_container>
 
                 <Bags_container className='box-shadow'>
-                    <h2>Bags</h2>
-                    <Wrapp>
-                    <Link to="/category" onClick={()=> filter("bags")}>
-                            <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
-                       
-                            <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
+                <h2>{displayData.category[2]?.categoryName}</h2>
+                <Wrapp>
+                    <Link to ="category" onClick={()=> filter(displayData.category[1]?.categoryName)}>
                         
-                            <img src="catogorey/anime-bags.jpg" alt="anime-bags" />
+                        <img  src={displayData.category[2]?.img1}  alt="" />
+                        <img  src={displayData.category[2]?.img2}  alt="" />
+                        <img  src={displayData.category[2]?.img3}  alt="" />
+                         
+                
                     </Link>
-                    </Wrapp>
+                </Wrapp>
                 </Bags_container>
 
-            <Accessories_container className='box-shadow'>
-                <h2>Accessories</h2>
-                <Wrapp className='accessories '/>
-                <Link to="/category" onClick={ ()=> filter("accessories")}></Link>
-                <Wrapp/>
+            <Accessories_container  data = {displayData.category[3]} className='box-shadow'>
+            <h2>{displayData.category[3]?.categoryName}</h2>
+                
+                    <Link to ="category" onClick={()=> filter(displayData.category[3]?.categoryName)}>
+                    <Wrapp className='accessories box-shadow'>
+                    </Wrapp>  
+                    </Link>
+                
 
             </Accessories_container>
             <Poster_container className='box-shadow'>
-                <h2>Posters</h2>
-                <Wrapp> 
-                <Link to="/category" onClick={()=> filter("posters")}>
-
-                    <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-                    <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-                    <img src="catogorey/poster-wall.jpg" alt="poster wall" />
-
-                </Link>
+            <h2>{displayData.category[4]?.categoryName}</h2>
+                <Wrapp>
+                    <Link to ="category" onClick={()=> filter(displayData.category[1]?.categoryName)}>
+                        <img  src={displayData.category[4]?.img1}  alt="" />
+                        <img  src={displayData.category[4]?.img2}  alt="" />
+                        <img  src={displayData.category[4]?.img3}  alt="" />
+                    </Link>
                 </Wrapp>
-            </Poster_container>     
+            </Poster_container>    
     </Categories_container>
-    </>
+ 
+    </Container>
     )
     
 }
 export default Categories
 
+const Container  = styled.div` 
+
+    h2{
+        font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        text-transform:capitalize;
+        padding:5px 0;
+     }
+
+`
 const Categories_header  = styled.div`
     width:95%;
     text-align:center;
@@ -128,7 +143,7 @@ const Categories_container = styled.div`
    img{
       margin:0;
       padding:0;
-      width:90px;
+      width:95px;
       height:100px;
       box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
     0px 2px 5px 0px rgba(50, 50, 93, 0.1),
@@ -163,15 +178,16 @@ const Accessories_container = styled.div`
     grid-column: 1 / span 3 ;
     grid-row: 1 / span 2;
     
+    
     .accessories{
-        background-image:url("catogorey/anime-bags.jpg");
+        background:url(${props => props?.data?.img1});
         width:100%;
         height:270px;
         object-fit:cover;
         border-radius:8px;
         box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
-    0px 2px 5px 0px rgba(50, 50, 93, 0.1),
-    0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+        0px 2px 5px 0px rgba(50, 50, 93, 0.1),
+        0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
        
     }
 

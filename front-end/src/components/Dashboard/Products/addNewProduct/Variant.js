@@ -5,12 +5,24 @@ import CancelIcon from '@mui/icons-material/Cancel';
 function Variant({formData, setFormData, handelChange}) {
 
      /// add colors
-     const addColor = (e) => {
+     const addHeight = (e) => {
         if (e.key === "Enter") {
           if (e.target.value.length > 0) {
             setFormData({
               ...formData,
-              colors: [...formData.colors, e.target.value],
+              heights: [...formData.colors, e.target.value],
+            });
+            e.target.value = "";
+          }
+        
+        }
+      };
+      const addWidth = (e) => {
+        if (e.key === "Enter") {
+          if (e.target.value.length > 0) {
+            setFormData({
+              ...formData,
+              widths: [...formData.colors, e.target.value],
             });
             e.target.value = "";
           }

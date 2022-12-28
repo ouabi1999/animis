@@ -1,142 +1,135 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import FlipMove from "react-flip-move"
 import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
-import { connect } from "react-redux"
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from 'styled-components';
 import EmptyCart from './emptyCart';
 import ProductSubtotal from './ProductSubtotal';
-class Card extends Component {
-  constructor() {
-    super();
-    this.state = {
-      index: 0,
-      product: null
-    }
-  }
+import { useLayoutEffect } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
- componentDidMount(){
-  window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
- }
-  render() {
-   
-    
-    const { product } = this.state;
-    return (
-      <Container>
 
-        <h2 style={{fontFamily:"sans-serif"}}>Shopping Cart ({this.props.cartItems.cartItems.length})</h2>
-        {this.props.cartItems.cartItems.length === 0 ? (
-          <EmptyCart />
-        )
-          :
-          (
-            <div>
-              
-              <Wrap>
+function Card() {
+
+  const [formData, setFormData] = useState({
+    index: 0,
+    product: null
+  })
+
+  const dispatch = useDispatch()
+  const cartItems =  useSelector((state) => state.cart.cartItems)
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [])
+
+
+
+  const { product } = formData;
+  return (
+    <Container>
+
+      <h2 style={{ fontFamily: "sans-serif" }}>Shopping Cart ({cartItems?.length})</h2>
+      {cartItems?.length === 0 ? (
+        <EmptyCart />
+      )
+        :
+        (
+          <div>
+
+            <Wrap>
+             
               <Wrapper>
-                    <FlipMove
-                      staggerDurationBy="30"
-                      duration={600}
-                      enterAnimation={'chronological'}
-                      leaveAnimation={'accordianVertical'}
-                    >
-                     
-                      {this.props.cartItems.cartItems.map(item => {
-                        return (
+                
 
-                          <div key={item.id} className="product-container">
-                            <div className="product-img">
-                              <img src={item.product_images[item.selectedColor]} alt={item.title} />
-                              
+                  {cartItems?.map(item => {
+                    return (
+
+                      <div key={item.id} className="product-container">
+                        <div className="product-img">
+                          <img src={item.colors[item.selectedColor]} alt={item.title} />
+
+                        </div>
+
+                        <div className='flex-container'>
+
+                          <div className="first-child">
+                            <span>
+
+                              {item.title}
+                            </span>
+                            <div className="delete-button">
+                              <button onClick={() => dispatch(removeFromCart(item))}>
+                                <DeleteIcon />
+                              </button>
                             </div>
 
-                             <div className='flex-container'>
+                          </div>
+                          <div className="selected-size">
+                            <span>
 
-                              <div className="first-child">
-                                <span> 
-
-                                  {item.title}
-                                </span>
-                                <div className="delete-button">
-                                  <button onClick={() => this.props.dispatch(removeFromCart(item))}>
-                                    <DeleteIcon />
-                                  </button>
-                                </div>
-
-                              </div>
-                            <div className="selected-size">
-                                <span>
-                                  
-                                  {item.sizes[item.selectedSize]}
-                                </span>
+                              {item.sizes[item.selectedSize]}
+                            </span>
 
 
-                              </div>
-                            <div className="thired-child">
-                              <span className="price"> US ${item.price}</span>
-                              <div className="Quantity">
-                                <button
-                                  className="subtract-quantity-button"
-                                  onClick={() => this.props.dispatch(subtractQuantity(item))}>
-                                  -
-                                </button>
-                                <span>{item.selectedQuantity}</span>
-                                <button
-                                  className="add-quantity-button"
-                                  onClick={() => this.props.dispatch(addQuantity(item))}>
-                                  +
-                                </button>
-                              </div>
-
+                          </div>
+                          <div className="thired-child">
+                            <span className="price"> US ${item.price}</span>
+                            <div className="Quantity">
+                              <button
+                                className="subtract-quantity-button"
+                                onClick={() => dispatch(subtractQuantity(item))}>
+                                -
+                              </button>
+                              <span>{item.selectedQuantity}</span>
+                              <button
+                                className="add-quantity-button"
+                                onClick={() => dispatch(addQuantity(item))}>
+                                +
+                              </button>
                             </div>
 
-                          
-                             
+                          </div>
 
-                            
-                            {/*this.props.cartItems.cartItems.length !== 0 && (
+
+
+
+
+                          {/*this.props.cartItems.cartItems.length !== 0 && (
                               <div className="subtotal">
                                 {" "}
                                 <span>${item.subtotal.toFixed(2)}</span>
                               </div>
                             )*/}
-                            
-                            </div> 
-                          </div>
 
-                        )
-                      })}
+                        </div>
+                      </div>
+
+                    )
+                  })}
 
 
-                    </FlipMove>
-                  
-                
               </Wrapper>
-         
+
               <ProductSubtotal
-                  cartItems={this.props.cartItems.cartItems}
+                cartItems={cartItems}
 
-                />
-            
-              </Wrap>
-              
-            </div>
-          )}
+              />
+
+            </Wrap>
+
+          </div>
+        )}
 
 
-      </Container>
-    )
-  }
+    </Container>
+  )
 }
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cart,
-  };
-};
 
-export default connect(mapStateToProps)(Card)
+
+
+export default Card
 
 const Container = styled.div`
   background-color: #fff;
@@ -256,22 +249,23 @@ const Wrapper = styled.div`
 
 
 .product-img div{
-  display:flex;
-  flex-direction:column;
+       display:flex;
+       flex-direction:column;
  
   
 
-}
+      }
 
     .first-child{
       display:flex;
       align-items:center;
+      justify-content: space-between;
+      width:100%;
       
       
       
     }
     .first-child span{
-      
       text-overflow:ellipsis;
       white-space: nowrap; 
       overflow: hidden;

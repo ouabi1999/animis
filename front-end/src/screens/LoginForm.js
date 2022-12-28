@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Grid, TextField, MenuItem, Button, IconButton, InputAdornment } from '@mui/material';
+import React, {  useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Grid, TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { Link, useNavigate}  from 'react-router-dom'
 import styled from 'styled-components';
 import { login } from "../features/auth/authSlice";
-import LoginIcon from '@mui/icons-material/Login';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import * as Yup from "yup"
 import CircularProgress, {
 } from '@mui/material/CircularProgress';
+import { useLayoutEffect } from 'react';
 
 
 function LoginForm() {
@@ -49,14 +49,14 @@ function LoginForm() {
 
   
 
-  const Login_Submit = (event)=>{
-     event.preventDefault()
-   
-  }
+  
  
-  useEffect(() => {
+  useLayoutEffect(() => {
     if( auth === "true" ) {
         navigate("/")
+    }
+    else{
+      return ""
     }
   
   }, [])
@@ -71,7 +71,7 @@ function LoginForm() {
 
   const formik = useFormik({
     initialValues: formData,
-    validationSchema: editSechema,
+    validationSchema: editSechema, 
     onSubmit: values => {
 
       // same shape as initial values
@@ -145,7 +145,6 @@ function LoginForm() {
               id="filled-size-small"
               fullWidth
               variant="filled"
-         
               name="password"
               value={formik.values.password}
               onChange={formik.handleChange}
@@ -222,11 +221,9 @@ export default LoginForm
 
 
 const Form = styled.form`
-    
     margin:auto;
     margin-top:8%;
     width:30%;
-   
     min-width:300px;
     border-radius:8px;
     border-style:none;

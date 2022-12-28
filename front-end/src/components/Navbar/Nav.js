@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PersonIcon from '@mui/icons-material/Person';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink, Outlet } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 
 //import component
@@ -16,33 +16,39 @@ import DrpDwnMenu_lang from './DrpDwnMenu_lang';
 import SearchInput from './SearchInput';
 import MainMenu from './MainMenu';
 
-class Nav extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      showMenu: false
-    }
-  }
+
+
+
+function Nav(props) { 
+    const cartItems =  useSelector((state) => state.cart.cartItems)
+    const auth = useSelector(state=> state.auth.user)
+    const displayData = useSelector(state => state.display.display)
+    const [state, setState] = useState(
+      {
+        showMenu: false
+      }
+    )
+    
 
   
-  showMenu = ()=>{
-    this.setState({
+  const showMenu = ()=>{
+    setState({
       showMenu: true
     })
   }
-  hideMenu = () =>{
-    this.setState({
+ const hideMenu = () =>{
+    setState({
       showMenu: false
     })
   }
-  render() {
+
     return (
       <>
         <Nav_container>
           <Left_section>
             <div className="logo">
               <NavLink to="/">
-                <img src="/CORAZON3.svg" alt="corazon logo" />
+                <img src={displayData?.logo} alt="animis logo" />
               </NavLink>
             </div>
 
@@ -54,10 +60,10 @@ class Nav extends React.Component {
 
           <Right_section className="right_section">
             <div className="shopping-cart-container">
-            <Link to="/shopping-cart" onClick={this.props.switchMode}>
+            <Link to="/shopping-cart" onClick={props.switchMode}>
               <ShoppingCartIcon className='shopping-cart-icon' />
               <span className="num-cart-product">
-                {this.props.cartItems.cartItems.length}
+                {cartItems?.length}
               </span>
             </Link>
             </div>
@@ -65,7 +71,7 @@ class Nav extends React.Component {
               <DrpDwnMenu_lang />
             </div>
             <User_container>
-            {this.props.auth.user !== null ?
+            {auth !== null ?
               <DropDownMenu  />
 
               : 
@@ -84,31 +90,25 @@ class Nav extends React.Component {
               
             </User_container>
             
-            <button className="menu_container" onClick={this.showMenu}>
+            <button className="menu_container" onClick={showMenu}>
               <MenuIcon className="mainMenu" />
             </button>
-             <div style={{ display : !this.state.showMenu ? "none": ""}}>
-                  <MainMenu  hideMenu = {this.hideMenu} />
+             <div style={{ display : !state.showMenu ? "none": ""}}>
+                  <MainMenu  hideMenu = {hideMenu} />
              </div>
           </Right_section>
           
         </Nav_container>
         
-        {this.props?.outlet}
+        {props?.outlet}
       </>
     )
   }
-}
 
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cart,
-    auth: state.auth
 
-  };
-};
 
-export default connect(mapStateToProps)(Nav)
+
+export default Nav
 
 const Nav_container = styled.div`
   width:100%;
@@ -123,7 +123,7 @@ const Nav_container = styled.div`
   border-bottom: 1px solid rgb(184, 184, 184); 
   display:flex;
   align-items:center;
-  padding:15px 2px;
+  padding:5px 2px;
   
   .menu_container{
     display:none;
@@ -159,13 +159,13 @@ const Left_section = styled.div`
   
 
   .logo{
-    margin-left:5px;
+    margin-left:10px;
     margin-top:7px;
   }
 
 .logo img{
   width:100%;
-  max-width:260px;
+  max-width:120px;
   min-width:180px;
   height:auto;
   

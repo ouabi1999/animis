@@ -13,13 +13,12 @@ import { useNavigate } from 'react-router-dom'
 
 export const FormContext = createContext();
 function CheckoutContainer() {
- const cartItems =  useSelector((state) => state.cart.cartItems)
+  const cartItems =  useSelector((state) => state.cart.cartItems)
   const [activeStepIndex, setActiveStepIndex] = useState(0);
   const [total, setTotal] = useState(cartItems.reduce((a, c) => a + c.price * c.selectedQuantity, 0).toFixed(2))
   const navigate = useNavigate()
-  useEffect(() => {
-    
   
+  useEffect(() => {
         if(cartItems.length === 0){
         navigate("/") 
        

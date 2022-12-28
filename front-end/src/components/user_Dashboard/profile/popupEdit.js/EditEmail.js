@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik, useFormik } from 'formik';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { UserContext } from '../EditProfile';
+import { UserContext } from '../profile';
 import * as Yup from "yup"
 function EditEmail(props) {
-    const { formData, setFormData} = useContext(UserContext)
+    const { formData, updateUserEmail, loading} = useContext(UserContext)
     const editSechema = Yup.object({
         
         email: Yup.string().email('Invalid email address').required('Required'),
@@ -17,13 +17,13 @@ function EditEmail(props) {
         })
 
     const formik = useFormik({
-        initialValues : formData,
+        initialValues :{email:formData.email},
         validationSchema :editSechema,
         onSubmit: values => {
            
             // same shape as initial values
-            setFormData({...values})
-            console.log(values);
+           updateUserEmail({...formData, email:values.email})
+            
         },
     });
     const {
@@ -74,7 +74,21 @@ function EditEmail(props) {
                     </div>
                     <div className='save-button'>
 
-                        <Button type="submit" variant="contained">Save changes</Button>
+                        <Button type="submit" variant="contained">
+                            <span>Save changes</span>
+                            {loading && (
+                                  
+                                <CircularProgress
+                                        style={{ marginLeft: "5px", color: "white" }}
+                                        size={23}
+                                        thickness={6}
+                                        value={100}
+                                    />
+                                )
+                                
+                            }
+                            
+                        </Button>
                     </div>
                 </PopUpEdit>
             )}

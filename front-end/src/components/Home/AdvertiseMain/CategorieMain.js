@@ -1,10 +1,13 @@
-import React from 'react'
+import React,{useEffect} from 'react'
+import { useSelector } from 'react-redux'
 import styled from "styled-components"
 
 
 function CategorieMain() {
+  const displayData = useSelector(state => state.display.display)
+  
   return (
-    <Container>
+    <Container data ={displayData?.main_category}>
         <div className='item1'>
             
         </div>
@@ -73,27 +76,27 @@ const Container =  styled.div`
   }
 }
     .item1{
-        grid-column: 1 / span 1;
+        grid-column: 1 / span 1; 
         grid-row: 1 /span 2;
-        background:url("./catogorey/anime-clothes.jpg");
+        background: url(${props => props?.data[0]?.img[0]});
       
     }
 
     .item2{
       grid-column: 2 / span 1;
       grid-row: 1 / span 2;
-      background:url("./catogorey/braclet.jpg");
       width:100%;
       height:auto;
+      background: url(${props => props?.data[1]?.img[0]});
       
     }
 
     .item3{
       grid-column: 3 / span 2;
       grid-row: 1 /span 2;
-      background:url("./catogorey/anime-toys.jpg");
       width:100%;
       height:auto;
+      background: url(${props => props?.data[2]?.img[0]});
     
      
 
@@ -102,13 +105,13 @@ const Container =  styled.div`
     .item4{
       grid-column: 1 / span 2;
       grid-row: 3 / span 2;
-      background:url("./catogorey/anime-bags.jpg");
+      background: url(${props => props?.data[3]?.img[0]});
     }
 
     .item5{
       grid-column: 3 / span 1;
       grid-row: 3 / span 2;
-      background:url("./catogorey/poster-wall.jpg");
+      background: url(${props => props?.data[4]?.img[0]});
       
       
       
@@ -116,7 +119,7 @@ const Container =  styled.div`
     .item6{
       grid-column: 4 / span 1;
       grid-row: 3 / span 2;
-      background:url("./catogorey/anime-clothes.jpg");
+      background: url(${props => props?.data[5]?.img[0]});
   
     }
 

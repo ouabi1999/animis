@@ -5,7 +5,24 @@ import base64
 import io
 from api import db, socketio
 from werkzeug.utils import secure_filename
-from .models import Users, Products, user_serializer, productInfo_serializer, orders_serializer, ratings_serializer, Orders, Ratings,notification_serializer, MessageNotification , Messages, messages_serializer, Rooms
+from .models import (
+    Users,
+    Products, 
+    user_serializer,
+    productInfo_serializer,
+    orders_serializer,
+    ratings_serializer,
+    Orders, 
+    Ratings,
+    notification_serializer, 
+    MessageNotification ,
+    Messages, 
+    messages_serializer,
+    Rooms,
+    Display,
+    display_serializer
+        )
+
 from flask_cors import cross_origin, CORS
 from flask_socketio import send, emit,  SocketIO, join_room
 
@@ -49,7 +66,7 @@ def products():
 """
     newproducts = Products(
     title = request.form["title"],
-    product_images = request.form.getlist("images"),
+    series = request.form["series"],
     sizes = request.form.getlist("sizes"),
     colors = request.form.getlist("colors"),
     tags = request.form.getlist("tags"),
@@ -61,9 +78,10 @@ def products():
     availability = request.form["availability"],
     category = request.form["category"],
     product_type = request.form["product_type"],
-    pics_info =  request.form["pics_info"],
+    pics_info =  request.form.getlist("pics_info"),
     shipping_Method = json.loads(request.form["shipping_Method"]),
     seo =    request.form["seo"],
+    coupon = request.form["coupon"],   
     
 ) 
     db.session.add(newproducts)
@@ -81,7 +99,6 @@ def get_product(id):
     return{
         "id":product.id,
         "title":product.title,
-        "product_images": product.product_images,
         "sizes": product.sizes,
         "colors": product.colors,
         "price": product.price,
@@ -96,9 +113,10 @@ def get_product(id):
         "pics_info" : product.pics_info,
         "shippingInfo" : product.shipping_Method,
         "seo" : product.seo,
-        "ratings" : rats #str([*map(ratings_serializer, rats)])}
-        
+        "series":product.series,
+        "ratings" : rats #str([*map(ratings_serializer, rats)])}  
     }
+
 
 #delete specific product
 @views.route('/delete/<id>',methods=['DELETE'])
@@ -112,24 +130,33 @@ def delet_product(id):
 @views.route('/editproduct/<id>',methods=['PUT'])
 def edit_product(id):
     product  = Products.query.filter_by(id = id)
-    images = request.form.getlist("pics")
-    product.update(dict(
-        title = request.form["title"],
-        product_images = images,
-        sizes = request.form.getlist("sizes"),
-        colors = request.form.getlist("colors"),
-        tags = request.form.getlist("tags"),
-        price = request.form["price"],
-        discount = request.form["discount"],
-        quantity = request.form["quantity"],
-        description = request.form["description"],
-        reviews = request.form["reviews"],
-        availability = request.form["availability"],
-        category = request.form["category"],
-    )
-    )
-    db.session.commit()
-    return jsonify(*map(productInfo_serializer, product))
+    if product is not None:
+
+        product.update(dict(
+            title = request.form["title"],
+            product_type = request.form["product_type"],
+            colors = request.form.getlist("colors"),
+            sizes = request.form.getlist("sizes"),
+            tags = request.form.getlist("tags"),
+            price = request.form["price"],
+            discount = request.form["discount"],
+            quantity = request.form["quantity"],
+            description = request.form["description"],
+            reviews = request.form["reviews"],
+            availability = request.form["availability"],
+            category = request.form["category"],
+            pics_info = request.form.getlist("pics_info"),
+            shipping_Method = json.loads(request.form["shipping_Method" ]), 
+            coupon = request.form["coupon"],
+            series = request.form["series"]
+
+   
+           )
+            )
+        db.session.commit()
+        return jsonify(*map(productInfo_serializer, product))
+    else:
+        return {"error" : "the product isn't exist any more ..."} ,401 
 
 @views.route("/ratings",methods = ["POST"])
 def rating():
@@ -232,6 +259,7 @@ def on_join(data):
             receiver =   receiver,
         )
         #user.room.append(new_room)
+
         db.session.add(new_room)
         db.session.commit()
         emit('open_room', {"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] }, broadcast=True)
@@ -240,7 +268,6 @@ def on_join(data):
 
 @views.route("/getMessages/<id>", methods=["GET"])
 def get_messages(id):
-    
     user_room = Rooms.query.filter_by(id = id).first()
     user_messages =  [*map(messages_serializer , user_room.messages)]
     return {"messages":user_messages}
@@ -248,10 +275,7 @@ def get_messages(id):
  
 @socketio.on("msgnotification")
 def msg_notification(notify):
-    
- 
-    
-   
+
     emit("notification", {} ,broadcast=True)
 
   
@@ -272,3 +296,57 @@ def clear_notification():
         db.session.commit()
         print("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
     return("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ")
+
+
+@views.route("/displayInfo", methods=['GET'])
+def displayInfo():
+    return jsonify(*map(display_serializer, Display.query.all()))
+
+
+
+
+
+@views.route("/display", methods=["POST"])
+def display():
+    newDisplay = Display(
+       logo =  request.form["logo"],
+       header = json.loads(request.form["header"]),
+       main_category = json.loads(request.form["main_category"]),
+       category = json.loads(request.form["category"]),
+       banners = json.loads(request.form["banners"]),
+       slider = json.loads(request.form["slider"]),
+       pop_up = json.loads(request.form["pop_up"]),
+       count_Down = request.args.get("count_Down", type = bool)
+        
+    
+        )
+    db.session.add(newDisplay)
+    db.session.commit()
+    return jsonify(*map(display_serializer, newDisplay))
+
+
+
+@views.route('/updatedisplay/<id>',methods=['PUT'])
+def editDisplay(id):
+    display  = Display.query.filter_by(id = id)
+    if display is not None:
+
+        display.update(dict(
+       
+            logo =  request.form["logo"],
+            header = json.loads(request.form["header"]),
+            main_category = json.loads(request.form["main_category"]),
+            category = json.loads(request.form["category"]),
+            banners = json.loads(request.form["banners"]),
+            slider = json.loads(request.form["slider"]),
+            pop_up = json.loads(request.form["pop_up"]),
+            count_Down = bool(request.form["count_Down"])
+            
+           ) ) 
+    
+            
+        
+        db.session.commit()
+        return jsonify(*map(display_serializer, display))
+    else:
+        return {"error" : "the product isn't exist any more ..."} ,401 

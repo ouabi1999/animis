@@ -17,7 +17,7 @@ function SuperDeals() {
                 return (
                     <>
                         <Link to={"/product_details/" + product.id}>
-                            <img src={product.product_images[0]} alt="" />
+                            <img src={product.colors[0]} alt="" />
                         </Link>
                         
                     </>

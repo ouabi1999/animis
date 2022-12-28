@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
@@ -48,9 +49,9 @@ function DashLayout(props){
                 isOpen:true,
             })
         }
-    }
     
-    useEffect(() => {
+    }
+    useLayoutEffect(() => {
        
         if (auth === "false"){
     
@@ -68,7 +69,7 @@ function DashLayout(props){
             <>
           
            
-           {user?.admin === true  ?  (
+           {user?.admin === true  && (
 
             <Wrapper>
                 <div className='sidebar' style={{ display: showBar}}>
@@ -81,8 +82,7 @@ function DashLayout(props){
                     <Outlet />
                </div>
             </Wrapper>
-            ):
-            navigate("/")
+            )
             
             }
             

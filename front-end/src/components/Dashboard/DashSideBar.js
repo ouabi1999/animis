@@ -10,6 +10,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import MenuIcon from '@mui/icons-material/Menu';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
 
 class DashSideBar extends Component {
     constructor(props) {
@@ -91,7 +92,16 @@ class DashSideBar extends Component {
                             <Link to="analytics">Analytics</Link>
                         </div>
                     </Wrap>
+                    <Wrap>
+                        <div className='icons'>
+                            <DisplaySettingsIcon/>
+                        </div>
+                        <div>
+                            <Link to="displaySetting"> Dsiplay </Link>
+                        </div>
+                    </Wrap>
                 </div>
+                
             </LinkWrraper>
 
         )
@@ -128,7 +138,7 @@ const Wrap = styled.div`
     a{
         color:#fff; 
     }
-   a:select{
+   a:selecte{
     color:lightblue;
     background:ghostwhite;
    }

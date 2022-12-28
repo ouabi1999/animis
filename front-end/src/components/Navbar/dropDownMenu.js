@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import OutsideClickHandler from 'react-outside-click-handler';
 import { logout } from '../../features/auth/authSlice'
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
 
 export class DropDownMenu extends Component {
 
@@ -24,9 +26,10 @@ export class DropDownMenu extends Component {
     ).then(response => {
       if (response.ok) {
         this.props.dispatch(logout())
+        window.location.href = "/"
         return response.json()
     }
-  })   
+  }).catch(error=> console.log(error))   
 }
   render() {
     return (
@@ -38,26 +41,29 @@ export class DropDownMenu extends Component {
       {this.props.auth.user !== null ?
       <Contanier>
         <Profile_wrap>
-            <Image 
-               src={`../avatars/${this.props.auth.user.avatar}`}
-               alt="image" 
-               onClick={() => this.setState({ isOpen: !this.state.isOpen })}
-            />
+                <PersonIcon 
+                      onClick={() => this.setState({ isOpen: !this.state.isOpen }) }
+                      style={{color:"gray", cursor:"pointer"}}
+                />  
         </Profile_wrap>
+
           {this.state.isOpen && (
           <DropDown_Container>
-            <ul className='DropDown_Container'>
-              <li>
-                
-                <Link  onClick={this.props.hideMenu} to="/profile">Profile</Link>
-              </li>
-              
-              <li>
-                <button onClick={this.logout}>
-                  Logout
+            <div className='DropDown_Container'>
+             
+                  <Link onClick={this.props.hideMenu} to="/profile" className='profile-container'>
+                    <PersonIcon className="profile-icon" />
+                    <span>
+                        Profile
+
+                    </span>
+                  </Link>
+
+                <button onClick={this.logout} className='logout-container'>
+                   <LogoutIcon className="logout-icon"/>
+                    <span> Logout </span>
                 </button>
-              </li>
-            </ul>
+            </div>  
           </DropDown_Container>
           )}
       </Contanier>
@@ -106,14 +112,47 @@ const Image = styled.img`
 
 `
 const DropDown_Container = styled.div`
-    width:150px;
     border-radius:4px;
     background:#fff;
     position:absolute;
-    left:-140px;
-    bottom:-80px;
+    left:-38px;
+    bottom:-85px;
     z-index:2;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    
+    .DropDown_Container{
+      display:flex;
+      flex-direction:column;
+      margin:auto;
+      padding:15px 20px;
+     
+
+    }
+
+    .logout-container{ 
+       display:flex;
+       align-items:center;
+       background:none;
+
+    }
+    li span{
+      font-size:15px;
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  .logout-icon, .profile-icon{
+      font-size:20px;
+
+    }
+
+  .profile-container{
+    display:flex;
+    align-items:center;
+    color:#000;
+    margin-bottom:8px;
+
+  }
+ 
+
 
 
 `

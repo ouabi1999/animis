@@ -45,12 +45,14 @@ function ProductCart(props) {
                 <div className="child-container">
                   
                     <div className='img-container'>
-                      <img src={item.product_images[0]} alt="" />
-                    </div>
-
-                    <div className="quantity">
+                      <img src={item.colors[0]} alt="" />
+                      <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
+
+                    </div>
+
+                   
 
                   <span className="product-title">{item.title}</span>
                   <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
@@ -131,11 +133,10 @@ const Container = styled.div`
       margin-top:10px;
      }
      .header-container img{
-         width:220px;
-         
-         
+         width:220px;  
      }
-     .header-container div{
+     
+     .header-container >div{
      
       margin: 0 auto;
 
@@ -146,10 +147,8 @@ const Container = styled.div`
       white-space: nowrap; 
       width:100%;
       max-width:520px;
-      font-size:14px;
-      margin-right:2px;
-      
-   
+      font-size:13px;
+      margin-right:8px;   
     }
     
 
@@ -168,6 +167,8 @@ const Wrraper = styled.div`
         box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
         padding:5px 10px;
     }
+
+
     .child-container{
       display:flex;
       align-items:center;
@@ -181,23 +182,25 @@ const Wrraper = styled.div`
       box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0,);
       border:1px solid lightgray;
       padding:1px;
+      margin-right:4px;
+      
     }
     .img-container{
-     
+       position:relative;
     }
     
      .quantity{
-      border-radius:50%;
-      padding:1px 4px;
-      font-size:12px;
-      min-width:20px;
-      min-height:20px;
-      text-align:center;
-      background:#000;
-      color:#ffff;
-      position:relative;
-      top:-38px;
-      left:-69px;
+          border-radius:50%;
+          padding:1px 4px;
+          font-size:12px;
+          min-width:20px;
+          min-height:20px;
+          text-align:center;
+          background:#000;
+          color:#ffff;
+          position:absolute;
+          top:-6px;
+          left:-6px;
      }
    
      p{
@@ -214,6 +217,7 @@ const Wrraper = styled.div`
       padding: 15px 10px;
       border-radius:6px;
     }
+
     .discount input{
       height:40px;
       width:87%;
@@ -249,6 +253,8 @@ const Totals = styled.div`
     background:#fff;
     border-radius:6px;
     padding:15px;
+
+
     & div{
       display:flex;
       justify-content:space-between;

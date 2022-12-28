@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Formik, useFormik } from 'formik';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { UserContext } from '../EditProfile';
+import { UserContext } from '../profile';
 import * as Yup from "yup"
 function EditPassword(props) {
-    const { formData, setFormData} = useContext(UserContext)
+    const { formData, setFormData, updateUserPassword, loading} = useContext(UserContext)
     const editSechema = Yup.object({
         
         oldPassword:Yup.string().required("Please Enter your old password"),
@@ -32,9 +32,8 @@ function EditPassword(props) {
         validationSchema :editSechema,
         onSubmit: values => {
            
-            // same shape as initial values
-            setFormData({...values})
-            console.log(values);
+          updateUserPassword({...formData, oldPassword: values.oldPassword, newPassword: values.newPassword })
+
         },
     });
     const {
@@ -74,7 +73,6 @@ function EditPassword(props) {
                     <div className="input">
                         <TextField
                             label="Old password"
-                            id="filled-size-small"
                             fullWidth
                             variant="filled"
                             size="small"
@@ -102,7 +100,6 @@ function EditPassword(props) {
                     <div className="input">
                         <TextField
                             label="New password"
-                            id="filled-size-small"
                             fullWidth
                             variant="filled"
                             size="small"
@@ -129,7 +126,6 @@ function EditPassword(props) {
                     <div className="input">
                         <TextField
                             label="Confirm password"
-                            id="filled-size-small"
                             fullWidth
                             variant="filled"
                             size="small"
@@ -155,7 +151,21 @@ function EditPassword(props) {
                     </div>
                     <div className='save-button'>
 
-                        <Button type="submit" variant="contained">Save changes</Button>
+                        <Button type="submit" variant="contained">
+                        <span>Save changes</span>
+                            {loading && (
+                                   
+                                <CircularProgress
+                                        style={{ marginLeft: "5px", color: "white" }}
+                                        size={23}
+                                        thickness={6}
+                                        
+                                        value={100}
+                                    />
+                                )
+                                
+                            }
+                        </Button>
                     </div>
                 </PopUpEdit>
                 </form>

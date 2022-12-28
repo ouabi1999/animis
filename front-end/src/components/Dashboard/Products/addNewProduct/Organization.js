@@ -63,8 +63,14 @@ function Organization({formData, setFormData, handelChange}) {
                         select
                         value={formData.product_type}
                         label="Product type"
-                        name="product_type"
-                        onChange={handelChange}
+                        
+                        onChange={(event) =>
+                            setFormData({
+                                ...formData,
+                               product_type: event.target.value,
+                            })
+                        }
+                       
                         >
                         {types.map((option, index) => (
                             <MenuItem key={index} value={option}>
@@ -77,10 +83,14 @@ function Organization({formData, setFormData, handelChange}) {
                 <div>
                     <TextField className="text_input"
                         select
-                        value={formData.serie}
-                        label="serie"
-                        name="serie"
-                        onChange={handelChange}
+                        value={formData.series}
+                        label="Series"
+                        onChange={(event) =>
+                            setFormData({
+                                ...formData,
+                                series: event.target.value,
+                            })
+                        }
                         >
                         {series.map((option, index) => (
                             <MenuItem key={index} value={option}>

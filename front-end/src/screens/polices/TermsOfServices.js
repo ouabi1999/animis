@@ -203,7 +203,7 @@ const Container = styled.div`
     
     
     h1{
-        font-weigh:900;
+        font-weight:900;
         font-size:30px;
         margin:auto;
         display:flex;

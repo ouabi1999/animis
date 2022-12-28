@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, createContext } from 'react'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { getUser } from '../../../features/auth/authSlice'
@@ -9,14 +9,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import LockIcon from '@mui/icons-material/Lock';
 import EditProfile from './EditProfile';
 import FemaleIcon from '@mui/icons-material/Female';
+import { ToastContainer, toast } from 'react-toastify';
 
 
+export const UserContext = createContext()
 
 function Profile(props){
     const dispatch = useDispatch()
        
        
-        
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("")   
     const user = useSelector(state=> state.auth.user)
     const [nameEdit, setNameEdit] = useState(false)
     const [emailEdit, setEmailEdit] = useState(false)
@@ -25,6 +28,21 @@ function Profile(props){
     const [genderEdit, setGenderEdit] = useState(false)
     const [birthDateEdit, setBirthDateEdit] = useState(false)
     
+    const [formData, setFormData] = useState({
+        firstName : "",
+        lastName : " ",
+        birthDate : "",
+        gender : "",
+        country : "",
+        countryCode:"",
+        email : "",
+        joined_at:"",
+        userAvatar:"",
+        oldPassword : "",
+        newPassword : "",
+        confirmPassword : "",
+        id : ""
+    })
   
     const closeNameEdit = ()=>{
         setNameEdit(false)
@@ -44,10 +62,207 @@ function Profile(props){
     const closeBirthDateEdit = ()=>{
         setBirthDateEdit(false)
     }
+
+    useEffect(() => {
+        console.log(user)
+        setFormData({
+         ...formData,
+         firstName: user?.firstName,
+         lastName : user?.lastName,
+         birthDate: user?.birthDate, 
+         country: user?.country,
+         countryCode : user?.countryCode,
+         email: user?.email,
+         gender: user?.gender,
+         joined_at: user?.joined_at,
+         oldPassword: "",
+         newPassword: "",
+         confirmPassword: "",
+         id: user?.id
+        })
+     }, [ user])
+     
+    
+     
+     const updateUserInfo = (values) => {  
+         
+        setLoading(true)
+        console.log(values)
+        const data = new FormData();
+        data.append("email", values.email);
+        data.append("firstName", values.firstName);
+        data.append("lastName", values.lastName);
+        data.append("gender", values.gender);
+        data.append("birthDate", values.birthday)
+        data.append("country", values.country)
+        data.append("userAvatar", values.userAvatar)
+        data.append("countryCode", values.countryCode)
+        
+       
+         
+     
+         fetch(`/update-user/${values.id}`, {
+           method: 'PUT',
+           body: data
+         })
+           .then((response) => response.json())
+           .then((result) => {
+             setFormData(result);
+             
+             setLoading(false)
+             toast.success("SAVED")
+   
+           })
+           .catch((error) => {
+             console.error('Error:', error);
+             setLoading(false)
+             toast.error("an error accourd")
+           });
+       }
+
+
+       const updateUserPassword = (values) => {  
+         
+        setLoading(true)
+        const data = new FormData();
+        data.append("newPassword", values.newPassword);
+        data.append("oldPassword", values.oldPassword);
+       
+     
+         fetch(`/update-user-password/${values.id}`, {
+           method: 'PUT',
+           body: data
+         })
+           .then((response) =>  response.json())
+           .then((result) => {
+
+            if (result.error) {
+                console.log(result.error)
+                toast.error(result.error)
+                setLoading(false)
+              } else {
+    
+                setFormData(result);
+
+                setLoading(false)
+                toast.success("Password updated")
+              }
+    
+           
+   
+           })
+           .catch((error) => {
+            toast.error("Somthing went wrong..!")
+            console.error('There has been a problem with your fetch operation:', error);
+            setLoading(false)
+            
+          
+           });
+       }
+
+       const updateUserEmail = (values) => {  
+         
+        setLoading(true)
+        const data = new FormData();
+        data.append("email", values.email);
+        
+         fetch(`/update-user-email/${values.id}`, {
+           method: 'PUT',
+           body: data
+         })
+           .then((response) =>  response.json())
+           .then((result) => {
+
+            if (result.error) {
+                console.log(result.error)
+                toast.error(result.error)
+                setLoading(false)
+              } else {
+    
+                setFormData(result);
+
+                setLoading(false)
+                toast.success("Email updated")
+              }
+    
+           
+   
+           })
+           .catch((error) => {
+            toast.error("Somthing went wrong..!")
+            console.error('There has been a problem with your fetch operation:', error);
+            setLoading(false)
+            
+          
+           });
+       }
+    
+    
+       const handleClickShowPassword = (password) => {
+
+        if(password === "old"){
+        setFormData({
+          ...formData,
+          showPassword: !formData.showPassword,
+        });
+     }
+       if(password === "new"){
+      setFormData({
+        ...formData,
+        showNewPassword: !formData.showNewPassword,
+      });
+     }
+      if(password === "confirm"){
+        setFormData({
+            ...formData,
+            showConfirmPassword: !formData.showConfirmPassword,
+          });
+      }
+    } 
+     
+        
+ 
+  
+     
     
     return (
-        
+        <UserContext.Provider value = {{
+            formData,
+            setFormData,
+            updateUserInfo,
+            nameEdit,
+            emailEdit,
+            passwordEdit,
+            countryEdit,
+            genderEdit,
+            closeNameEdit,
+            closeEmailEdit,
+            closePasswordEdit,
+            closeCountryEdit,
+            closeGenderEdit,
+            closeBirthDateEdit,
+            birthDateEdit,
+            handleClickShowPassword,
+            updateUserPassword,
+            updateUserEmail,
+            loading
+        }}   
+        >
+
         <Container>
+            <ToastContainer
+                  position="top-right"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  className = 'foo-bar'
+            />
+
             <Section>
 
                 <ImageWrap>
@@ -55,7 +270,7 @@ function Profile(props){
                 </ImageWrap>
 
                 <div>
-                    <strong> {user?.firstName} {" "} {user?.lastName  }</strong>
+                    <strong> {formData?.firstName} {" "} {formData?.lastName  }</strong>
                     <EditIcon className="edit-icon" onClick={()=> setNameEdit(true)} />
                 </div>
 
@@ -65,7 +280,7 @@ function Profile(props){
                        <span> From </span>
                      </div> 
                     <div>
-                    <span> Morocco</span>
+                    <span> {formData?.country}</span>
                     <EditIcon className="edit-icon" onClick={()=> setCountryEdit(true)}  />
 
                     </div>
@@ -79,7 +294,7 @@ function Profile(props){
 
                     </div>
                  <div className="email">
-                     <span >{user?.email}</span>
+                     <span >{formData?.email}</span>
                       <EditIcon className="edit-icon" onClick={()=> setEmailEdit(true)}  />
                  </div>
                 </div>
@@ -110,7 +325,7 @@ function Profile(props){
 
                 
                     <div>
-                        <span> Male</span>
+                        <span>{formData?.gender}</span>
                         <EditIcon className="edit-icon" onClick={()=> setGenderEdit(true)}  />
                         
                     </div>
@@ -119,13 +334,12 @@ function Profile(props){
                 <div className='member-since'>
                     <div className="flex-icon">
                         <PersonIcon className="icon"/>
-                        <span>Member since </span>
+                        <span> Member since </span>
 
                     </div>
-                 <span> {user?.joined_at.slice(4, 16)}</span>
+                 <span> {formData?.joined_at?.slice(4, 16)}</span>
                 </div>
                 
-
             </Section>
            
                <EditProfile
@@ -141,8 +355,10 @@ function Profile(props){
                    closeCountryEdit = {closeCountryEdit}
                    closeGenderEdit = {closeGenderEdit}
                    closeBirthDateEdit  = {closeBirthDateEdit}
+                   handleClickShowPassword = {handleClickShowPassword}
                />
             </Container>
+            </UserContext.Provider>
 
         )
     }

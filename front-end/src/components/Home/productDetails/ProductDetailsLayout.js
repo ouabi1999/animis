@@ -1,6 +1,5 @@
 import React,{useEffect, useLayoutEffect, useState} from 'react';
 import { addToCart, buyNowItem } from '../../../features/shopping_cart/cartSlice';
-
 import styled from 'styled-components';
 import StarIcon from '@mui/icons-material/Star';
 import Feedback from './Feedback';
@@ -15,17 +14,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import CustomerReviews from './customerReviews';
 import 'react-toastify/dist/ReactToastify.css';
 import SuperDeals from './SuperDeals';
+import Recommended from './Recommended';
+import MostSelling from './MostSelling';
+import DescriptionProduct from './DescriptionProduct';
 
 
 function ProductDetailsLayout() {
 
   const dispatch = useDispatch()
 
- 
-
-    
-    const params = useParams()
-    const [formData, setFormData] = useState({
+  const params = useParams()
+  const [formData, setFormData] = useState({
       items: 12,
       rating: 0,
       IndexRating: 0,
@@ -192,15 +191,17 @@ function ProductDetailsLayout() {
           <LeftSide>
 
             <div className="product-details-img">
+              
                 {isColorActive && (
                   <img
-                    src={product.product_images[selectedColor]}
-                    title={product.title}
+                    src={product.colors[selectedColor]}
+                    alt={product.title.slice(0, 20)}
                   />
                 )}
-                {isPicsDetailsActive &&(
+
+                {isPicsDetailsActive && product.pics_info.length>0 && (
                   <img
-                  src={product.product_images[picsDetailsIndex]}
+                  src={product.pics_info[picsDetailsIndex]}
                   title={product.title}
                 />
 
@@ -209,10 +210,10 @@ function ProductDetailsLayout() {
                   </div>
                  
                   <div className="thumb"  >
-                  {product.product_images.map((img, index) => (
+                  {product.pics_info?.map((img, index) => (
                       <img src={img}
                         className={index === picsDetailsIndex ? "active" : "notActive"}
-                       alt="" 
+                       alt="product thumb" 
                        key={index} 
                        onClick={() => selectPicsDetails(index)}
                        
@@ -275,11 +276,11 @@ function ProductDetailsLayout() {
 
               
                   <Product_info>
-                  {product.product_images?.length >0  &&(
+                  {product.colors?.length >0  &&(
                     <>
                     <h5>Color : </h5>
                     <div className='product-colors '>
-                    {product.product_images.map((img, index) => (
+                    {product.colors.map((img, index) => (
                       <img src={img}
                        
                         className={index === selectedColor? "active" : "notActive"}
@@ -387,55 +388,19 @@ function ProductDetailsLayout() {
                     <img src="../images/safe-and-secure-checkout.png" alt="image"/>
                   </Buyer_protection_wrap>
 
-
-                  
-
                 </CenterSide>
                 <RightSide>
-                <RecommendedForYou>
-                     <h6>Recommended For You </h6>
-                     <div className="recommended-container">
-                       {products.filter(item=>{
-                         return item.category === product.category
-                         
-                       }).slice(0, 3).map(product=>{
-                        return(
-                          <>
-                          <Link to={"/product_details/" + product.id }>
-                              <img src={product.product_images[0]} alt=""/>
-                          </Link>
-                            <span className="recommnded-product-price">${product.price}</span>
-                          </>
-                        )
-                       })}
-                     
-                     </div>
-                      
-                </RecommendedForYou>
+                  <Recommended products = {products} product = {product} />
+               
                 </RightSide>
                  
             </Container>
 
 
             <Wrapper>
-
               <div className="most-selling">
-                <span>Most selling</span>
-                {products.filter(item => {
-                  return item.category === product.category
-
-                }).slice(0, 3).map(product => {
-                  return (
-                    <>
-                      <Link to={"/product_details/" + product.id}>
-                        <img src={product.product_images[0]} alt="" />
-                      </Link>
-                      <span className="recommnded-product-price">${product.price}</span>
-                    </>
-                  )
-                })}
+                <MostSelling products={products} product={product} />
               </div>
-
               <div className='description-container'>
                 <div className='headers'>
                   <button
@@ -456,9 +421,8 @@ function ProductDetailsLayout() {
                 </div>
                 
                 {selected.isDescription && (
-                  <div className="description">
-                    <p>{product.description}</p>
-                  </div>
+                  <DescriptionProduct product= {product}/>
+                  
                   )}
                 {selected.isReviews &&(
                   <>
@@ -566,15 +530,7 @@ const Container = styled.div`
 
     
 
-  @media only screen and (max-width: 768px){
-     .recommended-container{
-      display:none;
-     }
-
-     &{
-      padding:10px 10px;
-    }
-}
+  
 
  
 
@@ -843,49 +799,7 @@ const Product_info = styled.div`
     }
 
 `
-const RecommendedForYou = styled.div`
-      
-      height:fit-content;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      
-    
-      h6{
-        font-size:12px;
-        color:gray;
-        margin-bottom:4px;
-      }
-      .recommended-container span{
-        font-size:12px;
-        color:gray;
-        margin-bottom:4px;
-      }
-      .recommended-container{
-        position:relative;
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        
-        
-        
 
-      }
-      .recommended-container img{
-        position:relative;
-        width:140px;
-        margin-bottom:0px;
-        height:145px;
-        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-      }
-    
-      @media only screen and (max-width: 1160px){
-     &{
-      display:none;
-     }
-}
-
-`
 const Wrapper =  styled.div`
   display:flex;
   margin:30px auto;
@@ -927,49 +841,7 @@ const Wrapper =  styled.div`
 
     
   }
-  .description{
-    width:100%;
-    padding:10px;
-   
-  }
-  .description p{
-    font-size:15px;
-    line-height:35px;
-  }
-  .recommnded-product-price{
-    position:relative;
-    
-    top:-154px;
-    left:46px;
-    background:#fff;
-    padding:2px 10px;
-
-  }
-  .most-selling{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    margin-right:15px;
-    
-    
-
-  }
-  .most-selling img{
-    position:relative;
-    width:140px;
-    margin-bottom:0px;
-    height:145px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  }
-
-  @media only screen and (max-width: 820px) {
   
- .most-selling{
-  display:none;
- }
-
+ 
   
-}
-
 `

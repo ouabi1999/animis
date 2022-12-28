@@ -1,9 +1,14 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import styled from "styled-components"
 function Banner() {
+  const displayData = useSelector(state => state.display.display);
+  
   return (
     <Container>
-        <img src="./images/banner.jpg" alt=""/>
+        {displayData.banners[0] && (
+        <img src = {displayData.banners[0]} alt=""/>
+      )}
     </Container>
   )
 }
@@ -11,8 +16,9 @@ function Banner() {
 export default Banner
 const Container = styled.div`
     margin:auto;
-     width:90%;
+    width:90%;
      img{
          width:100%;
+         height:85px;
      }
 `

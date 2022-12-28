@@ -14,118 +14,127 @@ import Organization from './Organization';
 import Variant from './Variant';
 import ProductTitle from './ProductTitle';
 import Media from './Media';
-import DescriptionImages from './DescriptionImages';
+import PicsInfo from './PicsInfo';
 
 
 
 
 
 function AddNewProduct(props) {
-    
 
-    const [formData, setFormData] = useState({
-      product_images: [],
-      sizes: [],
-      colors: [],
-      price: "",
-      discount: "",
-      quantity: "",
-      title: "",
-      description: "",
-      reviews: "",
-      availability: "",
-      product_type:"",
-      pics_info : [],
-      seo : "",
-      category: "",
-      tags: [],
-      products: [],
-      Description_images:{},
-      shippingData: []
+
+  const [formData, setFormData] = useState({
+    product_images: [],
+    sizes: [],
+    colors: [],
+    price: "",
+    discount: "",
+    quantity: "",
+    title: "",
+    description: "",
+    reviews: "",
+    availability: "",
+    product_type: "",
+    pics_info: [],
+    seo: "",
+    category: "",
+    tags: [],
+    products: [],
+    Description_images: {},
+    shippingData: [],
+    series: "",
+    globalCoupon:"",
+    coupon:""
+  });
+  const [loading, setLoading] = useState(false)
+
+
+  const {
+    CloseAddNewProduct,
+    is_addNewProduct_open,
+  } = props;
+
+
+
+  /// send products info to the backend
+  const AddNew_Product_submit = (event) => {
+    event.preventDefault();
+    setLoading(true)
+    const data = new FormData();
+  
+
+    formData.sizes.forEach((size) => {
+      data.append("sizes", size);
     });
-    const [loading , setLoading] = useState(false)
-    
+    formData.colors.forEach((color) => {
+      data.append("colors", color);
+    });
 
-    const { 
-      CloseAddNewProduct,
-      is_addNewProduct_open,
-    } = props;
+    formData.tags.forEach((tag) => {
+      data.append("tags", tag);
+    });
+    formData.pics_info.forEach((pics) => {
+      data.append("pics_info", pics);
+    });
 
-    
+   
 
-    /// send products info to the backend
-    const AddNew_Product_submit = (event) => {
-      event.preventDefault();
-      setLoading(true)
-      const data = new FormData();
-      for (let i = 0; i < formData.product_images.length; i++) {
-        data.append("images", formData.product_images[i]);
-      }
+    data.append("coupon", formData.coupon);
+    data.append("globalCoupon", formData.globalCoupon);
+    data.append("title", formData.title);
+    data.append("series", formData.series);
+    data.append("quantity", formData.quantity);
+    data.append("price", formData.price);
+    data.append("discount", formData.discount);
+    data.append("description", formData.description);
+    data.append("reviews", formData.reviews);
+    data.append("category", formData.category);
+    data.append("shipping_Method", JSON.stringify(formData.shippingData));
+    data.append("seo", formData.seo);
+   
+    data.append("product_type", formData.product_type);
+    data.append("availability", formData.availability);
 
-      formData.sizes.forEach((size) => {
-        data.append("sizes", size);
-      });
-      formData.colors.forEach((color) => {
-        data.append("colors", color);
-      });
-      formData.tags.forEach((tag) => {
-        data.append("tags", tag);
-      });
-      data.append("title", formData.title);
-      data.append("quantity", formData.quantity);
-      data.append("price", formData.price);
-      data.append("discount", formData.discount);
-      data.append("description", formData.description);
-      data.append("reviews", formData.reviews);
-      data.append("category", formData.category);
-      data.append("shipping_Method", JSON.stringify(formData.shippingData));
-      data.append("seo", formData.seo);
-      data.append("pics_info", formData.pics_info);
-      data.append("product_type", formData.product_type);
-      data.append("availability", formData.availability);
-      
-
-
-
-      fetch("/products", {
-        method: "POST",
-        body: data,
-      })
-        .then((response) => response.json())
-        .then((data) =>  {
-          props.responseData(data)
-          setLoading(false)
-          setFormData({
-            ...formData,
-            product_images: [],
-            /*sizes: [],
-            colors: [],
-            price: "",
-            discount: "",
-            quantity: "",
-            title: "",
-            description: "",
-            reviews: "",
-            availability: "",
-            product_type:"",
-            pics_info : "",
-            seo : "",
-            category: "",
-            tags: [],
-            products: [],
-            Description_images:{},
-            shippingData: []*/
-          })
-          
-          toast.success("A new Product has been added .")
-          
+    fetch("/products", {
+      method: "POST",
+      body: data,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        props.responseData(data)
+        setLoading(false)
+        setFormData({
+          ...formData,
+          product_images: [],
+          /*sizes: [],
+          colors: [],
+          price: "",
+          discount: "",
+          quantity: "",
+          title: "",
+          description: "",
+          reviews: "",
+          availability: "",
+          product_type:"",
+          pics_info : "",
+          seo : "",
+          category: "",
+          series : ""
+          tags: [],
+          products: [],
+          Description_images:{},
+          shippingData: []*/
         })
-        .catch((err) => {
-          console.log(err)
-          setLoading(false)
-        
-        });
-    };
+
+        toast.success("A new Product has been added .")
+
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+
+      });
+  };
 
     // fetch product info grom the backend or server
 
@@ -161,8 +170,8 @@ function AddNewProduct(props) {
 
    
     return (
-      <>
-        {is_addNewProduct_open && (
+    
+        
           <AddNew_Product>
 
             {loading && (
@@ -203,7 +212,7 @@ function AddNewProduct(props) {
                     setFormData = {setFormData}
                 />
                 
-                <DescriptionImages
+                <PicsInfo
                       formData = {formData}
                       setFormData = {setFormData}
                 />
@@ -265,8 +274,7 @@ function AddNewProduct(props) {
               />
             </Right_container>
           </AddNew_Product>
-        )}
-      </>
+       
     );
   }
   export default AddNewProduct;

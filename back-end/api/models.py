@@ -155,9 +155,8 @@ def ratings_serializer(rate):
 class Products(db.Model):
     id = db.Column(db.String(40), primary_key=True, unique=True, default=get_uuid)
     title = db.Column(db.String(), nullable = False)
-    product_images = db.Column(db.PickleType(), nullable = False)
+    colors = db.Column(db.PickleType(), nullable = False)
     sizes = db.Column(db.PickleType())
-    colors = db.Column(db.PickleType())
     tags = db.Column(db.PickleType())
     price =  db.Column(db.Float(), nullable = False)
     discount = db.Column(db.Float(), nullable = False)
@@ -166,18 +165,18 @@ class Products(db.Model):
     reviews =  db.Column(db.PickleType())
     availability = db.Column(db.PickleType())
     category =  db.Column(db.String())
-    gender =  db.Column(db.String())
     product_type =  db.Column(db.String())
     pics_info = db.Column(db.PickleType())
     shipping_Method = db.Column(db.PickleType())
     seo = db.Column(db.PickleType())
     coupon = db.Column(db.String())
+    series =  db.Column(db.Text())
     ratings = db.relationship('Ratings', backref='products', lazy = True, cascade="all, delete-orphan")
     globalCoupon = db.relationship("GlobalCoupon", backref="products", lazy = True, cascade="all, delete-orphan" )
     
 
     def __str__(self):
-        return f'{self.id} {self.seo} {self.title} {self.globalCoupon} {self.gender} {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.product_images} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
+        return f'{self.id} {self.seo} {self.series} {self.title} {self.globalCoupon}  {self.shipping_Method} {self.pics_info} {self.product_type} {self.ratings} {self.colors} {self.tags} {self.availability} {self.category} {self.discount} {self.price} {self.sizes}{self.reviews}{self.quantity}{self.description}'
 def productInfo_serializer(info):
     rats = [*map(ratings_serializer , (info.ratings))]
    
@@ -186,7 +185,6 @@ def productInfo_serializer(info):
     return{
         "id":info.id,
         "title":info.title,
-        "product_images": info.product_images,
         "sizes": info.sizes,
         "colors": info.colors,
         "price": info.price,
@@ -201,8 +199,10 @@ def productInfo_serializer(info):
         "pics_info" : info.pics_info,
         "shippingInfo" : info.shipping_Method,
         "seo" : info.seo,
+        "series" : info.series,
         "ratings" : rats, #str([*map(ratings_serializer, rats)])}
-        "globalCoupon":coupon
+        "coupon":info.coupon,
+        "globalCoupon":info.globalCoupon
         
     }
 
@@ -254,27 +254,26 @@ def orders_serializer(order):
         "deliveryStatus" : order.deliveryStatus,
     }   
 
-    class Display(db.Model):
-        id = db.Column(db.String(15), primary_key=True, default = get_uuid)
-        logo = db.Column(db.blob())
-        header = db.Column(db.PickleType())
-        main_category = db.Column(db.PickleType())
-        category = db.Column(db.PickleType())
-        banners = db.Column(db.PickleType())
-        slider = db.Column(db.PickleType())
-        pop_up = db.Column(db.PickleType())
-        count_Down = db.Column(db.DateTime()) 
+class Display(db.Model):
+    id = db.Column(db.String(80), primary_key=True, default = get_uuid)
+    logo = db.Column(db.Text())
+    header = db.Column(db.PickleType())
+    main_category = db.Column(db.PickleType())
+    category = db.Column(db.PickleType())
+    banners = db.Column(db.PickleType())
+    slider = db.Column(db.PickleType())
+    pop_up = db.Column(db.PickleType())
+    count_Down = db.Column(db.Boolean) 
         
-        def __str__(self):      
-            return f'{self.id} {self.logo} {self.header} {self.main_category} {self.category} {self.banners} {self.slider} {self.pop_up} {self.count_Down}'
+    def __str__(self):      
+        return f'{self.id} {self.logo} {self.header} {self.main_category} {self.category} {self.banners} {self.slider} {self.pop_up} {self.count_Down}'
     
-    def display_serializer(item):
+def display_serializer(item):
         return{
-      
             "id": item.id,
             "logo" : item.logo,   
-            "header ": item.header,
-            "main_category":item.main_category,
+            "header" : item.header,
+            "main_category" : item.main_category,
             "category" : item.category,
             "banners" : item.banners,
             "slider"  : item.slider,

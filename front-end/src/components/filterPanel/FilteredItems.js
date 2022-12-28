@@ -14,6 +14,7 @@ function FilteredItems(props) {
   const [loaded, setLoaded] = useState(false)
  const selectCategory = window.localStorage.getItem('selectedCategory')
  const dispatch = useDispatch()
+ 
   useEffect(() => {
     dispatch(handleSelectCategory(selectCategory))
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
@@ -48,7 +49,7 @@ function FilteredItems(props) {
               return (
                 <div key={item.id} className="product_container">
                   <Link to={"/product_details/" + item.id}>
-                    <img src={item.product_images[0]} alt="img" />
+                    <img src={item.colors[0]} alt="img" />
                   </Link>
                   <Product_info>
                     <FirstSection>

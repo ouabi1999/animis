@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import Modal from "react-modal"
 import Zoom from "react-reveal/Zoom";
-import EditProduct from './Edit_Product';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import Spinner from '../../Spinner/Spinner';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 
 export default class AdminProducts extends Component {
@@ -33,154 +35,118 @@ export default class AdminProducts extends Component {
   }
  
   render() {
-    const { products, openModal, AdminProducts, deleteProduct, open_Edit_Modal } = this.props;
+    const { loaded , products, openModal, AdminProducts, deleteProduct, open_Edit_Modal } = this.props;
 
     return (
       <>
-      { AdminProducts ? (
+        {loaded  === true ? ( 
+
+
+        
+       
         <Product_Container>
-          <button onClick={this.props.OpenAddNewProduct}>AddNew_Product</button>
+          <button  className="addproduct-button"onClick={this.props.OpenAddNewProduct}>Add New Product</button>
           <TableWrap>
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>InStock</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                  <th>Delete</th>
-                  <th>Edite</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products?.map((product) => {
-                  return (
-                    <tr key={product.id} >
-                      <td>
+            
+            {products?.map((product) => {
+                return (
+                    <div  key={product.id} className="container">
+                      <div className="img-container">
                         <a href={"#" + product.id} onClick={() => openModal(product)}>
-                          <img width="80" height="80" src={product.product_images[0]} alt="productImage" />
+                          <img width="80" height="90" src={product.colors[0]} alt="productImage" />
                         </a>
-                      </td>
-                      <td>{product.colors}</td>
-                      <td>{product.price}</td>
-                      <td>{product.quantity}</td>
-                      <td>
-                        <button onClick={() => deleteProduct(product.id)}>Delete</button>
-                      </td>
-                      <td>
-                        <button onClick={() => open_Edit_Modal(product)}>Edite</button>
-                      </td>
-                    </tr>
-                  )
-                }
-                )
-              }
-              </tbody>
-            </table>
-          </TableWrap>
-        </Product_Container>
-      )
-      : AdminProducts === false ? (
-          <Spinner/> 
-      )
-      : null 
-      }
+                        <div className="product-id">
+                        <span>{product.id}</span>
+                      </div>
+                      </div>
+                      
+                      <div className="product-price">
+                        <span>US ${product.price}</span>
+                      </div>
+                      <div className="product-quantity">
+                        <span>{product.quantity} Piece</span>
+                      </div>
+
+                      
+                      <div className="edit-btn-container">
+                        <EditIcon  className="edit-btn" onClick={() => open_Edit_Modal(product)}/>
+                      </div>
+                      <div className="delete-btn-container">
+                        <DeleteIcon className="delete-btn" onClick={() => deleteProduct(product.id)}/>
+                      </div>
+                    </div>
+                    )})}
+                    </TableWrap>
+                  </Product_Container>
+           
+           ): <div style={{margin:"auto"}}>
+            <Spinner/>
+            
+            </div>}
+          
+      
+     
+     
       </>
     )
   }
 }
 
 const Product_Container = styled.div`
-  
-  border-radius:6px;
+   width:100%;
+  .container{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#fff;
+    margin-top:10px;
+    padding:10px;
+    border-radius:4px;
 
+
+  }
+  .addproduct-button{
+    background: #000;
+    color:#fff;
+    padding:10px;
+    border-radius:4px;
+  }
+  .img-container{
+    display:flex;
+    align-items:center;
+    width:480px;
+     
+  }
+  .img-container img{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius:4px;
+    margin-right:10px;
+  }
+  .product-price{
+     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  }
+  .product-quantity{
+
+  }
+  .delete-btn-container{
+
+  }
+  .edit-btn-container{
+
+  }
+  .delete-btn, .edit-btn{
+    cursor:pointer;
+    color:gray;
+  }
+
+  .delete-btn:hover, .edit-btn:hover{
+    opacity:0.5;
+  }
       
 `
 
 const TableWrap = styled.div`
 
- `
- const AddNewProduct = styled.div`
- input{
-     width:30vw;
-     min-width:280px;
-     max-width:380px;
  
- }
- .productImg-container{
-     display:flex;
- }
- .imgprview{
-     margin-right:25px;
-     width:150px;
-     height:150px;
-     object-fit:cover;
-     display:flex;
- }
-    .size-container, .colors-container{
-     display: flex;
-     align-items:center;
-     padding:5px;
-     flex-wrap: wrap;
-     min-height: 48px;
-     border: 1px solid rgb(214, 216, 218);
-     border-radius: 6px;
-     background:white;
-     width:30vw;
-     min-width:280px;
-     max-width:380px;
 
-      .size_wrapper, .color_wrapper{
-         display:flex;
-         align-items:center;
-         
-
-
-          .size_name, .color_name{
-             padding:0px 5px;
-             background:blue;
-             color:white;
-             border-radius:6px;
-             margin-right:1px;
-             margin-bottom:2px;
-
-          }
-          .remove_size, .remove_color{
-             cursor:pointer;
-             margin-right:4px;
-             background:lightgrey;
-             border-radius:50%;
-             padding:0 5px;
-             font-size:10px;
-             color:red;
-          }
-      }
-     input{
-         border: 0;
-         outline: none;
-         padding: 0;
-         min-width: 80px;
-         flex:1;
-         margin-bottom:0px;
-         height:auto;
-     }
-   }
-  textarea{
-      height:50vh;
-      width:60vw;
-  }
-  .submitButton{
-      display:flex;
-      padding:10px 20px;
-      background:green;
-      border-radius:8px;
-      color:white;
-      font-weight:bold;
-      width:80px;
-      margin:auto;
-  }
-  .description-container{
-     width:60vw;
-
-  }
 `
