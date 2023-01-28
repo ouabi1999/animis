@@ -55,9 +55,7 @@ function LoginForm() {
     if( auth === "true" ) {
         navigate("/")
     }
-    else{
-      return ""
-    }
+   
   
   }, [])
 
@@ -100,7 +98,7 @@ function LoginForm() {
 
             dispatch(login(result))
             setIsLoading(false);
-            window.location.href = "/"
+            window.location.href="/"
           }
 
 
@@ -119,9 +117,9 @@ function LoginForm() {
      
         
       <img src = "./logo.png" className="logo" />
-      <strong>Login</strong>
+      <strong> Login </strong>
 
-      {user == null ? (
+      {user == null && (
      <Grid container spacing={2}>
 
           <Grid item xs={12}>
@@ -162,7 +160,7 @@ function LoginForm() {
                     {formData.showNewPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
 
-                </InputAdornment>,
+                </InputAdornment>
               }}
             />
            
@@ -201,13 +199,13 @@ function LoginForm() {
               justifyContent="space-evenly" 
               className="other-info" >
          
-            <a href="#" className="f-password"> Forget Password</a>
+            <Link to="/forget-password" className="f-password"> Forget Password</Link>
             <Link to="/register">Create an account</Link>
 
           </Grid>
           
         </Grid>
-         ) :""
+         ) 
          
         }
     

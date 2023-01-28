@@ -24,9 +24,49 @@ const initialState = {
 export const customers_Slice = createSlice({
     name: "customers",
     initialState,
-    reducers: {
-       
+    
+
+    reducers:{
+        setNewMessage(state, action){
+            console.log(action.payload)
+            const customers = state.customers.slice();
+            const {user_id, message} = action.payload
+            customers.map(user => {
+                if (user.id === user_id){
+                    user.rooms.map(room =>{
+                        if (room.id === message.room_id){
+                            room.messages = [...room.messages, message]
+                        }
+                    })  
+                }
+            
+            })
+            state.customers =  customers
         
+        },
+       
+
+        setReadMessages(state, action){
+            const customers = state.customers.slice();
+            const {user_id, room_id, messages} = action.payload
+           
+            customers.map(user => {
+                if (user.id === user_id){
+                    user.rooms.map(room => {
+                        if (room.id === room_id){
+                            room.messages  = messages
+                                
+                        }
+                    
+                    })
+                    
+               
+                }
+            
+            })
+            state.customers =  customers
+             
+        }
         
     },
 
@@ -48,5 +88,5 @@ export const customers_Slice = createSlice({
 
 
 })
-export const {  } = customers_Slice.actions
+export const { setNewMessage, setReadMessages } = customers_Slice.actions
 export default customers_Slice.reducer

@@ -22,48 +22,49 @@ const MainSlider = () => {
 
       
         <Swiper
-        
+
           loop={true}
-          
           modules={[Pagination, Navigation, Autoplay]} 
           autoplay={{
             delay: 2500,
             disableOnInteraction: false,
           }}
+
           pagination={{
           clickable: true,
           }}
-          className="mySwiper"
+
+          className="mySwiper skeleton"
         >
           
         
-          {displayData.slider[0] && (
+          {displayData?.slider?.[0] && (
              <SwiperSlide>
               <img src={displayData?.slider[0]} alt="slider" />
               </SwiperSlide>
             )}
-           {displayData.slider[2] && (
+           {displayData?.slider?.[2] && (
              <SwiperSlide>
               <img src={displayData?.slider[2]} alt="slider" />
               </SwiperSlide>
             )}
-           {displayData.slider[3] && (
+           {displayData?.slider?.[3] && (
              <SwiperSlide>
               <img src={displayData?.slider[3]} alt="slider" />
               </SwiperSlide>
             )}
-             {displayData.slider[4] && (
+             {displayData?.slider?.[4] && (
              <SwiperSlide>
               <img src={displayData?.slider[4]} alt="slider" />
               </SwiperSlide>
             )}
-             {displayData.slider[5] && (
+             {displayData?.slider?.[5] && (
              <SwiperSlide>
               <img src={displayData?.slider[5]} alt="slider" />
               </SwiperSlide>
             )}
          
-            {displayData.slider[6] && (
+            {displayData?.slider?.[6] && (
              <SwiperSlide>
               <img src={displayData?.slider[6]} alt="slider" />
               </SwiperSlide>
@@ -82,18 +83,17 @@ const Container = styled.div`
     
    
    min-width:200px;
-   height:52vh;
-   animation: skeleton-loading 1s linear infinite alternate;
    
-  
    
    div{
       display:flex;
       border-radius: 4px;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
     }
+
   .skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
+      min-height:52vh;
+      animation: skeleton-loading 1s linear infinite alternate;
 }
 
 @-webkit-keyframes skeleton-loading {
@@ -147,7 +147,7 @@ div{
 
 img{
   height:355px;
-}
+  } 
 }
 
 

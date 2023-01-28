@@ -31,21 +31,7 @@ function EditProfile(props) {
 
 
 
-    const {
-        nameEdit,
-        emailEdit,
-        passwordEdit,
-        countryEdit,
-        genderEdit,
-        closeNameEdit,
-        closeEmailEdit,
-        closePasswordEdit,
-        closeCountryEdit,
-        closeGenderEdit,
-        closeBirthDateEdit,
-        birthDateEdit,
-        handleClickShowPassword
-       } = props;
+    
 
     return (
         
@@ -62,37 +48,12 @@ function EditProfile(props) {
                   pauseOnHover
                   className = 'foo-bar'
                 />
-            <EditBirthday
-               closeBirthDateEdit={closeBirthDateEdit}
-               birthDateEdit = {birthDateEdit}
-            />
-            <EditCountry
-                countryEdit={countryEdit}
-                closeCountryEdit={closeCountryEdit}
-
-            />
-            <EditEmail
-                closeEmailEdit={closeEmailEdit}
-                emailEdit={emailEdit}
-            />
-            <EditGender
-                genderEdit={genderEdit}
-                closeGenderEdit={closeGenderEdit}
-            />
-            
-
-            <EditName
-                nameEdit={nameEdit}
-                closeNameEdit={closeNameEdit}
-            />
-            
-           
-            <EditPassword
-                passwordEdit={passwordEdit}
-                closePasswordEdit={closePasswordEdit}
-                handleClickShowPassword = {handleClickShowPassword}
-                handleMouseDownPassword = {handleMouseDownPassword}
-            />
+            <EditBirthday/>
+            <EditCountry/>
+            <EditEmail/>
+            <EditGender/>
+            <EditName/>
+            <EditPassword/>
         </Container>
       
     )

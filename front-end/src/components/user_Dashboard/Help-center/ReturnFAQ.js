@@ -180,9 +180,7 @@ export const Container = styled.div`
         
         color:orange;
         font-family:"arial monospace";
-       
         margin-left:30px;
-
 
       }
 

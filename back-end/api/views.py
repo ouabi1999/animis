@@ -14,11 +14,10 @@ from .models import (
     ratings_serializer,
     Orders, 
     Ratings,
-    notification_serializer, 
-    MessageNotification ,
     Messages, 
     messages_serializer,
     Rooms,
+    user_room,
     Display,
     display_serializer
         )
@@ -197,20 +196,12 @@ def connected():
 
 @socketio.on('message')
 def handle_message(message):
-    sender = message["owner_id"]
-    receiver = message["receiver_id"]
+    sender = message["sender"]
+    receiver = message["receiver"]
     room_id = message["room_id"]
     message = message["text"]
 
-    user_room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
-
-    user_messages = {
-        "sender" : sender,
-        "receiver" : receiver,
-        "room_id" : room_id,
-        "message" : message
-
-    }
+    room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
 
     new_message = Messages(
             message = message,
@@ -219,24 +210,26 @@ def handle_message(message):
             room_id = room_id
         
         )
-    new_notification = MessageNotification(
-            notification = message,
-            sender = sender,
-            receiver_id = receiver,
-            room_id = room_id 
-           
-        
-        )
-    
-    db.session.add(new_notification)
+  
     db.session.add(new_message)
     db.session.commit()
-    emit('messages', {"messages": user_messages, "notification" : user_messages  }, broadcast=True)
+    emit('newMessage', 
+            {"newMessage": {
+                "id": new_message.id,
+                "message" : new_message.message,
+                "is_Read" : new_message.is_Read,
+                "room_id"   : new_message.room_id,
+                "sender" : new_message.sender,
+                "receiver": new_message.receiver,
+                "created_at" :json.dumps(new_message.created_at),
+            }
+
+            } , broadcast=True)
    
     
 
 @socketio.on("disconnect")
-def disconnected():
+def disconnected(data):
     """event listener when client disconnects to the server"""
     print("user disconnected")
     emit("disconnect",f"user {request.sid} disconnected",broadcast=True)
@@ -245,32 +238,72 @@ def disconnected():
 def on_join(data):
     sender = data["owner_id"]
     receiver = data["receiver_id"]
-    user_room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
-    if user_room is not None:
-        db.session.commit()
+    user = Users.query.filter_by(id = sender).first()
+    room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
+    if room is not None:
         join_room(data["owner_id"])
-        #send({"room_id" : user_room.id ,'owner_id': owner_id, "receiver_id": receiver_id}, to=room)
-        emit('open_room', {"room_id" : user_room.id ,'owner_id': user_room.sender, "receiver_id": user_room.receiver}, broadcast=True)
+        #send({"room_id" : room.id ,'owner_id': owner_id, "receiver_id": receiver_id}, to=room)
+        emit('open_room', {"room_id" : room.id ,'owner_id': room.sender, "receiver_id": room.receiver})
         
     else:
         join_room(data["owner_id"])
+       
+       
         new_room = Rooms(
             sender  =  sender,
             receiver =   receiver,
         )
-        #user.room.append(new_room)
-
+        
         db.session.add(new_room)
         db.session.commit()
-        emit('open_room', {"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] }, broadcast=True)
+        Room1 = user_room.insert().values(user_id = sender, room_id = new_room.id)
+        Room2 = user_room.insert().values(user_id = receiver, room_id = new_room.id)
+        db.session.execute(Room1)
+        db.session.execute(Room2)
+        db.session.commit()
+        emit('open_room', {"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] })
   
 
 
 @views.route("/getMessages/<id>", methods=["GET"])
 def get_messages(id):
-    user_room = Rooms.query.filter_by(id = id).first()
-    user_messages =  [*map(messages_serializer , user_room.messages)]
+    room = Rooms.query.filter_by(id = id).first()
+    if room is None:
+
+        return {"messages":[]}
+   
+    user_messages =  [*map(messages_serializer , room.messages)]
     return {"messages":user_messages}
+
+
+@views.route("/getMessages", methods=["GET"])
+def get_all_messages():
+   
+    messages =  [*map(messages_serializer , Messages.query.all())]
+    return {"messages":messages}
+
+
+@socketio.on("readMessage")
+def readMessage(data):
+    room_id = data["room_id"]
+    sender = data["sender"]
+    receiver = data["receiver"]
+    room = Rooms.query.filter_by(id = room_id).first()
+    if room is not None: 
+        for msg in room.messages:
+            if msg.sender != sender and msg.sender == receiver:
+                msg.is_Read = True      
+    db.session.commit()
+    user_messages =  [*map(messages_serializer , room.messages)]
+    emit('seenMessages', {"receiver" : receiver, "sender"  : sender, "room_id"  : room_id, "messages":user_messages}, broadcast=True)
+
+
+  
+
+  
+
+    
+    
     
  
 @socketio.on("msgnotification")
@@ -282,20 +315,7 @@ def msg_notification(notify):
     
 
     
-@views.route('/clearnotification',methods=['POST'])
-def clear_notification():
-    request_data = json.loads(request.data)
-    receiver_id = request_data["receiver_id"]
-    room_id = request_data["room_id"]
 
-    notification = MessageNotification.query.filter(MessageNotification.receiver_id.in_([receiver_id, room_id])).filter(MessageNotification.room_id.in_([receiver_id, room_id ])).all()
-    print(notification, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")     
-    for note in notification:
-
-        db.session.delete(note)
-        db.session.commit()
-        print("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-    return("deleted ------ bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb ")
 
 
 @views.route("/displayInfo", methods=['GET'])
@@ -350,3 +370,33 @@ def editDisplay(id):
         return jsonify(*map(display_serializer, display))
     else:
         return {"error" : "the product isn't exist any more ..."} ,401 
+
+
+@views.route("/getRoom", methods=["POST"])
+def joingUserRoom():
+    data = json.loads(request.data)
+    sender = data["owner_id"]
+    receiver = data["receiver_id"]
+    room = Rooms.query.filter(Rooms.sender.in_([sender, receiver])).filter(Rooms.receiver.in_([sender, receiver ])).first()
+    if room is not None:
+        
+        #send({"room_id" : room.id ,'owner_id': owner_id, "receiver_id": receiver_id}, to=room)
+        return {"room_id" : room.id ,'owner_id': room.sender, "receiver_id": room.receiver}
+        
+    else:
+      
+        new_room = Rooms(
+            sender  =  sender,
+            receiver =   receiver,
+        )
+        #user.room.append(new_room)
+
+        db.session.add(new_room)
+        db.session.commit()
+        Room1 = user_room.insert().values(user_id = sender, room_id = new_room.id)
+        Room2 = user_room.insert().values(user_id = receiver, room_id = new_room.id)
+        db.session.execute(Room1)
+        db.session.execute(Room2)
+        db.session.commit()
+        return{"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] }
+  

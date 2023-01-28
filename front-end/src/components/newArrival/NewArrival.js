@@ -32,7 +32,7 @@ function NewArrival() {
          <ArrowBackIosIcon className="prev-arrow" />
      </button>
          <Slide_Container ref={carousel}>
-            {products.length > 0 ? (
+            {products.length >  0 ? (
                   products?.slice(0, 12).map((item, index) => {
                     return (
                        <Wrapp key={index}>

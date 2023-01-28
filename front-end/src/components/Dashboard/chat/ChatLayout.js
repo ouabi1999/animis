@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import CircularProgress from '@mui/material/CircularProgress';
 import styled from "styled-components"
 import AdminChat from './AdminChat'
 import Users from './Users'
@@ -7,58 +8,108 @@ import io from "socket.io-client";
 let endPoint = "http://localhost:5000";
 let socket = io.connect(`${endPoint}`);
 function ChatLayout() {
-    const users = useSelector(state=> state.customers.customers)
-    const user =  useSelector(state=> state.auth.user)
-    const [chatOpend, setChatOpend] = useState(false)
-    const [messageLoading, setMessageLoading] = useState(false)
-    const [room, setRoom]  = useState(null);
-    const [ReceiverUser , setReceiverUser] = useState("")
+    const AllUsers = useSelector(state => state.customers.customers)
+    const sender =  useSelector(state=> state.auth.user);
+    const users = AllUsers?.filter(user => user.admin === false);
+    const [chatOpend, setChatOpend] = useState(false);
+    const [isConnected, setIsConnected] = useState(false);
+    const [ReceiverUser, setReceiverUser] = useState("")
+    const [messages, setMessages] = useState([])
+    const [message, setMessage] = useState({
+      text :"",
+      image : "",
+      sender: sender?.id,
+      receiver : "",
+      room_id:null
 
-
-   
-
-    const startChat =  (receiver) => {
-      
-           
-         setRoom({
-              
-                owner_id : user.id,
-                receiver_id : receiver.id,
+ });
     
-            })
-            setMessageLoading(true)
-            setChatOpend(true)
-            setReceiverUser(receiver)
-            socket.emit("join_room", 
-                                        { 
-                                            owner_id:user.id,
-                                            receiver_id:receiver.id
-                                        }
-                                        );
 
-            
-  
-        
+    const startChat = (info)=>{
+      
+        setReceiverUser(info.receiver)
+        setChatOpend(true)
+        setMessage({
+          ...message,
+          receiver: info.receiver.id,
+          room_id : info.room_id,
+
+        })
+       
 
     }
 
+ 
+   const closeChat = () => {
+    setChatOpend(false)
+    socket.off("join_room");
+
+
+   }
    
   return (
-      <Container>
-          <div className="users">
-              <Users  startChat = {startChat} users={users}/>
-          </div>
-          {chatOpend && (
-          <div className="chat">
-              <AdminChat 
-                  socket ={socket} 
-                  setMessageLoading = {setMessageLoading}
-                  messageLoading = {messageLoading}
-                  room={room} ReceiverUser = {ReceiverUser}/>
-          </div>
+    <>
+    {!sender?(
+      <div style={{ height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}><CircularProgress
+           
+        size={22}
+        thickness={6}
+        value={100}
+      />
+      </div>
+    ):
 
-          )}
+  
+      <>
+      <Container style={ chatOpend === true ? { display:"none"} : {}}>
+          <div className="users">
+              {users.map(user =>{
+                return(
+                  <div key={user.id}>
+                  <Users 
+                    receiver={user}
+                    startChat={startChat}
+                    sender={sender}
+                    chatOpend = {chatOpend}
+                    socket = {socket}
+                  />
+                </div>
+
+                )
+          })}
+             
+             
+              
+           
+            </div>
+              
+         
       </Container>
+  
+    <ChatContainer style={ chatOpend === false ? { display:"none"} : {}}>
+    <AdminChat 
+         
+        socket = {socket}  
+        closeChat = {closeChat} 
+        chatOpend = {chatOpend}
+        //setUserRoom = {setUserRoom}
+        //userRoom = {userRoom}
+        messages = {messages} 
+        setMessages = {setMessages}
+        isConnected = {isConnected}  
+        setIsConnected = {setIsConnected}
+        sender = {sender}
+        message = {message}
+        setMessage = {setMessage}
+        ReceiverUser = {ReceiverUser}
+
+      />
+
+      </ChatContainer>
+      </>
+    
+        }
+    </>
   )
 }
 
@@ -75,6 +126,13 @@ const Container = styled.div`
    .chat{
     flex:1;
    }
+
+
+`
+const ChatContainer = styled.div`
+     display:flex;
+     justify-content:center;
+     align-content:center
 
 
 `

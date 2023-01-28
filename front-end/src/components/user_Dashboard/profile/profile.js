@@ -16,8 +16,7 @@ export const UserContext = createContext()
 
 function Profile(props){
     const dispatch = useDispatch()
-       
-       
+      
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("")   
     const user = useSelector(state=> state.auth.user)

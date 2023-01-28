@@ -41,6 +41,8 @@ import ClientChatLayout from './components/user_Dashboard/Chat/ClientChatLayout'
 import ChatLayout from './components/Dashboard/chat/ChatLayout';
 import DisplayLyout from './components/Dashboard/display/DisplayLyout';
 import { getDisplayInfo } from './features/display/displaySlice';
+import ForgotPassword from './screens/resetPassword/ForgotPassword';
+import ResetPassword from './screens/resetPassword/ResetPassword';
 
 
 export const OrderContext = createContext();
@@ -148,6 +150,9 @@ function App() {
              
                 <Route path = "notifications"  element = {<Notifications />} />
               </Route>
+              <Route path='/forget-password' element={<ForgotPassword/>}/>
+              
+              <Route path='/reset-password/<toksen>' element={<ResetPassword/>}/>
 
             <Route   path = "/admin"         element = {<DashLayout />} >
               <Route path = "/admin"         element = {<Dashboard />} />

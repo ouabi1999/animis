@@ -11,7 +11,7 @@ import Billing from "./Billing";
 import Steps from "./Steps";
 import SkeletonLoader from "../Skeleton";
 import { FormContext } from "../CheckoutContainer";
-import {OrderContext } from "../../../App";
+import {OrderContext } from "../../../App"; 
 import { useNavigate } from "react-router-dom";
 import {Redirect} from "react-router-dom"
 

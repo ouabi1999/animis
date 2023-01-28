@@ -122,6 +122,7 @@ const Side_Bar = styled.div`
         
         min-height:0;
         border-bottom:1px solid lightgray;
+        padding-left:0px;
       }
       
    

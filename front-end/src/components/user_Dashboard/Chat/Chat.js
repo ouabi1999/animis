@@ -1,161 +1,113 @@
-import React,{useEffect, useRef, useState} from 'react'
+import React,{useEffect, useLayoutEffect, useRef, useState} from 'react'
 import SendIcon from '@mui/icons-material/Send';
 import styled from "styled-components"
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import FilledInput from '@mui/material/FilledInput';
 import InputAdornment from '@mui/material/InputAdornment';
-import CircularProgress, {
-  circularProgressClasses,
-} from '@mui/material/CircularProgress';
 import * as timeago from 'timeago.js';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
-import {useSelector} from "react-redux";
-let selectedChatCompare ;
-function Chat(props) {
-  const {socket, setMessages, messages } = props;
-  const user =  useSelector(state=> state.auth.user)
-  
-  const [isConnected, setIsConnected] = useState(false);
-  const [lastPong, setLastPong] = useState(null);
-  const [userRoom, setUserRoom] = useState("")
-  const [message, setMessage] = useState({
-     text :"",
-     image : "",
-     owner_id : user.id,
-     receiver_id :props.ReceiverUser.id,
-     room_id:null
 
-  });
+import { useDispatch, useSelector } from 'react-redux';
+import { setReadMessages } from '../../../features/customers/customers_slice';
+
+function Chat(
+  {
+    ReceiverUser,
+    closeChat,
+    socket,
+    chatOpend,
+    sender,
+    message,
+    setMessage,
+    setChatOpend,
+   
+   
+    
+  }
+) {
  
+  
+  const AllUsers = useSelector(state => state.customers.customers)
+  const reciever = AllUsers.find(user => user.id === ReceiverUser?.id);
+  const receiverRooms = reciever?.rooms?.filter(room => [sender?.id,  reciever?.id].includes(room.sender) && [sender?.id,  reciever?.id].includes(room.receiver));
+  const messages = receiverRooms?.[0]?.messages
+  const dispatch = useDispatch()
+ 
+
   const messagesEndRef = useRef()
   // scrool to bottom 
   const scrollToBottom = () => {
-    
+
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
 
- }
+  }
 
 
-  useEffect(() => {
-   
-    socket.on("messages", msg => {
-      //   let allMessages = messages;
-      //   allMessages.push(msg);
-      //   setMessages(allMessages);
-  
-
-        setMessages((list) => [...list, msg.messages]);
-        scrollToBottom()
-
-    });
-   
-    socket.on('connect', () => {
-      setIsConnected(true);
-      console.log("user connected")
-    });
 
 
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-    })
-    return () => {
-      socket.off("connect");
-      socket.off("disconnect")
-      socket.off("messages")
-      props.setReceiverUser(null)
-
-     
-
-    }
-  
-
-  }, [socket]);
  
-  useEffect(() => {
-    socket.on("open_room", (data)=>{
-     setMessage({
-      ...message,
-      room_id : data.room_id
-     })
-     setUserRoom(data.room_id)
-     
-  })
- 
-  
-
-
-  }, [props.ReceiverUser])
-
-  useEffect(() => {
-
-    const getMessages =  async () => {
-     
-      fetch(`/getMessages/${message.room_id}`)
-      
-      .then(response => response.json())
-      
-      .then(data => {
-        setMessages(data.messages)
-        props.setMessageLoading(false)
-        props.setNotification([])
-        scrollToBottom()
-        
-      })
-        
-      .catch(err => console.log(err))
-    }
-
-    const clearNoofication = () =>{
-      fetch("/clearnotification",{
-        method:"POST",
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          room_id: message.room_id,
-          receiver_id : message.receiver_id
     
-        })
+    
+    useEffect(() => {
+     
+        socket.on("seenMessages", (msg) => {
+         
+        
+       
+        dispatch(setReadMessages({ user_id:msg.receiver, room_id: msg.room_id, messages: msg.messages }))
+        
+       })
+      socket.on("newMessage", (msg) => {
+  
+          
+       
+          scrollToBottom()
+         
       
-     }).then(response=> response.json())
-     .catch(err => console.log(err))
+        });
+       
+      }, [socket]);
+
+  
+
+ 
+ useLayoutEffect(() => {
+    scrollToBottom()
+  
+    if (message.room_id !== null && chatOpend) {
+          socket.emit("readMessage", message);
+    
     }
-    if(message.room_id  !== null) {
-      getMessages(); 
-      clearNoofication()
-    }
-  
-  }, [userRoom]);
-  
-  
+
+  }, [message.room_id, chatOpend]);
+
+
 
   // On Change
   const hendleChange = e => {
-    console.log(messages)
     setMessage(
       {
-        ...message, 
-        text : e.target.value,
-        image : "",
+        ...message,
+        text: e.target.value,
+        image: "",
 
       }
-      );
-      
+    );
+
   };
 
   // send messsage to the back-end server 
   const handleMessage = async () => {
     if (message.text !== "") {
       socket.emit("message", message);
-     
+
       setMessage({
         ...message,
         text: "",
         image: "",
 
       });
-      console.log(message)
     } else {
       return ""
     }
@@ -164,8 +116,8 @@ function Chat(props) {
 
       await socket.on("messages", msg => {
 
-       
-         
+
+
         scrollToBottom()
       })
     } catch (err) {
@@ -173,12 +125,15 @@ function Chat(props) {
     }
   };
 
-  const {ReceiverUser, closeChat, messageLoading}= props;
+  
+  
+
+ 
   return (
       <Container>
           
         
-          <div className="header">
+      <div className="header">
         <div className="user-avatar">
           <img src="../avatars/boy.jpg" alt="profile" />
         </div>
@@ -190,19 +145,17 @@ function Chat(props) {
         </div>
       </div>
           <ChatContainer >
-        {messageLoading === false ? (
 
-
-        messages?.map(msg => {
+        {messages?.map(msg => {
           return (
 
-            <div key={msg.id} id="messages" ref= {messagesEndRef} className={msg.sender === user.id ? "senderMessage" : "receiverMessage"}>
+            <div key={msg.id} id="messages" ref= {messagesEndRef} className={msg.sender === sender?.id ? "senderMessage" : "receiverMessage"}>
 
               <span> {msg.message} </span>
 
               <span  className='time-ago'>
                 {timeago.format(msg.created_at)}
-                {msg.sender === user.id ? <DoneAllIcon className="sending-icon" /> : ""}
+                {msg.sender === sender?.id ? <DoneAllIcon className={msg.is_Read === false ? "sending-icon" : "readed-icon"} /> : ""}
 
               </span>
               
@@ -210,13 +163,7 @@ function Chat(props) {
           )
 
         })
-        ):<div style={{ height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}><CircularProgress
-           
-           size={22}
-           thickness={6}
-           value={100}
-         />
-         </div>} 
+      } 
           </ChatContainer>
           <div className="input-field">
 
@@ -250,7 +197,7 @@ const Container = styled.div`
     flex-direction:column;
     
      width:40%;
-     min-width:340px;
+     min-width:320px;
      height:450px;
      background:#ffff;
 
@@ -342,6 +289,11 @@ const ChatContainer = styled.div`
       .sending-icon{
         font-size:12px;
         margin-left:4px;
+      }
+      .readed-icon{
+        font-size:12px;
+        margin-left:4px;
+        color:blue;
       }
   
   `

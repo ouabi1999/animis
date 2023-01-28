@@ -78,7 +78,7 @@ const Container =  styled.div`
     .item1{
         grid-column: 1 / span 1; 
         grid-row: 1 /span 2;
-        background: url(${props => props?.data[0]?.img[0]});
+        background: url(${props => props?.data?.[0]?.img[0]});
       
     }
 
@@ -87,7 +87,7 @@ const Container =  styled.div`
       grid-row: 1 / span 2;
       width:100%;
       height:auto;
-      background: url(${props => props?.data[1]?.img[0]});
+      background: url(${props => props?.data?.[1]?.img[0]});
       
     }
 
@@ -96,7 +96,7 @@ const Container =  styled.div`
       grid-row: 1 /span 2;
       width:100%;
       height:auto;
-      background: url(${props => props?.data[2]?.img[0]});
+      background: url(${props => props?.data?.[2]?.img[0]});
     
      
 
@@ -105,13 +105,13 @@ const Container =  styled.div`
     .item4{
       grid-column: 1 / span 2;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data[3]?.img[0]});
+      background: url(${props => props?.data?.[3]?.img[0]});
     }
 
     .item5{
       grid-column: 3 / span 1;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data[4]?.img[0]});
+      background: url(${props => props?.data?.[4]?.img[0]});
       
       
       
@@ -119,7 +119,7 @@ const Container =  styled.div`
     .item6{
       grid-column: 4 / span 1;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data[5]?.img[0]});
+      background: url(${props => props?.data?.[5]?.img[0]});
   
     }
 

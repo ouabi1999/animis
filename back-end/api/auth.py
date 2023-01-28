@@ -51,6 +51,7 @@ def register():
         firstName = request_data["firstName"],
         lastName = request_data["lastName"],
         country = request_data["country"],
+        countryCode = request_data["countryCode"],
         gender = request_data["gender"],
         birthDate = request_data["birthDate"]    
     )

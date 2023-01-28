@@ -39,7 +39,7 @@ function EditName(props) {
             updateUserInfo({...formData, firstName:values.firstName, lastName : values.lastName})
 
             
-        },
+        }, 
     });
 
     const {

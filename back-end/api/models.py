@@ -9,25 +9,27 @@ def get_uuid():
     return uuid4().hex
 
 
-room_user = db.Table("room_user",
-                       db.Column("room_id", db.String, db.ForeignKey("rooms.id")),
-                       db.Column("user_id", db.String, db.ForeignKey("users.id"))
+user_room = db.Table("user_room",
+                       db.Column("room_id", db.String, db.ForeignKey("rooms.id"), primary_key = True),
+                       db.Column("user_id", db.String, db.ForeignKey("users.id"), primary_key = True)
                     )
 
+   
 
 class Messages(db.Model):
     id = db.Column(db.String(100), primary_key = True, default = get_uuid)
-    message = db.Column(db.Text, nullable=False)
+    message = db.Column(db.PickleType(), nullable=False)
     created_at = db.Column(db.DateTime, default = datetime.utcnow)
     is_Read = db.Column(db.Boolean , default = False)
     room_id = db.Column(db.String, db.ForeignKey('rooms.id'), nullable=False)
-    sender = db.Column(db.String,  db.ForeignKey('users.id') )
-    receiver  =  db.Column(db.String,  db.ForeignKey('users.id'))
+    sender = db.Column(db.String())
+    receiver  =  db.Column(db.String())
    
     
 
     def __str__(self):      
         return f'{self.id} {self.message}{self.is_Read} {self.created_at} {self.sender} {self.room_id} {self.user_id}'
+
 def messages_serializer(item):
     return{
          "id": item.id,
@@ -35,15 +37,15 @@ def messages_serializer(item):
          "is_Read" : item.is_Read,
          "room_id"   : item.room_id,
          "sender" : item.sender,
+         "receiver": item.receiver,
          "created_at" :json.dumps(item.created_at),
 
         }    
     
 class Rooms(db.Model):
-    id = db.Column(db.String(100), primary_key=True, default = get_uuid)
+    id = db.Column(db.String(100), primary_key=True, unique=True, default = get_uuid)
     sender = db.Column(db.String,  db.ForeignKey('users.id'))
     receiver =  db.Column(db.String,  db.ForeignKey('users.id'))
-    room_user = db.relationship('Users', secondary = "room_user",  lazy = 'dynamic',  backref = db.backref('rooms', lazy='dynamic')) 
     messages = db.relationship("Messages", backref="rooms", cascade='all, delete', order_by="Messages.created_at" , lazy = True)
     
     
@@ -54,32 +56,15 @@ class Rooms(db.Model):
 
 def room_serializer(room):
    
-
+    messages =  [*map(messages_serializer , room.messages)]
     return{
         "id" : room.id,
         "receiver" :room.receiver,
-        "sender" : room.sender
+        "sender" : room.sender,
+        "messages" : messages
     }
 
-class MessageNotification(db.Model):
-    id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
-    notification = db.Column(db.PickleType())
-    notify_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
-    receiver_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False)
-    sender = db.Column(db.String(), nullable = False) 
-    room_id = db.Column(db.String(), db.ForeignKey("rooms.id") ,nullable = False)
 
-    def __str__(self):
-        return f"{self.id} {self.notification} {self.notify_at}"
-def notification_serializer(item):
-        
-        return {
-        "id" : item.id ,
-        "notification" : item.notification,
-        "notify_at"  : json.dumps(item.notify_at),
-        "sender " : item.sender,
-        "room_id" : item.room_id
-        }
 
 class Users(db.Model):
     id = db.Column(db.String(100), primary_key = True, unique=True, default=get_uuid)
@@ -94,17 +79,20 @@ class Users(db.Model):
     userAvatar = db.Column(db.String(50), default= "boy.jpg")
     joined_at = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     admin = db.Column(db.Boolean, nullable = False, default = False)
-    #rating_id = db.Column(db.String(), db.ForeignKey("users.id") ,nullable = False) 
+    reset_token = db.Column(db.String(36), nullable=True)
+    token_expiration = db.Column(db.DateTime, nullable=True)
     userOrders = db.relationship('Orders', cascade='all, delete',  backref='user', lazy=True) 
+    user_room = db.relationship('Rooms', secondary = "user_room",  lazy = 'dynamic', cascade='all, delete', backref = db.backref('user', lazy='dynamic')) 
+
                                                
     def __str__(self):
-        return f"{self.id} {self.gender} {self.admin} {self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
+        return f"{self.id} {self.gender} {self.reset_token} {self.token_expiration} {self.admin} {self.countryCode} {self.country} {self.lastName} {self.firstName} {self.birthDate} {self.email} {self.password} {self.userAvatar}"
 
 def user_serializer(user):
   
-    #room = Users.query.join(room_user).join(Rooms).filter((room_user.c.user_id == user.id) & (room_user.c.room_id == Rooms.id)).all()  
-    #room =  [*map(room_serializer, user_room)]
-    #messages =  [*map(messages_serializer , user.messages)]
+    rooms = Users.query.join(user_room).join(Rooms).filter((user_room.c.user_id == user.id) & (user_room.c.room_id == Rooms.id)).all()  
+    user_rooms =  [*map(room_serializer, user.user_room)]
+   
     
     return{
         "id":user.id,
@@ -119,7 +107,7 @@ def user_serializer(user):
         "admin" : user.admin,
         "joined_at" : user.joined_at,
         #"messages" : messages,
-        #"rooms" : room,
+        "rooms" : user_rooms,
       
 
         
@@ -207,7 +195,7 @@ def productInfo_serializer(info):
     }
 
 class Orders(db.Model):
-    id = db.Column(db.String(13), primary_key=True, default=get_uuid)
+    id = db.Column(db.String(13), primary_key=True, unique=True, default=get_uuid)
     orderd_at = db.Column(db.DateTime(), nullable=False, default = datetime.utcnow)
     firstName = db.Column(db.String())
     lastName = db.Column(db.String())
@@ -255,7 +243,7 @@ def orders_serializer(order):
     }   
 
 class Display(db.Model):
-    id = db.Column(db.String(80), primary_key=True, default = get_uuid)
+    id = db.Column(db.String(80), primary_key=True, unique=True, default = get_uuid)
     logo = db.Column(db.Text())
     header = db.Column(db.PickleType())
     main_category = db.Column(db.PickleType())

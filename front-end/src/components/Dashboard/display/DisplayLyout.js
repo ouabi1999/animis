@@ -142,7 +142,7 @@ export default function DisplayLyout() {
           toast.error("an error accourd")
         });
     }
-
+   
   return (
       <>
       {displayInfo.isLoaded  === false ? (

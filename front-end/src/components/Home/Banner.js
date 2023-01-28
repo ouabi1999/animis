@@ -6,19 +6,19 @@ function Banner() {
   
   return (
     <Container>
-        {displayData.banners[0] && (
+        {displayData?.banners?.[0] && (
         <img src = {displayData.banners[0]} alt=""/>
       )}
     </Container>
   )
 }
-
+  
 export default Banner
 const Container = styled.div`
     margin:auto;
     width:90%;
      img{
-         width:100%;
-         height:85px;
+        width:100%;
+        height:85px;
      }
 `
