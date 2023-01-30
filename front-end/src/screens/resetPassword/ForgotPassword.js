@@ -1,19 +1,50 @@
 import React, { useContext, useState } from 'react'
-import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
-import { Form, Formik, useFormik } from 'formik';
+import { Button, CircularProgress, TextField } from '@mui/material';
+import { useFormik } from 'formik';
 import styled from 'styled-components';
 import * as Yup from "yup"
+
+import axios from 'axios';
+
+
+  
+  
 function ForgotPassword() {
 
 
-
+    const [message, setMessage] = useState('');
     const [email, setEmail] = useState("")
     const [loading, setLoading] = useState(false)
+    const [hasError, setHasError] = useState(null)
+
+
+    const handleSubmit = (value) => {
+        console.log(value)      
+        setLoading(true)
+        axios.post('/reset_password', {email : value})
+            .then(res => {
+                if (res.status === 200) {
+                    setMessage(res.data.message);
+                    setLoading(false)
+                    setHasError(false)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setMessage(err.response.data.error)
+                setLoading(false)
+                setHasError(true)
+
+            });
+    }
+   
 
     const editSechema = Yup.object({
 
         email: Yup.string().email('Invalid email address').required('Required'),
     })
+
+
 
     const formik = useFormik({
         initialValues: { email: email },
@@ -22,21 +53,32 @@ function ForgotPassword() {
 
             // same shape as initial values
             setEmail(values.email)
-
-        },
+            handleSubmit(values.email)
+        }  
     });
 
     return (
 
         <Container>
         <PopUpEdit onSubmit={formik.handleSubmit}>
+
+                {hasError === true && (
+                    <div style={{ fontSize: "13px", background: "#ff9999", color: "#000", padding: "5px 10px" }}>
+                        <span>{message}</span>
+                    </div>
+                )
+                }
+                 {hasError === false && (
+                        <div style={{ fontSize: "13px", background: "#adebad", color: "#000", padding: "5px 10px" }}>
+                            <span>{message}</span>
+                        </div>
+                    )
+                    }
             <div className='text'>
-
+                   
                 <span>
-                    Changes made to your profile email here,
-                    will be shown anywhere your profile is used
+                    Enter your user account's verified email address and we will send you a password reset link.
                 </span>
-
 
             </div>
             <div className="input">
@@ -56,11 +98,11 @@ function ForgotPassword() {
             <div className='save-button'>
 
                 <Button type="submit" variant="contained">
-                    <span>Reset password</span>
+                    <span> Send password reset link </span>
                     {loading && (
 
                         <CircularProgress
-                            style={{ marginLeft: "5px", color: "white" }}
+                            style = {{ marginLeft: "5px", color: "white" }}
                             size={23}
                             thickness={6}
                             value={100}
@@ -92,7 +134,7 @@ const PopUpEdit = styled.form`
          min-width:280px;
          background:#fff;
          max-width:500px;
-         height:200px;
+         min-height:200px;
          
          
     

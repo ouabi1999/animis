@@ -25,7 +25,6 @@ from .models import (
 from flask_cors import cross_origin, CORS
 from flask_socketio import send, emit,  SocketIO, join_room
 
-from api import create_app
 views = Blueprint("views", __name__)
 
 ALLOWED_EXTENSIONS = set({ 'png', 'jpg', 'jpeg', 'gif'})

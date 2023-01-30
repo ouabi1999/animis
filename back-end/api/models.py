@@ -106,8 +106,11 @@ def user_serializer(user):
         "userAvatar" : user.userAvatar,
         "admin" : user.admin,
         "joined_at" : user.joined_at,
+        "reset_token" : user.reset_token,
+        "token_expiration" : user.token_expiration,
         #"messages" : messages,
         "rooms" : user_rooms,
+
       
 
         

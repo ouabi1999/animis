@@ -149,10 +149,10 @@ function App() {
                 <Route path = "help-center"    element = {<HelpCenter />} />
              
                 <Route path = "notifications"  element = {<Notifications />} />
-              </Route>
+            </Route>
               <Route path='/forget-password' element={<ForgotPassword/>}/>
-              
-              <Route path='/reset-password/<toksen>' element={<ResetPassword/>}/>
+
+              <Route path='/reset_password-token/:id' element={<ResetPassword/>}/>
 
             <Route   path = "/admin"         element = {<DashLayout />} >
               <Route path = "/admin"         element = {<Dashboard />} />
