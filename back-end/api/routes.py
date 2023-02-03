@@ -186,13 +186,13 @@ def rating():
 
 
 
-@socketio.on("connect")
+"""@socketio.on("connect")
 def connected():
-    """event listener when client connects to the server"""
+    #event listener when client connects to the server
     print(request.sid)
     print("client has connected")
     emit("connect",{"data":f"id: {request.sid} is connected"})
-
+"""
 @socketio.on('message')
 def handle_message(message):
     sender = message["sender"]
@@ -227,12 +227,12 @@ def handle_message(message):
    
     
 
-@socketio.on("disconnect")
+"""@socketio.on("disconnect")
 def disconnected(data):
-    """event listener when client disconnects to the server"""
+    #event listener when client disconnects to the server
     print("user disconnected")
     emit("disconnect",f"user {request.sid} disconnected",broadcast=True)
-
+"""
 @socketio.on('join_room')
 def on_join(data):
     sender = data["owner_id"]

@@ -20,6 +20,7 @@ function Card() {
 
   const dispatch = useDispatch()
   const cartItems =  useSelector((state) => state.cart.cartItems)
+  const products = useSelector((state) => state.products?.products)
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [])
@@ -43,12 +44,12 @@ function Card() {
               <Wrapper>
                 
 
-                  {cartItems?.map(item => {
+                  {cartItems?.map((item, index)=> {
                     return (
 
-                      <div key={item.id} className="product-container">
+                      <div key={index} className="product-container">
                         <div className="product-img">
-                          <img src={item.colors[item.selectedColor]} alt={item.title} />
+                          <img src={products?.find(product => product.id == item.id).colors[item.selectedColor]} alt={""} />
 
                         </div>
 
@@ -60,7 +61,7 @@ function Card() {
                               {item.title}
                             </span>
                             <div className="delete-button">
-                              <button onClick={() => dispatch(removeFromCart(item))}>
+                              <button onClick={() => dispatch(removeFromCart(index))}>
                                 <DeleteIcon />
                               </button>
                             </div>
@@ -69,7 +70,7 @@ function Card() {
                           <div className="selected-size">
                             <span>
 
-                              {item.sizes[item.selectedSize]}
+                              {products?.find(product => product.id == item.id).sizes[item.selectedSize]}
                             </span>
 
 
@@ -79,13 +80,13 @@ function Card() {
                             <div className="Quantity">
                               <button
                                 className="subtract-quantity-button"
-                                onClick={() => dispatch(subtractQuantity(item))}>
+                                onClick={() => dispatch(subtractQuantity(index))}>
                                 -
                               </button>
                               <span>{item.selectedQuantity}</span>
                               <button
                                 className="add-quantity-button"
-                                onClick={() => dispatch(addQuantity(item))}>
+                                onClick={() => dispatch(addQuantity(index))}>
                                 +
                               </button>
                             </div>

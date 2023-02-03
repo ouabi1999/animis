@@ -25,6 +25,7 @@ export const authSlice = createSlice({
     reducers: {
       login(state, action){
         state.user = action.payload
+        window.localStorage.setItem('isAuthenticated', true)
         
       },
       logout(state) {
@@ -36,11 +37,13 @@ export const authSlice = createSlice({
       [getUser.pending]: (state) => {
       state.loading = true;
       },
+
       [getUser.rejected]: (state, action) => {
       state.loading = false;
       state.hasErrors = action.error.message;
       window.localStorage.setItem('isAuthenticated', false)
       },
+      
       [getUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
       state.loading = false;

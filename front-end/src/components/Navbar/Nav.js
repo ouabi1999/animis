@@ -21,25 +21,17 @@ import MainMenu from './MainMenu';
 
 function Nav(props) { 
     const cartItems =  useSelector((state) => state.cart.cartItems)
-    const auth = useSelector(state=> state.auth.user)
+    const auth = window.localStorage.getItem("isAuthenticated")
     const displayData = useSelector(state => state.display.display)
-    const [state, setState] = useState(
-      {
-        showMenu: false
-      }
-    )
+    const [showMenu, setShowMenu] = useState(false)
     
 
   
-  const showMenu = ()=>{
-    setState({
-      showMenu: true
-    })
+  const show_Menu = ()=>{
+    setShowMenu(true)
   }
  const hideMenu = () =>{
-    setState({
-      showMenu: false
-    })
+      setShowMenu(false)
   }
 
     return (
@@ -71,7 +63,7 @@ function Nav(props) {
               <DrpDwnMenu_lang />
             </div>
             <User_container>
-            {auth !== null ?
+            {auth === "true" ?
               <DropDownMenu  />
 
               : 
@@ -90,10 +82,10 @@ function Nav(props) {
               
             </User_container>
             
-            <button className="menu_container" onClick={showMenu}>
+            <button className="menu_container" onClick={show_Menu}>
               <MenuIcon className="mainMenu" />
             </button>
-             <div style={{ display : !state.showMenu ? "none": ""}}>
+             <div style={{ display : !showMenu ? "none": ""}}>
                   <MainMenu  hideMenu = {hideMenu} />
              </div>
           </Right_section>

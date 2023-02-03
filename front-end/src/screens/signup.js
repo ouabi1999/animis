@@ -23,12 +23,6 @@ import { useLayoutEffect } from 'react';
 
 
 
-
-
-
-  
- 
-
 function Signup() {
 
     const dispatch = useDispatch()
@@ -53,13 +47,11 @@ function Signup() {
     })
 
     useLayoutEffect(() => {
-
         if( auth === "true" ) {
-            navigate("/")
+          window.location.href = "/"
         }
-        else {
-            return ""
-        }
+       
+      
       }, [])
       
       
@@ -156,6 +148,10 @@ function Signup() {
         },
     });
     return (
+        <>
+        {auth === "false" &&(
+
+       
         <Form onSubmit = {formik.handleSubmit}>
 
             <AccountCircleIcon className="sign-in-icon" />
@@ -254,7 +250,7 @@ function Signup() {
                             autoComplete="false"
                             onChange={formik.handleChange}
                         >   
-                    {countriesData.map((country, index) => {
+                    {countriesData?.map((country, index) => {
                         return (
 
                             <MenuItem key={index} value={country.name} defaultValue="" 
@@ -352,6 +348,8 @@ function Signup() {
                 <Link to = "/login"> I have already an account</Link>
             </Wrapper>       
         </Form>
+        )}
+        </>
     )
 
 }

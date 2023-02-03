@@ -53,7 +53,7 @@ function LoginForm() {
  
   useLayoutEffect(() => {
     if( auth === "true" ) {
-        navigate("/")
+      window.location.href = "/"
     }
    
   
@@ -113,6 +113,8 @@ function LoginForm() {
   });
   
   return (
+    <>
+    {auth === "false" &&(
     <Form onSubmit = {formik.handleSubmit}>
      
         
@@ -210,6 +212,8 @@ function LoginForm() {
         }
     
       </Form>
+    )}
+    </>
   )
 }
 

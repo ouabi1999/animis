@@ -9,14 +9,14 @@ function MostSelling({products, product}) {
           {products.filter(item => {
               return item.category === product.category
 
-          }).slice(0, 3).map(product => {
+          }).slice(0, 3).map((product, index) => {
               return (
-                  <>
+                  <div key={index}>
                       <Link to={"/product_details/" + product.id}>
                           <img src={product.colors[0]} alt="" />
                       </Link>
                       <span className="product-price">${product.price}</span>
-                  </>
+                  </div>
               )
           })}
       </Container>
@@ -25,13 +25,19 @@ function MostSelling({products, product}) {
 
 export default MostSelling
 const Container = styled.div`
-
-      height:fit-content;
-      display:flex;
+       display:flex;
       flex-direction:column;
       align-items:center;
-      margin-right:10px;
-      
+      height:fit-content;
+      margin-right:14px;
+
+      div{
+       
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        
+      }
     
      
        span{

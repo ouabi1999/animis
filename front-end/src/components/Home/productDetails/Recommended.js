@@ -5,18 +5,18 @@ function Recommended({products, product}) {
     return (
         <RecommendedForYou>
             <span>Recommended For You </span>
-            <div className="recommended-container">
+            <div >
                 {products.filter(item => {
                     return item.category === product.category
 
-                }).slice(0, 3).map(product => {
+                }).slice(0, 3).map((product, index ) => {
                     return (
-                        <>
+                        <div key={index} className="recommended-container">
                             <Link to={"/product_details/" + product.id}>
                                 <img src={product.colors[0]} alt="" />
                             </Link>
                             <span className="product-price">${product.price}</span>
-                        </>
+                        </div>
                     )
                 })}
 

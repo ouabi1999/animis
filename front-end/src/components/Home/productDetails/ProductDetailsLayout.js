@@ -17,13 +17,15 @@ import SuperDeals from './SuperDeals';
 import Recommended from './Recommended';
 import MostSelling from './MostSelling';
 import DescriptionProduct from './DescriptionProduct';
-
+import { v4 as uuidv4 } from "uuid";
+import { faIR } from 'date-fns/locale';
 
 function ProductDetailsLayout() {
 
   const dispatch = useDispatch()
 
   const params = useParams()
+  const [maxOrderWorning, setMaxOrderWorning] = useState(false)
   const [formData, setFormData] = useState({
       items: 12,
       rating: 0,
@@ -31,7 +33,7 @@ function ProductDetailsLayout() {
       stars: 1,
       
     })
-   
+    const index = uuidv4();
     useLayoutEffect(() => {
 
       dispatch(getProductDetails(params.id))
@@ -147,11 +149,16 @@ function ProductDetailsLayout() {
 
   }
   const addQuantity = ()=>{
-    if(quantity <product.quantity){
+    if(quantity < product.quantity  && quantity < 5 ){
       setQuantity(quantity+1)
+    }else{
+      setMaxOrderWorning(true)
     }
-   
+    setTimeout(() => {
+      setMaxOrderWorning(false)
+    }, 5000);
   }
+  
   const subtractQuantity = ()=>{
     
     if(quantity>1) {
@@ -281,13 +288,15 @@ function ProductDetailsLayout() {
                     <h5>Color : </h5>
                     <div className='product-colors '>
                     {product.colors.map((img, index) => (
+                      <div key={index}>
                       <img src={img}
                        
                         className={index === selectedColor? "active" : "notActive"}
                         alt=""
-                        key={index}
+                       
                         onClick={() => selectColor(index)}
                       />
+                      </div>
           
                     ))}
                      </div>
@@ -319,6 +328,10 @@ function ProductDetailsLayout() {
                       <button onClick={subtractQuantity}>
                         <RemoveIcon className='minus-icon'/>
                       </button>
+                      { maxOrderWorning &&(
+                          <span className="max-order-worning">You can't order more than 5 items</span>
+                      ) }
+                      
                       <span>{quantity}</span>
                       <button onClick={addQuantity}>
                         <AddIcon className='add-icon'/>
@@ -352,7 +365,8 @@ function ProductDetailsLayout() {
                             {...product,
                                selectedColor:selectedColor, 
                                selectedSize:selectedSize,
-                               selectedQuantity : quantity
+                               selectedQuantity : quantity,
+                               index : index
   
                             
                             }
@@ -373,8 +387,8 @@ function ProductDetailsLayout() {
                             selectedColor:selectedColor, 
                             selectedSize:selectedSize,
                             selectedQuantity : quantity,
+                
                            
-                          
                           }
                           
                           ))
@@ -479,7 +493,7 @@ const Product_details_Wrapp = styled.div`
     position:relative;
     margin: 15px auto;
     min-height:100vh;
-    width:97%;
+    width:100%;
     min-width:320px;
     
     .active{
@@ -545,7 +559,7 @@ const RightSide = styled.div`
 
 `
 const LeftSide = styled.div`
-    margin-right:10px;
+    margin-right:20px;
     grid-column: 1 ;
 
     .product-details-img>img{
@@ -568,13 +582,17 @@ const LeftSide = styled.div`
     }
 
     @media only screen and (max-width: 480px) {
-    
+      .max-order-worning{
+        left:80px;
+        top:-40px;
+      
+      }
      
       .product-details-img>img{
       
         margin-right:0px;
         min-width:280px;
-        width:95%;
+        width:100%;
         max-width:480px;
         height:auto;
         box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
@@ -657,6 +675,7 @@ const CenterSide = styled.div`
         grid-row:2;
         grid-column:1;
       }
+      
 
   }
       
@@ -739,6 +758,7 @@ const Product_info = styled.div`
     }
     .product-colors{
         display:flex;  
+        flex-wrap:wrap;
     }
     .product-colors img{
         width:60px;
@@ -747,12 +767,14 @@ const Product_info = styled.div`
         cursor:pointer;
     }
     .product-colors img:hover{
-      border:2px solid rgb(255, 126, 126);
+      border:2px solid lightgreen;
       border-radius:4px;
     }
     .product-sizes{
         display:flex;
         margin-bottom:20px;
+        display:flex;  
+        flex-wrap:wrap;
     }
 
     .product-sizes button{
@@ -769,8 +791,45 @@ const Product_info = styled.div`
       margin-bottom:10px;
       display:flex;
       align-items:center;
+      position:relative;
     }
+    .max-order-worning{
+         font-size:11px;
+         color:red;
+         min-width:200px;
 
+         background:lightblue;
+         border-raduis:6px;
+         padding:5px 5px;
+         position:absolute;
+         top:-15px;
+         left:200px; 
+         animation:max-order-show 1s;
+         transform: translate(-50%, -50%);
+         box-shadow: 0px 10px 15px -5px rgba(0, 0, 0, 0.2), 0px 20px 25px 5px rgba(255, 255, 255, 0.3);
+
+    }
+    
+    @keyframes max-order-show {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+      }
+    }
+    @media only screen and (max-width: 480px) {
+      .max-order-worning{
+        left:180px;
+        top:-20px;
+      
+      }
+    }
+    
+    
+    
     .product-quantity button{
       display:flex;
       justify-content:center;
