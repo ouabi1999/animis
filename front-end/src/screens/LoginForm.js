@@ -47,7 +47,46 @@ function LoginForm() {
   };
 
 
+  const sign_in = (values) =>{
+
+    setIsLoading(true)
+    fetch("/login", {
+      method: "POST",
+      credentials: 'same-origin',
+      body: JSON.stringify({
+        email: values.email,
+        password: values.password
+      }),
+
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    }).then(response => response.json())
+
+      .then(result => {
+        if (result.error) {
+          console.log(result.error)
+          setError(result.error)
+          setIsLoading(false);
+        } else {
+
+          dispatch(login(result))
+          setIsLoading(false);
+          window.location.href="/"
+        }
+
+
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+        setError("Somthing went wrong..!")
+        setIsLoading(false)
+
+      });
   
+
+  }
+
 
   
  
@@ -61,8 +100,7 @@ function LoginForm() {
 
   const editSechema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Required'),
-    password: Yup.string()
-      .required("Please Enter your password")
+    password: Yup.string().required("Please Enter your password")
 
   })
 
@@ -74,42 +112,8 @@ function LoginForm() {
 
       // same shape as initial values
       setFormData({ ...values })
-     
-      setIsLoading(true)
-      fetch("/login", {
-        method: "POST",
-        credentials: 'same-origin',
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password
-        }),
-
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      }).then(response => response.json())
-
-        .then(result => {
-          if (result.error) {
-            console.log(result.error)
-            setError(result.error)
-            setIsLoading(false);
-          } else {
-
-            dispatch(login(result))
-            setIsLoading(false);
-            window.location.href="/"
-          }
-
-
-        })
-        .catch(error => {
-          console.error('There has been a problem with your fetch operation:', error);
-          setError("Somthing went wrong..!")
-          setIsLoading(false)
-
-        });
-    },
+      sign_in(values)
+    }
   });
   
   return (
@@ -235,17 +239,11 @@ const Form = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;
-
-
-
   
-
 .logo{
    width:120px;
-
    margin:20px 0;
 }
-
 .other-info{
   margin-top:25px;
   margin-bottom:15px;
@@ -257,23 +255,17 @@ const Form = styled.form`
   
   
 }
-
 strong{
      margin-bottom:15px;
     font-family:sans-serif;
     font-size:25px;
   }
-
-
-
-
 /* spinner/processing state, errors */
 .spinner,
 .spinner:before,
 .spinner:after {
   border-radius: 50%;
 }
-
 .spinner {
   color: #ffffff;
   font-size: 22px;
@@ -287,13 +279,11 @@ strong{
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
-
 .spinner:before,
 .spinner:after {
   position: absolute;
   content: '';
 }
-
 .spinner:before {
   width: 10.4px;
   height: 20.4px;
@@ -306,7 +296,6 @@ strong{
   -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
 }
-
 .spinner:after {
   width: 10.4px;
   height: 10.2px;
@@ -319,7 +308,6 @@ strong{
   -webkit-animation: loading 2s infinite ease;
   animation: loading 2s infinite ease;
 }
-
 @keyframes loading {
   0% {
     -webkit-transform: rotate(0deg);
@@ -330,10 +318,7 @@ strong{
     transform: rotate(360deg);
   }
 }
-
 `
 const FormWrapper = styled.div`
-
-
-
 `
+

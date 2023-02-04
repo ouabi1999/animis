@@ -47,13 +47,11 @@ const Container =  styled.div`
   
 
    div{
-      
+      background-size: cover;
       border-radius: 4px;
       background-color: lightblue;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
       animation: skeleton-loading 1s linear infinite alternate;
-      
-  
       -webkit-animation: skeleton-loading 1s linear infinite alternate;
       animation: skeleton-loading 1s linear infinite alternate;
 }
@@ -78,7 +76,7 @@ const Container =  styled.div`
     .item1{
         grid-column: 1 / span 1; 
         grid-row: 1 /span 2;
-        background: url(${props => props?.data?.[0]?.img[0]});
+        background-image: url(${props => props?.data?.[0]?.img[0]});
       
     }
 
@@ -86,8 +84,8 @@ const Container =  styled.div`
       grid-column: 2 / span 1;
       grid-row: 1 / span 2;
       width:100%;
-      height:auto;
-      background: url(${props => props?.data?.[1]?.img[0]});
+    
+      background-image: url(${props => props?.data?.[1]?.img[0]});
       
     }
 
@@ -95,8 +93,7 @@ const Container =  styled.div`
       grid-column: 3 / span 2;
       grid-row: 1 /span 2;
       width:100%;
-      height:auto;
-      background: url(${props => props?.data?.[2]?.img[0]});
+      background-image: url(${props => props?.data?.[2]?.img[0]});
     
      
 
@@ -105,13 +102,13 @@ const Container =  styled.div`
     .item4{
       grid-column: 1 / span 2;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data?.[3]?.img[0]});
+      background-image: url(${props => props?.data?.[3]?.img[0]});
     }
 
     .item5{
       grid-column: 3 / span 1;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data?.[4]?.img[0]});
+      background-image: url(${props => props?.data?.[4]?.img[0]});
       
       
       
@@ -119,7 +116,7 @@ const Container =  styled.div`
     .item6{
       grid-column: 4 / span 1;
       grid-row: 3 / span 2;
-      background: url(${props => props?.data?.[5]?.img[0]});
+       background-image: url(${props => props?.data?.[5]?.img[0]});
   
     }
 

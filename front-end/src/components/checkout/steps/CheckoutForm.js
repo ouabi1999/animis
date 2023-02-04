@@ -254,10 +254,10 @@ button:disabled {
   }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1000px) {
   form {
-    width: 80vw;
-    min-width: initial;
+    width: 50vw;
+    min-width: 320px;
   }
 }
 

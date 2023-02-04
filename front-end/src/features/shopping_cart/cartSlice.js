@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ToastContainer, toast } from 'react-toastify';
 
 const initialCartState = {
-  cartItems: JSON.parse(window.localStorage.getItem("cartItems")) ||[]
+  cartItems: JSON.parse(window.localStorage.getItem("cartItems")) ||[],
+  buySingleItem :[]
 
 };
 export const cart_Slice = createSlice({
@@ -31,6 +32,7 @@ export const cart_Slice = createSlice({
         cartItems.push({
 
           id: action.payload.id,
+          shippingInfo:action.payload.shippingInfo,
           selectedColor: action.payload.selectedColor,
           selectedQuantity: action.payload.selectedQuantity,
           selectedSize: action.payload.selectedSize,
@@ -58,7 +60,7 @@ export const cart_Slice = createSlice({
     // addition quantity or subtract quantity
     subtractQuantity(state, action) {
       const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
-      cartItems.map((item, index) => {
+      state.cartItems.map((item, index) => {
         if (index === action.payload) {
           if (item.selectedQuantity > 1) {
             item.selectedQuantity -= 1
@@ -87,17 +89,19 @@ export const cart_Slice = createSlice({
 
 
     buyNowItem(state, action) {
-      const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
-
+      
+       console.log(action.payload)
       state.cartItems = [{
-        ...action.payload,
+        id: action.payload.id,
+        shippingInfo:action.payload.shippingInfo,
+        selectedColor: action.payload.selectedColor,
+        selectedQuantity: action.payload.selectedQuantity,
+        selectedSize: action.payload.selectedSize,
         price: parseInt(action.payload.price),
         subtotal: parseInt(action.payload.price) * action.payload.selectedQuantity,
-        alreadyInCart: true,
-
-
       }]
-
+      
+      window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
 
 
 

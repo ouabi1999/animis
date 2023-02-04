@@ -71,12 +71,15 @@ export default function DisplayCategory({formData, setFormData}) {
   }
 
   const categories = [
-        "clothes",
-        "accessoires",
-        "posters",
-        "stickers",
-        "notebooks",
-        "gadget",
+      "clothing",
+      "home",
+      "accessoires",
+      "posters",
+      "stickers",
+      "notebooks",
+      "gadget",
+      "toyes",
+      "bags"
   ];
   
     

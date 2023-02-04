@@ -18,38 +18,19 @@ export default function DisplayLyout() {
     
     const dispatch = useDispatch();
     const displayInfo = useSelector(state=> state.display)
-    const [formData, setFormData] = useState({
-        id:"",
-        logo : "",
-        header : {
+    const [formData, setFormData] = useState(displayInfo.display);
 
-          title:"",
-          banner:"",
-
-        },
-        main_category : [],
-        category  : [],
-        banners : [],
-        slider  : [],
-        pop_up : [],
-        count_Down : false
     
-    });
+    useEffect(() => {
 
-   /* const AddNew = (event) => {
+      setFormData(displayInfo.display)
+
+    },[])
+    const addNew = (event) => {
         event.preventDefault();
         setLoading(true)
         const data = new FormData();
-      
-    
-        formData.sizes.forEach((size) => {
-          data.append("sizes", size);
-        });
-      
-    
-       
-    
-       
+
         data.append("main_category", JSON.stringify(formData.main_category));
         data.append("category", JSON.stringify(formData.category));
         data.append("header", JSON.stringify(formData.header));
@@ -69,12 +50,13 @@ export default function DisplayLyout() {
           .then((data) => {
             setLoading(false)
               setFormData({
+                  id:data.id,
                   logo : data.logo,
                   header : {
 
                   title: "",
                   banner: "",
-              },
+                },
                   main_category : data.main_category,
                   category  : data.category,
                   banners : data.banners,
@@ -83,25 +65,18 @@ export default function DisplayLyout() {
                   count_Down : false
 
             })
-              toast.success("A new Product has been added .")
+              toast.success("added succesfully.")
 
-          })
+            })
             .catch((err) => {
                 console.log(err)
                 setLoading(false)
 
             });
-    };*/
+    };
 
 
-    useEffect(() => {
-       
-             
-        setFormData(displayInfo.display)
-                
-
-    
-      }, [displayInfo])
+ 
       
     const save = (event) =>{
             
@@ -124,7 +99,7 @@ export default function DisplayLyout() {
       data.append("count_Down", formData.count_Down);
       
   
-      fetch(`/updatedisplay/${formData.id}`, {
+      fetch(`/update-display-setting/${formData.id}`, {
         method: 'PUT',
         body: data
       })
@@ -162,7 +137,7 @@ export default function DisplayLyout() {
                   className = 'foo-bar'
                 />
         <div className='button-container'>
-            <button onClick = {save}  disabled = {loading ? true : false}> 
+            <button onClick = {formData.id === null ? addNew :  save }  disabled = {loading ? true : false}> 
             {loading && (
                  <span className='loader'>
                  <CircularProgress

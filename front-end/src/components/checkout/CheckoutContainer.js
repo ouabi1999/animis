@@ -20,7 +20,7 @@ function CheckoutContainer() {
   
   useEffect(() => {
         if(cartItems.length === 0){
-        navigate("/") 
+       navigate("/") 
        
      }
       
@@ -71,12 +71,24 @@ const Conatiner = styled.div`
 `
 const Left_Section = styled.div`
   flex:1;
-  min-width:320px;
+  min-width:500px;
   min-height:100vh;
+  @media only screen and (max-width: 500px){
+
+   
+&{
+    
+    min-width:320px;
+  }
+
+
+
+} 
+
    
 `
 const Right_Section = styled.div`
-    min-width:320px;
+    min-width:500px;
     min-height:100vh;
    
    
@@ -86,7 +98,17 @@ const Right_Section = styled.div`
     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
         0px 2px 5px 0px rgba(50, 50, 93, 0.1),
         0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
+        @media only screen and (max-width: 500px){
 
+   
+&{
+   
+    min-width:320px;
+  }
+
+
+
+} 
 
 
 `

@@ -56,12 +56,15 @@ export default function DisplayCategoryMain({formData, setFormData}) {
 
   }
   const categories = [
-        "clothes",
+        "clothing",
+        "home",
         "accessoires",
         "posters",
         "stickers",
         "notebooks",
         "gadget",
+        "toyes",
+        "bags"
   ];
   
     

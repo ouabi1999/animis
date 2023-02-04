@@ -33,7 +33,6 @@ export const productDetails_Slice = createSlice({
     [getProductDetails.rejected]: (state, action) => {
     state.isLoaded = false;
     state.hasError = action.error.message;
-    console.log(action.payload)
     },
     [getProductDetails.fulfilled]: (state, { payload }) => {
     state.product = payload;

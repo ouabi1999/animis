@@ -7,12 +7,14 @@ import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/mat
 function Organization({formData, setFormData, handelChange}) {
     const categories = [
         "all",
-        "clothes",
+        "clothing",
         "accessoires",
         "posters",
         "stickers",
         "notebooks",
         "gadget",
+        "toyes",
+        "bags"
       ];
       const types = [
         "t-shit",
@@ -20,16 +22,29 @@ function Organization({formData, setFormData, handelChange}) {
         "outdore",
         "handmade",
         "school",
+        "key-chain",
+        "rings",
+        "earnings",
+        "braclets",
+        "watches",
+        "nickles",
+        "phone case",
+        "earphone case",
         "other",
       ];
       const series = [
         "one piece",
+        "dr stone",
+        "bleach",
         "naruto",
+        "vinland saga",
         "attack on titan",
         "hunter x hunter",
         "jujutsu kiesun",
         "one punch man",
         "black clover",
+        "baki",
+        "spy x",
         "other",
       ];
       

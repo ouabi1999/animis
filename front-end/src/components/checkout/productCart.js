@@ -13,6 +13,8 @@ function ProductCart(props) {
  
   const {total} = useContext(FormContext);
   const {formData} = useContext(OrderContext);
+  const products = useSelector((state) => state.products?.products)
+  const cartItems =  useSelector((state) => state.cart.cartItems)
 
   
   
@@ -40,12 +42,12 @@ function ProductCart(props) {
 
         <div className="product-container">
           
-            {props.cartItems?.map(item => {
+            {cartItems?.map(item => {
               return (
                 <div className="child-container">
                   
                     <div className='img-container'>
-                      <img src={item.colors[0]} alt="" />
+                      <img src={products?.find(product => product.id === item.id)?.colors[0]} alt="" />
                       <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
@@ -53,11 +55,13 @@ function ProductCart(props) {
                     </div>
 
                    
-
-                  <span className="product-title">{item.title}</span>
-                  <span className='price'>${(item.price * item.selectedQuantity).toFixed(2)}</span>
-                 
+                  
+                  <span className="product-title">{products?.find(product => product.id === item.id)?.title}</span>
+                  <span className='price'>${(item?.price * item.selectedQuantity).toFixed(2)}</span>
+                  
+                  {/*products?.find(product => product.id === item.id)?.sizes[item.selectedSize]*/}
                 </div>
+                
               )
             })}
        
@@ -243,7 +247,7 @@ const Wrraper = styled.div`
     }
 
    
-    
+     
 `
 
 

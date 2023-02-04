@@ -15,7 +15,7 @@ export const getDisplayInfo = createAsyncThunk("displayInfo/getDisplayInfo", () 
         name:"display",
         initialState:{
             display: {
-                id: "",
+                id: null,
                 logo: "",
                 header: {
 
@@ -49,7 +49,11 @@ export const getDisplayInfo = createAsyncThunk("displayInfo/getDisplayInfo", () 
          state.hasError = action.error.message;
          },
          [getDisplayInfo.fulfilled]: (state, { payload }) => {
-         state.display = payload;
+            if(payload !== null){
+                state.display = payload;
+            }
+        
+         console.log(state.display)
          state.isLoaded = false;
          
      

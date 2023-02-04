@@ -362,16 +362,17 @@ function ProductDetailsLayout() {
                         
 
                           dispatch(buyNowItem(
-                            {...product,
-                               selectedColor:selectedColor, 
-                               selectedSize:selectedSize,
-                               selectedQuantity : quantity,
-                               index : index
-  
-                            
-                            }
-                            
-                            ))
+                            { 
+                              
+                              id:product.id,
+                              shippingInfo:product.shippingInfo,
+                              price:product.price,
+                              selectedColor:selectedColor, 
+                              selectedSize:selectedSize,
+                              selectedQuantity : quantity,
+                              index : index
+                            } 
+                          ))
                           
                           navigate("/checkout")
                       
@@ -383,7 +384,10 @@ function ProductDetailsLayout() {
                       className="add-to-cart-button"
                       type="button" onClick={() => {
                         dispatch(addToCart(
-                          {...product,
+                          {
+                            id :product.id,
+                            price:product.price,
+                            shippingInfo:product.shippingInfo,
                             selectedColor:selectedColor, 
                             selectedSize:selectedSize,
                             selectedQuantity : quantity,
@@ -798,8 +802,8 @@ const Product_info = styled.div`
          color:red;
          min-width:200px;
 
-         background:lightblue;
-         border-raduis:6px;
+         background:rgba(0, 0, 0, 0.2);
+         border-radius:6px;
          padding:5px 5px;
          position:absolute;
          top:-15px;

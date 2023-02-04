@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-
-import FlipMove from "react-flip-move"
+import React from 'react';
 import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from 'styled-components';
@@ -9,7 +7,7 @@ import ProductSubtotal from './ProductSubtotal';
 import { useLayoutEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import FlipMove from "react-flip-move"
 
 function Card() {
 
@@ -27,7 +25,7 @@ function Card() {
   }, [])
 
   
-  const { product } = formData;
+
   return (
     <Container>
 
@@ -46,22 +44,22 @@ function Card() {
 
                       <div key={index} className="product-container">
                         <div className="product-img">
-                          <img src={products?.find(product => product.id == item.id)?.colors[item.selectedColor]} alt={""} />
+                          <img src={products?.find(product => product.id === item.id)?.colors[item.selectedColor]} alt={""} />
 
                         </div>
 
                         <div className='flex-container'>
 
-                          <div className={products?.find(product => product.id == item.id) ? " first-child " :" first-child skeleton"} >
+                          <div className={products?.find(product => product.id === item.id) ? " first-child " :" first-child skeleton"} >
                           
                             <span>
-                              {products?.find(product => product.id == item.id)?.title}
+                              {products?.find(product => product.id === item.id)?.title}
                             </span>
                             
 
                               <div className="delete-button">
                                 <button onClick={() => dispatch(removeFromCart(index))}>
-                                {products?.find(product => product.id == item.id) &&(
+                                {products?.find(product => product.id === item.id) &&(
                                       <DeleteIcon />
                                 )}
                                 </button>
@@ -74,7 +72,7 @@ function Card() {
                           <div className="selected-size">
                             <span>
 
-                              {products?.find(product => product.id == item.id)?.sizes[item.selectedSize]}
+                              {products?.find(product => product.id === item.id)?.sizes[item.selectedSize]}
                             </span>
 
 

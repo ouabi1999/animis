@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from "styled-components";
-import { Link, useNavigate}  from 'react-router-dom'
+import { Link}  from 'react-router-dom'
 import { Grid, TextField, MenuItem, Button, IconButton, InputAdornment, CircularProgress } from '@mui/material';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
@@ -17,7 +17,6 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Yup from "yup"
 import { useDispatch } from 'react-redux';
 import { login } from '../features/auth/authSlice';
-import {useSelector} from "react-redux"
 import { useLayoutEffect } from 'react';
 
 
@@ -26,8 +25,6 @@ import { useLayoutEffect } from 'react';
 function Signup() {
 
     const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const user = useSelector(state => state.auth.auth)
     const auth = window.localStorage.getItem("isAuthenticated")
     const [formData, setFormData] = useState({
 

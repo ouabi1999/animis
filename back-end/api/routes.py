@@ -341,11 +341,11 @@ def display():
         )
     db.session.add(newDisplay)
     db.session.commit()
-    return jsonify(*map(display_serializer, newDisplay))
+    return jsonify(*map(display_serializer, newDisplay.query.all()))
 
 
 
-@views.route('/updatedisplay/<id>',methods=['PUT'])
+@views.route('/update-display-setting/<id>',methods=['PUT'])
 def editDisplay(id):
     display  = Display.query.filter_by(id = id)
     if display is not None:
@@ -366,7 +366,7 @@ def editDisplay(id):
             
         
         db.session.commit()
-        return jsonify(*map(display_serializer, display))
+        return jsonify(*map(display_serializer, display.query.all()))
     else:
         return {"error" : "the product isn't exist any more ..."} ,401 
 
