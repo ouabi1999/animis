@@ -6,13 +6,13 @@ import App from './App';
 import "./App.css"
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <Provider store={store}>
       <Fragment>
         <App />
       </Fragment>
       </Provider>
-  </React.StrictMode>, document.getElementById('root')
+ ,document.getElementById('root')
 );
 
 

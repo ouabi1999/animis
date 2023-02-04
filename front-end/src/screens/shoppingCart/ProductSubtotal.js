@@ -6,117 +6,122 @@ import { Link } from 'react-router-dom';
 
 function ProductSubtotal(props) {
   return (
-      <Container>
-          <table className="total-section">
-              <tr>
-                  <th>Cart Totals</th>
-                  <th></th>
-              </tr>
-              <tr>
-                  <td >Subtotal</td>
-                  <td>{props.cartItems.length !== 0 && (
-                      <div className="total">
-                          <div>
-                              {" "}
-                              ${props.cartItems.reduce((a, c) => a + c.price * c.selectedQuantity, 0).toFixed(2)}
-                          </div>
-                      </div>
+        <Container>
+            <div className='container'>
+            <div className="total-section">
+
+            <h2>Summary</h2>
+
+              <div className="total">
+                  <h4>Subtotal</h4>
+                  {props.cartItems?.length !== 0 && (
+
+                      <span>
+                          {" "}
+                          ${props.cartItems?.reduce((a, c) => a + c.price * c.selectedQuantity, 0).toFixed(2)}
+                      </span>
+
                   )}
-                  </td>
-              </tr>
-              <tr>
-                  <td>Total</td>
-                  <td>{props.cartItems.length !== 0 && (
-                      <div className="total">
-                          <div>
-                              {" "}
-                              ${props.cartItems.reduce((a, c) => a + c.price * c.selectedQuantity, 0).toFixed(2)}
-                          </div>
-                      </div>
+              </div>
+              <div className="total">
+                  <h4>Total</h4>
+                  {props.cartItems?.length !== 0 && (
+
+                      <span>
+                          {" "}
+                          ${props.cartItems?.reduce((a, c) => a + c.price * c.selectedQuantity, 0).toFixed(2)}
+                      </span>
+
                   )}
-                  </td>
-              </tr>
-              
-          </table>
-          <Link to="/checkout">
-              <button className="procces-button">
 
-                  Checkout
+              </div>
 
-
-              </button>
-          </Link>
-
-
-
-      </Container>
-  )
+            </div>
+            <Link to="/checkout" className='procces-button-container'>
+                <button className="procces-button">
+                    Checkout
+                </button>
+            </Link>
+            </div>
+        </Container>
+    )
 }
 
 export default ProductSubtotal
 
 const Container = styled.div`
     
+    font-family:Open Sans,Roboto,Arial,Helvetica,sans-serif,SimSun;
+    width:100%;
 
+  .container{
     border:2px solid rgb(255, 255, 255);
-    box-shadow: 2px 4px 8px rgb(129, 126, 126);
-    height:350px;
-    padding: 10px 5px;
+    box-shadow: rgba(60, 64, 67, 0.12) 0px 1px 2px 0px, rgba(60, 64, 67, 0.12) 0px 2px 6px 2px;
+    padding: 5px 10px;
     width:400px;
+    height:285px;
     position:sticky;
     top:15%;
     background:#fff;
     width:100%;
     font-family: sans-serif;
-
-
-  .total>div{
-    font-size: large;
-    font-weight: bold;
+    min-width:185px;
+  }
+  .total{
+   
     color:#000;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
   }
   
-  
+  .procces-button-container{
+    display:flex;
+    justify-content:center;
+  }
   .procces-button {
-    margin-top:65px;
-    padding:8px 0;
-    border-radius: 6px; 
+    margin-top:20px;
+    padding:10px 0;
+    border-radius: 20px; 
     text-align:center;
-    background:orange;
-    border-radius: 6px;
+    background:#000;
     color:#fff;
     font-size:20px;
     font-weight: normal;
     width:100%;
     letter-spacing:1px;
+    max-width:300px;
+    min-width:115px;
   }
 
-  .total-section th{
+  .total-section{
     border-bottom: 2px solid rgb(208, 209, 207);
     
     
     }
+   
     
-    .total-section td{
-      border-bottom:1px solid rgb(221, 221, 221);
-      width:100%;
-      font-size: medium;
-      font-weight: bold;
-      padding-top:50px ;
-    }
-    @media only screen and (min-width: 768px) {
-        &{
-            position:none;
-            width:350px;
-        }
-    }
 
     @media only screen and (max-width: 1200px){
         &{
             position:none;
-            max-width:460px;
+            
+            margin-top:20px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
         }
+        .container{
+            max-width:65%;
+        }
+
+    }
+    @media only screen and (max-width: 780px){
+        .container{
+            max-width:100%;
+        }
+          
 
     }
     

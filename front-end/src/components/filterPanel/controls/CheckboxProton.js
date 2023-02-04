@@ -8,9 +8,9 @@ const CheckboxProton = (props) => {
   const dispatch = useDispatch()
   return (
     <Container>
-      {props.product_type.map((item) => (
+      {props.product_type.map((item, index) => (
         
-      <FormControlLabel key={item.index}
+      <FormControlLabel key={index}
         
         control={
           <Checkbox
@@ -23,7 +23,7 @@ const CheckboxProton = (props) => {
         label={item.label}
       />
       
-))}
+      ))}
     </Container>
   );
 };

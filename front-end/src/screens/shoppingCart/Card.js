@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import FlipMove from "react-flip-move"
 import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
@@ -13,25 +13,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 function Card() {
 
-  const [formData, setFormData] = useState({
-    index: 0,
-    product: null
-  })
+  const [formData, setFormData] = useState({index: 0, product: null})
 
   const dispatch = useDispatch()
-  const cartItems =  useSelector((state) => state.cart.cartItems)
+
+  //let [cartItems, setCartItems] = useState(JSON.parse(window.localStorage.getItem("cartItems")))
   const products = useSelector((state) => state.products?.products)
+  const cartItems =  useSelector((state) => state.cart.cartItems)
+
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    
   }, [])
 
-
-
+  
   const { product } = formData;
   return (
     <Container>
 
-      <h2 style={{ fontFamily: "sans-serif" }}>Shopping Cart ({cartItems?.length})</h2>
+      <h2 style={{ fontFamily: "sans-serif" }} className="shopping-cart-h2">Shopping Cart ({cartItems?.length})</h2>
       {cartItems?.length === 0 ? (
         <EmptyCart />
       )
@@ -39,38 +39,42 @@ function Card() {
         (
           <div>
 
-            <Wrap>
-             
+          <Wrap>
               <Wrapper>
-                
-
                   {cartItems?.map((item, index)=> {
                     return (
 
                       <div key={index} className="product-container">
                         <div className="product-img">
-                          <img src={products?.find(product => product.id == item.id).colors[item.selectedColor]} alt={""} />
+                          <img src={products?.find(product => product.id == item.id)?.colors[item.selectedColor]} alt={""} />
 
                         </div>
 
                         <div className='flex-container'>
 
-                          <div className="first-child">
+                          <div className={products?.find(product => product.id == item.id) ? " first-child " :" first-child skeleton"} >
+                          
                             <span>
-
-                              {item.title}
+                              {products?.find(product => product.id == item.id)?.title}
                             </span>
-                            <div className="delete-button">
-                              <button onClick={() => dispatch(removeFromCart(index))}>
-                                <DeleteIcon />
-                              </button>
-                            </div>
+                            
+
+                              <div className="delete-button">
+                                <button onClick={() => dispatch(removeFromCart(index))}>
+                                {products?.find(product => product.id == item.id) &&(
+                                      <DeleteIcon />
+                                )}
+                                </button>
+                              </div>
+
+
+                            
 
                           </div>
                           <div className="selected-size">
                             <span>
 
-                              {products?.find(product => product.id == item.id).sizes[item.selectedSize]}
+                              {products?.find(product => product.id == item.id)?.sizes[item.selectedSize]}
                             </span>
 
 
@@ -141,7 +145,7 @@ const Container = styled.div`
  
   
   
-  h2 {
+  .shopping-cart-h2{
       font-weight:bolder;
       color:#000;
       margin-top:0;
@@ -182,7 +186,7 @@ const Container = styled.div`
 
 `
 const Wrap = styled.div`
-   width:95vw;
+   width:96vw;
    margin:auto;
   
    display:flex;
@@ -192,7 +196,8 @@ const Wrap = styled.div`
         flex-direction:column;
         
    }
-   
+  
+  
 
 
 }   
@@ -202,16 +207,8 @@ const Wrapper = styled.div`
     position:relative;
     box-shadow: rgba(60, 64, 67, 0.12) 0px 1px 2px 0px, rgba(60, 64, 67, 0.12) 0px 2px 6px 2px;
     background:#ffff;
-    margin-right:45px;
-    @media only screen and (max-width: 1200px){
-
-
-    &{
-     margin-right:0;
-  }
-
-
-} 
+    margin-right:20px;
+   
 
     .product-container{
         display:flex;
@@ -224,8 +221,8 @@ const Wrapper = styled.div`
     .flex-container{
       display:flex;
       flex-direction:column;
-      max-width:768px;
-      width:calc(95vw - 100px);
+      max-width:830px;
+      width:100%;
       min-width:175px;
     
       
@@ -245,6 +242,7 @@ const Wrapper = styled.div`
   box-shadow: rgba(60, 64, 67, 0.12) 0px 1px 2px 0px, rgba(60, 64, 67, 0.40) 0px 2px 6px 2px;
   margin-right:10px;
   object-fit:cover;
+  animation: skeleton-loading 1s linear infinite alternate;
 }
 
 
@@ -272,6 +270,7 @@ const Wrapper = styled.div`
       overflow: hidden;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       opacity:0.6;
+      
 
     }
 
@@ -304,15 +303,16 @@ const Wrapper = styled.div`
         font-weight: bold;
         width:85px;
         height:25px; 
+        margin-top:8px;
       
 }
     .subtract-quantity-button{
-    border-bottom-left-radius: 4px;
-    border-top-left-radius: 4px;
-    border:none;
-    width:25px;
-    outline-style: none; 
-    height:100%;
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+        border:none;
+        width:25px;
+        outline-style: none; 
+        height:100%;
      
   }
   
@@ -338,7 +338,32 @@ const Wrapper = styled.div`
      color:blue
    }
 
+   .skeleton {
+        animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    @keyframes skeleton-loading {
+    0% {
+       background-color: #c2cfd6;
+      }
+      100% {
+        background-color: #f0f3f5;
+      }
+    }
   
+    @media only screen and (max-width: 1200px){
+
+
+    &{
+        margin-right:0;
+      }
+
+    .flex-container{
+        max-width:995px;
+
+      }
+
+    } 
   
 
 `

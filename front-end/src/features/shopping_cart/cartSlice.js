@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ToastContainer, toast } from 'react-toastify';
 
 const initialCartState = {
-  cartItems: []
+  cartItems: JSON.parse(window.localStorage.getItem("cartItems")) ||[]
 
 };
 export const cart_Slice = createSlice({
@@ -12,7 +12,7 @@ export const cart_Slice = createSlice({
     // add product to the shopping cart
     addToCart(state, action) {
 
-      const cartItems = state.cartItems.slice();
+      const cartItems = JSON.parse(window.localStorage.getItem("cartItems")) || [];
       if (cartItems.find(item => item.id === action.payload.id
         &&
         item.selectedColor === action.payload.selectedColor
@@ -29,7 +29,6 @@ export const cart_Slice = createSlice({
         toast.success("A new item has been added to your Shopping Cart.")
 
         cartItems.push({
-          ...state.cartItems,
 
           id: action.payload.id,
           selectedColor: action.payload.selectedColor,
@@ -42,22 +41,23 @@ export const cart_Slice = createSlice({
 
         })
         state.cartItems = cartItems
-        console.log(state.cartItems)
+        window.localStorage.setItem("cartItems", JSON.stringify(cartItems))
       }
 
     },
 
     // remove product to the shopping cart
     removeFromCart(state, product) {
-      const cartItems = state.cartItems.slice();
+      const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
 
-      state.cartItems = cartItems.filter((x, index) => index !== product.payload)
+      state.cartItems = cartItems.filter((x, index) => index !== product.payload) 
+      window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems))
 
 
     },
     // addition quantity or subtract quantity
     subtractQuantity(state, action) {
-      const cartItems = state.cartItems.slice();
+      const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
       cartItems.map((item, index) => {
         if (index === action.payload) {
           if (item.selectedQuantity > 1) {
@@ -66,11 +66,12 @@ export const cart_Slice = createSlice({
           }
         }
         state.cartItems = cartItems
+        window.localStorage.setItem("cartItems", JSON.stringify(cartItems))
       })
     },
 
     addQuantity(state, action) {
-      const cartItems = state.cartItems.slice();
+      const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
       cartItems.map((item, index) => {
         if (index === action.payload) {
           if (item.selectedQuantity < 5) {
@@ -80,12 +81,13 @@ export const cart_Slice = createSlice({
           }
         }
         state.cartItems = cartItems
+        window.localStorage.setItem("cartItems", JSON.stringify(cartItems))
       })
     },
 
 
     buyNowItem(state, action) {
-      const cartItems = state.cartItems.slice();
+      const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
 
       state.cartItems = [{
         ...action.payload,
