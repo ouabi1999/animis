@@ -222,7 +222,7 @@ const Wrapper = styled.div`
       display:flex;
       flex-direction:column;
       max-width:830px;
-      width:100%;
+      width:calc(95vw - 100px);
       min-width:175px;
     
       
@@ -260,6 +260,7 @@ const Wrapper = styled.div`
       align-items:center;
       justify-content: space-between;
       width:100%;
+      
       
       
       
