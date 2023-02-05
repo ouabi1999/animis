@@ -1,8 +1,8 @@
-import React,{useEffect, useLayoutEffect, useMemo, useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
 import styled from "styled-components"
-import { setNewMessage, setReadMessages } from '../../../features/customers/customers_slice';
-import AdminChat from "./AdminChat"
+import { setNewMessage, setReadMessages, setRoom} from '../../../features/customers/customers_slice';
+
 
 
 function Users({
@@ -46,16 +46,15 @@ function Users({
         .then(response => response.json())
         
         .then(data => {
+          dispatch(setRoom({room:data, user_id: receiver?.id}))
           setRoomInfo({
             ...roomInfo,
-            room_id : data.room_id
+            room_id : data.id
           
-          })
-
-          
+          }) 
         })
         .catch(err => console.log(err))
-      }
+        }
   
         useEffect(() => {
             if( !receiverRooms[0] && receiver && sender ){
@@ -71,7 +70,7 @@ function Users({
       
       socket.on("seenMessages", (msg) => {
          
-        if (msg.room_id === receiverRooms?.[0]?.id && msg.sender === receiver.id){
+        if (msg.room_id === receiverRooms?.[0]?.id && msg.sender === receiver?.id){
 
             dispatch(setReadMessages({ user_id:msg.sender, room_id: msg.room_id, messages: msg.messages}))
             
@@ -85,9 +84,7 @@ function Users({
             
             dispatch(setNewMessage({user_id:receiver.id, message:msg.newMessage}))
             if(chatOpend === true && msg.newMessage.sender !== sender.id){
-
-              socket.emit("readMessage", { sender:msg.newMessage.receiver , receiver:msg.newMessage.sender, room_id: msg.newMessage.room_id }); 
-             
+                socket.emit("readMessage", { sender:msg.newMessage.receiver , receiver:msg.newMessage.sender, room_id: msg.newMessage.room_id });   
             } 
           }
         });

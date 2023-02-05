@@ -49,25 +49,10 @@ function Chat(
  
     
     
-    useEffect(() => {
-     
-        socket.on("seenMessages", (msg) => {
-         
-        
-       
-        dispatch(setReadMessages({ user_id:msg.receiver, room_id: msg.room_id, messages: msg.messages }))
-        
-       })
-      socket.on("newMessage", (msg) => {
-  
-          
-       
-          scrollToBottom()
-         
-      
-        });
-       
-      }, [socket]);
+  useEffect(() => {
+    
+      scrollToBottom()
+  }, [messages]);
 
   
 

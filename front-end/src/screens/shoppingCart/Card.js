@@ -15,7 +15,6 @@ function Card() {
 
   const dispatch = useDispatch()
 
-  //let [cartItems, setCartItems] = useState(JSON.parse(window.localStorage.getItem("cartItems")))
   const products = useSelector((state) => state.products?.products)
   const cartItems =  useSelector((state) => state.cart.cartItems)
 

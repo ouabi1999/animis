@@ -15,6 +15,26 @@ user_room = db.Table("user_room",
                     )
 
    
+class ShoppingCart(db.Model):
+    id = db.Column(db.String(100), primary_key = True, default = get_uuid)
+    selectedColor = db.Column(db.Float())
+    selectedQuantity = db.Column(db.Integer())
+    selectedSize = db.Column(db.String())
+    price = db.Column(db.String())
+    subtotal = db.Column(db.String())
+    def __str__(self):      
+        return f'{self.id} {self.selectedColor} {self.selectedQuantity} {self.selectedSize} {self.price} {self.subtotal}'
+
+def shoppingCart_serializer(item):
+    return {
+    "id" : item.id,
+    "selectedColor": item.selectedColor,
+    "selectedQuantity": item.selectedQuantity,
+    "selectedSize": item.selectedSize,
+    "price": item.price,
+    "subtotal": item
+
+    }
 
 class Messages(db.Model):
     id = db.Column(db.String(100), primary_key = True, default = get_uuid)

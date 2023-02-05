@@ -380,8 +380,9 @@ def joingUserRoom():
     if room is not None:
         
         #send({"room_id" : room.id ,'owner_id': owner_id, "receiver_id": receiver_id}, to=room)
-        return {"room_id" : room.id ,'owner_id': room.sender, "receiver_id": room.receiver}
-        
+        return {"id" : room.id ,'sender': room.sender, "receiver": room.receiver}
+                                                         
+
     else:
       
         new_room = Rooms(
@@ -397,5 +398,5 @@ def joingUserRoom():
         db.session.execute(Room1)
         db.session.execute(Room2)
         db.session.commit()
-        return{"room_id" : new_room.id ,'owner_id': new_room.sender, "receiver_id": new_room.receiver, "messages": [] }
+        return{"id" : new_room.id ,'sender': new_room.sender, "receiver": new_room.receiver, "messages": [] }
   

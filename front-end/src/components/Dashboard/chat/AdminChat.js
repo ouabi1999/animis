@@ -47,20 +47,10 @@ function AdminChat(
   
   
   useEffect(() => { 
-    socket.on("newMessage", (msg) => {
 
       scrollToBottom()  
-
-    });
-   
-    return () => {
-
-      socket.off("newMessage")
-
-    }
-  
     
-  }, [socket]);
+  }, [receiverRooms?.[0]?.messages]);
 
   
   
@@ -92,6 +82,7 @@ function AdminChat(
 
   // send messsage to the back-end server 
   const handleMessage = async () => {
+      console.log(message)
     if (message.text !== "") {
       socket.emit("message", message);
 

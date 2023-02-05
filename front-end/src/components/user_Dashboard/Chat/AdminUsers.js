@@ -2,7 +2,7 @@ import React,{useEffect, useState} from 'react'
 import styled from "styled-components"
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useDispatch } from 'react-redux';
-import { setNewMessage, setReadMessages } from '../../../features/customers/customers_slice';
+import { setNewMessage, setReadMessages, setRoom } from '../../../features/customers/customers_slice';
 
 function AdminUsers({
 
@@ -45,16 +45,15 @@ function AdminUsers({
             .then(response => response.json())
 
             .then(data => {
+                dispatch(setRoom({room:data, user_id: receiver?.id}))
                 setRoomInfo({
                     ...roomInfo,
-                    room_id: data.room_id
+                    room_id: data.id
 
                 })
-
-
             })
             .catch(err => console.log(err))
-    }
+        }
 
      useEffect(() => {
         if (!receiverRooms[0] && receiver && sender) {
@@ -71,7 +70,7 @@ function AdminUsers({
          
             if(msg.room_id === receiverRooms?.[0]?.id && msg.sender === receiver?.id){
             console.log("seen client mesage")
-            dispatch(setReadMessages({ user_id:msg.receiver, room_id: msg.room_id, messages: msg.messages }))
+            dispatch(setReadMessages({ user_id:msg.sender, room_id: msg.room_id, messages: msg.messages }))
 
             }
            })
