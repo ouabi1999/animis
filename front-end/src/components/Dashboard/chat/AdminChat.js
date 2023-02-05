@@ -11,6 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import {useDispatch, useSelector} from "react-redux";
 import * as timeago from 'timeago.js';
+import { setReadMessages } from '../../../features/customers/customers_slice';
 
 
 
@@ -31,7 +32,7 @@ function AdminChat(
   const AllUsers = useSelector(state => state.customers.customers)
   const reciever = AllUsers.find(user => user.id === ReceiverUser?.id);
   const receiverRooms = reciever?.rooms?.filter(room => [sender?.id,  reciever?.id].includes(room.sender) && [sender?.id,  reciever?.id].includes(room.receiver));
-  
+  const dispatch = useDispatch()
   const messagesEndRef = useRef()
   // scrool to bottom 
   const scrollToBottom = () => {
@@ -52,7 +53,18 @@ function AdminChat(
     
   }, [receiverRooms?.[0]?.messages]);
 
-  
+  useEffect(() => {
+     
+    socket.on("seenMessages", (msg) => {
+     
+    
+   
+    dispatch(setReadMessages({ user_id:msg.receiver, room_id: msg.room_id, messages: msg.messages }))
+    
+   })
+ 
+   
+  }, [socket]);
   
   useLayoutEffect(() => {
 

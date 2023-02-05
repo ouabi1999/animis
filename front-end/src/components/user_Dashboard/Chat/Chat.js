@@ -48,11 +48,23 @@ function Chat(
 
  
     
-    
   useEffect(() => {
     
-      scrollToBottom()
-  }, [messages]);
+    scrollToBottom()
+}, [messages]);
+
+    useEffect(() => {
+     
+        socket.on("seenMessages", (msg) => {
+         
+        
+       
+        dispatch(setReadMessages({ user_id:msg.receiver, room_id: msg.room_id, messages: msg.messages }))
+        
+       })
+     
+       
+      }, [socket]);
 
   
 
