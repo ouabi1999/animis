@@ -26,9 +26,9 @@ const Container = styled.div`
     width:95%;
     /* fallback for old browsers */
     background: rgb(241,145,49);
-    background: linear-gradient(180deg, rgba(241,145,49,0.18531162464985995) 0%, rgba(255,45,45,1) 100%);
+    background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
     padding:18px 15px;
-    margin: 50px auto;
+    margin: 15px auto;
    
 
     display:grid;

@@ -1,33 +1,45 @@
 import React,{useEffect} from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 import styled from "styled-components"
+import { handleSelectCategory } from '../../../features/categories/categorySlice'
 
 
 function CategorieMain() {
-  const displayData = useSelector(state => state.display.display)
+
+  const dispatch = useDispatch()
+  const displayData = useSelector(state=> state.display.display)
+
+  const filter = (itemCategory) =>{
+    dispatch(handleSelectCategory)
+    dispatch(handleSelectCategory(itemCategory))
+      
+  }
   
   return (
     <Container data ={displayData?.main_category}>
-        <div className='item1'>
-            
-        </div>
-        <div className='item2'>
-            
-        </div>
+        {displayData?.main_category.length > 0 ? (
+           displayData?.main_category.slice(0, 6).map((item, index)=> {
 
-        <div className='item3'>
-            
-        </div>
-        <div className='item4'>
-           
-          </div>
-          <div className='item5'>
-           
-          </div>
-  
-          <div className='item6'>
+            return(
+              <Link  className={`item${index}`} key={index} to="/category" onClick={() => filter(item.categoryName)}>
+                
+              </Link>
+            )
+          })
           
-          </div>
+        ):
+         [1, 2, 3, 4, 5, 6].map((item, index )=> {
+          return(
+            <div key={index} className={`item${index}`}>
+
+            </div>
+          )
+         })
+        }
+        
+       
+      
         
     </Container>
   )
@@ -46,7 +58,7 @@ const Container =  styled.div`
 
   
 
-   div{
+   a, div{
       background-size: cover;
       border-radius: 4px;
       background-color: lightblue;
@@ -73,14 +85,14 @@ const Container =  styled.div`
     background-color: #f0f3f5;
   }
 }
-    .item1{
+    .item0{
         grid-column: 1 / span 1; 
         grid-row: 1 /span 2;
         background-image: url(${props => props?.data?.[0]?.img[0]});
       
     }
 
-    .item2{
+    .item1{
       grid-column: 2 / span 1;
       grid-row: 1 / span 2;
       width:100%;
@@ -89,7 +101,7 @@ const Container =  styled.div`
       
     }
 
-    .item3{
+    .item2{
       grid-column: 3 / span 2;
       grid-row: 1 /span 2;
       width:100%;
@@ -99,13 +111,13 @@ const Container =  styled.div`
 
     }
 
-    .item4{
+    .item3{
       grid-column: 1 / span 2;
       grid-row: 3 / span 2;
       background-image: url(${props => props?.data?.[3]?.img[0]});
     }
 
-    .item5{
+    .item4{
       grid-column: 3 / span 1;
       grid-row: 3 / span 2;
       background-image: url(${props => props?.data?.[4]?.img[0]});
@@ -113,7 +125,7 @@ const Container =  styled.div`
       
       
     }
-    .item6{
+    .item5{
       grid-column: 4 / span 1;
       grid-row: 3 / span 2;
        background-image: url(${props => props?.data?.[5]?.img[0]});
@@ -122,14 +134,14 @@ const Container =  styled.div`
 
 
     @media only screen and (max-width:1024px) {
-      .item1{
+      .item0{
         grid-column: 1 / span 1;
         grid-row: 1 /span 3;
        
       
     }
 
-    .item2{
+    .item1{
       grid-column: 2 / span 1;
       grid-row: 1 / span 6;
     
@@ -137,21 +149,21 @@ const Container =  styled.div`
       
     }
 
-    .item3{
+    .item2{
       grid-column: 3 / span 1;
       grid-row: 1 / span 3;
     }
 
-    .item4{
+    .item3{
       grid-column: 4 / span 1;
       grid-row: 1 / span 6;
     }
 
-    .item5{
+    .item4{
       grid-column: 1 / span 1;
       grid-row: 4 / span 3;
     }
-    .item6{
+    .item5{
 
       grid-column: 3 / span 1;
       grid-row: 4 / span 3;
@@ -165,13 +177,13 @@ const Container =  styled.div`
        &{
         height:100vh
        }
-      .item1{
+      .item0{
        grid-row:1 / span 3;
        grid-column:1 / span 1
       
     }
 
-    .item2{
+    .item1{
      
       grid-row:1 / span 3;
       grid-column:2;
@@ -179,24 +191,24 @@ const Container =  styled.div`
       
     }
 
-    .item3{
+    .item2{
       grid-row:4 / span 3;
       grid-column:1;
      
     }
 
-    .item4{
+    .item3{
       grid-row:4 / span 3;
       grid-column:2;
      
     }
 
-    .item5{
+    .item4{
       grid-row: 7 / span 3 ;
       grid-column:1;
     
     }
-    .item6{
+    .item5{
       grid-row: 7 / span 3 ;
       grid-column:2;
     
@@ -209,13 +221,13 @@ const Container =  styled.div`
         height:420px;
         min-width:300px;
       }
-      .item1{
+      .item0{
        grid-row:1 / span 2;
        grid-column:1 / span 1
       
     }
 
-    .item2{
+    .item1{
      
       grid-row:1 / span 2;
       grid-column:2;
@@ -223,24 +235,24 @@ const Container =  styled.div`
       
     }
 
-    .item3{
+    .item2{
       grid-row:3 / span 2;
       grid-column:1;
      
     }
 
-    .item4{
+    .item3{
       grid-row:3 / span 2;
       grid-column:2;
      
     }
 
-    .item5{
+    .item4{
       grid-row: 5 / span 2 ;
       grid-column:1;
     
     }
-    .item6{
+    .item5{
       grid-row: 5 / span 2 ;
       grid-column:2;
     

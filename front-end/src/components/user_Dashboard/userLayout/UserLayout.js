@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getUser } from '../../../features/auth/authSlice'
 import { useNavigate  } from 'react-router-dom';
 import Nav from '../../Navbar/Nav'
+import Header from '../../Header/Header'
 
 function UserLayout() {
 
@@ -36,6 +37,7 @@ function UserLayout() {
     
       {auth === "true" ? (
         <>
+        <Header/>
         <Nav/>
         <Container>
         

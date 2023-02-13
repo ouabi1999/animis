@@ -76,8 +76,8 @@ export default function DisplayCategoryMain({formData, setFormData}) {
             <div className='added-categories-container'>
                {formData.main_category?.map((item, index) =>{
                   return(
-                    <div className="child-container">
-                        <img src={item.img} key={index} alt="previw-img" />
+                    <div className="child-container" key={index} >
+                        <img src={item.img}  alt="previw-img" />
                         <span>{item.categoryName}</span>
                         <DeleteIcon className="delete-icon" onClick={()=> remove(item)}/>
                     </div>
@@ -112,7 +112,7 @@ export default function DisplayCategoryMain({formData, setFormData}) {
             <div className='priveiw-img-container'>
                {mainCategory?.img?.map((img, index) =>{
                   return(
-                <img src={img} key={index} alt="previw-img" />
+                      <img src={img} key={index} alt="previw-img" />
 
                    )
                })}

@@ -91,7 +91,7 @@ export default function DisplayCategory({formData, setFormData}) {
             <div className='added-categories-container'>
                {formData.category?.map((item, index) =>{
                   return(
-                    <div className="child-container">
+                    <div className="child-container"  key={index} >
                       <div className="child-imgs-container">
 
                         {item.img1 !== null && (

@@ -37,6 +37,7 @@ function Nav(props) {
     return (
       <>
         <Nav_container>
+
           <Left_section>
             <div className="logo">
               <NavLink to="/">
@@ -44,13 +45,13 @@ function Nav(props) {
               </NavLink>
             </div>
 
-            <div>
-              <SearchInput />
-            </div>
             
           </Left_section>
-
+          
+             
+         
           <Right_section className="right_section">
+          <SearchInput />
             <div className="shopping-cart-container">
             <Link to="/shopping-cart" onClick={props.switchMode}>
               <ShoppingCartIcon className='shopping-cart-icon' />
@@ -143,7 +144,7 @@ const Nav_container = styled.div`
  
 `
 const Left_section = styled.div`
-  flex:2;
+  
   display:flex; 
   align-items: center; 
   justify-content:space-between;
@@ -153,12 +154,13 @@ const Left_section = styled.div`
   .logo{
     margin-left:10px;
     margin-top:7px;
+  
   }
 
 .logo img{
   width:100%;
-  max-width:120px;
-  min-width:180px;
+  max-width:135px;
+  min-width:90px;
   height:auto;
   
   }
@@ -171,8 +173,11 @@ const Left_section = styled.div`
 const Right_section = styled.div`
   display:flex;
   flex:1;
-  justify-content:space-around;
+  gap:30px;
+  justify-content:end;
   align-items:center;
+  margin-left:40px;
+  
 
   .shopping-cart-container{
     position:relative;

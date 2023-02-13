@@ -17,7 +17,7 @@ function Organization({formData, setFormData, handelChange}) {
         "bags"
       ];
       const types = [
-        "t-shit",
+        "t-shrit",
         "shirt",
         "outdore",
         "handmade",

@@ -40,7 +40,7 @@ function FilteredItems(props) {
        )}
       
 
-      {filteredData.length > 1 && (
+      {filteredData.length >= 1 && (
 
         <Fade bottom cascade>
 
@@ -93,7 +93,7 @@ function FilteredItems(props) {
 export default FilteredItems;
 const Product_contianer = styled.div`
    min-width:320px;
-  
+   height:100%;
   .grid-container{
       padding:10px;
       display: grid;

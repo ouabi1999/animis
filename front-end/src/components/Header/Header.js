@@ -1,7 +1,9 @@
 import React from 'react';
+import styled from 'styled-components';
 class Header extends React.Component {
     render() {
       return (
+        <Container>
         <div className="social-call" >
           <div className="social-call" >
           {/* social link */}
@@ -15,8 +17,22 @@ class Header extends React.Component {
           </div>
         </div >
         </div >
+        </Container>
       )
     }
   }
 
   export default Header
+  const Container = styled.div`
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  &{
+     
+      visibility:hidden;
+   }
+ 
+}
+  
+  
+  `

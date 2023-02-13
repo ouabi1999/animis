@@ -43,6 +43,8 @@ import DisplayLyout from './components/Dashboard/display/DisplayLyout';
 import { getDisplayInfo } from './features/display/displaySlice';
 import ForgotPassword from './screens/resetPassword/ForgotPassword';
 import ResetPassword from './screens/resetPassword/ResetPassword';
+import SuperDeals from './screens/SuperDeals';
+import NavBar from './components/Navbar/NavBar';
 
 
 export const OrderContext = createContext();
@@ -117,12 +119,12 @@ function App() {
         <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
           <Routes>
-            <Route path = "/" element={<Header />} /> 
+            
             <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
           </Routes>
           
           <Routes>
-            <Route   path = "/"                   element={<><Nav outlet ={<Outlet/>}/><Footer/></>}>
+            <Route   path = "/"                   element={<> <Header /> <Nav outlet ={<Outlet/>}/><Footer/></>}>
               <Route path = "/"                   element = {<Home />} />
               <Route path = "contact-us"          element = {<Contact />} />
               <Route path = "about-us"            element = {<About />} />
@@ -133,7 +135,7 @@ function App() {
               <Route path = "/userinfo"           element = {<Userinfo />} />
               <Route path= "category"             element =  {<ProductsFilter/>}/>
               <Route path= "product_details/:id"  element = {<ProductDetailsLayout/>}/>
-
+              <Route path= "super_deals/:id"  element = {<SuperDeals/>}/>
               
             </Route>
             <Route path = "/login"              element = {<LoginForm />} />

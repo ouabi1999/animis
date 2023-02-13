@@ -366,7 +366,7 @@ def editDisplay(id):
             
         
         db.session.commit()
-        return jsonify(*map(display_serializer, display.query.all()))
+        return jsonify(*map(display_serializer, display))
     else:
         return {"error" : "the product isn't exist any more ..."} ,401 
 

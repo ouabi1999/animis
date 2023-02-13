@@ -1,10 +1,8 @@
-import { style } from '@mui/system'
 import React , {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import Fade from "react-reveal/Fade"
 import { Link } from 'react-router-dom'
 import styled from "styled-components"
-import { applyFilters, filterByCategory, handleSelectCategory } from '../../features/categories/categorySlice'
+import {  handleSelectCategory } from '../../features/categories/categorySlice'
 
 
 const Categories = () => {
@@ -20,7 +18,7 @@ const Categories = () => {
   }
   
  useEffect(() => {
-   console.log(displayData)
+
  }, [displayData])
  
 
@@ -38,7 +36,7 @@ const Categories = () => {
                 <h2>{displayData?.category?.[0]?.categoryName}</h2>
 
                 <Wrapp>
-                    <Link to ="category" onClick={()=> filter(displayData?.category?.[0]?.categoryName)}>
+                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[0]?.categoryName)}>
                         
                         <img  src={displayData?.category?.[0]?.img1}  alt="" />
                         <img  src={displayData?.category?.[0]?.img2}  alt="" />
@@ -53,7 +51,7 @@ const Categories = () => {
             <Toyes_container className='box-shadow'>
                 <h2>{displayData?.category?.[1]?.categoryName}</h2>
                 <Wrapp>
-                    <Link to ="category" onClick={()=> filter(displayData?.category?.[1]?.categoryName)}>
+                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[1]?.categoryName)}>
                         
                         <img  src={displayData?.category?.[1]?.img1}  alt="" />
                         <img  src={displayData?.category?.[1]?.img2}  alt="" />
@@ -67,7 +65,7 @@ const Categories = () => {
                 <Bags_container className='box-shadow'>
                 <h2>{displayData?.category?.[2]?.categoryName}</h2>
                 <Wrapp>
-                    <Link to ="category" onClick={()=> filter(displayData?.category?.[1]?.categoryName)}>
+                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[2]?.categoryName)}>
                         
                         <img  src={displayData?.category?.[2]?.img1}  alt="" />
                         <img  src={displayData?.category?.[2]?.img2}  alt="" />
@@ -81,7 +79,7 @@ const Categories = () => {
             <Accessories_container  data = {displayData?.category?.[3]} className='box-shadow'>
             <h2>{displayData?.category?.[3]?.categoryName}</h2>
                 
-                    <Link to ="category" onClick={()=> filter(displayData?.category?.[3]?.categoryName)}>
+                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[3]?.categoryName)}>
                     <Wrapp className='accessories box-shadow'>
                     </Wrapp>  
                     </Link>
@@ -91,7 +89,7 @@ const Categories = () => {
             <Poster_container className='box-shadow'>
             <h2>{displayData?.category?.[4]?.categoryName}</h2>
                 <Wrapp>
-                    <Link to ="category" onClick={()=> filter(displayData?.category?.[1]?.categoryName)}>
+                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[4]?.categoryName)}>
                         <img  src={displayData?.category?.[4]?.img1}  alt="" />
                         <img  src={displayData?.category?.[4]?.img2}  alt="" />
                         <img  src={displayData?.category?.[4]?.img3}  alt="" />
@@ -119,12 +117,12 @@ const Categories_header  = styled.div`
     width:95%;
     text-align:center;
     background:#ffff;
-    margin:auto;
+    margin: 5px auto;
 
    
    .border{
        border-top:1px solid rgb(181, 178, 178);
-       margin: 18px auto;    
+       margin:0 auto;    
  }
  
 `

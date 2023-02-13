@@ -74,6 +74,8 @@ const Container = styled.div`
     background-color:#262626;
     padding:0px 10px;
     
+    
+    
 
     .CopyRight{
         display:flex;

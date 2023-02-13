@@ -55,11 +55,13 @@ function HomeProducts(props) {
                         </SeccondSection>
 
                         <ThirthSection>
-                          <span className="productprice">${item.price}</span>
-                          <span className="productdiscount">{item.discount > item.price ? `${((item.discount - item.price) / item.discount * 100).toFixed(0)} % `  : ""}
+                          <span className="productprice"> US ${item.price}</span>
+                          <span className="productdiscount">{item.discount > item.price ? `${((item.discount - item.price) / item.discount * 100).toFixed(0)}% `  : ""}
                           </span>
-                          <span className="shipping"> Free Shipping </span>
+
+                          
                         </ThirthSection>
+                        <span className="shipping"> Free Shipping </span>
 
                       </Product_info>
                     </div>
@@ -92,7 +94,7 @@ const Product_contianer = styled.div`
       padding:10px;
       display: grid;
       grid-template-columns: repeat(5,auto);
-      gap:15px;
+      gap:20px;
       place-content: center;
       
 
@@ -138,10 +140,8 @@ const Product_contianer = styled.div`
   .grid-container{
       grid-template-columns: repeat(2,auto); 
   }
-  .shipping{
-    
-    top:295px;
-  }
+ 
+  
 }
 
   @media only screen and (max-width: 490px) {
@@ -176,36 +176,19 @@ const Product_contianer = styled.div`
         font-size:11px;
      
     } 
-    .shipping{
-      font-size:10px;
-      right:5px;
     
-      
-    }
   }
   }
   @media only screen and (max-width: 360px) {
-    .shipping{
-      font-size:9px;
-      top:222px; 
-      margin-right:10px; 
-
-    }
+   
   }
-  @media only screen and (max-width: 320px) {
+  
     
     
     
    
     
-    .shipping{
-      font-size:9px;
-      top:206px; 
-      margin-right:0px;  
-
-    }
   
-  }
   
 `
 
@@ -216,7 +199,15 @@ const Product_info = styled.div`
     flex-direction:column;
    
    
-    
+    .shipping{
+        font-size:13px;
+        margin-left:4px;
+        margin-top:10px;
+        color:#006622;
+        font-family:sans-serif
+   
+   
+  }
 
 `
 const FirstSection = styled.div`
@@ -273,27 +264,26 @@ const ThirthSection = styled.div`
 
     .productprice{
       color:#000000;
-      padding:2px 5px;
       margin-left:2px;
-      background:rgb(255, 0, 0, 0.2);
-      border-radius: 6px 6px 0 6px;
       font-family:'Trebuchet MS', sans-serif;
+      font-size:20px;
+      font-weight:bold;
+      margin-right:30px;
+      white-space: nowrap; 
     }
 
     .productdiscount{
-      font-size:13px;
+      font-size:12px;
       text-decoration:line-through;
-      color:#cc0000;
-      margin-left:20px;
-      align-self:end;
+      
+      font-family: sans-serif;
+      color:#ffff;
+      padding:4px 10px;
+      background:rgb(255, 0, 0, 0.5);
+      border-radius: 0px 8px 0 8px;
       
     }
 
-  .shipping{
-    font-size:12px;
-    position:absolute;
-    right:4px;
-    bottom:13px;
-  }
+ 
 `
 

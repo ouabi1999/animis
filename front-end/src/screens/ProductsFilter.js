@@ -120,6 +120,7 @@ const hideMenu = () =>{
 export default ProductsFilter
 const Container = styled.div`
      display:flex;
+     min-height:calc(100vh - 90px);
     .filterPanel{
       position:relative;
       z-index:1;

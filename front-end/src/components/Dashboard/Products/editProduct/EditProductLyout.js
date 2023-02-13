@@ -49,7 +49,8 @@ function EditProductLyout(props) {
     const [hasError , setHasError] = useState(false)
     
 
-    const  {availability,
+    const  {
+      availability,
       category,
       colors,
       description,

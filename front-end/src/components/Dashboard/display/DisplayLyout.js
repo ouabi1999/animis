@@ -25,7 +25,7 @@ export default function DisplayLyout() {
 
       setFormData(displayInfo.display)
 
-    },[])
+    },[displayInfo])
     const addNew = (event) => {
         event.preventDefault();
         setLoading(true)

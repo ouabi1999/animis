@@ -18,7 +18,7 @@ const FilterCategoryToggle = (props) => {
     },
     {
       id: 1,
-      value: 'clothes',
+      value: 'clothing',
       label: 'Clothing',
     },
     {
@@ -45,6 +45,16 @@ const FilterCategoryToggle = (props) => {
         id: 6,
         value: 'posters',
         label: "Posters",
+      },
+      {
+        id: 7,
+        value: 'gadget',
+        label: "gadget",
+      },
+      {
+        id: 8,
+        value: 'notebooks',
+        label: "notebooks",
       },
   ];
   

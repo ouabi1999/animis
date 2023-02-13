@@ -11,7 +11,7 @@ export const getProductsDetails = createAsyncThunk("category/getProductsDetails"
             return response.json();
         })
         .then((data) => data);
-});
+     });
 
 const initialState = {
     dataList: [],
@@ -25,12 +25,12 @@ const initialState = {
     searchInput : "",
     resultsFound: false,
     product_type_list:[
-        { id: 1, checked: false, label: 't-shirt' },
-        { id: 2, checked: false, label: 'shirt' },
+        { id: 1, checked: false, label: 't-shirt'},
+        { id: 2, checked: false, label: 'shirt'},
         { id: 3, checked: false, label: 'rings' },
-        { id: 4, checked: false, label: 'braclet' },
-        { id: 5, checked: false, label: 'key-chain' },
-        { id: 6, checked: false, label: 'earring' },
+        { id: 4, checked: false, label: 'braclet'},
+        { id: 5, checked: false, label: 'key-chain'},
+        { id: 6, checked: false, label: 'earring'},
       ],
 
 };
@@ -49,7 +49,7 @@ export const category_Slice = createSlice({
             }
             else if(action.payload === "all"){
                 
-                 state.filteredData = state.dataList
+                 state.filteredData = updatedList
                  state.selectedCategory = "all"
                  window.localStorage.setItem('selectedCategory', action.payload)
             }
@@ -60,6 +60,7 @@ export const category_Slice = createSlice({
                     (item) => item.category === state.selectedCategory
                 )  
                 state.filteredData = updatedList  
+             
                 window.localStorage.setItem('selectedCategory', action.payload)
             }
 
@@ -75,11 +76,10 @@ export const category_Slice = createSlice({
             state.product_type_list = CheckedProduct_type
 
             const product_type_checked = state.product_type_list.slice()
-                .filter((item) => item.checked)
-                .map((item) => item.label.toLowerCase());
+                .filter((item) => item.checked).map((item) => item.label.toLowerCase());
 
             if (product_type_checked.length) {
-                state.filteredData = state.dataList.filter((item) =>
+                state.filteredData = state.filteredData.filter((item) =>
                     product_type_checked.includes(item.product_type)
                 );
                
@@ -100,16 +100,12 @@ export const category_Slice = createSlice({
         handelChangeInput(state, action){
          
             // Search Filter
-            state.selectedCategory = "all"
+            let updatedList = state.dataList.slice()
             state.searchInput = action.payload
-            state.filteredData = state.dataList.filter(
+            state.filteredData = updatedList.filter(
                 (item) => item.title.toLowerCase().search(action.payload.toLowerCase().trim()) !== -1
             );
             window.localStorage.setItem('selectedCategory', "all")
-            
-
-            
-          
         },
           
         handleChangePrice(state, action){
@@ -124,6 +120,9 @@ export const category_Slice = createSlice({
             state.filteredData = state.dataList.filter(
                  (item) => item.price >= minPrice && item.price <= maxPrice
              );
+             state.selectedCategory = "all"
+             window.localStorage.setItem('selectedCategory', "all")
+             state.product_type_list = state.product_type_list.map(item => ({...item, checked : false}))
         },
  
        

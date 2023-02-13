@@ -38,10 +38,10 @@ const Container = styled.div`
     top:15%;
     right:0;
     margin-left:auto;
-    background: rgb(255,255,255);
-    background: radial-gradient(circle, rgba(255,255,255,0.05085784313725494) 0%, rgba(255,186,45,0.700717787114846) 100%);
+    background: rgb(195,255,253);
+    background: linear-gradient(90deg, rgba(195,255,253,1) 0%, rgba(203,252,254,0.9976365546218487) 45%, rgba(121,250,255,1) 100%);
     display:grid;
-    gridgap:10px;
+    grid-gap:10px;
  
     grid-template-columns:repeat(3, auto);
 

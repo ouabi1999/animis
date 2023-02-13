@@ -25,10 +25,8 @@ function ProductsLyout() {
    
     return (
         <Container>
-            <div className="product-header">
-                <div className="border-headers"></div>
-                <h2>More To Love</h2>
-                <div className="border-headers"></div>
+            <div className="product-header">   
+                <h2>More to love</h2>
             </div>
         
         
@@ -57,15 +55,15 @@ const Container = styled.div`
     border-bottom: 1px solid rgb(194, 193, 193);
     border-top: 1px solid rgb(194, 193, 193);
     margin:15px 5px;
+    margin-top:25px;
     background-color:white;
     
+    
 }
-.product-header h3{
-    font-weight: bolder;
-    text-transform: uppercase;
+.product-header h2{
+    padding:-8px;
     letter-spacing: 2px;
-    font-size: xx-large;
-}
+} 
 
 
 

@@ -64,8 +64,8 @@ function DisplayBanners({formData, setFormData}) {
       <div className="banners-preview">
           {formData.banners?.map((item, index) =>{
             return(
-              <div className="img-container">
-                <img src={item} key={index} alt="" />
+              <div className="img-container" key={index}>
+                <img src={item}  alt="" />
                 <DeleteIcon className="delete-icon" onClick={() => remove(item)} />
               </div>
             )

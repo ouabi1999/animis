@@ -60,7 +60,7 @@ export const cart_Slice = createSlice({
     // addition quantity or subtract quantity
     subtractQuantity(state, action) {
       const cartItems = JSON.parse(window.localStorage.getItem("cartItems"));
-      state.cartItems.map((item, index) => {
+      cartItems.map((item, index) => {
         if (index === action.payload) {
           if (item.selectedQuantity > 1) {
             item.selectedQuantity -= 1
