@@ -59,7 +59,7 @@ function AddNewProduct(props) {
   /// send products info to the backend
   const AddNew_Product_submit = (event) => {
     event.preventDefault();
-    setLoading(true)
+   
     const data = new FormData();
   
 
@@ -94,8 +94,10 @@ function AddNewProduct(props) {
    
     data.append("product_type", formData.product_type);
     data.append("availability", formData.availability);
+   
 
-    fetch("/products", {
+    setLoading(true)
+    fetch("/api/add_products", {
       method: "POST",
       body: data,
     })
@@ -135,26 +137,8 @@ function AddNewProduct(props) {
 
       });
   };
-
-    // fetch product info grom the backend or server
-
-    useEffect(() => {
-      fetch("/productsinfo")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-        })
-        .then((data) =>
-          setFormData({
-            ...formData,
-            products: data,
-            AdminProducts: true,
-          })
-        )
-
-        .then((err) => console.log(err));
-    }, []);
+  
+   
 
    
     // handle change input
@@ -232,14 +216,26 @@ function AddNewProduct(props) {
                />
               
 
-              <button
-                type="submit"
-                onClick={AddNew_Product_submit}
-                className="submitButton"
-                
-              >
-                Add Product
-              </button>
+              
+          <Button
+              type="submit"
+              onClick={AddNew_Product_submit}
+              variant="contained"
+              className="submitButton"
+              disabled={loading}>
+
+            <span>Add Product</span>
+                {loading && (
+                <CircularProgress
+                  style={{ marginLeft: "3px" }}
+                  size={22}
+                  thickness={6}
+                  value={100}
+                />
+              )
+              }
+              
+          </Button>
             </Left_container>
             <Right_container>
               

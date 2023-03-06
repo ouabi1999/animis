@@ -3,6 +3,7 @@ import { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import PageNoteFound from '../../common/PageNotFound';
 import { getUser } from '../../features/auth/authSlice';
 import Dasheader from './Dasheader';
 
@@ -55,7 +56,7 @@ function DashLayout(props){
        
         if (auth === "false"){
     
-            navigate("/" )
+            navigate("/")
             
         }
         
@@ -69,7 +70,7 @@ function DashLayout(props){
             <>
           
            
-           {user?.admin === true  && (
+           {user?.admin === true  ? (
 
             <Wrapper>
                 <div className='sidebar' style={{ display: showBar}}>
@@ -82,7 +83,7 @@ function DashLayout(props){
                     <Outlet />
                </div>
             </Wrapper>
-            )
+            ): <PageNoteFound/>
             
             }
             

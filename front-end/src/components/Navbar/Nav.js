@@ -6,7 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 import { connect, useSelector } from 'react-redux';
-
+// import css 
+import "../../App.css"
 
 //import component
 import LoginForm from "../../screens/LoginForm"
@@ -39,17 +40,20 @@ function Nav(props) {
         <Nav_container>
 
           <Left_section>
+          {displayData?.logo ?(
             <div className="logo">
+
               <NavLink to="/">
                 <img src={displayData?.logo} alt="animis logo" />
               </NavLink>
             </div>
 
+          ): <div style={{width:"115px", height:"35px", marginLeft:"10px", borderRadius:"4px"}} className="skeleton">
+            </div>}
+
             
           </Left_section>
           
-             
-         
           <Right_section className="right_section">
           <SearchInput />
             <div className="shopping-cart-container">
@@ -65,7 +69,7 @@ function Nav(props) {
             </div>
             <User_container>
             {auth === "true" ?
-              <DropDownMenu  />
+              <DropDownMenu />
 
               : 
 
@@ -110,13 +114,13 @@ const Nav_container = styled.div`
   top:0;
   z-index:2;
   background: #0052D4;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #6FB1FC, #4364F7, #0052D4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  //background: -webkit-linear-gradient(to right, #6FB1FC, #4364F7, #0052D4);  /* Chrome 10-25, Safari 5.1-6 */
+  //background: linear-gradient(to right, #6FB1FC, #4364F7, #0052D4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding:2px 0px;
   border-bottom: 1px solid rgb(184, 184, 184); 
   display:flex;
   align-items:center;
-  padding:5px 2px;
+  padding:8px 2px;
   
   .menu_container{
     display:none;
@@ -152,15 +156,15 @@ const Left_section = styled.div`
   
 
   .logo{
-    margin-left:10px;
+    margin-left:20px;
     margin-top:7px;
   
   }
 
 .logo img{
   width:100%;
-  max-width:135px;
-  min-width:90px;
+  max-width:130px;
+  min-width:80px;
   height:auto;
   
   }
@@ -177,6 +181,7 @@ const Right_section = styled.div`
   justify-content:end;
   align-items:center;
   margin-left:40px;
+  margin-right:15px;
   
 
   .shopping-cart-container{

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import  styled  from "styled-components"
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import DropDownMenu  from './dropDownMenu'
-import { handleSelectCategory } from '../../features/categories/categorySlice';
+import { setCategory } from '../../features/categories/categorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -17,9 +17,9 @@ import DrpDwnMenu_lang from './DrpDwnMenu_lang';
 function MainMenu(props) {
   const dispatch = useDispatch()
   const user = useSelector( state => state.auth.user)
-  const filter = (itemCategory) =>{
+  const filter = (item) =>{
   
-    dispatch(handleSelectCategory(itemCategory))
+    dispatch(setCategory(item))
     props.hideMenu()
       
   }
@@ -59,37 +59,31 @@ function MainMenu(props) {
         <div className="lang">
         <DrpDwnMenu_lang/>
         </div>
-        <h4>Series</h4>
+        <h4>Polices</h4>
         <Wrapper>
         
-          <Wrapp>
-            <Link to="/category" onClick={() => filter("onepiece")}> One Piece </Link>
-            <Link to="/category" onClick={() => filter("attackontiten")}> Attack On Titan</Link>
-          </Wrapp>
+            <Wrapp>
+            <Link  to="terms-of-services">Terms Of services</Link>
+              <Link to="about-us"> About us </Link>
+              <Link  to="contact-us"> Contact us </Link>
+            <Link  to="privacy-policy"> Privacy Policy </Link>
+            </Wrapp>
+            
+      
 
-          <Wrapp>
-            <Link to="/category" onClick={() => filter("hunterxhunter")}> Hunter X Hunter </Link>
-            <Link to="/category" onClick={() => filter("dragonball")}> Dragon Ball </Link>
-          </Wrapp>
-
-          <Wrapp>
-            <Link to="/category" onClick={() => filter("onepunchman")}>One Punch Man</Link>
-            <Link to="/category" onClick={() => filter("baki")}>Baki</Link>
-          </Wrapp>
-
-          <Wrapp>
-            <Link to="/category" onClick={() => filter("tokyoghoul")}>Tokyo Ghoul</Link>
-            <Link to="/category" onClick={() => filter("naruto")}>Naruto</Link>
-          </Wrapp>
+         {/* <Wrapp>
+            <Link to="#" onClick={() => filter("tokyoghoul")}>Tokyo Ghoul</Link>
+            <Link to="#" onClick={() => filter("naruto")}>Naruto</Link>
+          </Wrapp>*/}
 
         </Wrapper>
         <h4>Follow us</h4>
         <SocialMedia>
 
-          <FacebookIcon className='social-icon'/>
-          <YouTubeIcon className='social-icon' />
-          <InstagramIcon className='social-icon' />
-          <TwitterIcon className='social-icon' />
+        <a  rel="noreferrer" target="_blank" href="https://facebook.com/animisstore"><FacebookIcon className='social-icon'/></a>
+        <a  rel="noreferrer"   target="_blank" href="https://www.youtube.com/@animisshop" ><YouTubeIcon className='social-icon' /></a>
+        <a  rel="noreferrer"   target="_blank" href="https://www.instagram.com/an.imis"><InstagramIcon className='social-icon' /></a> 
+        <a  rel="noreferrer"   target="_blank" href="https://twitter.com/animisshop"><TwitterIcon className='social-icon' /></a> 
         </SocialMedia>
       </Container>
     </OutsideClickHandler>
@@ -149,21 +143,16 @@ const Wrapper = styled.div`
      font-size:1.2ch;
      width:100%;
      align-items:center;
-     
+    
      
     
     
      a{
-
-      padding:10px 5px;
-      color: black;
-      background-color:white;
-      border-radius:6px;
+      color: #000;
+      font-size:13px;
       margin-right:8px;
       margin-bottom:15px;
-     
-      width:130px;
-      text-align:center;
+      
 
 
      }
@@ -178,8 +167,10 @@ const SocialMedia =  styled.div`
 
 `
 const Wrapp =  styled.div`
-     display:flex;
-     
+    display:flex;
+    flex-direction:column;
+   
+   
      
 `
 const User_container = styled.div`

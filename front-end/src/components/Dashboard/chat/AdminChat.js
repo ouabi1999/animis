@@ -68,7 +68,7 @@ function AdminChat(
   
   useLayoutEffect(() => {
 
-    scrollToBottom() 
+    messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
     if (message.room_id !== null && chatOpend) {
 
         socket.emit("readMessage", message);    

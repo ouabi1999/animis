@@ -6,6 +6,7 @@ import { useState, useContext} from 'react';
 import { OrderContext } from "../../App"
 import { FormContext } from "./CheckoutContainer"
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 
 
@@ -13,9 +14,24 @@ function ProductCart(props) {
  
   const {total} = useContext(FormContext);
   const {formData} = useContext(OrderContext);
-  const products = useSelector((state) => state.products?.products)
+  const [products, setProducts] = useState([])
   const cartItems =  useSelector((state) => state.cart.cartItems)
+  const getShoppingCart_product = ()=>{
+   
+    axios.post('/api/get_shopping_cart_products', cartItems)
+      .then(response => {
+        //dispatch(setProducts(response.data.products))
+         setProducts(response.data.products);
+        })
+      .catch(error => {
+        console.error(error);
+      });
 
+  } 
+  useEffect(() => {
+    getShoppingCart_product()
+  }, [])
+  
   
   
   return (
@@ -42,9 +58,9 @@ function ProductCart(props) {
 
         <div className="product-container">
           
-            {cartItems?.map(item => {
+            {cartItems?.map((item, index) => {
               return (
-                <div className="child-container">
+                <div className="child-container" key = {index}>
                   
                     <div className='img-container'>
                       <img src={products?.find(product => product.id === item.id)?.colors[0]} alt="" />
@@ -69,7 +85,7 @@ function ProductCart(props) {
 
         <div className='discount'>
           <input type="text" placeholder='Discount code' />
-          <button   disabled="true" style={{ opacity:"0.8", cursor:"not-allowed"}} type="button"> Apply </button>
+          <button   disabled={true} style={{ opacity:"0.8", cursor:"not-allowed"}} type="button"> Apply </button>
         </div>
 
         <Totals>
@@ -86,7 +102,7 @@ function ProductCart(props) {
                 Shipping
               </span>
               <span>
-                 ${formData.shippingPrice}
+                 ${Number(formData.shippingPrice).toFixed(2)}
               </span>
             </div>
           <div className='Total-price'>
@@ -94,7 +110,7 @@ function ProductCart(props) {
               Total
             </span>
             <span>
-              ${Number(total) + Number(formData.shippingPrice)}
+              ${(Number(total) + Number(formData.shippingPrice)).toFixed(2)}
             </span>
           </div>
         </Totals>
@@ -246,6 +262,12 @@ const Wrraper = styled.div`
       padding:0 10px;
     }
 
+    @media only screen and (max-width: 500px){
+      &{
+        width:95%;
+      }
+    
+    }
    
      
 `

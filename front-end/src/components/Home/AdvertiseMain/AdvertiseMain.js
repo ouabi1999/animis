@@ -39,7 +39,7 @@ const Container = styled.div`
     
      .main-slider{
        
-        margin-bottom:10px;
+      
      }
      .categorie-main{
        
@@ -51,14 +51,25 @@ const Container = styled.div`
     
      }
     
-    @media only screen and (max-width:1112px) {
+    @media only screen and (max-width:1280px) {
       &{
         
         grid-template-columns: 100%;
       
       }
+      .main-slider{
+        
+        grid-column: 1;
+        grid-row: 1 ;
+    }
+    .categorie-main{
+      
+        grid-column: 1;
+        grid-row: 3;
+    }
     
     }
+
     @media only screen and (max-width:560px) {
       &{
         

@@ -83,6 +83,14 @@ h5{
 min-width:50px;
 text-align:center;
 }
+@media only screen and (max-width: 500px){
+      h5{
 
+        min-width:30px;
+        white-space: nowrap;
+        font-size:10px;
+     }
+    }
+   
 
 `

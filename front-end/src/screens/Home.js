@@ -15,7 +15,7 @@ function Home() {
   useEffect(() => {
  
      // 👇️ scroll to top on page load
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({block:"center"});
   }, [])
   return (
     <div>

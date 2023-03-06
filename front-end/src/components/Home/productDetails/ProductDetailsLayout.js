@@ -13,7 +13,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ToastContainer, toast } from 'react-toastify';
 import CustomerReviews from './customerReviews';
 import 'react-toastify/dist/ReactToastify.css';
-import SuperDeals from './SuperDeals';
 import Recommended from './Recommended';
 import MostSelling from './MostSelling';
 import DescriptionProduct from './DescriptionProduct';
@@ -26,6 +25,7 @@ function ProductDetailsLayout() {
 
   const params = useParams()
   const [maxOrderWorning, setMaxOrderWorning] = useState(false)
+  const auth = window.localStorage.getItem("isAuthenticated")
   const [formData, setFormData] = useState({
       items: 12,
       rating: 0,
@@ -238,7 +238,7 @@ function ProductDetailsLayout() {
                   <Reveiwes_container>
                     {stars.map((_, index) => {
                       return (
-                        <span key={index} className="ratings">
+                        <span key={index} className="ratings-stars">
                           <StarIcon
                             className={
                               index < (sum_stars /
@@ -257,10 +257,9 @@ function ProductDetailsLayout() {
                     </span>
                     <span
                       className="reviews-number">
-                      {product?.ratings?.length > 0
-                        ? product?.ratings?.length : 0} Reviews
+                      {product.ratings.length > 0 ?  `${product.ratings.length} Reviews` : `${product.ratings.length} Review`}
                     </span>
-                    <span className="orders-number">  100 orders </span>
+                    <span className="orders-number"> {product.orders + product.ratings.length > 1 ?  `${product.orders + product.ratings.length} Orders` : `${product.orders + product.ratings.length} Order`}</span>
                   </Reveiwes_container>
 
                   <div className='price-info-container'>
@@ -275,8 +274,12 @@ function ProductDetailsLayout() {
                       ${product.discount}
                     </span>
                     <span
-                      className="discount-percent">
-                      -30%
+                      className={product.discount >
+                       product.price  &&
+                        product.discount && 
+                        "discount-percent"}
+                      >
+                      {product.discount > product.price ? `-${((product.discount - product.price  ) / product.discount * 100).toFixed(0)}% `  : ""}
                     </span>
                     </div>
                   </div>
@@ -416,9 +419,9 @@ function ProductDetailsLayout() {
 
 
             <Wrapper>
-              <div className="most-selling">
+              
                 <MostSelling products={products} product={product} />
-              </div>
+              
               <div className='description-container'>
                 <div className='headers'>
                   <button
@@ -444,8 +447,7 @@ function ProductDetailsLayout() {
                   )}
                 {selected.isReviews &&(
                   <>
-                    <div className="reviews-container">
-                      <div>
+                   
                     <CustomerReviews 
                         fiveStars={fiveStars}
                         twoStars={twoStars}
@@ -458,20 +460,20 @@ function ProductDetailsLayout() {
                     />
                     
                    
-                  <Feedback
-                    product_id={product.id}
-                    user_id={user?.id}
-                    handelRatingSubmit = {handelRatingSubmit}
-                    isLoading = {isLoading}
-                    set_star_rating = {set_star_rating}
-                    setComment = {setComment}
-                    comment = {comment}
-                    star_rating = {star_rating}
-                    required = {required}
-                  />
-                  </div>
-                  <SuperDeals/>
-                </div>
+                  {auth === "true" && (
+                    <Feedback
+                        product_id={product.id}
+                        user_id={user?.id}
+                        handelRatingSubmit = {handelRatingSubmit}
+                        isLoading = {isLoading}
+                        set_star_rating = {set_star_rating}
+                        setComment = {setComment}
+                        comment = {comment}
+                        star_rating = {star_rating}
+                        required = {required}
+                    />
+                    )}
+                 
                 </>
 
                 )}
@@ -499,7 +501,7 @@ const Product_details_Wrapp = styled.div`
     min-height:100vh;
     width:100%;
     min-width:320px;
-    
+   
     .active{
       border:2px solid rgb(255, 126, 126);
       border-radius:4px;
@@ -520,8 +522,11 @@ const Product_details_Wrapp = styled.div`
 
     .reviews-container{
          display:flex;
+         flex:1;
+
          
     }
+    
 
 
     
@@ -532,6 +537,12 @@ const Container = styled.div`
     width:97%;
     margin:auto;
     padding:15px 20px;
+    @media only screen and (max-width: 320px) {
+      &{
+        padding:0;
+      
+    }
+  }
     .thumb img{
       width:50px;
       height:50px;
@@ -584,7 +595,14 @@ const LeftSide = styled.div`
       border-radius:4px;
 
     }
-
+    @media only screen and (max-width: 320px) {
+      .product-details-img>img{
+        min-width:300px;
+    }
+    &{
+      margin-left:0px;
+    }
+  }
     @media only screen and (max-width: 480px) {
       .max-order-worning{
         left:80px;
@@ -617,13 +635,8 @@ const CenterSide = styled.div`
      margin-right:10px;
      grid-column:2 / span 1;
      grid-row:1;
-
-     @media only screen and (max-width: 820px) {
-
-      &{
-        margin-left:10px;
-      }
-     }
+    
+   
 
      @media only screen and (max-width: 480px) {
 
@@ -635,14 +648,7 @@ const CenterSide = styled.div`
     font-size:14px;
   }
 
-  .on{
-    color: #FFBA5A;
-    font-size:20px;
-  }
-  .off{
-    color: #ccc;
-    font-size:20px;
-  }  
+ 
 
   .price-info-container{
     background:rgb(237, 237, 240, 0.3);
@@ -665,11 +671,13 @@ const CenterSide = styled.div`
     text-decoration:line-through;
     color:rgb(95, 93, 93);
     font-family: sans-serif;
+    margin-left:4px;
 
   }
   .discount-percent{
      background:rgb(255, 0, 0, 0.2);
-     padding:0 2px;
+     padding:4px 8px;
+     margin-left:5px;
      font-size:12px;
      
   }
@@ -678,8 +686,16 @@ const CenterSide = styled.div`
       &{
         grid-row:2;
         grid-column:1;
+        max-width:800px;
       }
       
+
+  }
+  @media only screen and (max-width: 768px) {
+
+    &{
+        width:100%;
+      }
 
   }
       
@@ -690,16 +706,25 @@ const Reveiwes_container = styled.div`
        display:flex;
        border-bottom:1px solid  lightgray;
        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+       padding-bottom:10px;
+       .on{
+          color: #FFBA5A;
+          font-size:19px;
+        }
+      .off{
+          color: #ccc;
+          font-size:19px;
+        }  
 
       .reviews-number,
       .rating-number,
       .orders-number{
-        margin-left:5px;
+        margin-left:10px;
         font-size:15px;
       }
 
-      .ratings{
-        margin-bottom:10px
+      .ratings-stars{
+        margin-top:2px;
       }
 
 `

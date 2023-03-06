@@ -1,13 +1,16 @@
-import React from 'react'
+import React,{ useLayoutEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 function PrivacyPolicy() {
+  useLayoutEffect(() => {
+    window.scrollTo({top: 0, left: 0,});
+  }, [])
   return (
     <Container>
         <div>
             <h1>PRIVACY POLICY</h1>
-            <p> This Privacy Policy describes how Corazon.com (the “Site” or “we”)  collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.</p>
+            <p> This Privacy Policy describes how Animis.com (the “Site” or “we”)  collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.</p>
         </div>
         <h3>Collecting Personal Information</h3>
       <p>
@@ -40,7 +43,7 @@ function PrivacyPolicy() {
         <li> 
           <strong> Disclosure for a business purpose : </strong>
           <span>
-              shared with our processor Corazon.
+              shared with our processor Animis.
           </span>
         </li>
       </ol>
@@ -70,7 +73,7 @@ function PrivacyPolicy() {
         <li> 
           <strong> Disclosure for a business purpose : </strong>
           <span>
-              shared with our processor Corazon.
+              shared with our processor Animis.
           </span>
         </li>
       </ol>
@@ -126,12 +129,12 @@ function PrivacyPolicy() {
       
           <span>
               We use Google Analytics to help us understand how our customers use the Site. You can read more about how Google uses your Personal Information here:
-              <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="noopener">
+              <a href="https://policies.google.com/privacy?hl=en" target="_blank" rel="noreferrer">
                 {""} https://policies.google.com/privacy {""}
               </a>
               {""} You can also opt-out of Google Analytics here : {""}
 
-              <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" > https://tools.google.com/dlpage/gaoptout </a>
+              <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noreferrer" > https://tools.google.com/dlpage/gaoptout </a>
           </span>
         </li>
         <li> 
@@ -142,7 +145,7 @@ function PrivacyPolicy() {
         </li>
       </ol>
       <p>For more information about how targeted advertising works, you can visit the Network Advertising Initiative’s (“NAI”) educational page at {""}
-          <a href="http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work"  target="_blank" rel="noopener" >
+          <a href="http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work"  target="_blank" rel="noreferrer" >
              http://www.networkadvertising.org/understanding-online-advertising/how-does-it-work
           </a>.
         </p>
@@ -150,23 +153,23 @@ function PrivacyPolicy() {
       <ol>
       <li> 
           <span>
-          FACEBOOK - <a href="https://www.facebook.com/settings/?tab=ads" target="_blank" rel="noopener">https://www.facebook.com/settings/?tab=ads</a>.
+          FACEBOOK - <a href="https://www.facebook.com/settings/?tab=ads" target="_blank" rel="noreferrer">https://www.facebook.com/settings/?tab=ads</a>.
           </span>
         </li>
         <li> 
           <span>
-          GOOGLE - <a href="https://www.google.com/settings/ads/anonymous" target="_blank" rel="noopener">https://www.google.com/settings/ads/anonymous</a>.
+          GOOGLE - <a href="https://www.google.com/settings/ads/anonymous" target="_blank" rel="noreferrer">https://www.google.com/settings/ads/anonymous</a>.
           </span>
         </li>
        
         <li> 
           <span>
-          BING - <a href="https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads" target="_blank" rel="noopener">https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads</a>]
+          BING - <a href="https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads" target="_blank" rel="noreferrer">https://advertise.bingads.microsoft.com/en-us/resources/policies/personalized-ads</a>]
           </span>
         </li>
         </ol>
         <p>Additionally, you can opt-out of some of these services by visiting the Digital Advertising Alliance’s opt-out portal at
-           <a href="http://optout.aboutads.info/" target="blank" rel="noopener"> http://optout.aboutads.info/</a>.
+           <a href="http://optout.aboutads.info/" target="blank" rel="noreferrer"> http://optout.aboutads.info/</a>.
           </p>
       </div>
     
@@ -208,7 +211,7 @@ function PrivacyPolicy() {
           We engage in fully automated decision-making that has a legal or otherwise significant effect using customer data.
         </p>
         <p>
-          Our processor Corazon uses limited automated decision-making to prevent fraud that does not have a legal or otherwise significant effect on you.
+          Our processor Animis uses limited automated decision-making to prevent fraud that does not have a legal or otherwise significant effect on you.
         </p>
         <p>
           Services that include elements of automated decision-making include:
@@ -255,7 +258,7 @@ function PrivacyPolicy() {
       </div>
       <div>
         <h3> Contact </h3>
-        <p>For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at [ corazon.supporrt@gmail.com ]
+        <p>For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by e-mail at [ animis.contact@gmail.com ]
         </p>
         <p>Last updated: June 15. 2022</p>
       </div>

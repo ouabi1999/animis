@@ -13,19 +13,33 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 function NewArrival() {
 
-   const products = useSelector((state) => state.products.products)
-   
- 
+   const [products, setProducts] = useState([])
+
+  
+   useEffect(() => {
+    axios.get('/api/get_recent_products')
+      .then(response => {
+        // Handle the JSON data returned from the Flask back-end
+        setProducts(response.data);
+      })
+      .catch(error => {
+        // Handle any errors that occurred
+        console.log(error);
+      });
+
+
+    }, [])
     
 
   return (
 
      <Parent_container>
      <img  className="title" src="./images/newarrivals.svg" alt=""/>
-   
+      <div className='container'>
      <Swiper
         slidesPerView={2}
         spaceBetween={10}
@@ -34,34 +48,40 @@ function NewArrival() {
           clickable: true,
         }}
         breakpoints={{
-         "@0.00": {
-           slidesPerView: 2,
-           spaceBetween: 10,
-         },
-         "@0.75": {
-           slidesPerView: 2,
-           spaceBetween: 20,
-         },
-         "@1.00": {
-           slidesPerView: 3,
-           spaceBetween: 40,
-         },
-         "@1.50": {
-           slidesPerView: 4,
-           spaceBetween: 30,
-         },
-         "@2.00": {
-            slidesPerView: 6,
-            spaceBetween: 20,
+         
+          // when window width is >= 320px
+          320: {
+            slidesPerView: 2,
+            spaceBetween: 10
           },
           
-         }}
+         
+          650: {
+            slidesPerView: 3,
+            spaceBetween: 10
+          },
+         
+          840: {
+            slidesPerView: 4,
+            spaceBetween: 10
+          },
+          1024:{
+            slidesPerView: 5,
+            spaceBetween: 10,
+          },
+          1280: {
+            slidesPerView: 6,
+            spaceBetween: 10
+          },
+        }
+          
+      }
         modules={[FreeMode]}
         className="mySwiper"
-      >
+      >   
      
             {products.length >  0 ? (
-                  products?.slice(0, 12).map((item, index) => {
+                  products?.map((item, index) => {
                     return (
                      
                      <SwiperSlide key={index}>
@@ -73,7 +93,7 @@ function NewArrival() {
                       
                           <div className='price-discount-container'>
                           <span className="product-price"> US ${item.price} </span>
-                          <span className="product-discount">{item.discount > item.price ? `${((item.discount - item.price) / item.discount * 100).toFixed(0)}% `  : ""}</span>
+                          <span className={item.discount > item.price && item.discount && "product-discount"}> {item.discount > item.price ? `-${((item.discount - item.price) / item.discount * 100).toFixed(0)}% `  : ""}</span>
                           </div>
                         </Wrapp>
                        </SwiperSlide>
@@ -93,7 +113,7 @@ function NewArrival() {
             }
           </Swiper>
      
-
+          </div>
      </Parent_container>
    )
 }
@@ -110,7 +130,10 @@ const Parent_container = styled.div`
    background: rgb(241,145,49);
    background: linear-gradient(90deg, rgba(63,231,251,0.4) 0%, rgba(68,55,251,0.5) 100%);
    padding: 15px 4px;
-
+   .container{
+      display:flex;
+      justify-content:center;
+   }
    .product-price{
       color:#000000;
      
@@ -152,7 +175,7 @@ const Parent_container = styled.div`
 
    @media only screen and (min-width: 600px) {
     /* For tablets: */
-    
+      
     
   }
   @media only screen and (max-width: 1022px) {
@@ -160,7 +183,9 @@ const Parent_container = styled.div`
   }
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */
-     
+    .product-price{
+        font-size:15px;
+    }
    
   }
   

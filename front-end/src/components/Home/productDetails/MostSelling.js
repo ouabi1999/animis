@@ -9,7 +9,7 @@ function MostSelling({products, product}) {
           {products.filter(item => {
               return item.category === product.category
 
-          }).slice(0, 3).map((product, index) => {
+          }).slice(0, 4).map((product, index) => {
               return (
                   <div key={index}>
                       <Link to={"/product_details/" + product.id}>
@@ -25,7 +25,8 @@ function MostSelling({products, product}) {
 
 export default MostSelling
 const Container = styled.div`
-       display:flex;
+      display:flex;
+      flex:0.5;
       flex-direction:column;
       align-items:center;
       height:fit-content;

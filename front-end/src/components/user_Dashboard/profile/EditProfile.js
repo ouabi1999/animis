@@ -19,8 +19,8 @@ function EditProfile(props) {
     const [error, setError] = useState("")
 
     const [formData, setFormData] = useState({
-        firstName: "vv",
-        lastName : "vv",
+        firstName: "",
+        lastName : "",
         birthday: user?.birthDate,
         country: "",
         gender : "",

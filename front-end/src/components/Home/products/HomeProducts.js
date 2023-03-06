@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react'
-
+import React, { useRef, useState , useEffect} from 'react'
 import styled from 'styled-components';
 import Fade from "react-reveal/Fade"
 import Spinner from '../../Spinner/Spinner';
@@ -7,33 +6,23 @@ import StarIcon from '@mui/icons-material/Star';
 import {useSelector, useDispatch} from "react-redux"
 import { Link } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
+import "../../../App.css"
+
 
 
 function HomeProducts(props) {
-  const dispatch = useDispatch()
-  const scrolltobottom = useRef()
   
-  const isProducts = useSelector((state) => state.products.isProducts)
-  const [viewMoreProduct, setViewMoreProduct] = useState(10)
+  const {products ,scrolTo} = props;
  
-    
-  const viewMore = () => {
-    setViewMoreProduct(
-      viewMoreProduct.items + 10
-    )
-  }
-
-  const {products, scrolTo} = props;
-
   return (
     <Product_contianer >
         <Fade bottom cascade >
-            {isProducts !==  null ? (
+   
                <div className="grid-container">
 
                 {products?.map(item => {
                   return (
-                      <div  key={item.id} className="product_container" ref= {scrolTo}  >
+                      <div  key={item.id} className="product_container">
                         <Link   to={"product_details/" + item.id}>
                           <img src={item.colors[0]} alt="img"/>
                         </Link>
@@ -46,22 +35,39 @@ function HomeProducts(props) {
                         <SeccondSection>
                          
                           <div className="orders">
-                            <span>1800 sold</span>
+                            <span> {item.orders > 1 ?  `${item.orders} orders` : `${item.orders} order`}</span>
                           </div>
-                          <div className="reviews-container">
-                            <StarIcon className='star-icon' />
-                            <span className="reviews">{item.reviews}</span>
-                          </div>  
+                           {item.ratings.length > 0 && (
+                              <div className="reviews-container">
+                           
+                                   <span className="reviews">
+                                  {(item.ratings.reduce((total, value) => total += value.stars, 0) / item.ratings.length).toFixed(1)}
+                                  
+                                    </span>
+                                   <StarIcon className='star-icon' />
+                              </div> 
+
+                           )}
+                           
                         </SeccondSection>
 
                         <ThirthSection>
                           <span className="productprice"> US ${item.price}</span>
-                          <span className="productdiscount">{item.discount > item.price ? `${((item.discount - item.price) / item.discount * 100).toFixed(0)}% `  : ""}
+                   
+                          <span className={ item.discount > item.price && item.discount && "productdiscount"}>{item.discount > item.price ? `- ${((  item.discount - item.price  )  / item.discount * 100).toFixed(0)}% `  : ""}
                           </span>
+                          
 
                           
                         </ThirthSection>
-                        <span className="shipping"> Free Shipping </span>
+                        {item.shippingInfo?.map((ship, index)=>{
+                          if(ship.type === "Free"){
+                            return(
+                              <span  key={index} className="shipping"> Free Shipping </span>
+                            )
+                          }
+                        }  
+                      )}
 
                       </Product_info>
                     </div>
@@ -72,17 +78,9 @@ function HomeProducts(props) {
                 )}
                
                 </div>
-          ) :(
-          <div style={{ height:"200px", marginTop:"100px", display:"flex" , justifyContent:"center"}}>
-             <CircularProgress
-                  size={25}
-                  thickness={4}
-              /> 
-          </div>
-        )  
-        }
+        
         </Fade>
-
+        <div ref= {scrolTo} />
     </Product_contianer>
   )
 }
@@ -90,6 +88,7 @@ function HomeProducts(props) {
 export default HomeProducts
 const Product_contianer = styled.div`
    min-width:300px;
+   font-family:'Arial Narrow', Arial, sans-serif;
   .grid-container{
       padding:10px;
       display: grid;
@@ -179,6 +178,7 @@ const Product_contianer = styled.div`
     
   }
   }
+
   @media only screen and (max-width: 360px) {
    
   }
@@ -200,13 +200,11 @@ const Product_info = styled.div`
    
    
     .shipping{
-        font-size:13px;
+        font-size:11px;
         margin-left:4px;
         margin-top:10px;
         color:#006622;
-        font-family:sans-serif
-   
-   
+        font-family:'Arial Narrow', Arial, sans-serif;
   }
 
 `
@@ -217,7 +215,7 @@ const FirstSection = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap; 
-      font-size:13px;
+      font-size:12px;
       max-width:220px;
       width:100%;
       margin-top:0;
@@ -232,14 +230,17 @@ const SeccondSection = styled.div`
     
     font-size:13px;
     padding:0 5px;
+    
 
 }
 
 .reviews-container{
-  display:flex;
-  align-items:center;
+  
   position:absolute;
   right:10px;
+  display:flex;
+  align-items:center;
+  
   
 }
 .reviews{
@@ -248,9 +249,11 @@ const SeccondSection = styled.div`
    
 }
 .star-icon{
-  color:#ff9933;
-  font-size:18px;
-  float:right
+  color:#1f1f2e;
+  font-size:15px;
+  float:right;
+  margin-left:2px;
+  margin-bottom:2px;
 
   
   
@@ -271,18 +274,34 @@ const ThirthSection = styled.div`
       margin-right:30px;
       white-space: nowrap; 
     }
-
+   
     .productdiscount{
-      font-size:12px;
-      text-decoration:line-through;
-      
-      font-family: sans-serif;
+      font-size:11px;
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
       color:#ffff;
-      padding:4px 10px;
+      padding: 5px 8px;
       background:rgb(255, 0, 0, 0.5);
       border-radius: 0px 8px 0 8px;
+    
       
     }
+
+    @media only screen and (max-width: 360px) {
+      .productprice{
+
+        margin-right:20px;
+      }
+  }
+  @media only screen and (max-width: 360px) {
+      .productprice{
+          margin-right:8px;
+      }
+      .productdiscount{
+          font-size:12px;
+          padding:3px 4px;
+          border-radius:0;
+      }
+  }
 
  
 `

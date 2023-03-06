@@ -7,11 +7,12 @@ import React from 'react';
 
 const RatinigFilterToggle = ({ options, value, handleSelectRating }) => {
  
+ 
   return (
     <ToggleButtonGroup
       value={value}
       exclusive
-      onChange={handleSelectRating}
+      onChange={(e) => handleSelectRating(e.target.value)}
       
     >
       {options.map(({ label, id, value }) => (

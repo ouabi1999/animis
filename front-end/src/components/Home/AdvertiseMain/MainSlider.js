@@ -15,6 +15,9 @@ import { Link } from "react-router-dom";
 const MainSlider = () => {
 
   const displayData = useSelector(state => state.display.display)
+  const handleSelect = (value)=>{
+      window.localStorage.setItem("selectedImageSlider", value)
+  }
   
 
   return (
@@ -42,7 +45,7 @@ const MainSlider = () => {
           {displayData?.slider?.[0] && (
        
              <SwiperSlide>
-              <Link to={`/super_deals/${uuidv4()}`}>
+              <Link to={`/super_deals/${uuidv4()}`} onClick ={()=> handleSelect(0)}>
                   <img src={displayData?.slider[0]} alt="slider" />
                </Link>
             </SwiperSlide>
@@ -51,7 +54,7 @@ const MainSlider = () => {
              {displayData?.slider?.[1] && (
        
        <SwiperSlide>
-        <Link to={`/super_deals/${uuidv4()}`}>
+        <Link to={`/super_deals/${uuidv4()}`} onClick ={()=> handleSelect(1)}>
             <img src={displayData?.slider[1]} alt="slider" />
          </Link>
       </SwiperSlide>
@@ -60,26 +63,26 @@ const MainSlider = () => {
        {displayData?.slider?.[2] && (
        
        <SwiperSlide>
-        <Link to={`/super_deals/${uuidv4()}`}>
+        <Link to={`/super_deals/${uuidv4()}`} onClick ={()=> handleSelect(2)}>
             <img src={displayData?.slider[2]} alt="slider" />
          </Link>
       </SwiperSlide>
         
       )}
-        {displayData?.slider?.[4] && (
+        {displayData?.slider?.[3] && (
        
        <SwiperSlide>
-        <Link to={`/super_deals/${uuidv4()}`}>
+        <Link to={`/super_deals/${uuidv4()}`} onClick ={()=> handleSelect(3)}>
             <img src={displayData?.slider[4]} alt="slider" />
          </Link>
       </SwiperSlide>
         
       )}   
-       {displayData?.slider?.[5] && (
+       {displayData?.slider?.[4] && (
        
        <SwiperSlide>
-        <Link to={`/super_deals/${uuidv4()}`}>
-            <img src={displayData?.slider[5]} alt="slider" />
+        <Link to={`/super_deals/${uuidv4()}`} onClick ={()=> handleSelect(4)}>
+            <img src={displayData?.slider[4]} alt="slider" />
          </Link>
       </SwiperSlide>
         
@@ -96,19 +99,20 @@ const Container = styled.div`
     
    
    min-width:200px;
+   border-radius: 4px;
+   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+   min-height:120px;
+  
+   height:100%;
+  
    
-   
-   div{
-      display:flex;
-      border-radius: 4px;
-      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-    }
-  .skeleton a{
-    height:52vh;
-  }
+ 
   .skeleton {
-      min-height:52vh;
+      
       animation: skeleton-loading 1s linear infinite alternate;
+      border-radius: 4px;
+      height:100%;
+      
 }
 
 @-webkit-keyframes skeleton-loading {
@@ -135,43 +139,12 @@ const Container = styled.div`
     object-fit: cover;
     min-width:200px;
     height:100%;
+    width:100%;
     
    
 }
 
-.slick-dots {
-
-  bottom:10px;
-  
-}
 
 
 
-@media only screen and (max-width:480px){
-
-img{
-  height:230px;
- 
-}
-div{
-  height:230px;
-  }
-}
-
-@media only screen and (max-width:820px){
-
-img{
-  height:355px;
- 
-  } 
-}
-
-@media only screen and (max-width:1112px){
-
-img{
-  width:100vw;
-
- 
-  } 
-}
 `

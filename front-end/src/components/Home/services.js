@@ -26,7 +26,7 @@ const Services = () => {
             <div>
               <LocalShippingIcon className="icon"/>
               <span>Worldwide shopping</span>
-              <p> We ship to over 10 countries and regions, and our site comes in 3 languages.</p>
+              <p> We ship to over 10 countries and regions, and our site comes in English language.</p>
             </div>
             
             
@@ -41,9 +41,7 @@ const Container = styled.div`
   width:100%;
   padding:10px;
   background-color:white;
-  
-  margin: 20px auto;
- 
+  margin: 25px 0  auto auto;
   display:grid;
   grid-template-columns: repeat(4, auto) ;
   grid-gap:10px;

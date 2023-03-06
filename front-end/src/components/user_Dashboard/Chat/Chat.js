@@ -70,7 +70,7 @@ function Chat(
 
  
  useLayoutEffect(() => {
-    scrollToBottom()
+  messagesEndRef.current?.scrollIntoView({ behavior: "auto" })
   
     if (message.room_id !== null && chatOpend) {
           socket.emit("readMessage", message);
@@ -194,7 +194,7 @@ const Container = styled.div`
     flex-direction:column;
     
      width:40%;
-     min-width:320px;
+     min-width:315px;
      height:450px;
      background:#ffff;
 

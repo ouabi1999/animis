@@ -1,34 +1,142 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import styled  from "styled-components"
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { CircularProgress } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import { Grid, TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from "yup"
+
+function Newsletter(){
+    const [isLoading,  setIsLoading] = useState(false)
+    const [email, setEmail] = useState("")
+    const [error, setError] = useState(null)
 
 
-class Newsletter extends Component {
-    render() {
+   
+    
+    
+     
+    const handleSubscribe = (values)=>{
+      
+        setIsLoading(true)
+        fetch("/subscribe-newsletter", {
+          method: "POST",
+          credentials: 'same-origin',
+          body: JSON.stringify({
+            email: values.email,
+          }),
+    
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          }
+        }).then(response => response.json())
+    
+          .then(result => {
+            if (result.error) {
+              setError(result.error)
+              toast.error(result.error)
+              setIsLoading(false);
+            } else {
+    
+              setError(false)
+              setEmail("")
+              values.email = ""
+              toast.success("You are subscribed")
+              setIsLoading(false);
+        
+            }
+    
+    
+          })
+          .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+            setError("Somthing went wrong..!")
+            toast.error("Somthing went wrong..!")
+            setIsLoading(false)
+    
+          });
+    }
+    const editSechema = Yup.object({
+        email: Yup.string().email('Invalid email address').required('Required'),
+    
+      })
+    const formik = useFormik({
+        initialValues: {email: email},
+        validationSchema: editSechema, 
+        onSubmit:  values => {
+            setEmail(values.email)
+          
+            handleSubscribe( values)
+           
+            
+          // same shape as initial values
+          
+        }
+      });
+
         return (
-            <Container>
+            <Container  onSubmit={formik.handleSubmit}>
+                
                 <Wrapp>
+               
                     <span className="title">Newsletter</span>
                     <p>
                         Signup for our newsletter to get notified about sales.
 
                     </p>
+                    
                     <div className="subscribe">
                         <span>
                             <MailOutlineIcon className="mail-icon" />
                         </span>
-                        <input type="email" placeholder="Email" required />
-                        <button type="submit" > Subscribe</button>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
+                        />
+                        <button type="submit" > 
+                        
+                        {isLoading && (
+                
+                    <span>
+                        
+                    <CircularProgress 
+                        style={{marginLeft:"3px" , marginRight:"3px"}}
+                        size={18} 
+                        thickness={4} 
+                        value={100}
+                     />
+                     </span>
+                    )}         
+                    <span>Subscribe</span>
+                    </button>
+                        
                     </div>
+                    
                 </Wrapp>
+                <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                />
             </Container>
         )
     }
-}
+
 export default Newsletter
 const Container = styled.form`
     min-width:300px;
-    max-width:400;
+   
     margin-top:20px;
     
 `
@@ -78,6 +186,7 @@ const Wrapp = styled.div`
         
          border-left:none;
          outline:none;
+         width:50vw;
        
     }
     .subscribe button{
@@ -86,6 +195,9 @@ const Wrapp = styled.div`
         color:#fff;
         border:1px solid lightgray;
         border-left:none;
+        display:flex;
+        align-items:center;
+      
        
     }
     

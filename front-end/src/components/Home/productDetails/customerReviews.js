@@ -45,13 +45,10 @@ function CustomerReviews(props) {
     const stars = Array(5).fill(0);
    
    useEffect(() => {
-       console.log(reviews)
-       if(newRatings === null){
-        return ""
-       }
-       else{
+       if(newRatings !== null){
+       
        setReviews(prev => [...prev, newRatings])
-       }
+      }
 
    }, [props.newRatings])
    
@@ -62,7 +59,7 @@ function CustomerReviews(props) {
       <Container>
             
             <h4>Customer Reviews</h4>
-
+                
              <div className="RatingsContainer">
               <div>
                   <span className='star-number'>5 Stars</span>
@@ -134,8 +131,8 @@ function CustomerReviews(props) {
                       <div className = "stars">
                      {stars.map((_, index) => {
                       return (
-                        < >
-                          <StarIcon key={index}
+                        <div  key={index}>
+                          <StarIcon
                             className = { index < (rate.stars).toFixed(0)
                               ?
                                 "on"
@@ -143,7 +140,7 @@ function CustomerReviews(props) {
                                 "off"
                               } 
                             />
-                        </>
+                        </div>
                       )
                     })}
                     </div>
@@ -207,6 +204,7 @@ const Container = styled.div`
     width:80%;
     min-width:300px;
     max-width:800px;
+    flex:1;
     
    .user-name{
     font-size:15px;

@@ -1,16 +1,19 @@
-import React from 'react'
+import React,{ useLayoutEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 function TermsOfServices() {
+    useLayoutEffect(() => {
+        window.scrollTo({top: 0, left: 0,});
+      }, [])
   return (
     <Container>
           <h1>Terms of services</h1>
           <h2>OVERVIEW</h2>
           <p>
-              This website is operated by Corazon.
+              This website is operated by Animis.
               Throughout the site, the terms “we”, “us” and
-              “our” refer to Corazon. Corazon offers this website,
+              “our” refer to Animis. Animis offers this website,
               including all information, tools, and services available from this site to you,
               the user, conditioned upon your acceptance of all terms,
               conditions, policies, and notices stated here.
@@ -80,7 +83,7 @@ function TermsOfServices() {
           <p></p>
           <h3>SECTION 7 - ONLINE STORE TERMS </h3>
           <p>
-              For more detail, please review our <Link reloadDocument to="/return-policy"> Returns Policy. </Link>
+              For more detail, please review our <Link  to="/return-policy"> Returns Policy. </Link>
           </p>
           <h3>SECTION 8 - OPTIONAL TOOLS </h3>
           <p>
@@ -102,7 +105,7 @@ function TermsOfServices() {
           </p>
           <h3>SECTION 11 - PERSONAL INFORMATION</h3>
           <p>
-              Your submission of personal information through the store is governed by our Privacy Policy. <Link reloadDocument to="/privacy-policy"> To view our Privacy Policy </Link>
+              Your submission of personal information through the store is governed by our Privacy Policy. <Link  to="/privacy-policy"> To view our Privacy Policy </Link>
           </p>
           <h3>SECTION 12 - ERRORS, INACCURACIES AND OMISSIONS</h3>
           <p>
@@ -131,12 +134,12 @@ function TermsOfServices() {
               We do not warrant that the results that may be obtained from the use of the service will be accurate or reliable.
               You agree that from time to time we may remove the service for indefinite periods of time or cancel the service at any time, without notice to you.
               You expressly agree that your use of, or inability to use, the service is at your sole risk. The service and all products and services delivered to you through the service are (except as expressly stated by us) provided 'as is' and 'as available' for your use, without any representation, warranties, or conditions of any kind, either express or implied, including all implied warranties or conditions of merchantability, merchantable quality, fitness for a particular purpose, durability, title, and non-infringement.
-              In no case shall Corazon, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers, or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the service or any products procured using the service, or for any other claim related in any way to your use of the service or any product, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the service or any content (or product) posted, transmitted, or otherwise made available via the service, even if advised of their possibility. Because some states or jurisdictions do not allow the exclusion or the limitation of liability for consequential or incidental damages, in such states or jurisdictions, our liability shall be limited to the maximum extent permitted by law
+              In no case shall Animis, our directors, officers, employees, affiliates, agents, contractors, interns, suppliers, service providers, or licensors be liable for any injury, loss, claim, or any direct, indirect, incidental, punitive, special, or consequential damages of any kind, including, without limitation lost profits, lost revenue, lost savings, loss of data, replacement costs, or any similar damages, whether based in contract, tort (including negligence), strict liability or otherwise, arising from your use of any of the service or any products procured using the service, or for any other claim related in any way to your use of the service or any product, including, but not limited to, any errors or omissions in any content, or any loss or damage of any kind incurred as a result of the use of the service or any content (or product) posted, transmitted, or otherwise made available via the service, even if advised of their possibility. Because some states or jurisdictions do not allow the exclusion or the limitation of liability for consequential or incidental damages, in such states or jurisdictions, our liability shall be limited to the maximum extent permitted by law
           </p>
 
           <h3>SECTION 15 - INDEMNIFICATION</h3>
           <p>
-              You agree to indemnify, defend and hold harmless Corazon and our parent, subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, service providers, subcontractors, suppliers, interns, and employees, 
+              You agree to indemnify, defend and hold harmless Animis and our parent, subsidiaries, affiliates, partners, officers, directors, agents, contractors, licensors, service providers, subcontractors, suppliers, interns, and employees, 
               harmless from any claim or demand, 
               including reasonable attorneys’ fees, 
               made by any third party due to or arising out of your breach of these Terms of Service or the documents they incorporate by reference or your violation of any law or the rights of a third-party.
@@ -174,7 +177,7 @@ function TermsOfServices() {
           </p>
           <h3>SECTION 21 - CONTACT INFORMATION</h3>
           <p>
-              Questions about the Terms of Service should be sent to us at corazon.supporrt@gmail.com
+              Questions about the Terms of Service should be sent to us at animis.contact@gmail.com
           </p>
 
       </Container>

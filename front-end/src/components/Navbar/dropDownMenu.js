@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component, useState } from 'react'
+import { connect, useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -7,51 +7,53 @@ import { logout } from '../../features/auth/authSlice'
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 
-export class DropDownMenu extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state={
-      isOpen : false,
-    }
-  }
+function DropDownMenu(props) {
+    const auth = window.localStorage.getItem("isAuthenticated")
+    const dispatch = useDispatch()
+    const user = useSelector(state => state.auth.user)
+    
+    const [isOpen, setIsOpen] = useState(false)
+    
 
   
 
-  logout = () =>{
+  
+
+  const logout = () =>{
     fetch("/logout",{
       method:"POST",
       credentials: 'same-origin'
     }
     ).then(response => {
       if (response.ok) {
-        this.props.dispatch(logout())
+        dispatch(logout())
         window.location.href = "/"
         return response.json()
     }
   }).catch(error=> console.log(error))   
 }
-  render() {
+  
     return (
       <OutsideClickHandler
       onOutsideClick={() => {
-          this.setState({isOpen:false})
+          setIsOpen(false)
       }}
-    >
-      {this.props.auth.user !== null ?
+      >
+        
+      {auth === "true" ?
       <Contanier>
         <Profile_wrap>
                 <PersonIcon 
-                      onClick={() => this.setState({ isOpen: !this.state.isOpen }) }
+                      onClick={() => setIsOpen(!isOpen) }
                       style={{color:"gray", cursor:"pointer"}}
                 />  
         </Profile_wrap>
 
-          {this.state.isOpen && (
+          {isOpen && user  !== null && (
           <DropDown_Container>
             <div className='DropDown_Container'>
              
-                  <Link onClick={this.props.hideMenu} to="/profile" className='profile-container'>
+                  <Link onClick={props.hideMenu} to="/profile" className='profile-container'>
                     <PersonIcon className="profile-icon" />
                     <span>
                         Profile
@@ -59,7 +61,7 @@ export class DropDownMenu extends Component {
                     </span>
                   </Link>
 
-                <button onClick={this.logout} className='logout-container'>
+                <button onClick={logout} className='logout-container'>
                    <LogoutIcon className="logout-icon"/>
                     <span> Logout </span>
                 </button>
@@ -72,16 +74,10 @@ export class DropDownMenu extends Component {
       </OutsideClickHandler>
     )
   }
-}
-const mapStateToProps = (state) => {
-  return {
-    cartItems: state.cartItems,
-    auth : state.auth
-    
-  };
-};
 
-export default  connect(mapStateToProps)(DropDownMenu)
+
+
+export default DropDownMenu
 
 const Contanier = styled.div`
     margin-bottom:4px;
@@ -115,42 +111,41 @@ const DropDown_Container = styled.div`
     border-radius:4px;
     background:#fff;
     position:absolute;
-    left:-38px;
-    bottom:-85px;
+    left:-55px;
+    bottom:-75px;
     z-index:2;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     
     .DropDown_Container{
-      display:flex;
-      flex-direction:column;
-      margin:auto;
-      padding:15px 20px;
-     
-
-    }
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          margin:auto;
+          padding:10px 15px;
+      }
 
     .logout-container{ 
        display:flex;
        align-items:center;
        background:none;
-
-    }
-    li span{
+      }
+      
+    span, a{
       font-size:15px;
-      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-family: 'Arial Narrow', Arial, sans-serif;
+      color:#000;
+      font-weight:bold;
     }
-  .logout-icon, .profile-icon{
-      font-size:20px;
-
-    }
+    .logout-icon, .profile-icon{
+        font-size:20px;
+      }
 
   .profile-container{
-    display:flex;
-    align-items:center;
-    color:#000;
-    margin-bottom:8px;
-
-  }
+        display:flex;
+        align-items:center;
+        margin-left:3px;
+        margin-bottom:8px;
+      }
  
 
 

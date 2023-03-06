@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 
-export const getProductsDetails = createAsyncThunk("category/getProductsDetails", () => {
+/*export const getProductsDetails = createAsyncThunk("category/getProductsDetails", () => {
     return fetch("/productsinfo")
         .then((response) => {
             if (!response.ok) {
@@ -12,18 +12,12 @@ export const getProductsDetails = createAsyncThunk("category/getProductsDetails"
         })
         .then((data) => data);
      });
-
+*/
 const initialState = {
-    dataList: [],
+  
+    ratings : null,
     filteredData : [],
-    isLoading: false,
-    hasError: false,
-    selectedCategory: null,
-    selectedRating : null,
-    selectedPrice : [0, 200],
-    selectingPrice : null,
-    searchInput : "",
-    resultsFound: false,
+    
     product_type_list:[
         { id: 1, checked: false, label: 't-shirt'},
         { id: 2, checked: false, label: 'shirt'},
@@ -32,135 +26,69 @@ const initialState = {
         { id: 5, checked: false, label: 'key-chain'},
         { id: 6, checked: false, label: 'earring'},
       ],
+    
+    category: null,
+    productType: null,
+    minPrice: 0,
+    maxPrice: 200,
+    search: null,
+    currentPage: 1,
+      
 
 };
-
+    //state.product_type_list = state.product_type_list.map(item => ({...item, checked : false}))
+    //state.selectedCategory = window.localStorage.getItem('selectedCategory')
 export const category_Slice = createSlice({
     name: "category",
     initialState,
     reducers: {
         // FILTER SPECIFIC PRODUCT BY CATEGORY
-        
-        handleSelectCategory(state, action){
-            let updatedList = state.dataList.slice()
-            if(!action.payload){
-                state.filteredData = state.dataList
-                state.selectedCategory = window.localStorage.getItem('selectedCategory')
-            }
-            else if(action.payload === "all"){
-                
-                 state.filteredData = updatedList
-                 state.selectedCategory = "all"
-                 window.localStorage.setItem('selectedCategory', action.payload)
-            }
-            else{
+        setCategory: (state, action) => {
+            state.category = action.payload;
+            console.log(action.payload)
+          },
 
-                state.selectedCategory = action.payload;
-                updatedList = updatedList.filter(
-                    (item) => item.category === state.selectedCategory
-                )  
-                state.filteredData = updatedList  
-             
-                window.localStorage.setItem('selectedCategory', action.payload)
-            }
-
-           
-        },
-
-        handleChangeChecked(state, action) {
-            const product_type_list = state.product_type_list.slice()
-
-            const CheckedProduct_type = product_type_list.map((item) =>
-                item.id === action.payload ? { ...item, checked: !item.checked } : item
-            );
-            state.product_type_list = CheckedProduct_type
-
-            const product_type_checked = state.product_type_list.slice()
-                .filter((item) => item.checked).map((item) => item.label.toLowerCase());
-
-            if (product_type_checked.length) {
-                state.filteredData = state.filteredData.filter((item) =>
-                    product_type_checked.includes(item.product_type)
+          setProductType: (state, action) => {
+            state.productType = action.payload;
+            console.log(action.payload)
+            const CheckedProduct_type = state.product_type_list.map((item) =>
+            item.id === action.payload ? { ...item, checked: !item.checked } : item
                 );
-               
 
-            }
-            else if(state.selectedCategory === "all"){
-                state.filteredData = state.dataList
-            }
-            else {
-               
-                state.filteredData = state.dataList.filter(
-                    (item) => item.category === state.selectedCategory
-                )
-              
-            }
-        },
+            state.productType = CheckedProduct_type
 
-        handelChangeInput(state, action){
-         
-            // Search Filter
-            let updatedList = state.dataList.slice()
-            state.searchInput = action.payload
-            state.filteredData = updatedList.filter(
-                (item) => item.title.toLowerCase().search(action.payload.toLowerCase().trim()) !== -1
-            );
-            window.localStorage.setItem('selectedCategory', "all")
-        },
-          
-        handleChangePrice(state, action){
-            
-            state.selectedPrice = action.payload
-            state.selectingPrice = true
-             // Price Filter
-            const minPrice = state.selectedPrice[0];
-            const maxPrice = state.selectedPrice[1];
-            
-            
-            state.filteredData = state.dataList.filter(
-                 (item) => item.price >= minPrice && item.price <= maxPrice
-             );
-             state.selectedCategory = "all"
-             window.localStorage.setItem('selectedCategory', "all")
-             state.product_type_list = state.product_type_list.map(item => ({...item, checked : false}))
-        },
- 
-       
-       
+            },
 
-       
+          setMinPrice: (state, action) => {
+            state.minPrice = action.payload;
+            console.log(action.payload)
+          },
 
+          setMaxPrice: (state, action) => {
+            state.maxPrice = action.payload;
+            console.log(action.payload)
+          },
 
-        applyFilters(state, action){
+          setSearch: (state, action) => {
+            state.search = action.payload;
+            console.log(action.payload)
+          },
 
-           let updatedList = state.dataList;
-           /*
-            // Rating Filter
-            if (state.selectedRating) {
-              updatedList = updatedList.filter(
-                (item) => parseInt(item.rating) === parseInt(state.selectedRating)
-              );
-            }
-              */
-            // Category Filter
-          if (state.selectedCategory === "all"){
-                state.filteredData = state.dataList
-                
-            }
+          setRatings: (state, action) => {
+            state.ratings = action.payload;
+            console.log(action.payload)
+          },
 
-            else{
-                updatedList = updatedList.filter(
-                    (item) => item.category === state.selectedCategory
-                )       
-                
-            }
-            // product type Filter
-        },
+        
+
+          setFiltredData :(state, action)=>{
+            state.filteredData = action.payload;
+          }
         
         
         
     },
-    extraReducers: {
+    /*extraReducers: {
         [getProductsDetails.pending]: (state) => {
             state.isLoading = true;
         },
@@ -174,16 +102,17 @@ export const category_Slice = createSlice({
            
         },
     },
-
+*/
 
 })
-export const {  filterByCategory,
-                handleSelectCategory,
-                handleSelectRating,
-                handleChangeChecked,
-                handleChangePrice,
-                applyFilters,
-                handelChangeInput,
+export const { 
+            setCategory,
+            setProductType,
+            setMinPrice,
+            setMaxPrice,
+            setSearch,
+            setRatings,
+            setFiltredData
 
              } = category_Slice.actions
 export default category_Slice.reducer

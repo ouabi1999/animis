@@ -1,8 +1,11 @@
-import React, { Component } from 'react'
+import React, { useLayoutEffect} from 'react'
 import styled from 'styled-components'
 
- class About extends Component {
-    render() {
+ function About() {
+    useLayoutEffect(() => {
+        window.scrollTo({top: 0, left: 0,});
+      }, [])
+ 
 
         return (
                 <Container>
@@ -11,16 +14,16 @@ import styled from 'styled-components'
                     <div className="about_section">
                     <h1>About us</h1>
                         <p>
-                            Corazon is a retail experience created for fans of all things Japanese lifestyle and culture.
+                            Animis is a retail experience created for fans of all things Japanese lifestyle and culture.
                             We carry exclusive officially licensed apparel, accessories, and more.
-                            The store is run by our namesake herself, Corazon, and her fuzzy little companion,
+                            The store is run by our namesake herself, Animis, and her fuzzy little companion,
                             They’re here to make sure you feel welcome and find everything you’re looking for.
                         </p>
                         <p>
                             We carry 100% officially licensed EXCLUSIVE apparel, accessories,
                             and more from the biggest names in anime like Dragon Ball Z,
                             Cowboy Bebop, My Hero Academia, Crunchyroll, and many more.
-                            We started Corazon to create one spot for all anime fans
+                            We started Animis to create one spot for all anime fans
                             to find cool anime goods — because there wasn’t one.
                             We’re all about experience, lifestyle, and bringing anime into the bigger conversation.
                         </p>
@@ -33,7 +36,7 @@ import styled from 'styled-components'
                 </Container>
             
         )
-    }
+    
 }
 
 export default About

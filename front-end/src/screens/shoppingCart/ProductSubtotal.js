@@ -1,10 +1,22 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 function ProductSubtotal(props) {
+    const navigate = useNavigate()
+    const auth = window.localStorage.getItem("isAuthenticated")
+    const location = window.locationbar
+    const navigateTo = ()=>{
+        console.log(location)
+        if (auth === "true"){
+            navigate("/checkout")
+        }
+        else{
+            navigate("/login")
+        }
+    }
   return (
         <Container>
             <div className='container'>
@@ -37,11 +49,11 @@ function ProductSubtotal(props) {
               </div>
 
             </div>
-            <Link to="/checkout" className='procces-button-container'>
-                <button className="procces-button">
+            <div className='procces-button-container'>
+                <button  onClick={navigateTo} className="procces-button">
                     Checkout
                 </button>
-            </Link>
+            </div>
             </div>
         </Container>
     )

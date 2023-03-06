@@ -1,24 +1,83 @@
-import React from 'react'
+import React, {useEffect, useMemo, useRef, useState} from 'react'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
+import "../App.css"
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import axios from 'axios';
 
 function SuperDeals() {
     
     const products = useSelector(state=> state.products.products)
+    const isProductsLoaded = useSelector(state=> state.products.isProductsLoaded)
+    const displayData = useSelector(state => state.display.display)
+    
+    const [filtredProducts, setFiltredProducts] = useState([]);
+
+    const [loading, setLoading] = useState(false);
+    const valueIndex = window.localStorage.getItem("selectedImageSlider")
+    const [currentPage, setCurrentPage] = useState(1);
+    const PER_PAGE = 20;
+    const [totalProucts, setTotalProucts] = useState(0)
+    const [totalPages, setTotalPages] = useState(1)
+    const scrollRef = useRef()
+
+  useEffect(() => {
+
+    setLoading(true)
+    axios.get('/api/products_get-off-discount', { params: {currentPage, per_page: PER_PAGE } })
+      .then(response => {
+        setLoading(false)
+        setFiltredProducts(response.data.products);
+        setTotalProucts(response.data.total_products);
+        setTotalPages(response.data.total_pages)
+        
+      })
+      .catch(error => {
+        setLoading(false)
+        console.error(error);
+      });
+    
+    
+  }, [currentPage]);
+
+    
+    
+   
+    const handleChange = (event, value) => {
+      setCurrentPage(value);
+      scrollRef.current?.scrollIntoView({ behavior: "auto"})
+    };
+    
+
+    const begin = (currentPage - 1) * PER_PAGE;
+    const end = begin + PER_PAGE;
+
+    
+  
     return (
         <Wrapper>
-        <div style={{display:"flex", alignItems:"center",flexWrap:"wrap", marginLeft:"45px"}}>
-           <h1 className='header'>SuperDeals</h1>
-           <span className='header-child'> Top products, Incredible prices.</span>
-        </div>
+             {displayData?.slider?.[parseInt(valueIndex)] ? (
+          <div>
+                <img  style={{width:"100%"}}src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />
+          </div>
+         ):
          
+         <div style={{ height:"45vh", width:"100%"}} className=" skeleton"></div>
+         }
+        <div ref={scrollRef} />
+        <div style={{ display: "flex", margin: "10px 0", justifyContent: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap" }}>
+            <strong className='header'>SuperDeals</strong>
+            <span className='header-child'> Top products, Incredible prices.</span>
+          </div>
+        </div>
+        
+        {!loading ? (
         <Container>
-            {products.filter(product => {
-              
-               return (product.discount - product.price) / product.discount * 100   >= 10;
-           
-            }).map((product, index )=> {
+           {filtredProducts?.map((product, index )=> {
                 return (
                     <div key={index} className="item-container">
                         <Link to={"/product_details/" + product.id}>
@@ -30,17 +89,40 @@ function SuperDeals() {
                         </div>
                         <div className='second-child'>
                           <span className="product-price"> US ${product.price}</span>
-                          <span className="product-discount">{product.discount > product.price ? `${((product.discount - product.price) / product.discount * 100).toFixed(0)} % `  : ""}
+                          <span className={ product.discount > product.price && product.discount && "product-discount"}>{product.discount > product.price ? `- ${((  product.discount - product.price  )  / product.discount * 100).toFixed(0)}% `  : ""}
+
                           </span>
                           
                         </div>
                         
                     </div>
                     
-                )
-            })}
+                    )
+                })}
             
         </Container>
+
+        
+
+     
+         ):
+         <Container >
+         {[0,1, 1, 1, 4, 4, 4, 4, 4, 4].map((_, index)=>{
+          return(
+           
+              <div key = {index} className="item-container skeleton"></div>
+      
+
+          )
+         })}
+        </Container>
+        
+        }
+        <div style={{display:"flex",margin:"10px 0", justifyContent:"center", width:"100%"}}>
+            <Stack spacing={2}>
+              <Pagination  onChange = {handleChange}  count={totalPages} variant="outlined" shape="rounded" />
+            </Stack>
+        </div>
         </Wrapper>
   )
 }
@@ -56,14 +138,16 @@ const Wrapper = styled.div`
         font-weight:bolder;
         font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         padding-right:10px;
-        padding-bottom:6px;
+        font-size:2rem;
+        color:rebeccapurple;
+       
        
     }
     .header-child{
     
-        font-size:20px;
-       
-        font-family:sans-serif;
+      font-size:15px;
+      font-family:sans-serif;
+      margin-top:8px;
     }
 `
 const Container = styled.div`
@@ -72,6 +156,7 @@ const Container = styled.div`
     place-content:center;
     min-height:calc(100vh - 100px);
     grid-template-columns:repeat(5, auto);
+    margin-top:15px;
     
     
 
@@ -115,7 +200,6 @@ const Container = styled.div`
 
     .product-discount{
       font-size:13px;
-      text-decoration:line-through;
       color:#000;
       margin-left:20px;
       align-self:end;

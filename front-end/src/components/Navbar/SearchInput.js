@@ -2,7 +2,7 @@ import React , {useState} from 'react'
 import styled from 'styled-components'
 import Fade from 'react-reveal/Fade';
 import SearchIcon from '@mui/icons-material/Search';
-import { handelChangeInput} from '../../features/categories/categorySlice';
+import {setCategory, setProductType, setRatings, setSearch} from '../../features/categories/categorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -10,13 +10,25 @@ import { Navigate, useNavigate } from "react-router-dom";
 function SearchInput() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const value = useSelector((state) => state.filteredProduct.searchInput);
+  const [searchValue, setSearchValue] = useState("")
+  const [required, setRequired] = useState(false)
 
-  const handleChange = (e) => {
-    dispatch(handelChangeInput(e))
+  const handleChange = (value) => {
+     setSearchValue(value)
 
   }
- 
+  const handleSearchSubmit =()=>{
+    if (searchValue !== ""){
+      dispatch(setCategory(""))
+      dispatch(setProductType(""))
+      dispatch(setRatings(""))
+      dispatch(setSearch(searchValue))
+      navigate("/category")
+    }else{
+      setRequired(true)
+    }
+    
+  }
 
 
   return (
@@ -25,14 +37,16 @@ function SearchInput() {
       <Wrapper>
       <Fade top >
         
-          <input type="search" className='input'
-            value={value}
+          <input type="search" className='input' style={required ? {border:"1px solid red"}:{}}
+            value={searchValue}
             onChange={(e) => handleChange(e.target.value)}
+            onMouseDown={()=> setRequired(false)}
             placeholder="Search For Product"
-            onMouseDown={()=> navigate("/category")}
+            
+           
      
           />
-          <button className="search-btn" >
+          <button className="search-btn" onClick={handleSearchSubmit}>
             <SearchIcon className='search-icon' />
           </button>
       
@@ -42,13 +56,13 @@ function SearchInput() {
       <Fade top >
         <div className='mobile-input'>
           <input type="search" className='input'
-            value={value}
-            onChange={(e) => handleChange(e.target.value)}
-            onMouseDown={()=> navigate("/category")}
+               value={searchValue}
+               onChange={(e) => handleChange(e.target.value)}
+               placeholder="Search For Product"
             
-            placeholder="Search For Product"
+      
           />
-          <button className="search-btn-mobile" >
+          <button className="search-btn-mobile"  onClick={handleSearchSubmit}>
             <SearchIcon className='search-icon' />
           </button>
         </div>

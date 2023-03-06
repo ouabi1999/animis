@@ -1,10 +1,19 @@
 import React from 'react'
 import styled from 'styled-components'
 import Newsletter from './Newsletter'
-import { Link, NavLink } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import {setCategory } from '../../features/categories/categorySlice'
+import { useDispatch } from 'react-redux'
 
 
 const Footer = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const SelectedCategory = (value)=>{
+    dispatch(setCategory(value))
+    
+
+  }
   return (
   
       <Container>
@@ -14,40 +23,53 @@ const Footer = () => {
 
             <ul className="policy">
               <li className="text-info">Polices</li>
-              <li><Link reloadDocument to="terms-of-services">Terms Of services</Link></li>
-              <li><Link reloadDocument to="about-us"> About us </Link ></li>
-              <li><Link reloadDocument to="contact-us"> Contact us </Link ></li>
-              <li><Link reloadDocument to="privacy-policy"> Privacy Policy </Link></li>
+              <li><Link  to="terms-of-services">Terms Of services</Link></li>
+              <li><Link to="about-us"> About us </Link ></li>
+              <li><Link  to="contact-us"> Contact us </Link ></li>
+              <li><Link  to="privacy-policy"> Privacy Policy </Link></li>
             </ul>
 
 
             <ul className="social-categorie">
               <li className="text-info">Follow us</li>
               <li>
-                <i className="fab fa-facebook-f" />
-                <a href="#">Facebook</a>
+              <i className="fab fa-facebook-f" />
+                <Link to="/categoryoreferrer" target="_blank" href="https://facebook.com/animisstore"> Facebook</Link>
               </li>
               <li>
                 <i className="fab fa-instagram" />
-                <a href="#">Twitter</a>
+                <Link to="/categoryoreferrer"   target="_blank" href="https://www.instagram.com/an.imis">Instagram</Link>
               </li>
               <li>
                 <i className="fab fa-twitter" />
-                <a href="#">Instagram</a>
+                <Link to="/categoryoreferrer"   target="_blank" href="https://twitter.com/animisshop">Twitter</Link>
               </li>
               <li>
                 <i className="fab fa-youtube" />
-                <a href="#">Youtube</a>
+                <Link to="/categoryoreferrer"   target="_blank" href="https://www.youtube.com/@animisshop" >Youtube</Link>
               </li>
             </ul>
-
+   
+            
+            
+            
             <ul className="footer-categorie">
               <li className="text-info">Categorie</li>
-              <li><a href="#">Accessories</a></li>
-              <li><a href="#">Clothes </a></li>
-              <li><a href="#">Bags</a></li>
-              <li><a href="#">Toys</a></li>
-              <li><a href="#">Anime Poster</a></li>
+              <li>
+                <Link to="/category"onClick={(e)=> SelectedCategory("accessoires")} >Accessoires</Link>
+                </li>
+              <li>
+                <Link to="/category" onClick={(e)=> SelectedCategory("clothing")}>Clothes </Link>
+                </li>
+              <li>
+                <Link to="/category" onClick={(e)=> SelectedCategory("bags")}>Bags</Link>
+                </li>
+              <li>
+                <Link to="/category" onClick={(e)=> SelectedCategory("figures")}>Figures</Link>
+                </li>
+              <li>
+                <Link to="/category" onClick={(e)=> SelectedCategory("posters")}>Anime Poster</Link>
+                </li>
             </ul>
 
             <Newsletter />

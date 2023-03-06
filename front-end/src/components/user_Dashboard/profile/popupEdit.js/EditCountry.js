@@ -119,6 +119,7 @@ function EditCountry(props) {
 export default EditCountry
 
 const Container = styled.div`
+    
       .flagicon{
         width:30px;
         height:20px;
@@ -129,12 +130,15 @@ const  PopUpEdit = styled.div`
      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
      border:2px solid lightgray;
      border-radius:6px;
-     min-width:280px;
+     min-width:320px;
      background:#fff;
      position:absolute;
-     bottom:25%;
+    
      max-width:500px;
      right:25%;
+     left:25%;
+     top:25%;
+
 
 
      .edit-title{
@@ -169,4 +173,15 @@ const  PopUpEdit = styled.div`
           
           
       }
+      @media only screen and (max-width:480px) {
+            &{
+                
+               width:100%;
+               left:0; 
+                
+                
+                
+            }
+
+     }
 `

@@ -1,21 +1,12 @@
 import React from 'react'
 import styled from 'styled-components';
+import { categoryList } from '../../../../common/categoryList';
 
 import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
 
 
 function EditOrganization({formData, setFormData, handelChange}) {
-    const categories = [
-        "all",
-        "clothing",
-        "accessoires",
-        "posters",
-        "stickers",
-        "notebooks",
-        "gadget",
-        "toyes",
-        "bags"
-      ];
+   
       const types = [
         "t-shirt",
         "shirt",
@@ -66,9 +57,9 @@ function EditOrganization({formData, setFormData, handelChange}) {
                         })
                     }
                 >
-                    {categories.map((option, index) => (
-                        <MenuItem key={index} value={option}>
-                            {option}
+                    {categoryList?.map((option, index) => (
+                        <MenuItem key={index} value={option.value}>
+                            {option.label}
                         </MenuItem>
                     ))}
                 </TextField>

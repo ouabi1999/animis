@@ -23,7 +23,7 @@ const Container = styled.div`
         font-family:"sans-serif";
         border-bottom:1px solid gray;
         width:fit-content;
-        margin-left:30px;
+        margin-left:15px;
         
       }
 

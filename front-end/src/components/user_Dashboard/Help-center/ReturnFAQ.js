@@ -115,9 +115,9 @@ function ReturnFAQ() {
         <h2>Return</h2>
 
         <div >
-          {data.map(item => {
+          {data.map((item , index)=> {
             return (
-              <div className="content">
+              <div className="content" key={index}>
                 <button 
                         className='button-container' 
                         onClick={() => showAnswer(item.id) }
@@ -180,13 +180,13 @@ export const Container = styled.div`
         
         color:orange;
         font-family:"arial monospace";
-        margin-left:30px;
+        margin-left:15px;
 
       }
 
       
       ul{
-        margin-left:25px;
+        margin-left:15px;
       }
       li{
         list-style-type:circle;
@@ -194,7 +194,7 @@ export const Container = styled.div`
       }
       .text{
         font-size:15px;
-        margin-left:30px;
+        margin-left:15px;
       }
       .button-container{
         display:flex;
@@ -229,12 +229,18 @@ export const Container = styled.div`
         padding:15px; 
         background: #fff;
         margin-bottom:4px;
-        margin-left:30px;
+        margin-left:15px;
 
         
         
        
        
+      }
+
+      @media only screen and (max-width: 820px) {
+
+
+        
       }
    
 `

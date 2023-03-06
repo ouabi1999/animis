@@ -10,7 +10,6 @@ import Card from "./screens/shoppingCart/Card"
 import Header from './components/Header/Header'
 import LoginForm from './screens/LoginForm'
 import Signup from './screens/signup'
-import Userinfo from './components/Home/userInfo'
 import Dashboard from './components/Dashboard/Dashboard'
 import Chart from './components/Dashboard/Chart'
 import DashLayout from './components/Dashboard/DashLayout'
@@ -19,7 +18,6 @@ import { setProducts } from "./features/products/productsSlice"
 
 import Home from "./screens/Home"
 import Nav from './components/Navbar/Nav'
-
 import { getUser } from "./features/auth/authSlice"
 import UserLayout from './components/user_Dashboard/userLayout/UserLayout'
 import MyOrders from './components/user_Dashboard/MyOrders'
@@ -35,7 +33,6 @@ import SuccessfulOrder from "./components/checkout/SuccessfulOrder";
 import ProductsFilter from './screens/ProductsFilter';
 import Profile from './components/user_Dashboard/profile/profile';
 import ProductDetailsLayout from './components/Home/productDetails/ProductDetailsLayout';
-import { getProductsDetails } from './features/categories/categorySlice';
 import { getCustomers } from './features/customers/customers_slice';
 import ClientChatLayout from './components/user_Dashboard/Chat/ClientChatLayout';
 import ChatLayout from './components/Dashboard/chat/ChatLayout';
@@ -44,12 +41,13 @@ import { getDisplayInfo } from './features/display/displaySlice';
 import ForgotPassword from './screens/resetPassword/ForgotPassword';
 import ResetPassword from './screens/resetPassword/ResetPassword';
 import SuperDeals from './screens/SuperDeals';
-import NavBar from './components/Navbar/NavBar';
+import PageNoteFound from './common/PageNotFound';
 
 
 export const OrderContext = createContext();
 function App() {
  const dispatch = useDispatch()
+ const cartItems = useSelector(state=> state.cart.cartItems)
  
   const [formData, setFormData ] = useState({
     firstName: "",
@@ -62,12 +60,13 @@ function App() {
     state:"",
     country:"",
     address1:"",
-    shippingMethod:"",
-    shippingPrice:"0.00",
+    shippingMethod:null,
+    shippingPrice:0.00,
+    deliveryTime: "",
     totalPrice:"",
     currency:"usd",
-    products:"",
-    orderInfo:"",
+    ordered_products:cartItems,
+
 
 });
 
@@ -88,26 +87,17 @@ function App() {
      
      .catch(error=> console.log(error))
    }*/
-  const getProductsInfo = () => {
-    fetch('/productsinfo')
-    .then(response => {
-      if (response.ok) {
-        return response.json()
-      }
-    }).then(data => dispatch(setProducts(data)))
-      .catch(err => console.log(err))
-  }
+
 
   // fetch product info from the backend or server
   useEffect(() => {
-    getProductsInfo()
+    
     dispatch(getUser())
-    dispatch(getProductsDetails())
     dispatch(getCustomers())
     dispatch(getDisplayInfo())
     
      // 👇️ scroll to top on page load
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    window.scrollTo({top: 0, left: 0});
    
 
   }, [])
@@ -132,7 +122,6 @@ function App() {
               <Route path = "privacy-policy"      element = {<PrivacyPolicy/>}/>
               <Route path = "terms-of-services"   element = {<TermsOfServices/>}/>
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
-              <Route path = "/userinfo"           element = {<Userinfo />} />
               <Route path= "category"             element =  {<ProductsFilter/>}/>
               <Route path= "product_details/:id"  element = {<ProductDetailsLayout/>}/>
               <Route path= "super_deals/:id"  element = {<SuperDeals/>}/>
@@ -141,6 +130,7 @@ function App() {
             <Route path = "/login"              element = {<LoginForm />} />
               <Route path = "/register"           element = {<Signup />} />
             <Route path = "/checkout"      element = {<CheckoutContainer/>} />
+            <Route path="*" element = {<PageNoteFound/>}/>
 
 
             <Route   path = "/profile"       element = {<UserLayout />} >

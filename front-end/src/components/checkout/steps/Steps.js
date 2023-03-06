@@ -10,15 +10,16 @@ import { FormContext } from '../CheckoutContainer';
 import LogendIn from './LogendIn';
 import Shipping from './Shipping';
 import {OrderContext} from "../../../App"
+import { useNavigate } from 'react-router-dom';
  
 function Steps() {
  
- 
-    const user = useSelector((state) => state.auth.user)
+    const navigate = useNavigate()
+    const auth = window.localStorage.getItem("isAuthenticated")
+    const user = useSelector(state => state.auth.user)
     const [signInMessage, setsignInMessage] = useState(null)
   
-    const { activeStepIndex, setActiveStepIndex } =
-    useContext(FormContext);
+    const { activeStepIndex, setActiveStepIndex } = useContext(FormContext);
     const { formData, setFormData} = useContext(OrderContext);
     
     
@@ -27,7 +28,7 @@ function Steps() {
       }
 
     const onSubmit=() => {
-        if(user !== null){
+        if(auth === "true"){
             setActiveStepIndex(activeStepIndex + 1);
             setFormData({...formData, userId:user.id})
            
@@ -41,7 +42,7 @@ function Steps() {
     let stepContent;
     switch (activeStepIndex) {
       case 0:
-        stepContent = user == null ? <LoginForm/> : <LogendIn/>;
+        stepContent = auth === "false"  ? navigate("/login") : <LogendIn/>;
         break;
       case 1:
         

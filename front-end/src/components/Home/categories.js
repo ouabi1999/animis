@@ -2,7 +2,7 @@ import React , {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from "styled-components"
-import {  handleSelectCategory } from '../../features/categories/categorySlice'
+import { setCategory } from '../../features/categories/categorySlice';
 
 
 const Categories = () => {
@@ -13,7 +13,7 @@ const Categories = () => {
 
   const filter = (itemCategory) =>{
   
-    dispatch(handleSelectCategory(itemCategory))
+    dispatch(setCategory(itemCategory))
       
   }
   
@@ -25,9 +25,10 @@ const Categories = () => {
     return (
         <Container>
         <Categories_header>
-            <div className="border"></div>
-            <h3>Featured Categories</h3>
-            <div className="border"></div>
+            <div className='header-container'>
+            <strong>Featured Categories</strong>
+            </div>
+           
         </Categories_header>
         
         <Categories_container>
@@ -114,16 +115,43 @@ const Container  = styled.div`
 
 `
 const Categories_header  = styled.div`
-    width:95%;
-    text-align:center;
-    background:#ffff;
-    margin: 5px auto;
+    display: flex;
+    justify-content: center;
+  
+
+
+
+    .header-container{
+        display: flex;
+        justify-content: center;
+        background-color:white;
+        width:95%;
+        border-bottom: 1px solid rgb(194, 193, 193);
+        border-top: 1px solid rgb(194, 193, 193);
+        margin-top:5px;
+        margin-bottom:10px;
+    
+
+    }
+    
+  
+    
 
    
    .border{
        border-top:1px solid rgb(181, 178, 178);
        margin:0 auto;    
- }
+    }
+     strong{
+         padding:15px;
+         letter-spacing: 2px;
+         font-size:1rem;
+         font-weight:490;
+         font-family:'Arial Narrow', Arial, sans-serif;
+        
+} 
+
+ 
  
 `
 
@@ -136,7 +164,7 @@ const Categories_container = styled.div`
    margin:auto;
    min-height:350px;
    padding:10px;
-   min-width:320px;
+   min-width:300px;
    
    img{
       margin:0;
@@ -168,8 +196,19 @@ const Categories_container = styled.div`
     padding:5px 10px; 
 
  }
-    
-   
+ @media only screen and (max-width:480px) {
+      &{
+        padding:0;
+        
+       
+    }
+}
+@media only screen and (max-width:320px) { 
+    img{
+        width:92px;
+        object-fit:cover;
+    } 
+}
 
 `
 const Accessories_container = styled.div`

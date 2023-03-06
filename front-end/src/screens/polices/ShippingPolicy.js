@@ -1,6 +1,9 @@
-import React from 'react'
+import React,{ useLayoutEffect} from 'react'
 
 function ShippingPolicy() {
+    useLayoutEffect(() => {
+        window.scrollTo({top: 0, left: 0,});
+      }, [])
     return (
         <div>
             <h1>Shipping policy</h1>

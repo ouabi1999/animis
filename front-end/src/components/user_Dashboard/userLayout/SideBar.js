@@ -13,8 +13,8 @@ import EditIcon from '@mui/icons-material/Edit';
 function SideBar() { 
   return (
     <Side_Bar>
-    <ol>
-      <li>
+    <div className='container'>
+     
       <Link to="/profile">
         <FeedIcon className="sidebar_icons" />
         
@@ -22,15 +22,13 @@ function SideBar() {
             My Profile
           </span>
         </Link>
-      </li>
-      <li>
+      
       <Link to="myorders">
         <ShoppingBasketIcon className="sidebar_icons" />
         
           <span>My Orders</span>
         </Link>
-      </li>
-      <li>
+      
       <Link to="notifications">
         <NotificationsIcon className="sidebar_icons" />
         
@@ -38,8 +36,7 @@ function SideBar() {
             Notifications
           </span>
         </Link>
-      </li>
-      <li>
+      
       <Link to="chat">
         <EmailIcon className="sidebar_icons" />
         
@@ -47,8 +44,7 @@ function SideBar() {
             Chat
           </span>
         </Link>
-      </li>
-      <li>
+     
       <Link to="help-center">
         <SupportAgentIcon className="sidebar_icons" />
         
@@ -56,8 +52,7 @@ function SideBar() {
             Help Center
           </span>
         </Link>
-      </li>
-    </ol>
+      </div>
   </Side_Bar>
   )
 }
@@ -69,33 +64,31 @@ const Side_Bar = styled.div`
     width:100%;
     min-height:calc(100vh - 80px);
     flex:0.5;
-   
-
+    min-width:250px;
     padding-left:10px;
     
-    ol{
-       margin-left:-40px;
-       position:fixed;
-       top:60px;
-       left:0%;
+    .container{
+       
+       position:sticky;
+       top:10%;
+       bottom:10%;
+       left:5%;
       
     }
     span{
       font-size:15px;
     }
-    li{ 
-       
-        padding:10px 5px;
-       
+   
 
 
-       a{
+    .container a{
           display:flex;
           align-items:center;
           color:black;
-          margin-left:2px;
+          
+          padding: 10px;
        }
-    }
+    
     .sidebar_icons{
       color:gray;
       margin-right:8px;
@@ -103,34 +96,45 @@ const Side_Bar = styled.div`
 
     @media only screen and (min-width: 600px) {
     /* For tablets: */
-  }
+    }
 
   
-  @media only screen and (max-width: 768px) {
+  @media only screen and (max-width: 820px) {
     /* For mobile phones: */
       
       
-      ol{
+    .container{
         display:flex;
-        width:100vw;
+        width:100%;
         justify-content:space-between;
         background:#fff;
-        position:sticky;
+       
+        height:70px;
         
       }
+    
+
       &{
+        z-index:2;
+        position:sticky;
         
+        top:0%;
+        bottom:0%;
+        left:0;
         min-height:0;
         border-bottom:1px solid lightgray;
         padding-left:0px;
+        margin-right:10px;
+        margin-left:0;
       }
-      
+
+     
    
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 640px) {
     
-    li a span{
+    .container a span{
         display:none;
       }
 

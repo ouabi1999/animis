@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from 'styled-components';
@@ -8,23 +8,43 @@ import { useLayoutEffect } from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FlipMove from "react-flip-move"
+import axios from 'axios';
 
 function Card() {
 
-  const [formData, setFormData] = useState({index: 0, product: null})
+  
 
   const dispatch = useDispatch()
-
-  const products = useSelector((state) => state.products?.products)
+  const [products, setProducts] = useState([])
   const cartItems =  useSelector((state) => state.cart.cartItems)
+  const [isLoading, setIsLoading] = useState(false)
 
   useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     
+    }, [])
+
+  const getShoppingCart_product = ()=>{
+    setIsLoading(true)
+    axios.post('/api/get_shopping_cart_products', cartItems)
+      .then(response => {
+        setIsLoading(false)
+        //dispatch(setProducts(response.data.products))
+      
+         setProducts(response.data.products);
+         
+        
+        })
+      .catch(error => {
+        setIsLoading(false)
+        console.error(error);
+      });
+
+  } 
+  useEffect(() => {
+    getShoppingCart_product()
   }, [])
-
   
-
   return (
     <Container>
 
@@ -116,15 +136,10 @@ function Card() {
 
               <ProductSubtotal
                 cartItems={cartItems}
-
               />
-
             </Wrap>
-
           </div>
         )}
-
-
     </Container>
   )
 }

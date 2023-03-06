@@ -2,7 +2,7 @@ import React,{useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from "styled-components"
-import { handleSelectCategory } from '../../../features/categories/categorySlice'
+import { setCategory } from '../../../features/categories/categorySlice'
 
 
 function CategorieMain() {
@@ -11,8 +11,8 @@ function CategorieMain() {
   const displayData = useSelector(state=> state.display.display)
 
   const filter = (itemCategory) =>{
-    dispatch(handleSelectCategory)
-    dispatch(handleSelectCategory(itemCategory))
+   
+    dispatch(setCategory(itemCategory))
       
   }
   
@@ -22,7 +22,7 @@ function CategorieMain() {
            displayData?.main_category.slice(0, 6).map((item, index)=> {
 
             return(
-              <Link  className={`item${index}`} key={index} to="/category" onClick={() => filter(item.categoryName)}>
+              <Link id ="link" className={`item${index}`} key={index} to="/category" onClick={() => filter(item.categoryName)}>
                 
               </Link>
             )
@@ -51,14 +51,15 @@ const Container =  styled.div`
     
     
     min-width:320px;
-    height:52vh;
+    min-height:49vh;
+    
     
     display:grid;
     gap: 10px;
 
   
 
-   a, div{
+   #link , div{
       background-size: cover;
       border-radius: 4px;
       background-color: lightblue;
@@ -133,7 +134,7 @@ const Container =  styled.div`
     }
 
 
-    @media only screen and (max-width:1024px) {
+    @media only screen and (max-width:1280px) {
       .item0{
         grid-column: 1 / span 1;
         grid-row: 1 /span 3;
@@ -219,7 +220,7 @@ const Container =  styled.div`
     @media only screen and (max-width:420px){
       &{
         height:420px;
-        min-width:300px;
+        min-width:290px;
       }
       .item0{
        grid-row:1 / span 2;

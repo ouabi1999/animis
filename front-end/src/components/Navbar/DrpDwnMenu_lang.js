@@ -3,13 +3,23 @@ import styled from "styled-components"
 import Flag from 'react-world-flags'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import OutsideClickHandler from 'react-outside-click-handler';
+import data from "../../common/countries.json"
 function DrpDwnMenu_lang() {
     const [isActive, setIsActive] = useState(false)
+    const [language, setLanguage] = useState("")
+    const [currency, setCureency] = useState("")
+    const [country, setCountry] = useState(window.localStorage.getItem("country") || "us")
+    
 
     const DropDown =  () =>{
         setIsActive(!isActive)
     }
-
+    const save = ()=>{
+         
+    }
+   
+       
+    
   return (
     <OutsideClickHandler
     onOutsideClick={() => {
@@ -19,7 +29,7 @@ function DrpDwnMenu_lang() {
       <Container>
           <div className='Lang_currency'>
               <button onClick={DropDown}  >
-                <Flag className='flag-icon' code="us" />
+                <Flag className='flag-icon' code={country} />
                 <span> / English </span>
                 <span> / USD </span>
                 <ArrowDropDownIcon className='dropDownArrow-icon' />
@@ -29,30 +39,41 @@ function DrpDwnMenu_lang() {
                 <Wrapper>
                     <div>
                         <label> Ship to </label>
-                        <select>
-                            <option value="Japan" >Spain</option>
-                            <option value="Japan" >French</option>
-                            <option value="Japan" >United State</option>
+                        <select value={country} onChange={((e) => {
+                                    setCountry(e.target.value);
+                                    window.localStorage.setItem("country", e.target.value);
+                                })
+                                }
+                                >
+                            {data?.map((country, index) =>{
+                                return(
+                                    
+                                  <option key={index} value={country.code}>
+                                    {country.name}
+                                    </option>
+                                    
+                                    
+                                )
+                            })}
+                            
                         </select>
                     </div>
                     <div>
                         <label> Language </label>
                         <select>
                             <option value="Japan" >English</option>
-                            <option value="Japan" >Japan</option>
-                            <option value="Japan" >spanish</option>
+                           
                         </select>
                     </div>
                     <div>
                         <label> Currency </label>
                         <select>
                             <option value="Japan" >USD</option>
-                            <option value="Japan" >EUR</option>
-                            <option value="Japan" >DH</option>
+                           
                         </select>
                     </div>
                     <div className='save-button'>
-                        <button type="button">Save</button>
+                        <button  onClick={DropDown} type="button">Save</button>
                     </div>
                 </Wrapper>
             )}

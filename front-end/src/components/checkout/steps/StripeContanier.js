@@ -28,20 +28,22 @@ export default function StripeContanier() {
       headers: { "Content-Type": "application/json" },
 
       body: JSON.stringify({
-        userId: formData.userId,
+        user_id: formData.userId,
         firstName: formData.firstName,
         lastName: formData.lastName,
         email: formData.email,
         city: formData.city,
         address1: formData.address1,
         address2: formData.address2,
-        zip: formData.zip,
+        zipCode: formData.zip,
         state: formData.state,
         country: formData.country,
         shippingMethod: formData.shippingMethod,
         shippingPrice: formData.shippingPrice,
+        deliveryTime : formData.deliveryTime,
         totalPrice: formData.totalPrice,
-        orderInfo : formData.orderInfo
+        currency:"usd",
+        ordered_products:JSON.stringify(formData.ordered_products)
 
       }),
     })

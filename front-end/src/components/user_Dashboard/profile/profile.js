@@ -40,7 +40,10 @@ function Profile(props){
         oldPassword : "",
         newPassword : "",
         confirmPassword : "",
-        id : ""
+        id : "",
+        showPassword:false,
+        showNewPassword:false,
+        showConfirmPassword:false
     })
   
     const closeNameEdit = ()=>{
@@ -63,7 +66,7 @@ function Profile(props){
     }
 
     useEffect(() => {
-        console.log(user)
+        
         setFormData({
          ...formData,
          firstName: user?.firstName,
@@ -86,7 +89,6 @@ function Profile(props){
      const updateUserInfo = (values) => {  
          
         setLoading(true)
-        console.log(values)
         const data = new FormData();
         data.append("email", values.email);
         data.append("firstName", values.firstName);
@@ -293,9 +295,12 @@ function Profile(props){
 
                     </div>
                  <div className="email">
+                     <div className="email-content">
                      <span >{formData?.email}</span>
-                      <EditIcon className="edit-icon" onClick={()=> setEmailEdit(true)}  />
+                     </div>
+                     <EditIcon className="edit-icon" onClick={()=> setEmailEdit(true)}  />
                  </div>
+                 
                 </div>
                 
 
@@ -419,6 +424,35 @@ const Section = styled.div`
        margin-left:5px;
        cursor:pointer;
    }
+   .email{
+       white-space: nowrap;
+       display:flex;
+       align-items:center;
+       
+   }
+   .email-content{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; 
+      max-width:220px; 
+      width:100%;
+      margin-top:0;
+      padding:0 5px;
+      
+   }
+   @media only screen and (max-width: 1048px) {
+
+    &{
+        width:80%;
+    }
+   }
+   @media only screen and (max-width: 600px) {
+    
+    &{
+        width:100%;
+    }
+
+  }
    
    
    

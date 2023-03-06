@@ -2,78 +2,45 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
+import { categoryList } from '../../../common/categoryList';
+import { styled as style} from '@mui/material/styles';
 
-
+const StyledToggleButtonGroup = style(ToggleButtonGroup)(({ theme }) => ({
+  '& .MuiToggleButtonGroup-grouped': {
+    margin: theme.spacing(0.5),
+    border: 0,
+    '&.Mui-disabled': {
+      border: 0,
+    },
+    '&:not(:first-of-type)': {
+      borderRadius: theme.shape.borderRadius,
+    },
+    '&:first-of-type': {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));
 
 
 
 const FilterCategoryToggle = (props) => {
-  const dispatch = useDispatch()
-  const categoryList = [
-
-    {
-      id: 0,
-      value: 'all',
-      label: 'All',
-    },
-    {
-      id: 1,
-      value: 'clothing',
-      label: 'Clothing',
-    },
-    {
-      id: 2,
-      value: 'accessoires',
-      label: "Accessoires",
-    },
-    {
-        id: 3,
-        value: 'stickers',
-        label: "Stickers",
-      },
-      {
-        id: 4,
-        value:'bags',
-        label: "Bags",
-      },
-      {
-        id: 5,
-        value: 'toys',
-        label: "Toys",
-      },
-      {
-        id: 6,
-        value: 'posters',
-        label: "Posters",
-      },
-      {
-        id: 7,
-        value: 'gadget',
-        label: "gadget",
-      },
-      {
-        id: 8,
-        value: 'notebooks',
-        label: "notebooks",
-      },
-  ];
   
   return (
     <Container>
-      <ToggleButtonGroup
+      <StyledToggleButtonGroup
         value={props.selectedCategory}
         exclusive
-        onChange={ (e) => props.handleSelectCategory(e.target.value)}
+        onChange={(e) => props.handleSelectCategory(e.target.value)}
         className="toggle"
-
+        variant="outlined"
       >
-        {categoryList.map(({ label, id, value }) => (
-          <ToggleButton key={id} value={value} variant="outlined">
+        {categoryList?.map(({ label, id, value }) => (
+          <ToggleButton key={id} value={value} variant="outlined" style={{border:"1px solid lightgray"}} className="toggle-button">
             
             {label}
           </ToggleButton>
         ))}
-      </ToggleButtonGroup>
+      </StyledToggleButtonGroup>
     </Container>
   );
 };
@@ -81,10 +48,14 @@ const FilterCategoryToggle = (props) => {
 export default FilterCategoryToggle;
 const Container =  styled.div`
     .toggle{
+
       display:grid;
       grid-template-columns: auto auto;
       gap: 10px;
 
+    }
+    .toggle-button{
+       
     }
 
 `

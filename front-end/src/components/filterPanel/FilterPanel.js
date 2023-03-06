@@ -10,11 +10,6 @@ import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 function FilterPanel(props){
   const list = useSelector((state) => state.filteredProduct.filteredData);
 
-  useEffect(() => {
-  
-     // 👇️ scroll to top on page load
-     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-  }, [list]);
 
       const ratingList = [
         {
@@ -64,7 +59,7 @@ function FilterPanel(props){
               
 
                <div>
-                <DisabledByDefaultIcon onClick={hideMenu} className="icon" />
+                
                 <div className='category-input-group'>
                     <p className='label'>Category</p>
                     <FilterCategoryToggle
@@ -73,6 +68,7 @@ function FilterPanel(props){
                     />
 
                 </div>
+                {/** 
                 <div className='input-group'>
                     <p className='label'>Product type</p>
                     <div className='checkbox-list'>
@@ -83,6 +79,7 @@ function FilterPanel(props){
 
                     </div>
                 </div>
+                */}
                 <div className='input-group'>
                     <p className='label-range'>Price Range</p>
                     <SliderProton
@@ -113,6 +110,7 @@ const Container = styled.div`
       top:10%;
       bottom:0;
       height: calc(100vh - 80px);
+      max-width:320px;
       overflow-y:scroll;
       background:#fff;
       padding:10px 20px; 
@@ -143,12 +141,38 @@ const Container = styled.div`
         grid-template-columns: auto auto;
         gap: 10px;
     }
+
+    @media only screen and (max-width: 780px) {
+      &{
+         height:auto;
+         max-width: 780px;
+         width:100%;
+      }
+
+      
+     ::-webkit-scrollbar {
+         width: 0;
+       }
+       
+     
+       ::-webkit-scrollbar-track {
+         box-shadow: none; 
+         border-radius: none;
+       }
+        
+    
+       ::-webkit-scrollbar-thumb {
+         background: none; 
+         border-radius: none;
+       }
+    }
     @media only screen and (min-width: 1022px) {
       .icon{
       display:none;
     }
-    
+     
   }
+
  
     
 

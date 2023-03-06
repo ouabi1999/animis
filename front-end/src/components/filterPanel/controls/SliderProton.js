@@ -14,6 +14,8 @@ const SliderProton = (props) => {
         value={props.value}
         onChange={(e)=> props.handleChangePrice(e.target.value)}
         valueLabelDisplay='on'
+        step={10}
+        marks
         min={5}
         max={200}
       />

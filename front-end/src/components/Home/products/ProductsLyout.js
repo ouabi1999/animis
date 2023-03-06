@@ -2,45 +2,92 @@ import React,{useState,  useEffect, useRef} from 'react'
 import styled from 'styled-components'
 import HomeProducts from './HomeProducts'
 import {useSelector, useDispatch} from "react-redux"
+import { setProducts } from '../../../features/products/productsSlice'
+import axios from 'axios'
+import { CircularProgress } from '@mui/material'
 
 function ProductsLyout() {
+    const dispatch = useDispatch()
+    //const products = useSelector((state) => state.products?.products)
+   
+    
+    const [nextStart, setNextStart] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [totalProducts, setTotalProducts] = useState(0)
+    const [homeProducts, setHomeProducts] = useState([]);
 
-    const products = useSelector((state) => state.products?.products)
-    const [viewMoreProduct, setViewMoreProduct] = useState(10);
     const scrolTo = useRef()
      // show more products
-    const viewMore = () => {
-      setViewMoreProduct(
-        viewMoreProduct + 10
-      )
-      
+   
+    
+    
+
+  const  viewMore =() => {
+        setNextStart(prevStart => prevStart + 10);
+        
     }
+
+
+
+
+
+    useEffect(() => {
+        setIsLoading(true)
+        axios.get('/api/get_home_products', { params: {start:nextStart, per_page : 10} })
+          .then(response => {
+            setIsLoading(false)
+            dispatch(setProducts(response.data.products))
+            setHomeProducts([...homeProducts, ...response.data.products]);
+            setTotalProducts(response.data.total_products)
+          })
+          .catch(error => {
+            setIsLoading(false)
+            console.error(error);
+          });
+        
+        
+      }, [nextStart]);
+
     useEffect(() => {
        
         scrolTo.current?.scrollTo({behavior: "smooth", block: "center", inline: "nearest"});
-      }, [viewMoreProduct])
+      }, [nextStart])
    
-    let products_Slice = products?.slice(0, viewMoreProduct)
+   
     
    
     return (
         <Container>
             <div className="product-header">   
-                <h2>More to love</h2>
+                <strong>More to love</strong>
             </div>
         
         
-                
-            <HomeProducts  products = {products_Slice} scrolTo = {scrolTo}  />
+           
+            <HomeProducts isLoading= {isLoading} products = {homeProducts} scrolTo = {scrolTo}  />
            
           
             
+            {isLoading && (
+
+                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", margin:"10px" }}>
+                    <CircularProgress
+                        size={25}
+                        thickness={4}
+                    />
+                </div>
+            )
+            }  
+            {!isLoading && (
             <div className="veiw-more"  >
                 <button   onClick={ viewMore} 
                  className=""
-                style= { viewMoreProduct  >= products.length? {opacity:"0.5" , cursor:"not-allowed"} : {} }
-                disabled = { viewMoreProduct  >= products.length? true : false }  > View more</button>
+                    style= { nextStart >= totalProducts ? {opacity:"0.5" , cursor:"not-allowed"} : {} }
+                 disabled = { nextStart  >= totalProducts ? true : false }> view more</button>
             </div> 
+            )}
+
+ 
         </Container>
     )
 }
@@ -49,6 +96,7 @@ export default ProductsLyout
 const Container = styled.div`
     width:97%;
     margin:auto;
+    min-height:80vh;
 .product-header{
     display: flex;
     justify-content: center;
@@ -56,20 +104,22 @@ const Container = styled.div`
     border-top: 1px solid rgb(194, 193, 193);
     margin:15px 5px;
     margin-top:25px;
-    background-color:white;
-    
-    
-}
-.product-header h2{
-    padding:-8px;
+    background-color:white;  
+    }
+
+.product-header strong{
+    padding:15px;
     letter-spacing: 2px;
+    font-size:1rem;
+    font-weight:490;
+    font-family:'Arial Narrow', Arial, sans-serif
 } 
 
 
 
 .veiw-more > button{
     outline-style: none;
-    width:120px;
+    width:115px;
     height: 40px;
     outline-style: none;
     display:flex;

@@ -114,6 +114,7 @@ const  PopUpEdit = styled.div`
      bottom:25%;
      max-width:500px;
      right:25%;
+     left:25%;
 
 
      .edit-title{
@@ -140,5 +141,11 @@ const  PopUpEdit = styled.div`
      }
      .input{
          margin-top:8px;
+     }
+     @media only screen and (max-width:480px) {
+            &{  
+               width:100%;
+               left:0;   
+            }
      }
 `

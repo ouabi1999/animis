@@ -5,85 +5,89 @@ import Fade from "react-reveal/Fade";
 import StarIcon from "@mui/icons-material/Star";
 import Spinner from "../Spinner/Spinner";
 import {Link } from "react-router-dom"
-import { handleSelectCategory } from "../../features/categories/categorySlice";
+import { setCategory } from "../../features/categories/categorySlice";
 import NotFound from "./NotFound";
 import MenuIcon from '@mui/icons-material/Menu';
 
 function FilteredItems(props) {
   const filteredData = useSelector((state) => state.filteredProduct.filteredData);
-  const [loaded, setLoaded] = useState(false)
- const selectCategory = window.localStorage.getItem('selectedCategory')
- const dispatch = useDispatch()
- 
-  useEffect(() => {
-    dispatch(handleSelectCategory(selectCategory))
-    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
 
-    setTimeout(() => {
-       setLoaded(true)
-    },1000)
-    return () => clearTimeout()
-    
-  
-}, [])
  
-  const {showingMenu, showMenu} = props;
+ 
+ 
+  
   return (
 
     <Product_contianer>
       
-       {!showMenu &&(
-
-       <button className="menu_container" onClick={showingMenu}>
-              <MenuIcon className="mainMenu" />
-        </button>
-       )}
       
 
-      {filteredData.length >= 1 && (
+      {filteredData.length >= 1 ? (
 
         <Fade bottom cascade>
 
           <div className="grid-container">
             {props.filteredData.map((item) => {
               return (
-                <div key={item.id} className="product_container">
-                  <Link to={"/product_details/" + item.id}>
-                    <img src={item.colors[0]} alt="img" />
-                  </Link>
-                  <Product_info>
-                    <FirstSection>
-                      <p className="producttitle">{item.title}</p>
-                    </FirstSection>
-
-                    <SeccondSection>
-                      <div className="orders">
-                        <span>1800 sold</span>
-                      </div>
+                <div  key={item.id} className="product_container"   >
+                <Link   to={"/product_details/" + item.id}>
+                  <img src={item.colors[0]} alt="img"/>
+                </Link>
+              <Product_info>
+            
+                <FirstSection>
+                  <p className="producttitle">{item.title}</p>
+                </FirstSection>
+                
+                <SeccondSection>
+                 
+                  <div className="orders">
+                    <span> {item.orders > 1 ?  `${item.orders} orders` : `${item.orders} order`}</span>
+                  </div>
+                   {item.ratings.length > 0 && (
                       <div className="reviews-container">
-                        <StarIcon className="star-icon" />
-                        <span className="reviews">{item.reviews}</span>
-                      </div>
-                    </SeccondSection>
+                   
+                           <span className="reviews">
+                           {(item.ratings.reduce((total, value) => total += value.stars, 0) / item.ratings.length).toFixed(1)}
+                            </span>
+                           <StarIcon className='star-icon' />
+                      </div> 
 
-                    <ThirthSection>
-                      <span className="productprice">${item.price}</span>
-                      <span className="productdiscount">
-                        {item.discount} %{" "}
-                      </span>
-                    </ThirthSection>
-                  </Product_info>
-                </div>
+                   )}
+                   
+                </SeccondSection>
+
+                <ThirthSection>
+                  <span className="productprice"> US ${item.price}</span>
+                  <span className={ item.discount > item.price && item.discount && "productdiscount"}>{item.discount > item.price ? `- ${((  item.discount - item.price  )  / item.discount * 100).toFixed(0)}% `  : ""}
+                  </span>
+
+                  
+                </ThirthSection>
+                {item.shippingInfo?.map((ship, index)=>{
+                  if(ship.type === "Free"){
+                    return(
+                    <span  key={index} className="shipping"> Free Shipping </span>
+                    )
+                  }
+                 
+                }
+                    
+                )}
+                
+
+              </Product_info>
+            </div>
               );
             })}
           </div>
         </Fade>
 
-      )}
+      ): 
       
-      {filteredData.length < 1 && loaded === true  && (
+    
           <NotFound/>
-        )}
+        }
     
 
     </Product_contianer>
@@ -92,13 +96,15 @@ function FilteredItems(props) {
 
 export default FilteredItems;
 const Product_contianer = styled.div`
-   min-width:320px;
-   height:100%;
+   min-width:300px;
+   overflow:hidden;
+   
+   font-family:'Arial Narrow', Arial, sans-serif;
   .grid-container{
       padding:10px;
       display: grid;
       grid-template-columns: repeat(4,auto);
-      gap:15px;
+      gap:20px;
       place-content: center;
       
 
@@ -120,27 +126,30 @@ const Product_contianer = styled.div`
    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
 }
-  .menu_container{
-    display:none;
-  }
-  @media only screen and (max-width: 1024px) {
-    .menu_container{
-    display:flex;
-  }
-  
-}
-
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1280px) {
   .grid-container{
      
-    grid-template-columns: repeat(4,auto);
+    grid-template-columns: repeat(3,30%);
+  }
+}
+@media only screen and (max-width: 1018px) {
+  .grid-container{
+     
+    grid-template-columns: repeat(2,auto);
+  }
+}
+@media only screen and (max-width: 780px) {
+  .grid-container{
+     
+    grid-template-columns: repeat(3,auto);
+    
   }
 }
 
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 480px) {
   .grid-container{
-     
-    grid-template-columns: repeat(3, 25%);
+    grid-gap:10px;
+   
   }
   p{
       
@@ -154,96 +163,168 @@ const Product_contianer = styled.div`
   .grid-container{
       grid-template-columns: repeat(2,auto); 
   }
-  .shipping{
-    
-    top:295px;
-  }
+ 
+  
 }
 
-  @media only screen and (max-width:420px) {
+  @media only screen and (max-width: 490px) {
   .grid-container{
      
     grid-template-columns: repeat(2, 50%);
-    place-items:center;
-    padding:5px;
-    grid-gap:5px;
-  
-  .product_container {
-    padding: 0 0 5px;
-    background-color: rgb(250, 250, 250);
-    border-radius: 6px;
-    border: none;
-    width:100%;
-    min-width: 165px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  }
+   
+    
+    
  
+    img{
+        border-image: round;
+        height:auto;
+        background-color:rgb(255, 255, 255);
+        border-radius: 6px 6px 0 0;
+        object-fit:contain;
+      } 
 
-      img{
-        height:180px;
+      .product_container{
+           padding: 0 0  5px;
+           background-color:rgb(250, 250, 250);
+           border-radius:8px;
+           border:none;
+           width:100%;
+           height:auto;
+           box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+           rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
       }
       p{
+      
         width:100%;
         font-size:11px;
-      }
      
-    .shipping{
-      font-size:10px;
-      right:5px;
+    } 
     
-      top:215px;
-    }
   }
+  }
+
+  @media only screen and (max-width: 360px) {
+   
   }
   
-`;
+    
+    
+    
+   
+    
+  
+  
+`
+
 const Product_info = styled.div`
-  display: flex;
-  align-content: center;
-  flex-direction: column;
-  padding-left: 10px;
-`;
+
+    display:flex;
+    align-content:center;
+    flex-direction:column;
+   
+   
+    .shipping{
+        font-size:11px;
+        margin-left:4px;
+        margin-top:10px;
+        color:#006622;
+        font-family:'Arial Narrow', Arial, sans-serif;
+  }
+
+`
 const FirstSection = styled.div`
-  p {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 13px;
-    max-width: 200px;
-    margin-top: 0;
-  }
-`;
+
+
+    p{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; 
+      font-size:12px;
+      max-width:220px;
+      width:100%;
+      margin-top:0;
+      padding:0 5px;
+    }  
+
+`
 const SeccondSection = styled.div`
-  display: flex;
-  align-items: center;
-  .orders {
-    font-size: 13px;
-  }
-  .reviews-container {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    right: 10px;
-  }
-  .reviews {
-    font-size: 12px;
-  }
-  .star-icon {
-    color: gold;
-    font-size: 18px;
-    float: right;
-  }
-`;
+  display:flex;
+  align-items:center;
+  .orders{
+    
+    font-size:13px;
+    padding:0 5px;
+    
+
+}
+
+.reviews-container{
+  
+  position:absolute;
+  right:10px;
+  display:flex;
+  align-items:center;
+  
+  
+}
+.reviews{
+  font-size:12px;
+  
+   
+}
+.star-icon{
+  color:#1f1f2e;
+  font-size:16px;
+  float:right;
+  margin-left:2px;
+  margin-bottom:3px;
+
+  
+  
+
+}
+`
 const ThirthSection = styled.div`
-  margin-top: 6px;
-  .productprice {
-    color: blue;
+    margin-top:10px;
+    width:100%;
+    display:flex;
+
+    .productprice{
+      color:#000000;
+      margin-left:2px;
+      font-family:'Trebuchet MS', sans-serif;
+      font-size:20px;
+      font-weight:bold;
+      margin-right:30px;
+      white-space: nowrap; 
+    }
+   
+    .productdiscount{
+      font-size:11px;
+      font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+      color:#ffff;
+      padding:4px 8px;
+      background:rgb(255, 0, 0, 0.5);
+      border-radius: 0px 8px 0 8px;
+    
+      
+    }
+
+    
+  @media only screen and (max-width: 400px) {
+      .productprice{
+        
+        margin-right:20px;
+        font-size:15px;
+      }
+      .productdiscount{
+          font-size:12px;
+          padding:3px 4px;
+          border-radius:0;
+      }
   }
-  .productdiscount {
-    font-size: 13px;
-    text-decoration: line-through;
-    color: green;
-    margin-left: 20px;
-  }
-`;
+
+ 
+`
+
+

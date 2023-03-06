@@ -1,7 +1,7 @@
 import React, {  useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, TextField, Button, IconButton, InputAdornment } from '@mui/material';
-import { Link, useNavigate}  from 'react-router-dom'
+import { Link, useLocation, useNavigate}  from 'react-router-dom'
 import styled from 'styled-components';
 import { login } from "../features/auth/authSlice";
 import Visibility from '@mui/icons-material/Visibility';
@@ -14,6 +14,9 @@ import { useLayoutEffect } from 'react';
 
 
 function LoginForm() {
+  
+  const { state } = useLocation();
+  
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const user = useSelector(state => state.auth.auth)
@@ -72,7 +75,11 @@ function LoginForm() {
 
           dispatch(login(result))
           setIsLoading(false);
-          window.location.href="/"
+         
+          
+          navigate(-1);
+
+          
         }
 
 
@@ -122,7 +129,7 @@ function LoginForm() {
     <Form onSubmit = {formik.handleSubmit}>
      
         
-      <img src = "./logo.png" className="logo" />
+      
       <strong> Login </strong>
 
       {user == null && (
@@ -163,7 +170,7 @@ function LoginForm() {
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
                   >
-                    {formData.showNewPassword ? <VisibilityOff /> : <Visibility />}
+                    {formData.showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
 
                 </InputAdornment>

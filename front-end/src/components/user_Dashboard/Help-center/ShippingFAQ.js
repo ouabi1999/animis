@@ -107,9 +107,9 @@ function ShippingFAQ() {
         <h2>Shipping</h2>
 
         <div >
-          {data.map(item => {
+          {data.map((item , index) => {
             return (
-              <div className="content">
+              <div className="content" key={index}>
                 <button 
                         className='button-container' 
                         onClick={() => showAnswer(item.id) }

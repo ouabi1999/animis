@@ -1,7 +1,10 @@
-import React from 'react'
+import React,{ useLayoutEffect} from 'react'
 import styled from "styled-components"
 
 function RefundPolicy() {
+  useLayoutEffect(() => {
+    window.scrollTo({top: 0, left: 0,});
+  }, [])
   return (
     <Container>
         <div>

@@ -1,4 +1,4 @@
-import React, {useContext, useState, Fragment}  from 'react'
+import React, {useContext, useState, Fragment, useEffect}  from 'react'
 import styled from "styled-components"
 import InfoIcon from '@mui/icons-material/Info';
 import { FormContext } from '../CheckoutContainer';
@@ -11,64 +11,111 @@ function Shipping() {
     const { formData, setFormData} = useContext(OrderContext);
     const [shippingMethod, setShippingMethod] = useState("")
     const [shippingPrice, setShippingPrice] = useState(0)
-    const [shippingDelivery, setShippingDelivery] = useState(0)
+    const [delivery, setDelivery] = useState(0)
+    const [inputRequired, setInputRequired] = useState(false)
+  
     const cartItems =  useSelector((state) => state.cart.cartItems)
 
-    const handleChange = (event) => {
+    const handleChange = (event, value) => {
       setShippingMethod(event.target.name)
       setShippingPrice(event.target.value)
-      setFormData({...formData, shippingMethod, shippingPrice})
+      setDelivery(value)
+      setInputRequired(false)
+      setFormData({...formData, shippingMethod, shippingPrice, deliveryTime:delivery })
     }
-    const nextStep = () =>{
-      const totalPrice = Math.round( (Number(total) + Number(formData.shippingPrice))* 100)
-      setActiveStepIndex(activeStepIndex + 1)
-      console.log(formData)
-      setFormData({...formData, totalPrice})
 
+    const nextStep = () =>{
+      const totalPrice = Math.round( (Number(total) + Number(formData.shippingPrice)) * 100)
+      if(formData.shippingMethod === null ){
+        setInputRequired(true)
+        
+      }else{
+        setActiveStepIndex(activeStepIndex + 1)
+        console.log(formData)
+
+        setFormData({...formData, totalPrice})
+        
+      }
+     
+
+  }
+  useEffect(() => {
+    return () => {
+      setFormData({...formData, shippingMethod:null})
     }
+  }, [])
+  
 
   return (
 
     <ShippingMethods>
 
-    <div className='header'>
-      <h5>Available shipping methods</h5>
-      <InfoIcon className='info-icon' />
-    </div>
-    
-    
-      {cartItems[0].shippingInfo.map(item =>{
-        return(
+      <div className='header'>
+        <h5>Available shipping methods</h5>
+        <InfoIcon className='info-icon' />
+      </div>
 
-          <div className='methods_container'>
-            <div className='shipping-type'>
-              <span>
-                <span style={{
-                          fontSize:"14px",
-                          fontFamily:"-moz-initial",
-                          fontWeight:"900"}}>
-                          {item.type.toUpperCase()}
-                  </span>{" "}{item.delivery}
-              </span>
+      {cartItems[0].shippingInfo.length >= 1 ? (
+
+        cartItems[0].shippingInfo?.map((item, index) => {
+          return (
+            <div className='methods_container' key={index}>
+              <div className='shipping-type'>
+
+                <span className='shipping-method'>
+                  {item.type.toUpperCase()}
+                </span>
+
+                <span className="shipping-time">
+                  {item.from + " - " + item.to + " " + "Days"}
+                </span>
+
+              </div>
+              <div>
+                <span>${item.price}</span>
+                <Radio
+                  style={inputRequired ? { color: "red" } : {}}
+                  name={item.type}
+                  checked={formData.shippingMethod === item.type}
+                  onChange={(e) => handleChange(e, (item.from + " - " + item.to + " " + "Days"))}
+                  value={item.price}
+                  inputProps={{ 'aria-label': 'A' }}
+                />
+              </div>
             </div>
-            <div>
-              <span>${item.price}</span>
-              <Radio
-                name={item.type}
-                checked={formData.shippingMethod === item.type}
-                onChange={handleChange}
-                value={item.price}
-                inputProps={{ 'aria-label': 'A' }}
-              />
-            </div>
+          )
+        })
+      ) :
+        <div className='methods_container' >
+          <div className='shipping-type'>
+
+            <span className='shipping-method'>
+              {"e-packet".toUpperCase()}
+            </span>
+
+            <span className="shipping-time">
+               15 - 30 Days
+            </span>
+
           </div>
-        )
-      })}
-    <Buttons_container>
-            <button className='button' onClick={()=> setActiveStepIndex(activeStepIndex - 1)}>Back</button>
-            <button  className="button" onClick={nextStep} type="submit">Next</button>
-    </Buttons_container>
-  </ShippingMethods>
+          <div>
+            <span>$0.00 </span>
+            <Radio
+              style={inputRequired ? { color: "red" } : {}}
+              name= "e-packet"
+              checked={formData.shippingMethod === "e-packet"}
+              onChange={(e) => handleChange(e, ("15 - 30 Days"))}
+              value={0.00}
+              inputProps={{ 'aria-label': 'A' }}
+            />
+          </div>
+        </div>
+      }
+      <Buttons_container>
+        <button className='button' onClick={() => setActiveStepIndex(activeStepIndex - 1)}>Back</button>
+        <button className="button" onClick={nextStep} type="submit">Next</button>
+      </Buttons_container>
+    </ShippingMethods>
   )
 }
 
@@ -83,12 +130,27 @@ const ShippingMethods = styled.div`
     0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
 
     padding: 5px 10px;
-    border-radius:6px;
     .header{
       display:flex;
       align-items:center;
+      .info-icon{
+        color:gray;
+      }
     }
-    
+    .shipping-type{
+      display:flex;
+      gap:10px;
+    }
+    .shipping-time{
+         font-size:0.8rem;
+         color:gray;
+    }
+    .shipping-method{
+        font-size:1rem;
+        width:180px;
+        font-family:monospace;
+        font-weight:900
+    }
   .methods_container{
        position:relative;
        display:flex;
@@ -108,41 +170,17 @@ const ShippingMethods = styled.div`
     left:-5px;
     
   }
-
-  .shipping-type:nth-child(1){
-       font-size:12px;
-  }
-    .info-icon{
-      color:gray;
+  @media only screen and (max-width: 500px){
+      &{
+        width:100%;
+      }
+    .shipping-method{
+          display:none;
+     } 
     }
-    input{
-      
-    }
-    strong{
-      
-      font-weight:bold;
-      font-family:arial;
-     
-
-    }
-    table{
-      border-collapse: collapse;
-      width:100%;
-      
-      
-    }
-    td {
-    border:1px solid lightgray;
-     text-align: left;
-     padding:15px 5px;
-     
-   }
-   td:nth-child(2){
-    border-left:none;
-   }
    `
-   
-const Buttons_container =  styled.div`
+
+const Buttons_container = styled.div`
   display:flex;
   justify-content:space-evenly;
   button{

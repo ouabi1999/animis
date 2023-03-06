@@ -3,16 +3,15 @@ export const products_Slice = createSlice({
    name:"products",
    initialState:{
        products:[],
-       isProducts: null,
+       isProductsLoaded: null,
        
    },
    reducers:{
        setProducts(state, action){
-           state.products = action.payload
-           state.isProducts = true
-       }
-   }
-
+           state.products = [...state.products, ...action.payload]
+           state.isProductsLoaded = true
+        }
+    }
 })
 export const {setProducts } = products_Slice.actions
 export default products_Slice.reducer
