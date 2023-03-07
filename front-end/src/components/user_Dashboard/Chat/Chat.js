@@ -135,7 +135,7 @@ function Chat(
           <img src="../avatars/boy.jpg" alt="profile" />
         </div>
         <div className="user-info">
-          <span>{ReceiverUser.firstName + " " + ReceiverUser.lastName}</span>
+          <span> CHAT</span>
         </div>
         <div className='close-container'>
            <CloseIcon onClick={closeChat} className="close-icon" />

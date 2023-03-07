@@ -128,9 +128,9 @@ function LoginForm() {
     {auth === "false" &&(
     <Form onSubmit = {formik.handleSubmit}>
      
-        
+     <img className="logo" src='../logo_icon.png'  alt=""/> 
       
-      <strong> Login </strong>
+      <strong> LOGIN</strong>
 
       {user == null && (
      <Grid container spacing={2}>
@@ -238,6 +238,7 @@ const Form = styled.form`
     margin-top:8%;
     width:30%;
     min-width:300px;
+    min-height:400px;
     border-radius:8px;
     border-style:none;
     box-shadow:0 5px 8px 6px rgba(27, 27, 27, 0.1);
@@ -248,7 +249,7 @@ const Form = styled.form`
     align-items:center;
   
 .logo{
-   width:120px;
+   width:90px;
    margin:20px 0;
 }
 .other-info{
@@ -263,7 +264,7 @@ const Form = styled.form`
   
 }
 strong{
-     margin-bottom:15px;
+    margin-bottom:15px;
     font-family:sans-serif;
     font-size:25px;
   }

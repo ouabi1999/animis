@@ -28,49 +28,17 @@ function EditProfile(props) {
         oldPassword: "********",
         newPassword: "",
         confirmPassword: "",
-        userId: user?.userId
+        userId: user?.userId,
+        showNewPassword : false,
+        showPassword : false,
+        showConfirmPassword : false,
+
     })
 
-    const handleClickShowPassword = (password) => {
-
-        if(password === "old"){
-        setFormData({
-          ...formData,
-          showPassword: !formData.showPassword,
-        });
-     }
-       if(password === "new"){
-      setFormData({
-        ...formData,
-        showNewPassword: !formData.showNewPassword,
-      });
-     }
-      if(password === "confirm"){
-        setFormData({
-            ...formData,
-            showConfirmPassword: !formData.showConfirmPassword,
-          });
-      }
-    }
-
-      const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-      };
+   
     
 
-    useEffect(() => {
-       setFormData({
-        ...formData,
-        fullname: user?.fullname,
-        birthday: user?.birthday,
-        country: "",
-        email: user?.email,
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-        userId: user?.userId
-       })
-    }, [props])
+    
     
    
      
@@ -82,32 +50,7 @@ function EditProfile(props) {
  
     
 
-    const updateUserInfo = () => {
-
-        fetch("/create-payment", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-
-            body: JSON.stringify({
-                userId: formData.userId,
-                fullName: formData.fullname,
-                email: formData.email,
-                country: formData.country,
-                newPassword: formData.newPassword,
-                oldPassword: formData.oldPassword
-
-            })
-                .then((res) => res.json())
-                .then((data) => {
-
-                    dispatch(getUser(data));
-
-
-                },
-                )
-        })
-
-    }
+    
 
 
     const {
@@ -155,8 +98,6 @@ function EditProfile(props) {
             <EditPassword
                 passwordEdit={passwordEdit}
                 closePasswordEdit={closePasswordEdit}
-                handleClickShowPassword = {handleClickShowPassword}
-                handleMouseDownPassword = {handleMouseDownPassword}
             />
         </Container>
         </UserContext.Provider>

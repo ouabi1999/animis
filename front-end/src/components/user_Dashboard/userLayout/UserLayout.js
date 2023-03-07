@@ -60,6 +60,7 @@ export default UserLayout
 
 const Container = styled.div`
   display:flex;
+  position:relative;
   @media only screen and (max-width: 820px) {
     /* For mobile phones: */
       

@@ -56,7 +56,7 @@ def get_home_products():
         })
 
 @products_route.route('/api/products_get-off-discount', methods=["GET"])
-def get_products():
+def get_products_discount():
     currentPage = request.args.get('currentPage', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
     products = Products.query.paginate(page=currentPage, per_page=per_page)
@@ -135,7 +135,7 @@ def get_product(id):
 
 #delete specific product
 @products_route.route('/delete/<id>',methods=['DELETE'])
-def delet_product(id):
+def delete_product(id):
     product = Products.query.filter_by(id = id).first()
     db.session.delete(product)
     db.session.commit()
@@ -175,4 +175,4 @@ def edit_product(id):
 @products_route.route('/api/get_recent_products',methods=['GET'])   
 def get_newLsitedProducts():
     recent_products = Products.query.filter(Products.created_at >= datetime.utcnow() - timedelta(days=7)).limit(12).all()
-    return jsonify(*map(productInfo_serializer, recent_products))
+    return jsonify([*map(productInfo_serializer, recent_products)])

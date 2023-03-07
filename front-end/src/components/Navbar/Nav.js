@@ -90,8 +90,8 @@ function Nav(props) {
             <button className="menu_container" onClick={show_Menu}>
               <MenuIcon className="mainMenu" />
             </button>
-             <div style={{ display : !showMenu ? "none": ""}}>
-                  <MainMenu  hideMenu = {hideMenu} />
+             <div  style={{ display : !showMenu ? "none": ""}}>
+                  <MainMenu  hideMenu = {hideMenu} showMenue = {showMenu} />
              </div>
           </Right_section>
           

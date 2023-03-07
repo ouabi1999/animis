@@ -11,6 +11,32 @@ import { UserContext } from '../profile';
 import * as Yup from "yup"
 function EditPassword(props) {
     const { formData, setFormData, updateUserPassword, loading} = useContext(UserContext)
+
+    const handleClickShowPassword = (value) => {
+
+        if(value === "old"){
+        setFormData({
+          ...formData,
+          showPassword: !formData.showPassword,
+        });
+     }
+       if(value === "new"){
+      setFormData({
+        ...formData,
+        showNewPassword: !formData.showNewPassword,
+      });
+     }
+      if(value === "confirm"){
+        setFormData({
+            ...formData,
+            showConfirmPassword: !formData.showConfirmPassword,
+          });
+      }
+    }
+
+      const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+      };
     const editSechema = Yup.object({
         
         oldPassword:Yup.string().required("Please Enter your old password"),
@@ -36,19 +62,7 @@ function EditPassword(props) {
 
         },
     });
-    const {
-        nameEdit,
-        emailEdit,
-        passwordEdit,
-        countryEdit,
-        genderEdit,
-        closeNameEdit,
-        closeEmailEdit,
-        closePasswordEdit,
-        closeCountryEdit,
-        closeGenderEdit,
-        closeAgeEdit,
-        ageEdit } = props;
+   
 
     return (
         <Container>
@@ -65,7 +79,7 @@ function EditPassword(props) {
                         <span>
                             Changes made to your profile password here,
                             will be the password that you will use
-                            when  you want login into corazon website
+                            when  you want login into animis website
                         </span>
 
 
@@ -87,10 +101,10 @@ function EditPassword(props) {
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={() => props.handleClickShowPassword("old")}
-                                        onMouseDown={props.handleMouseDownPassword}
+                                        onClick={(e) => handleClickShowPassword("old")}
+                                        onMouseDown={handleMouseDownPassword}
                                     >
-                                        {formData.showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {formData.showPassword === true ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
 
                                 </InputAdornment>,
@@ -113,8 +127,8 @@ function EditPassword(props) {
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={() => props.handleClickShowPassword("new")}
-                                        onMouseDown={props.handleMouseDownPassword}
+                                        onClick={() => handleClickShowPassword("new")}
+                                        onMouseDown={handleMouseDownPassword}
                                     >
                                         {formData.showNewPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
@@ -139,8 +153,8 @@ function EditPassword(props) {
                                 endAdornment: <InputAdornment position="end">
                                     <IconButton
                                         aria-label="toggle password visibility"
-                                        onClick={() => props.handleClickShowPassword("confirm")}
-                                        onMouseDown={props.handleMouseDownPassword}
+                                        onClick={() => handleClickShowPassword("confirm")} 
+                                        onMouseDown={handleMouseDownPassword}
                                     >
                                         {formData.showConfirmPassword ? <VisibilityOff /> : <Visibility />}
                                     </IconButton>
@@ -188,7 +202,7 @@ const  PopUpEdit = styled.div`
      min-width:280px;
      background:#fff;
      position:absolute;
-     bottom:25%;
+     bottom:15%;
      max-width:500px;
      right:25%;
      left:25%;

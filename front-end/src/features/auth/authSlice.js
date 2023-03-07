@@ -34,7 +34,7 @@ export const authSlice = createSlice({
         
       },
 
-      logout(state) {
+      logout(state, action) {
         state.user = null
         window.localStorage.setItem('isAuthenticated', false)
       },

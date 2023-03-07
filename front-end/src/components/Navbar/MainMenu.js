@@ -26,12 +26,14 @@ function MainMenu(props) {
   
  
   return (
+    <Container>
+      <div>
     <OutsideClickHandler
       onOutsideClick={() => {
         props.hideMenu()
       }}
     >
-      <Container>
+     
         <div className='first-section'>
           <DisabledByDefaultIcon onClick={props.hideMenu} />
           <User_container>
@@ -85,8 +87,10 @@ function MainMenu(props) {
         <a  rel="noreferrer"   target="_blank" href="https://www.instagram.com/an.imis"><InstagramIcon className='social-icon' /></a> 
         <a  rel="noreferrer"   target="_blank" href="https://twitter.com/animisshop"><TwitterIcon className='social-icon' /></a> 
         </SocialMedia>
-      </Container>
+      
     </OutsideClickHandler>
+    </div>
+    </Container>
    
   )
 }
@@ -96,7 +100,7 @@ export default MainMenu
 const Container = styled.div`
     
     position:fixed;
-    z-index:2;
+    z-index:40;
     top:0;
     right:0;
     padding:2px 5px;

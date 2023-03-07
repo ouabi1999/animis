@@ -52,8 +52,6 @@ export const getDisplayInfo = createAsyncThunk("displayInfo/getDisplayInfo", () 
             if(payload !== null){
                 state.display = payload;
             }
-        
-         console.log(state.display)
          state.isLoaded = false;
          
      

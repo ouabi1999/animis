@@ -121,7 +121,7 @@ function AdminUsers({
                         <img src="../avatars/boy.jpg" alt="s" />
                     </div>
                     <div className="message-content">
-                        <span className="user-name">{receiver?.firstName}</span>
+                        <span className="user-name">Chat</span>
 
                         <span className={lastMessage?.is_Read === false && lastMessage?.sender !== sender.id ? "new-message" : "last-message"}>
                             {lastMessage?.message}

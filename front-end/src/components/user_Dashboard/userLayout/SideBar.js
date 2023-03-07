@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit';
 function SideBar() { 
   return (
     <Side_Bar>
-    <div className='container'>
+
      
       <Link to="/profile">
         <FeedIcon className="sidebar_icons" />
@@ -52,7 +52,8 @@ function SideBar() {
             Help Center
           </span>
         </Link>
-      </div>
+        
+
   </Side_Bar>
   )
 }
@@ -62,32 +63,29 @@ export default SideBar
 const Side_Bar = styled.div`
     background-color:#fff;
     width:100%;
-    min-height:calc(100vh - 80px);
+    height:calc(100vh - 60px);
     flex:0.5;
     min-width:250px;
     padding-left:10px;
+    position:sticky;
+    top:10%;
+    bottom:10%;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     
-    .container{
-       
-       position:sticky;
-       top:10%;
-       bottom:10%;
-       left:5%;
-      
-    }
+    
+   
     span{
       font-size:15px;
     }
    
 
 
-    .container a{
-          display:flex;
-          align-items:center;
-          color:black;
-          
-          padding: 10px;
-       }
+     a{
+        display:flex;
+        align-items:center;
+        color:black;
+        padding: 10px;
+      }
     
     .sidebar_icons{
       color:gray;
@@ -102,31 +100,22 @@ const Side_Bar = styled.div`
   @media only screen and (max-width: 820px) {
     /* For mobile phones: */
       
-      
-    .container{
+      &{
+        position:sticky;
+        top:10%;
+        bottom:10%;
+        left:5%;
+        min-height:70px;
         display:flex;
         width:100%;
         justify-content:space-between;
-        background:#fff;
-       
-        height:70px;
-        
+        z-index: 1;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
       }
+   
     
 
-      &{
-        z-index:2;
-        position:sticky;
-        
-        top:0%;
-        bottom:0%;
-        left:0;
-        min-height:0;
-        border-bottom:1px solid lightgray;
-        padding-left:0px;
-        margin-right:10px;
-        margin-left:0;
-      }
+     
 
      
    

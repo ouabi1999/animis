@@ -152,8 +152,8 @@ function Signup() {
        
         <Form onSubmit = {formik.handleSubmit}>
 
-            <AccountCircleIcon className="sign-in-icon" />
-            <h3>SIGN UP</h3>
+            <img className="logo" src='../logo_icon.png'  alt=""/> 
+            <strong>Register</strong>
             <Formwrapper>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -342,7 +342,7 @@ function Signup() {
             
             <Wrapper>
                 <span> By clicking "Sign up", I agree to the </span>
-                <Link to = "/Terms_of_service"> Terms of service</Link>
+                <Link to = "/terms-of-services"> Terms of service</Link>
                 <Link to = "/login"> I have already an account</Link>
             </Wrapper>       
         </Form>
@@ -371,18 +371,17 @@ const Form = styled.form`
     flex-direction:column;
     align-items:center;
 
-    .sign-in-icon{
+    .logo{
         color:lightblue;
-        position:relative;
-        padding:0;
-        margin:0;
-        width:120px;
-        height:120px;
+        margin:20px 0;
+        width:90px;
+        
     }
-    h3{
+    strong{
         margin-bottom:15px;
         margin-top:0;
-        letter-spacing:2px;
+        font-family:sans-serif;
+        font-size:20px;
     }
 
 

@@ -19,7 +19,7 @@ function DropDownMenu(props) {
 
   
 
-  const logout = () =>{
+  const setLogout = () =>{
     fetch("/logout",{
       method:"POST",
       credentials: 'same-origin'
@@ -39,8 +39,7 @@ function DropDownMenu(props) {
           setIsOpen(false)
       }}
       >
-        
-      {auth === "true" ?
+    
       <Contanier>
         <Profile_wrap>
                 <PersonIcon 
@@ -49,7 +48,7 @@ function DropDownMenu(props) {
                 />  
         </Profile_wrap>
 
-          {isOpen && user  !== null && (
+          {isOpen && (
           <DropDown_Container>
             <div className='DropDown_Container'>
              
@@ -61,7 +60,7 @@ function DropDownMenu(props) {
                     </span>
                   </Link>
 
-                <button onClick={logout} className='logout-container'>
+                <button onClick={setLogout} className='logout-container'>
                    <LogoutIcon className="logout-icon"/>
                     <span> Logout </span>
                 </button>
@@ -69,8 +68,7 @@ function DropDownMenu(props) {
           </DropDown_Container>
           )}
       </Contanier>
-      : ""
-     }
+      
       </OutsideClickHandler>
     )
   }

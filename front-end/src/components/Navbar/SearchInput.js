@@ -118,7 +118,7 @@ const SearchContainer = styled.div`
   position:absolute;
  
   left:0%;
-  top:-70%;
+  top:-65%;
   input{
       width:100%; 
       height:40px;
