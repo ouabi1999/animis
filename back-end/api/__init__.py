@@ -28,15 +28,17 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 migrate = Migrate()
 server_session = Session()
 mail = Mail()
-
+   
+app = Flask(__name__,  static_folder='front-end/build', static_url_path='')
+@app.route("/")
+def serve():
+    return send_from_directory(app.static_folder, "index.html")
 def create_app():
-    app = Flask(__name__)
     bcrypt.init_app(app)
     socketio.init_app(app, cors_allowed_origins = "*")
     cors.init_app(app, supports_credentials=True)
     migrate.init_app(app, db)
     app.secret_key = os.environ.get('SECRET_KEY')
-   
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -77,8 +79,6 @@ def create_app():
     from  .messageCenter.newsLetter import newsletter_route
     from  .messageCenter.room import get_room_route
     
-    #main route
-    from app import main_route
     #register views  routes
     from .views.products import products_route
     from .views.shoppingCart import shopping_cart_route
@@ -113,10 +113,6 @@ def create_app():
     app.register_blueprint(payment_route)
     app.register_blueprint(resetPassword_route)
     
-    ## server main route
-    app.register_blueprint(main_route)
-
-   
     #db.create_all(app)
     #db.create_all(app = app)
     from .models import models
