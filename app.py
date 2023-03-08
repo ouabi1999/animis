@@ -1,4 +1,4 @@
-from .api import create_app, socketio
+from .app import  create_app, socketio
 from flask import send_from_directory
 app = create_app()
 
