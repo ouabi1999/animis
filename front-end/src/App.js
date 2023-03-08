@@ -2,8 +2,6 @@ import React, {createContext} from 'react'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import {useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-
-
 import Contact from "./screens/contact"
 import About from "./screens/about"
 import Card from "./screens/shoppingCart/Card"

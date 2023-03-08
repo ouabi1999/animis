@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, send_from_directory
+from flask import Flask, Blueprint
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
@@ -10,9 +10,7 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
-from dotenv import load_dotenv
 
-load_dotenv()
 ############################################
 ############################################
 
@@ -29,16 +27,16 @@ migrate = Migrate()
 server_session = Session()
 mail = Mail()
    
-app = Flask(__name__,  static_folder='front-end/build', static_url_path='')
-@app.route("/")
-def serve():
-    return send_from_directory(app.static_folder, "index.html")
+
+
 def create_app():
+    app = Flask(__name__,  static_folder='../../front-end/build', static_url_path='')
     bcrypt.init_app(app)
     socketio.init_app(app, cors_allowed_origins = "*")
     cors.init_app(app, supports_credentials=True)
     migrate.init_app(app, db)
     app.secret_key = os.environ.get('SECRET_KEY')
+    app.config.from_prefixed_env()
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
