@@ -2,7 +2,7 @@
   "name": "animis",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:5000",
+  "proxy": "https://animis.herokuapp.com/",
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
     "@emotion/styled": "^11.10.5",
