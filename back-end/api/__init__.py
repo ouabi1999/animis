@@ -27,8 +27,7 @@ migrate = Migrate()
 server_session = Session()
 mail = Mail()
    
-
-
+  
 def create_app():
     app = Flask(__name__,  static_folder='../../front-end/build', static_url_path='')
     bcrypt.init_app(app)
