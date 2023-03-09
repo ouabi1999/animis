@@ -256,6 +256,7 @@ const Form = styled.form`
 .logo-img-container{
   width:90px;
   margin:20px 0;
+  height:80px;
 }
 .other-info{
   margin-top:25px;
