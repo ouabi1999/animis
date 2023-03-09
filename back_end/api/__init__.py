@@ -21,7 +21,6 @@ db = SQLAlchemy()
 bcrypt = Bcrypt()
 cors = CORS()
 socketio = SocketIO()
-PRODUCTS_IMAGES = "./images/products_images"
 basedir = os.path.abspath(os.path.dirname(__file__))
 migrate = Migrate()
 server_session = Session()
@@ -35,7 +34,6 @@ def create_app():
     cors.init_app(app, supports_credentials=True)
     migrate.init_app(app, db)
     app.secret_key = os.environ.get('SECRET_KEY')
-    app.config.from_prefixed_env()
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
@@ -53,8 +51,6 @@ def create_app():
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True  
     mail.init_app(app)
-  
-    app.config['PRODUCTS_IMAGES'] = PRODUCTS_IMAGES   
     server_session.init_app(app)
     db.init_app(app)
 
