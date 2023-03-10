@@ -30,10 +30,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 migrate = Migrate()
 server_session = Session()
 mail = Mail()
-   
+app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/')   
   
 def create_app():
-    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/')
+    
     bcrypt.init_app(app)
     socketio.init_app(app, cors_allowed_origins = "*")
     cors.init_app(app, supports_credentials=True)
