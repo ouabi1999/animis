@@ -32,7 +32,7 @@ def create_app():
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/') 
    
-    app.config.from_object(Config)
+  
     
     db.init_app(app)
     bcrypt.init_app(app)
@@ -41,6 +41,7 @@ def create_app():
     migrate.init_app(app, db)
     mail.init_app(app)
     server_session.init_app(app)
+    app.config.from_object(Config)
 
     
     
