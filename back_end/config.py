@@ -2,7 +2,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
-load_dotenv('.env')
+load_dotenv()
+
 db = SQLAlchemy()
 
 class Config():
