@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint
 from flask_bcrypt import Bcrypt
 from flask_session import Session
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_cors import  cross_origin, CORS
 from flask_migrate import Migrate
 from os import path
@@ -10,6 +10,7 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
+from ..config import  DevConfig, ProdConfig, db
 
 
 ############################################
@@ -18,7 +19,7 @@ from sqlalchemy import text
 ############################################
 ############################################
 
-db = SQLAlchemy()
+
 bcrypt = Bcrypt()
 cors = CORS()
 socketio = SocketIO()
@@ -31,22 +32,8 @@ def create_app():
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/') 
    
+    app.config.from_object(ProdConfig)
     
-    app.secret_key = os.environ.get('SECRET_KEY')
-    app.config['SESSION_PERMANENT'] = True
-    app.config['SESSION_TYPE'] = 'sqlalchemy'
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI')
-    app.config['SESSION_USE_SIGNER'] = False
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SESSION_SQLALCHEMY'] = db
-    app.config['SQLALCHEMY_POOL_SIZE'] = 10
-    app.config['SQLALCHEMY_MAX_OVERFLOW'] = 30
-    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
-    app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
-    app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USE_SSL'] = True  
     db.init_app(app)
     bcrypt.init_app(app)
     socketio.init_app(app, cors_allowed_origins = "*")
