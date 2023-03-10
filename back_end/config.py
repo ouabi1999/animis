@@ -1,10 +1,11 @@
 import os
-from flask_sqlalchemy import SQLAlchemy
+
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
-db = SQLAlchemy()
+
 
 class Config():
     SECRET_KEY = os.environ.get('SECRET_KEY')
@@ -13,7 +14,6 @@ class Config():
     SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI')
     SESSION_USE_SIGNER = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SESSION_SQLALCHEMY = db
     SQLALCHEMY_POOL_SIZE = 10
     SQLALCHEMY_MAX_OVERFLOW = 30
     MAIL_SERVER = 'smtp.gmail.com'
