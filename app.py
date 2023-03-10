@@ -3,9 +3,7 @@ from back_end.api import socketio
 
 from flask import send_from_directory
 import os
-from dotenv import load_dotenv
 
-load_dotenv('.env')
 
 
 
