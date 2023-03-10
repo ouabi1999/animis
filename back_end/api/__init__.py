@@ -11,10 +11,6 @@ import os
 from flask_mail import Mail
 from sqlalchemy import text
 
-from dotenv import load_dotenv
-
-
-load_dotenv()
 
 ############################################
 ############################################
@@ -29,18 +25,13 @@ socketio = SocketIO()
 basedir = os.path.abspath(os.path.dirname(__file__))
 migrate = Migrate()
 server_session = Session()
-mail = Mail()
-app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/')   
+mail = Mail()  
   
 def create_app():
     
-    bcrypt.init_app(app)
-    socketio.init_app(app, cors_allowed_origins = "*")
-    cors.init_app(app, supports_credentials=True)
-    migrate.init_app(app, db)
-    mail.init_app(app)
-    server_session.init_app(app)
-    db.init_app(app)
+    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/') 
+   
+    
     app.secret_key = os.environ.get('SECRET_KEY')
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
@@ -50,14 +41,21 @@ def create_app():
     app.config['SESSION_SQLALCHEMY'] = db
     app.config['SQLALCHEMY_POOL_SIZE'] = 10
     app.config['SQLALCHEMY_MAX_OVERFLOW'] = 30
-    app.config['SQLALCHEMY_ECHO'] = True
-
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
     app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True  
+    db.init_app(app)
+    bcrypt.init_app(app)
+    socketio.init_app(app, cors_allowed_origins = "*")
+    cors.init_app(app, supports_credentials=True)
+    migrate.init_app(app, db)
+    mail.init_app(app)
+    server_session.init_app(app)
+
+    
     
 
     ############################################
