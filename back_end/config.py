@@ -3,14 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 
 load_dotenv('.env')
-
 db = SQLAlchemy()
 
 class Config():
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SESSION_PERMANENT = True
     SESSION_TYPE = 'sqlalchemy'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URI')
     SESSION_USE_SIGNER = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_SQLALCHEMY = db

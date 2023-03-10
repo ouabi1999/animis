@@ -10,7 +10,7 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
-from ..config import Config, DevConfig, ProdConfig, db
+from ..config import  DevConfig, ProdConfig, db
 
 
 ############################################
@@ -32,7 +32,7 @@ def create_app():
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/') 
    
-    app.config.from_object(Config)
+    app.config.from_object(ProdConfig)
     
     db.init_app(app)
     bcrypt.init_app(app)
