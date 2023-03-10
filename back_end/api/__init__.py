@@ -38,6 +38,9 @@ def create_app():
     socketio.init_app(app, cors_allowed_origins = "*")
     cors.init_app(app, supports_credentials=True)
     migrate.init_app(app, db)
+    mail.init_app(app)
+    server_session.init_app(app)
+    db.init_app(app)
     app.secret_key = os.environ.get('SECRET_KEY')
     app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_TYPE'] = 'sqlalchemy'
@@ -55,9 +58,7 @@ def create_app():
     app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True  
-    mail.init_app(app)
-    server_session.init_app(app)
-    db.init_app(app)
+    
 
     ############################################
     ############################################
