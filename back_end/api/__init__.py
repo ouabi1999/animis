@@ -10,7 +10,10 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
+
 from dotenv import load_dotenv
+import eventlet
+eventlet.monkey_patch()
 
 load_dotenv()
 
