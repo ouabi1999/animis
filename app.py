@@ -1,4 +1,5 @@
-from .back_end.api import create_app, socketio
+from .back_end.api import create_app
+from .back_end.api import socketio
 from flask import send_from_directory
 
 
