@@ -10,18 +10,18 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
-from ..config import  Config, DevConfig, ProdConfig
-from flask_sqlalchemy import SQLAlchemy
+from ..config import  Config, DevConfig, ProdConfig, db
 
 
 
-############################################
-############################################
 
 ############################################
 ############################################
 
-db = SQLAlchemy()
+############################################
+############################################
+
+
 bcrypt = Bcrypt()
 cors = CORS()
 socketio = SocketIO()
@@ -44,7 +44,7 @@ def create_app(config_class=Config):
     mail.init_app(app)
     server_session.init_app(app)
     db.init_app(app)
-    
+   
 
     
     
