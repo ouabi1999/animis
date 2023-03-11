@@ -10,17 +10,17 @@ from flask_socketio import SocketIO
 import os
 from flask_mail import Mail
 from sqlalchemy import text
-from ..config import  Config, DevConfig, ProdConfig
-from flask_sqlalchemy import SQLAlchemy
+from ..config import  Config, DevConfig, ProdConfig, db
 
 
-############################################
-############################################
 
 ############################################
 ############################################
 
-db = SQLAlchemy()
+############################################
+############################################
+
+
 bcrypt = Bcrypt()
 cors = CORS()
 socketio = SocketIO()
@@ -29,11 +29,11 @@ migrate = Migrate()
 server_session = Session()
 mail = Mail()  
   
-def create_app():
+def create_app(config_class=Config):
     
-    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/') 
+    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', instance_relative_config=False) 
    
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     
     db.init_app(app)
     bcrypt.init_app(app)
