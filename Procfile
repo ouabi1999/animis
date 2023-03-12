@@ -1,1 +1,1 @@
-web: gunicorn -k gevent app:app --preload
+web: gunicorn -k gevent app:app 
