@@ -1,11 +1,11 @@
 from flask import  Flask, Blueprint, jsonify, request, json
 import math
-from api import db
+from ...api import db
 from sqlalchemy import or_ 
 from sqlalchemy import text
 from sqlalchemy.sql import func
 from werkzeug.utils import secure_filename
-from ..models.models import (
+from models.models import (
    
     Products, 
     GlobalCoupon,

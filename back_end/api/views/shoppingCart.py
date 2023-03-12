@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, json
 
 
-from ..models.models import  Products, productInfo_serializer
+from models.models import  Products, productInfo_serializer
 
 
 shopping_cart_route = Blueprint("shopping_cart_route", __name__ , url_prefix="/")

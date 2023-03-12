@@ -1,6 +1,6 @@
 from flask  import Blueprint, jsonify, request, redirect, json, session
-from api import db
-from ..models.models import  Orders, orders_serializer, product_orders
+from ...api import db
+from models.models import  Orders, orders_serializer, product_orders
 import stripe
 import os
 

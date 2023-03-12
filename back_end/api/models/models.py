@@ -1,5 +1,5 @@
 from email.policy import default
-from api import db
+from ...api import db
 from  datetime import datetime
 from uuid import uuid4
 from flask import json, jsonify, session

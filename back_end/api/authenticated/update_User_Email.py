@@ -1,7 +1,7 @@
 from flask  import Blueprint, jsonify, request, json, session
-from api import db
-from ..models.models import Users, user_serializer, orders_serializer
-from api  import bcrypt, server_session
+
+from ...api import db, mail, bcrypt, server_session
+from models.models import Users, user_serializer, orders_serializer
 
 
 update_User_Email_route = Blueprint("update_User_Email_route", __name__)

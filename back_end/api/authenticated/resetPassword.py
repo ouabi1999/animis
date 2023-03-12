@@ -1,8 +1,8 @@
 from flask import request, jsonify, Blueprint, session
 from flask_mail import  Message
 
-from api import db, mail, bcrypt, server_session
-from ..models.models import Users, user_serializer
+from ...api import db, mail, bcrypt, server_session
+from models.models import Users, user_serializer
 from uuid import uuid4
 from  datetime import datetime, timedelta
 

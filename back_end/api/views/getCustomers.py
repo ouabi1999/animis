@@ -3,9 +3,9 @@ import os
 from PIL import Image
 import base64
 import io
-from api import db, socketio, mail
+from ...api import db, socketio, mail
 from werkzeug.utils import secure_filename
-from ..models.models import  Users, user_serializer
+from models.models import  Users, user_serializer
     
 
 

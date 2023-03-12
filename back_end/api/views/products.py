@@ -1,8 +1,8 @@
 from flask import  Flask, Blueprint, jsonify, request, json
 from  datetime import datetime, timedelta
-from api import db
+from ...api import db
 from werkzeug.utils import secure_filename
-from ..models.models import (
+from models.models import (
    
     Products, 
     GlobalCoupon,

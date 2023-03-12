@@ -1,7 +1,7 @@
 from flask  import Blueprint, jsonify, request, json, session
-from api import db
-from ..models.models import Users, user_serializer, orders_serializer
-from api  import bcrypt, server_session
+
+from models.models import Users, user_serializer,messages_serializer, orders_serializer, Messages, Rooms
+from ...api import bcrypt, server_session, db
 
 
 register_route = Blueprint("register_route", __name__)
