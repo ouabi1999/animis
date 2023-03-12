@@ -30,13 +30,11 @@ migrate = Migrate()
 server_session = Session()
 mail = Mail()  
   
-def create_app(config_class=Config):
+def create_app(config_class=ProdConfig):
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', instance_relative_config=False) 
    
     app.config.from_object(config_class)
-    app.config['SQLALCHEMY_DATABASE_URI'] =  os.environ.get('PROD_DATABASE_URI')
-    
     bcrypt.init_app(app)
     socketio.init_app(app, cors_allowed_origins = "*")
     cors.init_app(app, supports_credentials=True)

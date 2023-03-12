@@ -2,17 +2,20 @@ import os
 
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
 
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, '.env'))
+
+load_dotenv()
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 db = SQLAlchemy()
 
 
 class Config:
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SECRET_KEY = os.environ.get('SECRET_KEY')
     SESSION_PERMANENT = True
     SESSION_TYPE = 'sqlalchemy'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI')
+    
     SESSION_USE_SIGNER = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_SQLALCHEMY = db
@@ -29,12 +32,13 @@ class Config:
 class ProdConfig(Config):
     FLASK_DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI= os.environ.get('DATABASE_URL')
+    
     SQLALCHEMY_ECHO = False
 
 
 class DevConfig(Config):
     FLASK_DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI= os.environ.get('DEV_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_ECHO = True
