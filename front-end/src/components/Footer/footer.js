@@ -34,19 +34,19 @@ const Footer = () => {
               <li className="text-info">Follow us</li>
               <li>
               <i className="fab fa-facebook-f" />
-                <Link to="/categoryoreferrer" target="_blank" href="https://facebook.com/animisstore"> Facebook</Link>
+                <a target="_blank" href="https://facebook.com/animisstore"> Facebook</a>
               </li>
               <li>
                 <i className="fab fa-instagram" />
-                <Link to="/categoryoreferrer"   target="_blank" href="https://www.instagram.com/an.imis">Instagram</Link>
+                <a   target="_blank" href="https://www.instagram.com/an.imis">Instagram</a>
               </li>
               <li>
                 <i className="fab fa-twitter" />
-                <Link to="/categoryoreferrer"   target="_blank" href="https://twitter.com/animisshop">Twitter</Link>
+                <a   target="_blank" href="https://twitter.com/animisshop">Twitter</a>
               </li>
               <li>
                 <i className="fab fa-youtube" />
-                <Link to="/categoryoreferrer"   target="_blank" href="https://www.youtube.com/@animisshop" >Youtube</Link>
+                <a   target="_blank" href="https://www.youtube.com/@animisshop" >Youtube</a>
               </li>
             </ul>
    
@@ -78,7 +78,7 @@ const Footer = () => {
          
         </Wrapper>
         <div className='CopyRight'>
-          <span className='copy'>All right reserved <i className="fa fa-copyright"> Copyright 2021</i></span>
+          <span className='copy'>All right reserved <i className="fa fa-copyright"> Copyright {new Date().getFullYear()}</i></span>
         </div>
       </Container>
 
