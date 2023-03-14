@@ -93,6 +93,7 @@ export const customers_Slice = createSlice({
         [getCustomers.rejected]: (state, action) => {
             state.isLoading = false;
             state.hasError = action.error.message;
+            
         },
         [getCustomers.fulfilled]: (state, { payload }) => {
             state.customers = payload;
