@@ -5,7 +5,7 @@ import styled from "styled-components"
 import AdminChat from './AdminChat'
 import Users from './Users'
 import io from "socket.io-client";
-let endPoint = "http://localhost:5000";
+let endPoint = "https://animis.herokuapp.com";
 let socket = io.connect(`${endPoint}`);
 function ChatLayout() {
     const AllUsers = useSelector(state => state.customers.customers)
