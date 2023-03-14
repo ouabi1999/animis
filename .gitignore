@@ -15,11 +15,14 @@ yarn-error.log*
 
 
 
+*.pyc
 
 .venv
+.env
 env
 venv/
 ENV/
 env.bak/
 venv.bak/
+
 

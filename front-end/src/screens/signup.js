@@ -6,7 +6,6 @@ import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import Flag from 'react-world-flags';
 import countriesData from "../common/countries.json"
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -151,8 +150,9 @@ function Signup() {
 
        
         <Form onSubmit = {formik.handleSubmit}>
-
-            <img className="logo" src='../logo_icon.png'  alt=""/> 
+            <div className="logo-img-container">
+                <img className="logo" src='../logo_icon.png'  alt=""/> 
+            </div>
             <strong>Register</strong>
             <Formwrapper>
                 <Grid container spacing={2}>
@@ -359,7 +359,6 @@ const Form = styled.form`
     
     width:40%;
     position:relative;
-    
     max-width:33%;
     min-width:300px;
     border-radius:8px;
@@ -370,12 +369,14 @@ const Form = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;
-
     .logo{
-        color:lightblue;
-        margin:20px 0;
+        width:100%;
+        }
+
+   .logo-img-container{
         width:90px;
-        
+        margin:20px 0;
+        height:80px;
     }
     strong{
         margin-bottom:15px;

@@ -10,6 +10,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import EditProfile from './EditProfile';
 import FemaleIcon from '@mui/icons-material/Female';
 import { ToastContainer, toast } from 'react-toastify';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 export const UserContext = createContext()
@@ -267,7 +268,7 @@ function Profile(props){
             <Section>
 
                 <ImageWrap>
-                    <img src="../avatars/boy.jpg" alt="" />
+                    <AccountCircleIcon className='profile-icon'/>
                 </ImageWrap>
 
                 <div>
@@ -459,13 +460,13 @@ const Section = styled.div`
 
    
 `
-const ImageWrap = styled.div`
-   img{
-        border-radius:50%;
-        width:150px;
-        height:150px;
-        object-fit: fill;
-   }
+const ImageWrap = styled.div` 
+    .profile-icon{
+    width:150px;
+    height:150px;
+    color:lightblue
+    }
+ 
 
 `
 

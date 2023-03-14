@@ -9,7 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import FilledInput from '@mui/material/FilledInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 import {useDispatch, useSelector} from "react-redux";
+
 import * as timeago from 'timeago.js';
 import { setReadMessages } from '../../../features/customers/customers_slice';
 
@@ -122,8 +125,8 @@ function AdminChat(
 
     <Container>
       <div className="header">
-        <div className="user-avatar">
-          <img src="../avatars/boy.jpg" alt="profile" />
+        <div>
+          <AccountCircleIcon className="user-avatar"/>
         </div>
         <div className="user-info">
           <span>{ReceiverUser?.firstName + " " + ReceiverUser?.lastName}</span>
@@ -222,16 +225,14 @@ cursor:pointer;
 color:blue;
 }
 color: #000;
-.user-avatar img{
-border-radius:50%;
-height:60px;
-width:60px;
-
-}
+.user-avatar{
+    height:45px;
+    width:45px;
+   }
 .user-info{
-color:#ffff;
-margin-left:10px;
-text-transform:capitalize;
+    color:#ffff;
+    margin-left:10px;
+    text-transform:capitalize;
 }
 
 `

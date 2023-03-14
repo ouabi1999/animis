@@ -7,6 +7,7 @@ import FilledInput from '@mui/material/FilledInput';
 import InputAdornment from '@mui/material/InputAdornment';
 import * as timeago from 'timeago.js';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setReadMessages } from '../../../features/customers/customers_slice';
@@ -131,11 +132,11 @@ function Chat(
           
         
       <div className="header">
-        <div className="user-avatar">
-          <img src="../avatars/boy.jpg" alt="profile" />
+        <div>
+            <SupportAgentIcon className="support-agent-icon"/>
         </div>
         <div className="user-info">
-          <span> CHAT</span>
+          <span> CHAT </span>
         </div>
         <div className='close-container'>
            <CloseIcon onClick={closeChat} className="close-icon" />
@@ -215,14 +216,12 @@ const Container = styled.div`
     
     }
     .close-container{
-      display:flex;
-     
-      align-items:flex-end;
-      justify-content:center;
-      margin-left:auto;
-     
-
+          display:flex;
+          align-items:flex-end;
+          justify-content:center;
+          margin-left:auto;
     }
+
     .close-icon{
       color:#ffff;
       cursor:pointer;
@@ -230,18 +229,19 @@ const Container = styled.div`
     .close-icon:hover{
       color:blue;
     }
-    color: #000;
-     .user-avatar img{
-         border-radius:50%;
-         height:60px;
-         width:60px;
+    
+     .support-agent-icon{
+        height:45px;
+        width:45px;
+        color:lightblue;
 
      }
      .user-info{
-      color:#ffff;
-      margin-left:10px;
-      text-transform:capitalize;
-     }
+          color:#ffff;
+          margin-left:10px;
+          text-transform:capitalize;
+          letter-spacing:2px;
+      }
 
 `
 

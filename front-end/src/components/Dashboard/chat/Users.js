@@ -2,6 +2,7 @@ import React,{useEffect, useState} from 'react'
 import { useDispatch } from 'react-redux';
 import styled from "styled-components"
 import { setNewMessage, setReadMessages, setRoom} from '../../../features/customers/customers_slice';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
 
@@ -119,8 +120,8 @@ function Users({
         <Container>
             <button onClick={() => startChat(roomInfo)} className='message-container'>
 
-                <div className="user-avatar">
-                    <img src="../avatars/boy.jpg" alt="kkk" />
+                <div>
+                    <AccountCircleIcon className="user-avatar"/>
                 </div>
               <div className="message-content">
                   <span className="user-name">{receiver?.firstName + " " + receiver?.lastName}</span>
@@ -168,11 +169,10 @@ export default Users
 const Container = styled.div`
      background:rgb(26, 26, 26, 0.9);
      padding:10px;
-     .user-avatar img{
-         border-radius:50%;
+     .user-avatar{
          
-         height:60px;
-         width:60px;
+         height:45px;
+         width:45px;
          
 
      }

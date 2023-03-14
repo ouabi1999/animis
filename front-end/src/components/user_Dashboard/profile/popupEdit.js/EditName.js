@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Button, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Button, CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ import { UserContext } from '../profile';
 function EditName(props) {
 
     const user = useSelector(state=> state.auth.user)
-    const { formData, setFormData , updateUserInfo } = useContext(UserContext)
+    const { formData, setFormData , updateUserInfo, loading } = useContext(UserContext)
     const editSechema = Yup.object({ 
         firstName: Yup.string()
           .max(15, 'Must be 15 characters or less')
@@ -103,7 +103,18 @@ function EditName(props) {
             </div>
             <div className='save-button'>
 
-                <Button type="submit" variant="contained">Save changes</Button>
+                          <Button type="submit" variant="contained">Save changes
+                              {loading && (
+                                  <CircularProgress
+                                      style={{ marginLeft: "5px", color: "white" }}
+                                      size={23}
+                                      thickness={6}
+                                      value={100}
+                                  />
+                              )
+
+                              }
+                          </Button>
             </div>
         </PopUpEdit>
         </form>
