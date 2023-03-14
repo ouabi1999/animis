@@ -32,7 +32,7 @@ class Config:
 class ProdConfig(Config):
     FLASK_DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI= os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI= os.environ.get('PROD_DATABASE_URL')
     
     SQLALCHEMY_ECHO = False
 
@@ -40,5 +40,5 @@ class ProdConfig(Config):
 class DevConfig(Config):
     FLASK_DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URL')
     SQLALCHEMY_ECHO = True
