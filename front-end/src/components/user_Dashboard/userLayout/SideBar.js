@@ -2,7 +2,7 @@ import React from 'react'
 import styled from "styled-components"
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket';
 import FeedIcon from '@mui/icons-material/Feed';
@@ -46,7 +46,7 @@ function SideBar() {
         </Link>
      
       <Link to="help-center">
-        <SupportAgentIcon className="sidebar_icons" />
+        <HelpCenterIcon className="sidebar_icons" />
         
           <span>
             Help Center
@@ -123,7 +123,7 @@ const Side_Bar = styled.div`
 
   @media only screen and (max-width: 640px) {
     
-    .container a span{
+    a span{
         display:none;
       }
 

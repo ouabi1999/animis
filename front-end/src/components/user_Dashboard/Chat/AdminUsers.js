@@ -3,6 +3,8 @@ import styled from "styled-components"
 import FiberNewIcon from '@mui/icons-material/FiberNew';
 import { useDispatch } from 'react-redux';
 import { setNewMessage, setReadMessages, setRoom } from '../../../features/customers/customers_slice';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+
 
 function AdminUsers({
 
@@ -117,20 +119,26 @@ function AdminUsers({
         <Container>
             <button onClick={() => startChat(roomInfo)} className='message-container'>
                 <div className='message-container'>
-                    <div className="user-avatar">
-                        <img src="../avatars/boy.jpg" alt="s" />
-                    </div>
+                    <SupportAgentIcon className="support-agent-icon" />
                     <div className="message-content">
-                        <span className="user-name">Chat</span>
+                        <span className="user-name">Support team</span>
 
+                   
                         <span className={lastMessage?.is_Read === false && lastMessage?.sender !== sender.id ? "new-message" : "last-message"}>
                             {lastMessage?.message}
                         </span>
+                       
+                        {messages?.length <= 0 && (
 
+                            <span className="none-message">
+                                You are now connected
+                            </span>
 
+                        )}
                     </div>
 
                 </div>
+                
                 <div>
                     {messages?.filter(msg => msg.is_Read === false && msg.sender !== sender.id).length > 0 ?
                         <span className='unread-messages'>
@@ -141,7 +149,7 @@ function AdminUsers({
                         ""
                     }
 
-
+                
                 </div>
             </button>
         </Container>
@@ -154,21 +162,19 @@ const Container = styled.div`
      background:rgb(26, 26, 26, 0.8);
      border-radius:8px;
      padding:3px 5px;
-     .user-avatar img{
-        border-radius:50%;
-         
-        height:60px;
-        width:60px;
-         
 
+     .support-agent-icon{
+        height:45px;
+        width:45px;
+        color:lightblue;
      }
+     
      .message-container{
          display:flex;
          align-items:center;
          width:100%;    
      }
       .user-name{
-        text-transform:capitalize;
         color:#fff;
       }
      .message-content{
@@ -186,7 +192,7 @@ const Container = styled.div`
         color: rgb(26, 26, 26, 0.8);
 
     }
-    .last-message{
+    .none-message, .last-message{
         margin-top:10px;
         color:#a6a6a6;
         font-size:12px;
