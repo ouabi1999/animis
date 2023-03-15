@@ -246,14 +246,15 @@ padding:5px 10px;
 height:100%;
 
 #messages{
-display:flex;
-flex-direction:column;
-margin-bottom:2.5px;
-border-radius:4px;
-font-size:12px;
-padding:2px 5px;
-width:fit-content;
-max-width: 28rem;
+    display:flex;
+    flex-direction:column;
+    margin-bottom:2.5px;
+    border-radius:4px;
+    font-size:12px;
+    padding:2px 5px;
+    max-width:15vw;
+    white-space:wrap;
+    word-wrap: break-word;
 }
 .senderMessage{
 background-color:lightgreen;

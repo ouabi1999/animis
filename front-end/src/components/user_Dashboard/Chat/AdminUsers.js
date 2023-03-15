@@ -161,7 +161,9 @@ export default AdminUsers
 const Container = styled.div`
      background:rgb(26, 26, 26, 0.8);
      border-radius:8px;
-     padding:3px 5px;
+     padding:10px 5px;
+     max-width:320px;
+     overflow:hidden;
 
      .support-agent-icon{
         height:45px;
@@ -182,6 +184,8 @@ const Container = styled.div`
         flex-direction:column;
         margin-left:10px;
         align-items:flex-start;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
      
     
@@ -196,6 +200,7 @@ const Container = styled.div`
         margin-top:10px;
         color:#a6a6a6;
         font-size:12px;
+        
     }
 
      .new-message{

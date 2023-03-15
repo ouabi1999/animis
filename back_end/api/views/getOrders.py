@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, json
 
 
-from ..models.models import  Products, productInfo_serializer
+from ..models.models import  Products, productInfo_serializer, Orders, orders_serializer
 
 
 getOrderdProducts_route = Blueprint("getOrderdProducts_route", __name__ , url_prefix="/")
@@ -19,3 +19,11 @@ def getOrderdProducts_products():
     else:
         
         return {'products': []}
+  
+@getOrderdProducts_route.route('/api/get_orders', methods=["GET"])
+def getOrders():
+   
+
+    return jsonify({'orders': [*map(orders_serializer, Orders.query.all())]})
+     
+

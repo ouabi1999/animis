@@ -260,8 +260,9 @@ const ChatContainer = styled.div`
         border-radius:4px;
         font-size:12px;
         padding:2px 5px;
-        width:fit-content;
-        max-width: 28rem;
+        max-width:15vw;
+        white-space:wrap;
+        word-wrap: break-word;
       }
       .senderMessage{
         background-color:lightgreen;
