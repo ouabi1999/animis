@@ -48,7 +48,7 @@ class DashSideBar extends Component {
                             <StoreIcon />
                         </div>
                         <div>
-                            <Link to="orders">Orders</Link>
+                            <Link to="dashboard-orders">Orders</Link>
                         </div>
                     </Wrap>
 

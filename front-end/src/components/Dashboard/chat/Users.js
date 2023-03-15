@@ -169,6 +169,8 @@ export default Users
 const Container = styled.div`
      background:rgb(26, 26, 26, 0.9);
      padding:10px;
+     max-width:320px;
+     overflow:hidden;
      .user-avatar{
          
          height:45px;
@@ -188,12 +190,18 @@ const Container = styled.div`
         margin-left:10px;
         align-items:flex-start;
         width:100%;
+        
+       
      }
      .none-message, .last-message{
         color:#a6a6a6;
         font-size:12px;
         margin-bottom:8px;
+        white-space:nowrap;
+        text-overflow: ellipsis;
+      
         
+    
          
      }
      
@@ -227,7 +235,7 @@ const Container = styled.div`
         display:flex;
         align-items:baseline;
         justify-content:center;
-      
+        
 
 
     }

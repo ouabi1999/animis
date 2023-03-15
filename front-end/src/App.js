@@ -40,6 +40,7 @@ import ForgotPassword from './screens/resetPassword/ForgotPassword';
 import ResetPassword from './screens/resetPassword/ResetPassword';
 import SuperDeals from './screens/SuperDeals';
 import PageNoteFound from './common/PageNotFound';
+import Orders from './components/Dashboard/Orders';
 
 
 export const OrderContext = createContext();
@@ -150,10 +151,8 @@ function App() {
               <Route path = "analytics"      element = {<Chart />} />
               <Route path = "admin-chat"     element = {<ChatLayout/>}/>
               <Route path = "displaySetting" element = {<DisplayLyout/>} />
+              <Route path = "dashboard-orders" element = {<Orders/>}/>
             </Route>
-
-            
-
           </Routes>
         </BrowserRouter>
         </OrderContext.Provider>
