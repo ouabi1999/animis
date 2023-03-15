@@ -7,6 +7,7 @@ import EditProductLyout from './editProduct/EditProductLyout';
 import { Stack } from '@mui/system';
 import { Pagination } from '@mui/material';
 import axios from 'axios';
+import HeadeSeo from '../../../common/Heade';
 
 export default function ProductsLayout(){
    
@@ -147,6 +148,7 @@ export default function ProductsLayout(){
    
     return (
             <div ref={scrollRef}>
+                <HeadeSeo title = "Dashboard / products"/>
                 {formData.AdminProducts === true && (
                <>
                     <AdminProducts

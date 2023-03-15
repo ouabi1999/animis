@@ -12,6 +12,7 @@ import DisplayBanners from './DisplayBanners';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDisplayInfo } from '../../../features/display/displaySlice';
 import { display } from '@mui/system';
+import HeadeSeo from '../../../common/Heade';
 export default function DisplayLyout() {
 
     const [loading, setLoading] = useState(false);
@@ -120,6 +121,7 @@ export default function DisplayLyout() {
    
   return (
       <>
+      <HeadeSeo title = "Dashboard / display settings"/>
       {displayInfo.isLoaded  === false ? (
 
       

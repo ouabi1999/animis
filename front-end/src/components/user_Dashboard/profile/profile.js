@@ -11,6 +11,7 @@ import EditProfile from './EditProfile';
 import FemaleIcon from '@mui/icons-material/Female';
 import { ToastContainer, toast } from 'react-toastify';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HeadeSeo from '../../../common/Heade';
 
 
 export const UserContext = createContext()
@@ -250,7 +251,7 @@ function Profile(props){
             loading
         }}   
         >
-
+        <HeadeSeo title= "Dashboard / profile"/>
         <Container>
             <ToastContainer
                   position="top-right"

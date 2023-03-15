@@ -31,7 +31,7 @@ class DashSideBar extends Component {
                             <DashboardIcon className='icon' />
                         </div>
                         <div className='Dash'>
-                            <Link to="/admin"> Dashboard</Link>
+                            <Link to="/admin"> Dashboard </Link>
                         </div>
                     </Wrap>
                     <Wrap>
@@ -81,7 +81,7 @@ class DashSideBar extends Component {
                             <MarkunreadIcon />
                         </div>
                         <div>
-                            <Link to="email-us">Email</Link>
+                            <Link to="emails">Email</Link>
                         </div>
                     </Wrap>
                     <Wrap>
@@ -97,7 +97,7 @@ class DashSideBar extends Component {
                             <DisplaySettingsIcon/>
                         </div>
                         <div>
-                            <Link to="displaySetting"> Dsiplay </Link>
+                            <Link to="display-setting"> Dsiplay </Link>
                         </div>
                     </Wrap>
                 </div>

@@ -11,6 +11,7 @@ import * as Yup from "yup"
 import CircularProgress, {
 } from '@mui/material/CircularProgress';
 import { useLayoutEffect } from 'react';
+import HeadeSeo from '../common/Heade';
 
 
 function LoginForm() {
@@ -125,6 +126,8 @@ function LoginForm() {
   
   return (
     <>
+    <HeadeSeo title= "Login"/>
+    
     {auth === "false" &&(
     <Form onSubmit = {formik.handleSubmit}>
         <div className='logo-img-container'>

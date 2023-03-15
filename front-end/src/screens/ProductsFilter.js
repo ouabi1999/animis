@@ -20,6 +20,7 @@ import {
 import NotFound from '../components/filterPanel/NotFound';
 import { CircularProgress, Pagination, Stack } from "@mui/material";
 import axios from 'axios';
+import HeadeSeo from '../common/Heade';
 
 
 function ProductsFilter() {
@@ -143,7 +144,7 @@ function ProductsFilter() {
   return (
 
      <Container>
-         
+         <HeadeSeo title = "Products Filter"/>
          <div>
            <FilterPanel 
              selectedCategory = {category}

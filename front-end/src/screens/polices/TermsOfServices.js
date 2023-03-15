@@ -1,6 +1,7 @@
 import React,{ useLayoutEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import HeadeSeo from '../../common/Heade';
 
 function TermsOfServices() {
     useLayoutEffect(() => {
@@ -8,6 +9,7 @@ function TermsOfServices() {
       }, [])
   return (
     <Container>
+        <HeadeSeo title = "Terms of services"/>
           <h1>Terms of services</h1>
           <h2>OVERVIEW</h2>
           <p>

@@ -11,6 +11,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 import axios from 'axios';
+import HeadeSeo from '../../common/Heade';
 
 
 function MyOrders() {
@@ -43,6 +44,7 @@ function MyOrders() {
   return(
   
     <Container>
+      <HeadeSeo title= "Dashboard / My orders"/>
       {!isLoading ?  (
       
       user?.orders?.length <= 0 && user !== null   ? (

@@ -1,6 +1,7 @@
 import React,{ useLayoutEffect} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import HeadeSeo from '../../common/Heade';
 
 function PrivacyPolicy() {
   useLayoutEffect(() => {
@@ -8,6 +9,8 @@ function PrivacyPolicy() {
   }, [])
   return (
     <Container>
+      <HeadeSeo title = "Privacy Policy"/>
+      
         <div>
             <h1>PRIVACY POLICY</h1>
             <p> This Privacy Policy describes how Animis.com (the “Site” or “we”)  collects, uses, and discloses your Personal Information when you visit or make a purchase from the Site.</p>

@@ -17,6 +17,7 @@ import * as Yup from "yup"
 import { useDispatch } from 'react-redux';
 import {register } from '../features/auth/authSlice';
 import { useLayoutEffect } from 'react';
+import HeadeSeo from '../common/Heade';
 
 
 
@@ -146,6 +147,7 @@ function Signup() {
     });
     return (
         <>
+        <HeadeSeo title="Register"/>
         {auth === "false" &&(
 
        

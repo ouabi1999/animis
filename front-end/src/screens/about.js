@@ -1,5 +1,6 @@
 import React, { useLayoutEffect} from 'react'
 import styled from 'styled-components'
+import HeadeSeo from '../common/Heade';
 
  function About() {
     useLayoutEffect(() => {
@@ -9,6 +10,7 @@ import styled from 'styled-components'
 
         return (
                 <Container>
+                    <HeadeSeo title = "About us"/>
                 <div className="about_container">
                     
                     <div className="about_section">

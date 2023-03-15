@@ -2,6 +2,7 @@ import React, {useLayoutEffect, useState } from 'react'
 import styled from "styled-components"
 import { toast, ToastContainer } from 'react-toastify'
 import { CircularProgress } from '@mui/material'
+import HeadeSeo from '../common/Heade'
 
 
 function Contact(){
@@ -44,6 +45,8 @@ function Contact(){
      
         return (
             <Container>
+                <HeadeSeo title = {"Contact us"}/>
+                
                 <ToastContainer
                   position="top-right"
                   autoClose={3000}

@@ -1,5 +1,6 @@
 import React,{ useLayoutEffect} from 'react'
 import styled from "styled-components"
+import HeadeSeo from '../../common/Heade';
 
 function RefundPolicy() {
   useLayoutEffect(() => {
@@ -7,6 +8,7 @@ function RefundPolicy() {
   }, [])
   return (
     <Container>
+      <HeadeSeo title = "Return Policy"/>
         <div>
             <h1>RETURN AND REFUND POLICY</h1>
         </div>

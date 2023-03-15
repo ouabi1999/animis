@@ -41,6 +41,8 @@ import ResetPassword from './screens/resetPassword/ResetPassword';
 import SuperDeals from './screens/SuperDeals';
 import PageNoteFound from './common/PageNotFound';
 import Orders from './components/Dashboard/Orders';
+import Email from './components/Dashboard/Email';
+import Customers from './components/Dashboard/Customers';
 
 
 export const OrderContext = createContext();
@@ -135,23 +137,23 @@ function App() {
             <Route   path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
-                <Route path = "chat"        element = {<ClientChatLayout/>} />
-                
+                <Route path = "chat"        element = {<ClientChatLayout/>}/>
                 <Route path = "help-center"    element = {<HelpCenter />} />
-             
                 <Route path = "notifications"  element = {<Notifications />} />
             </Route>
               <Route path='/forget-password' element={<ForgotPassword/>}/>
 
               <Route path='/reset_password-token/:id' element={<ResetPassword/>}/>
 
-            <Route   path = "/admin"         element = {<DashLayout />} >
-              <Route path = "/admin"         element = {<Dashboard />} />
-              <Route path = "dashproducts"   element = {<ProductsLayout />} />
-              <Route path = "analytics"      element = {<Chart />} />
-              <Route path = "admin-chat"     element = {<ChatLayout/>}/>
-              <Route path = "displaySetting" element = {<DisplayLyout/>} />
+            <Route   path = "/admin"           element = {<DashLayout />} >
+              <Route path = "/admin"           element = {<Dashboard />} />
+              <Route path = "dashproducts"     element = {<ProductsLayout />} />
+              <Route path = "analytics"        element = {<Chart />} />
+              <Route path = "admin-chat"       element = {<ChatLayout/>}/>
+              <Route path = "display-setting"  element = {<DisplayLyout/>} />
               <Route path = "dashboard-orders" element = {<Orders/>}/>
+              <Route path = "emails"           element = {<Email/>}/>
+              <Route path = "customers"        element = {<Customers/>}/>
             </Route>
           </Routes>
         </BrowserRouter>

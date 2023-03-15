@@ -7,6 +7,7 @@ import "../App.css"
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
+import HeadeSeo from '../common/Heade';
 
 function SuperDeals() {
     
@@ -59,6 +60,7 @@ function SuperDeals() {
   
     return (
         <Wrapper>
+          <HeadeSeo title = "Super deals"/>
              {displayData?.slider?.[parseInt(valueIndex)] ? (
           <div>
                 <img  style={{width:"100%"}}src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />

@@ -9,6 +9,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import * as Yup from "yup"
+import HeadeSeo from '../../common/Heade';
 const ResetPassword = (props) => {
   const params = useParams()
   const [password, setPassword] = useState('');
@@ -80,6 +81,7 @@ const ResetPassword = (props) => {
 
   return (
     <Wrapp>
+      <HeadeSeo title = "Reset password"/>
     <Container onSubmit={formik.handleSubmit}>
       <div className='edit-title'>
         <span> Reset your password </span>

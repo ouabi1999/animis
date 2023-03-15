@@ -5,6 +5,7 @@ import { OrderContext } from "../../App"
 import styled from "styled-components";
 import { BrowserRouter, Link,  unstable_HistoryRouter,  useNavigate} from "react-router-dom";
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
+import HeadeSeo from "../../common/Heade";
 
 
 function SuccessfulOrder(props) {
@@ -26,6 +27,7 @@ function SuccessfulOrder(props) {
  
   return (
     <Container>
+      <HeadeSeo title = {"Succesful order"}/>
       <div className="close-container">
         <Link to="/">
           <DisabledByDefaultIcon className="close-icon" />

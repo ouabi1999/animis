@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import FlipMove from "react-flip-move"
 import axios from 'axios';
+import HeadeSeo from '../../common/Heade';
 
 function Card() {
 
@@ -47,7 +48,8 @@ function Card() {
   
   return (
     <Container>
-
+      <HeadeSeo title = "Shopping cart"/>
+      
       <h2 style={{ fontFamily: "sans-serif" }} className="shopping-cart-h2">Shopping Cart ({cartItems?.length})</h2>
       {cartItems?.length === 0 ? (
         <EmptyCart />

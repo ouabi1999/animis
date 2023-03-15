@@ -3,6 +3,7 @@ import { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import HeadeSeo from '../../common/Heade';
 import PageNoteFound from '../../common/PageNotFound';
 import { getUser } from '../../features/auth/authSlice';
 import Dasheader from './Dasheader';
@@ -68,7 +69,7 @@ function DashLayout(props){
         const { showBar} = data;
         return (
             <>
-          
+             <HeadeSeo title = "Dashboard"/>
            
            {user?.admin === true  ? (
 

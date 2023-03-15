@@ -9,6 +9,7 @@ import NewArrival from '../components/newArrival/NewArrival'
 import AdvertiseMain from '../components/Home/AdvertiseMain/AdvertiseMain'
 import Banner from '../components/Home/Banner'
 import MainFilter from '../components/Navbar/mainFilter'
+import HeadeSeo from '../common/Heade'
 
 
 function Home() {
@@ -19,6 +20,8 @@ function Home() {
   }, [])
   return (
     <div>
+      <HeadeSeo title = "Home"/>
+  
         <MainFilter/>
         <AdvertiseMain/>
         <Banner/>

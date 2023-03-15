@@ -1,9 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
+import HeadeSeo from '../../common/Heade'
 
 function Notifications() {
   return (
     <Container>
+      <HeadeSeo title = "Dashboard / notifications"/>
       <span>
        You have no notifications !
       </span>

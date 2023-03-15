@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import * as Yup from "yup"
 
 import axios from 'axios';
+import HeadeSeo from '../../common/Heade';
 
 
   
@@ -60,6 +61,7 @@ function ForgotPassword() {
     return (
 
         <Container>
+            <HeadeSeo title = "Forget password"/>
         <PopUpEdit onSubmit={formik.handleSubmit}>
 
                 {hasError === true && (

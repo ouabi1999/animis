@@ -12,6 +12,7 @@ import { getUser } from '../../../features/auth/authSlice'
 import { useNavigate  } from 'react-router-dom';
 import Nav from '../../Navbar/Nav'
 import Header from '../../Header/Header'
+import HeadeSeo from '../../../common/Heade'
 
 function UserLayout() {
 
@@ -37,6 +38,7 @@ function UserLayout() {
     
       {auth === "true" ? (
         <>
+        <HeadeSeo title="Dashboard"/>
         <Header/>
         <Nav/>
         <Container>

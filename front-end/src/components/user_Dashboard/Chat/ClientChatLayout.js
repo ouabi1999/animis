@@ -5,6 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import io from "socket.io-client";
 import Chat from './Chat';
 import AdminUsers from './AdminUsers';
+import HeadeSeo from '../../../common/Heade';
 
 let endPoint = "https://animis.herokuapp.com";
 let socket = io.connect(`${endPoint}`);
@@ -50,6 +51,7 @@ function ClientChatLayout() {
  
 return (
   <>
+  <HeadeSeo title= "Dashboard / chat"/>
   {!sender?(
       <div style={{ height:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}><CircularProgress
          
