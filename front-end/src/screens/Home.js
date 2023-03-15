@@ -20,8 +20,6 @@ function Home() {
   }, [])
   return (
     <div>
-      <HeadeSeo title = "Home"/>
-  
         <MainFilter/>
         <AdvertiseMain/>
         <Banner/>

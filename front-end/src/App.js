@@ -125,13 +125,13 @@ function App() {
               <Route path = "return-policy"       element = {<RefundPolicy/>}/>
               <Route path= "category"             element =  {<ProductsFilter/>}/>
               <Route path= "product_details/:id"  element = {<ProductDetailsLayout/>}/>
-              <Route path= "super_deals/:id"  element = {<SuperDeals/>}/>
+              <Route path= "super_deals/:id"      element = {<SuperDeals/>}/>
               
             </Route>
             <Route path = "/login"              element = {<LoginForm />} />
-              <Route path = "/register"           element = {<Signup />} />
-            <Route path = "/checkout"      element = {<CheckoutContainer/>} />
-            <Route path="*" element = {<PageNoteFound/>}/>
+            <Route path = "/register"         element = {<Signup />} />
+            <Route path = "/checkout"           element = {<CheckoutContainer/>} />
+            <Route path="*"                     element = {<PageNoteFound/>}/>
 
 
             <Route   path = "/profile"       element = {<UserLayout />} >
