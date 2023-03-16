@@ -147,7 +147,7 @@ function Signup() {
     });
     return (
         <>
-        <HeadeSeo title="Register"/>
+        <HeadeSeo title=" Animis - Register"/>
         {auth === "false" &&(
 
        

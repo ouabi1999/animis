@@ -45,7 +45,7 @@ function Contact(){
      
         return (
             <Container>
-                <HeadeSeo title = {"Contact us"}/>
+                <HeadeSeo title = {"Animis - Contact us"}/>
                 
                 <ToastContainer
                   position="top-right"

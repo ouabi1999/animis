@@ -8,7 +8,7 @@ function RefundPolicy() {
   }, [])
   return (
     <Container>
-      <HeadeSeo title = "Return Policy"/>
+      <HeadeSeo title = " Animis - Return Policy"/>
         <div>
             <h1>RETURN AND REFUND POLICY</h1>
         </div>

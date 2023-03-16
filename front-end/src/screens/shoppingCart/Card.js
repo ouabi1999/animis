@@ -48,7 +48,7 @@ function Card() {
   
   return (
     <Container>
-      <HeadeSeo title = "Shopping cart"/>
+      <HeadeSeo title = "Animis - shopping cart"/>
       
       <h2 style={{ fontFamily: "sans-serif" }} className="shopping-cart-h2">Shopping Cart ({cartItems?.length})</h2>
       {cartItems?.length === 0 ? (

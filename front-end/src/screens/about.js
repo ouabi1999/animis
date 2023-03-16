@@ -10,7 +10,7 @@ import HeadeSeo from '../common/Heade';
 
         return (
                 <Container>
-                    <HeadeSeo title = "About us"/>
+                    <HeadeSeo title = " Animis - about us"/>
                 <div className="about_container">
                     
                     <div className="about_section">

@@ -20,6 +20,8 @@ function Home() {
   }, [])
   return (
     <div>
+      <HeadeSeo title = "Animis - Buy Anime Merchandise Online"/>
+  
         <MainFilter/>
         <AdvertiseMain/>
         <Banner/>

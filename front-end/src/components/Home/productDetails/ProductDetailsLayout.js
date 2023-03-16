@@ -191,7 +191,7 @@ function ProductDetailsLayout() {
    
     return (
      <Product_details_Wrapp>
-      <HeadeSeo title= "Product details"/>
+      <HeadeSeo title= " Animis - Product details"/>
         {isLoaded === false && product !== null  ? (
           
           <>

@@ -144,7 +144,7 @@ function ProductsFilter() {
   return (
 
      <Container>
-         <HeadeSeo title = "Products Filter"/>
+         <HeadeSeo title = "Animis - Products Filter"/>
          <div>
            <FilterPanel 
              selectedCategory = {category}

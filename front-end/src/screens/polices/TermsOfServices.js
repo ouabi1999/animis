@@ -9,7 +9,7 @@ function TermsOfServices() {
       }, [])
   return (
     <Container>
-        <HeadeSeo title = "Terms of services"/>
+        <HeadeSeo title = " Animis - Terms of services"/>
           <h1>Terms of services</h1>
           <h2>OVERVIEW</h2>
           <p>

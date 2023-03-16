@@ -126,7 +126,7 @@ function LoginForm() {
   
   return (
     <>
-    <HeadeSeo title= "Login"/>
+    <HeadeSeo title= "Animis - Login"/>
     
     {auth === "false" &&(
     <Form onSubmit = {formik.handleSubmit}>

@@ -60,7 +60,7 @@ function SuperDeals() {
   
     return (
         <Wrapper>
-          <HeadeSeo title = "Super deals"/>
+          <HeadeSeo title = " Animis - Super deals"/>
              {displayData?.slider?.[parseInt(valueIndex)] ? (
           <div>
                 <img  style={{width:"100%"}}src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />

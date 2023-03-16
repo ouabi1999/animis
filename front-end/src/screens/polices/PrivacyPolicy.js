@@ -9,7 +9,7 @@ function PrivacyPolicy() {
   }, [])
   return (
     <Container>
-      <HeadeSeo title = "Privacy Policy"/>
+      <HeadeSeo title = "Animis - Privacy policy"/>
       
         <div>
             <h1>PRIVACY POLICY</h1>

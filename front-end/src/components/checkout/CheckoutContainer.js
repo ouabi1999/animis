@@ -38,7 +38,7 @@ function CheckoutContainer() {
     
     :
     <Conatiner>
-      <HeadeSeo title= "Checkout"/>
+      <HeadeSeo title= "Animis - Checkout"/>
       <Left_Section>
         <ProductCart cartItems = {cartItems}/>
       </Left_Section>

@@ -16,7 +16,7 @@ import HeadeSeo from '../../common/Heade'
                 <OrdersWrap>
                     <Orders />
                 </OrdersWrap>
-                <HeadeSeo title = " Admin / dashboard"/>
+                <HeadeSeo title = "Admin / dashboard"/>
             </Wrapper>
         )
     }
