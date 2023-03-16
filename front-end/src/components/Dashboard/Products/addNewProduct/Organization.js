@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
-import { categoryList } from '../../../../common/categoryList';
+
 
 import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
+import { categoryList } from '../../../../common/categoryList';
 
 
 function Organization({formData, setFormData, handelChange}) {
@@ -58,8 +59,8 @@ function Organization({formData, setFormData, handelChange}) {
                     }
                 >
                     {categoryList?.map((option, index) => (
-                        <MenuItem key={index} value={option}>
-                            {option}
+                        <MenuItem key={index} value={option.value}>
+                            {option.value}
                         </MenuItem>
                     ))}
                 </TextField>
