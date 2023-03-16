@@ -110,7 +110,6 @@ function App() {
         <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
           <Routes>
-            
             <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
           </Routes>
           
@@ -134,14 +133,14 @@ function App() {
             <Route path="*"                     element = {<PageNoteFound/>}/>
 
 
-            <Route   path = "/profile"       element = {<UserLayout />} >
+            <Route     path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
-                <Route path = "chat"        element = {<ClientChatLayout/>}/>
+                <Route path = "chat"           element = {<ClientChatLayout/>}/>
                 <Route path = "help-center"    element = {<HelpCenter />} />
                 <Route path = "notifications"  element = {<Notifications />} />
             </Route>
-              <Route path='/forget-password' element={<ForgotPassword/>}/>
+              <Route path='/forget-password'   element={<ForgotPassword/>}/>
 
               <Route path='/reset_password-token/:id' element={<ResetPassword/>}/>
 
