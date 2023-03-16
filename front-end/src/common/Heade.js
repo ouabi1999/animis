@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 function HeadeSeo({title}) {
   return (
     <Helmet>
-        <title>{`ANIMIS - ${ title }`}</title>
+        <title>{title}</title>
     </Helmet>
   )
 }
