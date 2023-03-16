@@ -105,28 +105,7 @@ function AddNewProduct(props) {
       .then((data) => {
         props.responseData(data)
         setLoading(false)
-        setFormData({
-          ...formData,
-          product_images: [],
-          /*sizes: [],
-          colors: [],
-          price: "",
-          discount: "",
-          quantity: "",
-          title: "",
-          description: "",
-          reviews: "",
-          availability: "",
-          product_type:"",
-          pics_info : "",
-          seo : "",
-          category: "",
-          series : ""
-          tags: [],
-          products: [],
-          Description_images:{},
-          shippingData: []*/
-        })
+        setFormData({})
 
         toast.success("A new Product has been added .")
 
