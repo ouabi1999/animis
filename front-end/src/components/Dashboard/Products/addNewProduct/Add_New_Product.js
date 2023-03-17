@@ -112,6 +112,7 @@ function AddNewProduct(props) {
       })
       .catch((err) => {
         console.log(err)
+        toast.error("Oops something wenr wrong!")
         setLoading(false)
 
       });
