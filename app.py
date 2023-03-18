@@ -15,19 +15,20 @@ from flask_talisman import  ALLOW_FROM
 app = create_app()
 
 @app.route("/")
-@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='*')
+
 def serve():
     return send_from_directory(app.static_folder, "index.html")
     
 
 @app.errorhandler(404)
-@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='*')
 def not_found(e):
     return app.send_static_file('index.html')
 
 
-
-
+@app.route('/embeddable')
+@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='https://www.animis.shop/')
+def embeddable():
+    return 'Embeddable'
 
 if __name__ == "__main__":
     
