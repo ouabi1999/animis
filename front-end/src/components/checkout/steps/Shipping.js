@@ -40,9 +40,9 @@ function Shipping() {
 
   }
   useEffect(() => {
-    return () => {
+   /* return () => {
       setFormData({...formData, shippingMethod:null})
-    }
+    }*/
   }, [])
   
 
