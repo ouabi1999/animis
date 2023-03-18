@@ -17,6 +17,7 @@ Flask-Migrate==4.0.3
 Flask-Session==0.4.0
 Flask-SocketIO==5.3.2
 Flask-SQLAlchemy==3.0.3
+flask-talisman==1.0.0
 gevent==22.10.2
 gevent-websocket==0.10.1
 greenlet==2.0.2
