@@ -4,18 +4,17 @@ from ..models.models import  Orders, orders_serializer, product_orders
 import stripe
 import os
 
-payment_route = Blueprint("payment_route", __name__)
+payment_route = Blueprint("payment_route", __name__,  url_prefix="/")
 
 endpoint_secret = os.environ.get('END_POINT_SECRET')
 
-stripe.api_key = "sk_test_51MmjNCDJSVePKF96909V3aTkOUhFw6tS25zZq9jiujq7Ms49SmKk8KWJ4rQfKuaF4wLnP0dF8FKXLtztbeCECiFa00IBeFaqJE"
+stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
 
 def calculate_order_amount(price):
     # Replace this constant with a calculation of the order's amount
     # Calculate the order total on the server to prevent
     # people from directly manipulating the amount on the client
     return price
-
 
 @payment_route.route('/create-payment', methods=['POST'])
 def create_payment():
