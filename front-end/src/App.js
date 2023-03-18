@@ -130,7 +130,7 @@ function App() {
             <Route path = "/login"              element = {<LoginForm />} />
             <Route path = "/register"         element = {<Signup />} />
             <Route path = "/checkout"           element = {<CheckoutContainer/>} />
-            <Route path="*"                     element = {<PageNoteFound/>}/>
+            <Route path = "*"                     element = {<PageNoteFound/>}/>
 
 
             <Route     path = "/profile"       element = {<UserLayout />} >
