@@ -105,14 +105,36 @@ function AddNewProduct(props) {
       .then((data) => {
         props.responseData(data)
         setLoading(false)
-        setFormData({})
+        setFormData({
+          product_images: [],
+          sizes: [],
+          colors: [],
+          price: "",
+          discount: "",
+          quantity: "",
+          title: "",
+          description: "",
+          reviews: "",
+          availability: "",
+          product_type: "",
+          pics_info: [],
+          seo: "",
+          category: "",
+          tags: [],
+          products: [],
+          Description_images: {},
+          shippingData: [],
+          series: "",
+          globalCoupon: "",
+          coupon: ""
+        })
 
         toast.success("A new Product has been added .")
 
       })
       .catch((err) => {
         console.log(err)
-        toast.error("Oops something wenr wrong!")
+        toast.error("Oops something went wrong!")
         setLoading(false)
 
       });

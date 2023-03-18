@@ -226,7 +226,7 @@ const Wrapp = styled.div`
       width:100%;
       min-width:110px;
       max-width:180px;
-      height:auto;
+      height:185px;
       object-fit:cover;
      
       
