@@ -1,8 +1,9 @@
 from gevent import monkey
 monkey.patch_all()
 
-from back_end.api import create_app, talisman
+from back_end.api import create_app
 from back_end.api import socketio
+from back_end.api import talisman
 
 from flask import send_from_directory
 import os

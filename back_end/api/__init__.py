@@ -7,6 +7,7 @@ from flask_migrate import Migrate
 from os import path
 import stripe
 from flask_socketio import SocketIO
+from flask_talisman import Talisman
 import os
 from flask_mail import Mail
 from sqlalchemy import text
@@ -29,6 +30,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 migrate = Migrate()
 server_session = Session()
 mail = Mail()  
+talisman = Talisman()
   
 def create_app(config_class=ProdConfig):
     
@@ -42,6 +44,7 @@ def create_app(config_class=ProdConfig):
     mail.init_app(app)
     server_session.init_app(app)
     db.init_app(app)
+    talisman.init_app(app)
    
 
     
