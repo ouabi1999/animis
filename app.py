@@ -1,10 +1,12 @@
+from gevent import monkey
+monkey.patch_all()
+
 from back_end.api import create_app
 from back_end.api import socketio
 
 from flask import send_from_directory
 import os
-from gevent import monkey
-monkey.patch_all()
+
 
 
 app = create_app()

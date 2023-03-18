@@ -4,7 +4,7 @@ from ..models.models import  Orders, orders_serializer, product_orders
 import stripe
 import os
 
-payment_route = Blueprint("payment_route", __name__,  url_prefix="/")
+payment_route = Blueprint("payment_route", __name__)
 
 endpoint_secret = os.environ.get('END_POINT_SECRET')
 
@@ -15,6 +15,7 @@ def calculate_order_amount(price):
     # Calculate the order total on the server to prevent
     # people from directly manipulating the amount on the client
     return price
+
 
 @payment_route.route('/create-payment', methods=['POST'])
 def create_payment():
