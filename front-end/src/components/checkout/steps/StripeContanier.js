@@ -12,7 +12,7 @@ import {OrderContext } from "../../../App";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const stripePromise = loadStripe("pk_test_51Mml6WA0DWih754zpXZvubcGoBCkNlWtg2Xi7lCslEcWhbZ1TE3tJIxbzQZpjkD6X6uv97CM9w198pOjQzuo1mMu00NODQoV3d");
+const stripePromise = loadStripe("pk_test_51MmjNCDJSVePKF96pkaAntU5Qbfu9tgiZYGbp9OtsAWjPvQO1RogW4pnmYy9uYk2UBjyJ9YGvRTsGoOc5UijySPL00w23RXVVK");
 
 export default function StripeContanier() {
   const [clientSecret, setClientSecret] = useState("");

@@ -8,7 +8,7 @@ payment_route = Blueprint("payment_route", __name__)
 
 endpoint_secret = os.environ.get('END_POINT_SECRET')
 
-stripe.api_key = os.environ.get('STRIPE_SECRET_KEY')
+stripe.api_key = "sk_test_51MmjNCDJSVePKF96909V3aTkOUhFw6tS25zZq9jiujq7Ms49SmKk8KWJ4rQfKuaF4wLnP0dF8FKXLtztbeCECiFa00IBeFaqJE"
 
 def calculate_order_amount(price):
     # Replace this constant with a calculation of the order's amount
