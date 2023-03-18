@@ -1,11 +1,13 @@
 from gevent import monkey
 monkey.patch_all()
 
-from back_end.api import create_app
+from back_end.api import create_app, talisman
 from back_end.api import socketio
 
 from flask import send_from_directory
 import os
+from flask_talisman import  ALLOW_FROM
+
 
 
 
@@ -20,6 +22,15 @@ def serve():
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
+@app.route('/normal')
+def normal():
+    return 'Normal'
+
+@app.route('/embeddable')
+@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='*')
+def embeddable():
+    return 'Embeddable'
 
 if __name__ == "__main__":
     
