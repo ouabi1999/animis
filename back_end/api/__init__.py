@@ -32,8 +32,16 @@ server_session = Session()
 mail = Mail()  
 talisman = Talisman()
 csp = {
-    'default-src': '\'self\''
-}  
+    'default-src': '\'self\'',
+    'img-src': '*',
+    'script-src': [
+        '\'self\'',
+        'www.google-analytics.com',
+    ],
+    'style-src': [
+        '\'self\'',
+    ],
+} 
 def create_app(config_class=ProdConfig):
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', instance_relative_config=False) 
@@ -46,7 +54,7 @@ def create_app(config_class=ProdConfig):
     mail.init_app(app)
     server_session.init_app(app)
     db.init_app(app)
-    talisman.init_app(app, content_security_policy=csp)
+    talisman.init_app(app, content_security_policy=csp, content_security_policy_nonce_in=['script-src'])
    
 
     
