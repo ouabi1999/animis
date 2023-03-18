@@ -26,7 +26,7 @@ def not_found(e):
 
 
 @app.route('/embeddable')
-@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='https://www.animis.shop/')
+@talisman(frame_options=ALLOW_FROM, frame_options_allow_from='https://www.animis.shop')
 def embeddable():
     return 'Embeddable'
 
