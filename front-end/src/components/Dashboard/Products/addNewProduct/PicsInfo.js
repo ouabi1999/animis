@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React,{useRef, useState} from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
@@ -6,12 +6,14 @@ export default function PicsInfo({ setFormData, formData}) {
 
    
     const imgInput = useRef()
+    const [imagesPreview, setImagesPreview] = useState([])
     const removeImage = (index) => {
         const pics_info= formData.pics_info.slice();
         setFormData({
           ...formData,
           pics_info: pics_info.filter((x) => x !== index),
         });
+        setImagesPreview(imagesPreview.filter((x) => x !== index))
       };
 
      // handle image input
@@ -33,8 +35,9 @@ export default function PicsInfo({ setFormData, formData}) {
             if (reader.readyState === 2) {
               setFormData({
                 ...formData,
-                pics_info: [...formData.pics_info, reader.result],
+                pics_info: [...formData.pics_info, e.target.files[0]],
               });
+              setImagesPreview([...imagesPreview, reader.result])
             }
           };
           reader.readAsDataURL(e.target.files[0]);
@@ -66,7 +69,7 @@ export default function PicsInfo({ setFormData, formData}) {
                 </div>
 
 
-                {formData.pics_info?.map((img) => {
+                {imagesPreview?.map((img) => {
                     return (
                         <div key={img.index}>
                             <img

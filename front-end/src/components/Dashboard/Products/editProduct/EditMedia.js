@@ -1,44 +1,51 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 function EditMedia({ setFormData, formData}) {
 
 
-    const imgInput = useRef()
-    const removeImage = (index) => {
-        const colors = formData.colors.slice();
-        setFormData({ 
-          ...formData,
-          colors: colors.filter((x) => x !== index),
-        });
-      };
+  const imgInput = useRef()
+  const [imagesPreview, setImagesPreview] = useState([])
+  const removeImage = (index) => {
+      const colors = formData.colors.slice();
+      setFormData({
+        ...formData,
+        colors: colors.filter((x) => x !== index),
+      });
+      setImagesPreview(imagesPreview.filter((x) => x !== index))
 
-     // handle image input
-     const handleImageInput = (e) => {
-        e.preventDefault();
-        if (e.target.id === e.target.name) {
-          return false;
-        } else {
-         imgInput.current.click();
-        }
-      };
+    };
+
+   // handle image input
+   const handleImageInput = (e) => {
+      e.preventDefault();
+      if (e.target.id === e.target.name) {
+        return false;
+      } else {
+       imgInput.current.click();
+      }
+    };
+
+    /// handel image change
+    const handleImageChange = (e) => {
+      e.preventDefault();
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setFormData({
+              ...formData,
+              colors: [...formData.colors, e.target.files[0]],
+
+            });
+            setImagesPreview([...imagesPreview, reader.result])
+          }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    };
+
   
-      /// handel image change
-      const handleImageChange = (e) => {
-        e.preventDefault();
-        if (e.target.files) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            if (reader.readyState === 2) {
-              setFormData({
-                ...formData,
-                 color: [...formData.colors, reader.result],
-              });
-            }
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      };
   
     
 
@@ -69,7 +76,7 @@ function EditMedia({ setFormData, formData}) {
                 </div>
 
 
-                {formData.colors?.map((img) => {
+                {imagesPreview?.map((img) => {
                     return (
                         <div key={img.index}>
                             <img

@@ -1,45 +1,47 @@
-import React,{useRef} from 'react'
+import React,{useRef, useState} from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 export default function EditPicsInfo({ setFormData, formData}) {
 
-   
-    const imgInput = useRef()
-    const removeImage = (index) => {
-        const pics_info= formData.pics_info.slice();
-        setFormData({
-          ...formData,
-          pics_info: pics_info.filter((x) => x !== index),
-        });
-      };
+  const imgInput = useRef()
+  const [imagesPreview, setImagesPreview] = useState([])
+  const removeImage = (index) => {
+      const pics_info= formData.pics_info.slice();
+      setFormData({
+        ...formData,
+        pics_info: pics_info.filter((x) => x !== index),
+      });
+      setImagesPreview(imagesPreview.filter((x) => x !== index))
+    };
 
-     // handle image input
-     const handleImageInput = (e) => {
-        e.preventDefault();
-        if (e.target.id === e.target.name) {
-          return false;
-        } else {
-         imgInput.current.click();
-        }
-      };
-  
-      /// handel image change
-      const handleImageChange = (e) => {
-        e.preventDefault();
-        if (e.target.files) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            if (reader.readyState === 2) {
-              setFormData({
-                ...formData,
-                pics_info: [...formData.pics_info, reader.result],
-              });
-            }
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      };
+   // handle image input
+   const handleImageInput = (e) => {
+      e.preventDefault();
+      if (e.target.id === e.target.name) {
+        return false;
+      } else {
+       imgInput.current.click();
+      }
+    };
+
+    /// handel image change
+    const handleImageChange = (e) => {
+      e.preventDefault();
+      if (e.target.files) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setFormData({
+              ...formData,
+              pics_info: [...formData.pics_info, e.target.files[0]],
+            });
+            setImagesPreview([...imagesPreview, reader.result])
+          }
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    };
   return (
     <Container>
             <label htmlFor="Preview image" style={{fontFamily:"sans-serif"}} > Details Images</label>
@@ -66,7 +68,7 @@ export default function EditPicsInfo({ setFormData, formData}) {
                 </div>
 
 
-                {formData.pics_info !== "" && formData.pics_info.map((img) => {
+                {imagesPreview?.map((img) => {
                     return (
                         <div key={img.index}>
                             <img

@@ -1,7 +1,7 @@
 from flask import Flask, Blueprint
 from flask_bcrypt import Bcrypt
 from flask_session import Session
-
+import cloudinary 
 from flask_cors import  cross_origin, CORS
 from flask_migrate import Migrate
 from os import path
@@ -31,7 +31,11 @@ migrate = Migrate()
 server_session = Session()
 mail = Mail()  
 talisman = Talisman()
-
+cloudinary.config(
+    cloud_name= os.environ.get("CLOUD_NAME"),
+    api_key= os.environ.get("API_KEY"),
+    api_secret= os.environ.get("API_SECRET")
+  )
 def create_app(config_class=ProdConfig):
     
     app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', instance_relative_config=False) 

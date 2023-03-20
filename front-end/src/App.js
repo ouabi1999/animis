@@ -131,8 +131,6 @@ function App() {
             <Route path = "/register"         element = {<Signup />} />
             <Route path = "/checkout"           element = {<CheckoutContainer/>} />
             <Route path = "*"                     element = {<PageNoteFound/>}/>
-
-
             <Route     path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />

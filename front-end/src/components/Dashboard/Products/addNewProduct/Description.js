@@ -61,7 +61,7 @@ function Description({ formData, setFormData }) {
     return (
         <Container>
           
-            <label htmlFor="Description" style={{fontFamily:"sans-serif"}} >Description</label>
+            <label htmlFor="Description" style={{fontFamily:"sans-serif"}}>Description</label>
             <ReactQuill 
             theme="snow"
              value={value} 

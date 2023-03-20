@@ -2,6 +2,7 @@ from flask import  Flask, Blueprint, jsonify, request, json
 from  datetime import datetime, timedelta
 from ...api import db
 from werkzeug.utils import secure_filename
+import cloudinary.uploader
 from ..models.models import (
    
     Products, 
@@ -69,17 +70,31 @@ def get_products_discount():
     })
 
 @products_route.route("/api/add_products", methods=["POST"])
-def products():
+def add_products():
     #print(request.files.getlist("files"))
     shipping_price = request.form.getlist("shipping_price")
     shipping_type = request.form.getlist("shipping_type")
     shipping_delivery = request.form.getlist("shipping_delivery")
+    
+    files = request.files.getlist('colors')
+    pics_details_files = request.files.getlist("pics_info")
+    color_images_urls = []
+    pics_details_urls = []
+    description_images_urls = []
+    
+    for file in files:
+        upload_result = cloudinary.uploader.upload(file)
+        color_images_urls.append(upload_result['secure_url'])
+        
+    for file in pics_details_files:
+        upload_result = cloudinary.uploader.upload(file)
+        pics_details_urls.append(upload_result['secure_url'])
    
     newproducts = Products(
     title = request.form["title"],
     series = request.form["series"],
     sizes = request.form.getlist("sizes"),
-    colors = request.form.getlist("colors"),
+    colors =  color_images_urls,
     tags = request.form.getlist("tags"),
     price = request.form["price"],
     discount = request.form["discount"],
@@ -88,7 +103,7 @@ def products():
     availability = request.form["availability"],
     category = request.form["category"],
     product_type = request.form["product_type"],
-    pics_info =  request.form.getlist("pics_info"),
+    pics_info = pics_details_urls,
     shipping_Method = json.loads(request.form["shipping_Method"]),
     seo =    request.form["seo"],
     coupon = request.form["coupon"],   

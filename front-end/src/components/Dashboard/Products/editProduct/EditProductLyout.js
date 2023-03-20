@@ -124,7 +124,8 @@ function EditProductLyout(props) {
         props.updatedProduct(data)
         setLoading(false);
         setIsUpdated(true);
-        setHasError(true);
+        setHasError(false);
+        toast.success("product have been updated")
       })
 
       .catch(error => {
@@ -132,6 +133,7 @@ function EditProductLyout(props) {
         setLoading(false);
         setHasError(true);
         setIsUpdated(false);
+        toast.error("Oops an error accourd")
       
       })
   

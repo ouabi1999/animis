@@ -1,16 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import axios from 'axios';
+
 function Media({ setFormData, formData}) {
-
-
     const imgInput = useRef()
+    const [imagesPreview, setImagesPreview] = useState([])
     const removeImage = (index) => {
         const colors = formData.colors.slice();
         setFormData({
           ...formData,
           colors: colors.filter((x) => x !== index),
         });
+        setImagesPreview(imagesPreview.filter((x) => x !== index))
+
       };
 
      // handle image input
@@ -32,8 +35,10 @@ function Media({ setFormData, formData}) {
             if (reader.readyState === 2) {
               setFormData({
                 ...formData,
-                colors: [...formData.colors, reader.result],
+                colors: [...formData.colors, e.target.files[0]],
+
               });
+              setImagesPreview([...imagesPreview, reader.result])
             }
           };
           reader.readAsDataURL(e.target.files[0]);
@@ -69,7 +74,7 @@ function Media({ setFormData, formData}) {
                 </div>
 
 
-                {formData.colors?.map((img) => {
+                {imagesPreview?.map((img) => {
                     return (
                         <div key={img.index}>
                             <img
