@@ -57,21 +57,20 @@ def editDisplay(id):
         count_Down = bool(request.form["count_Down"]) 
         
         #check and update header
-        image_url = header["banner"]
+        
         if header:
-            # Check if the image URL starts with "https"
-            if not image_url.startswith('https'):
+            image_url = header.get("banner")
+            if image_url and not image_url.startswith("https"):
                 # If it doesn't, upload the image to Cloudinary
                 uploaded_image = cloudinary.uploader.upload(image_url)
 
                 # Get the URL of the uploaded image from the Cloudinary response
                 image_url = uploaded_image.get('url')
 
-            # Update the header object with the new image URL
-            
+                # Update the header object with the new image URL
+                header['banner'] = image_url
             else:
                 print("Image already uploaded to Cloudinary.")
-        header['banner'] = image_url  
              
         #check and update logo 
         logo_url = ""
