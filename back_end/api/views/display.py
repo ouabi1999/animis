@@ -116,7 +116,7 @@ def editDisplay(id):
                     else:
                         print("Image already uploaded to Cloudinary.")
 
-            category_array.append(item)
+                category_array.append(item)
             
         #loop through each category in the main category array
         if main_category:
