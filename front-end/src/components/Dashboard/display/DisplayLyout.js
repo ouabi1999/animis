@@ -25,7 +25,7 @@ export default function DisplayLyout() {
     useEffect(() => {
 
       setFormData(displayInfo.display)
-
+     
     },[displayInfo])
     const addNew = (event) => {
         event.preventDefault();
@@ -74,7 +74,7 @@ export default function DisplayLyout() {
                 setLoading(false)
 
             });
-    };
+        };
 
 
  
@@ -84,17 +84,16 @@ export default function DisplayLyout() {
       event.preventDefault();
       setLoading(true)
       const data = new FormData();
-    
-      /*formData.sizes.forEach((size) => {
-        data.append("sizes", size);
-      });*/
+      formData.slider.forEach((item) => {
+        data.append("slider", item);
+      });
     
       data.append("main_category", JSON.stringify(formData.main_category));
       data.append("category", JSON.stringify(formData.category));
       data.append("header", JSON.stringify(formData.header));
       data.append("banners", JSON.stringify(formData.banners));
       data.append("pop_up", JSON.stringify(formData.pop_up));
-      data.append("slider", JSON.stringify(formData.slider));
+    
       data.append("logo", formData.logo);
      
       data.append("count_Down", formData.count_Down);

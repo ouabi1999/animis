@@ -52,7 +52,6 @@ export const authSlice = createSlice({
       
       [getUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
-      console.log( payload)
       state.loading = false;
       window.localStorage.setItem('isAuthenticated', true)
   

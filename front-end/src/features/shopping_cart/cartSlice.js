@@ -36,8 +36,8 @@ export const cart_Slice = createSlice({
           selectedColor: action.payload.selectedColor,
           selectedQuantity: action.payload.selectedQuantity,
           selectedSize: action.payload.selectedSize,
-          price: parseInt(action.payload.price),
-          subtotal: parseInt(action.payload.price) * action.payload.selectedQuantity,
+          price: parseFloat(action.payload.price),
+          subtotal: parseFloat(action.payload.price) * action.payload.selectedQuantity,
 
 
 
@@ -97,8 +97,8 @@ export const cart_Slice = createSlice({
         selectedColor: action.payload.selectedColor,
         selectedQuantity: action.payload.selectedQuantity,
         selectedSize: action.payload.selectedSize,
-        price: parseInt(action.payload.price),
-        subtotal: parseInt(action.payload.price) * action.payload.selectedQuantity,
+        price: parseFloat(action.payload.price),
+        subtotal: parseFloat(action.payload.price) * action.payload.selectedQuantity,
       }]
       
       window.localStorage.setItem("cartItems", JSON.stringify(state.cartItems))

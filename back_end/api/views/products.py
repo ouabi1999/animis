@@ -160,8 +160,31 @@ def delete_product(id):
 @products_route.route('/editproduct/<id>',methods=['PUT'])
 def edit_product(id):
     product  = Products.query.filter_by(id = id)
+    
+        
     if product is not None:
-
+        files = request.files.getlist('colors')
+        pics_details_files = request.files.getlist("pics_info")
+        color_images_urls = []
+        pics_details_urls = []
+        description_images_urls = []
+    
+        for file in files:
+            if  file.startswith("http://") or  file.startswith("https://"):
+                color_images_urls.append(file)
+            else:
+                upload_result = cloudinary.uploader.upload(file)
+                color_images_urls.append(upload_result['secure_url'])
+        
+        for file in pics_details_files:
+            if  file.startswith("http://") or  file.startswith("https://"):
+                pics_details_urls.append(file)
+                
+            else:
+                upload_result = cloudinary.uploader.upload(file)
+                pics_details_urls.append(upload_result['secure_url']) 
+            
+        #set product into database
         product.update(dict(
             title = request.form["title"],
             product_type = request.form["product_type"],

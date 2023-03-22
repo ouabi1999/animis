@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import DeleteIcon from '@mui/icons-material/Delete'; 
 
 function DisplayBanners({formData, setFormData}) {
-
+  const [previewImages, setPreviewImages] =  useState(formData.banners || [])
   const imgInput = useRef() 
     
 

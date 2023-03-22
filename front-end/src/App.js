@@ -109,11 +109,10 @@ function App() {
       <Container>
         <OrderContext.Provider value={{  formData, setFormData}}>
         <BrowserRouter >
-          <Routes>
-            <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
-          </Routes>
+          
           
           <Routes>
+            <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
             <Route   path = "/"                   element={<> <Header /> <Nav outlet ={<Outlet/>}/><Footer/></>}>
               <Route path = "/"                   element = {<Home />} />
               <Route path = "contact-us"          element = {<Contact />} />
@@ -130,7 +129,7 @@ function App() {
             <Route path = "/login"              element = {<LoginForm />} />
             <Route path = "/register"         element = {<Signup />} />
             <Route path = "/checkout"           element = {<CheckoutContainer/>} />
-            <Route path = "*"                     element = {<PageNoteFound/>}/>
+            
             <Route     path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
                 <Route path = "myorders"       element = {<MyOrders />} />
@@ -152,6 +151,7 @@ function App() {
               <Route path = "emails"           element = {<Email/>}/>
               <Route path = "customers"        element = {<Customers/>}/>
             </Route>
+            <Route path = "*"                  element = {<PageNoteFound/>}/>
           </Routes>
         </BrowserRouter>
         </OrderContext.Provider>

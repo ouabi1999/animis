@@ -68,6 +68,7 @@ export default function DisplayCategory({formData, setFormData}) {
         category: formData.category.filter(x => x !== item)
 
       })
+      
   }
 
   const categories = [

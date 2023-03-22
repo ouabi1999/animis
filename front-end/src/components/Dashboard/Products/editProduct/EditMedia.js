@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 function EditMedia({ setFormData, formData}) {
@@ -6,6 +6,14 @@ function EditMedia({ setFormData, formData}) {
 
   const imgInput = useRef()
   const [imagesPreview, setImagesPreview] = useState([])
+
+  useEffect(() => {
+    if (imagesPreview.length < 1 ){
+      setImagesPreview(formData.colors)
+    }
+    
+  }, [formData])
+  
   const removeImage = (index) => {
       const colors = formData.colors.slice();
       setFormData({
