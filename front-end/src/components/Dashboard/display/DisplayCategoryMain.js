@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import styled from 'styled-components';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { categoryList } from '../../../common/categoryList';
 
 import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
 
@@ -55,17 +56,8 @@ export default function DisplayCategoryMain({formData, setFormData}) {
     
 
   }
-  const categories = [
-        "clothing",
-        "home",
-        "accessoires",
-        "posters",
-        "stickers",
-        "notebooks",
-        "gadget",
-        "toyes",
-        "bags"
-  ];
+  
+   
   
     
   return (
@@ -132,9 +124,9 @@ export default function DisplayCategoryMain({formData, setFormData}) {
                         })
                     }
                 >
-                    {categories.map((option, index) => (
-                        <MenuItem key={index} value={option}>
-                            {option}
+                    {categoryList?.map((option, index) => (
+                        <MenuItem key={index} value={option.value}>
+                            {option.value}
                         </MenuItem>
                     ))}
                 </TextField>
