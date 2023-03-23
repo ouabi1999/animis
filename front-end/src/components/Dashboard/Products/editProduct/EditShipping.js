@@ -17,7 +17,7 @@ function EditShipping({formData,  setFormData}) {
         e.preventDefault()   
         setFormData({
             ...formData,
-            shippingData: [...formData.shippingData, shipping]
+            shippingInfo: [...formData.shippingInfo, shipping]
 
         })
 
@@ -35,7 +35,7 @@ function EditShipping({formData,  setFormData}) {
         const shipping_Method = formData.shippingData.slice();
         setFormData({
             ...formData,
-            shippingData: shipping_Method.filter((x) => x !== method),
+            shippingInfo: shipping_Method.filter((x) => x !== method),
         });
     };
 
@@ -44,7 +44,7 @@ function EditShipping({formData,  setFormData}) {
             <h4 style={{ fontFamily:"sans-serif" }}>Shipping</h4>
             <div className="shipping-container">
 
-            {formData.shippingData?.map((item, index) => {
+            {formData.shippingInfo?.map((item, index) => {
                 return (
                     <div key={index} className="shipping_method_wrapper">
                         <span className="method_name">{item.type} </span>
@@ -72,14 +72,14 @@ function EditShipping({formData,  setFormData}) {
                         })
                     }
                 >
-                    <MenuItem value={"Free"}> Free</MenuItem>
+                    <MenuItem value={"Free"}> Free </MenuItem>
                     <MenuItem value={"e-Packet"}> e-Packet</MenuItem>
-                    <MenuItem value={"UPS"}>UPS</MenuItem>
-                    <MenuItem value={"USPS"}>USPS</MenuItem>
-                    <MenuItem value={"FedEx"}>FedEx</MenuItem>
-                    <MenuItem value={"DHL"}>DHL</MenuItem>
-                    <MenuItem value={"EMS"}>EMS</MenuItem>
-                    <MenuItem value={"CPO & Air Mail"}>CPO & Air Mai</MenuItem>
+                    <MenuItem value={"UPS"}> UPS </MenuItem>
+                    <MenuItem value={"USPS"}> USPS </MenuItem>
+                    <MenuItem value={"FedEx"}> FedEx </MenuItem>
+                    <MenuItem value={"DHL"}> DHL </MenuItem>
+                    <MenuItem value={"EMS"}> EMS </MenuItem>
+                    <MenuItem value={"CPO & Air Mail"}> CPO & Air Mai </MenuItem>
                     <MenuItem value={"Standard Shipping"}> Standard Shipping </MenuItem>
                 </TextField>
             </div>

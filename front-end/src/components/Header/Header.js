@@ -1,17 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-class Header extends React.Component {
-    render() {
+function Header(){
+ 
+    const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+      `${"check this amazing anime website shop you may like it"} ${window.location.href}`
+    )}`;
+    const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=
+    ${encodeURIComponent("check this amazing anime website shop you may like it")}`;
+    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
       return (
+
         <Container>
         <div className="social-call" >
           <div className="social-call" >
           {/* social link */}
           <div className="social">
-            <a  rel="noreferrer" target="_blank" href="https://facebook.com/animisstore"><i className="fab fa-facebook-f" /></a>
-            <a  rel="noreferrer"   target="_blank" href="https://www.instagram.com/an.imis"><i className="fab fa-instagram" /></a>
-            <a  rel="noreferrer"   target="_blank" href="https://twitter.com/animisshop"><i className="fab fa-twitter" /></a>
-            <a  rel="noreferrer"   target="_blank" href="https://www.youtube.com/@animisshop" ><i className="fab fa-youtube" /></a>
+            <a  rel="noreferrer" target="_blank" href={facebookShareUrl}><i className="fab fa-facebook-f" /></a>
+            <a  rel="noreferrer"   target="_blank" href={whatsappShareUrl }><i className="fab fa-whatsapp" /></a>
+            <a  rel="noreferrer"   target="_blank" href={twitterShareUrl}><i className="fab fa-twitter" /></a>
             {/* phone number*/}
            
           </div>
@@ -19,7 +25,7 @@ class Header extends React.Component {
         </div>
         </Container>
       )
-    }
+    
   }
 
   export default Header

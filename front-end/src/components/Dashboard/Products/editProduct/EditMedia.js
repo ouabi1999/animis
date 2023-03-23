@@ -5,14 +5,14 @@ function EditMedia({ setFormData, formData}) {
 
 
   const imgInput = useRef()
-  const [imagesPreview, setImagesPreview] = useState([])
+  
+  
   const removeImage = (index) => {
       const colors = formData.colors.slice();
       setFormData({
         ...formData,
         colors: colors.filter((x) => x !== index),
       });
-      setImagesPreview(imagesPreview.filter((x) => x !== index))
 
     };
 
@@ -35,10 +35,9 @@ function EditMedia({ setFormData, formData}) {
           if (reader.readyState === 2) {
             setFormData({
               ...formData,
-              colors: [...formData.colors, e.target.files[0]],
+              colors: [...formData.colors, reader.result],
 
             });
-            setImagesPreview([...imagesPreview, reader.result])
           }
         };
         reader.readAsDataURL(e.target.files[0]);
@@ -74,9 +73,9 @@ function EditMedia({ setFormData, formData}) {
               </div>
 
 
-              {imagesPreview?.map((img) => {
+              {formData.colors?.map((img, index) => {
                   return (
-                      <div key={img.index}>
+                      <div key={index}>
                           <img
                               src={img}
                               alt="img"

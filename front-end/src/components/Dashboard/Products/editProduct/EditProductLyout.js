@@ -39,7 +39,7 @@ function EditProductLyout(props) {
       category: "",
       tags: [],
       products: [],
-      shippingData: [],
+      shippingInfo: [],
       id : "",
       globalCoupon:"",
       coupon:""
@@ -110,7 +110,7 @@ function EditProductLyout(props) {
       data.append("description", formData.description);
       data.append("reviews", formData.reviews);
       data.append("category", formData.category);
-      data.append("shipping_Method", JSON.stringify(formData.shippingData));
+      data.append("shipping_Method", JSON.stringify(formData.shippingInfo));
       data.append("seo", formData.seo);
       data.append("product_type", formData.product_type);
       data.append("availability", formData.availability);
@@ -122,10 +122,12 @@ function EditProductLyout(props) {
 
       .then(data => {
         props.updatedProduct(data)
+      
+        setFormData(data)
         setLoading(false);
         setIsUpdated(true);
         setHasError(false);
-        toast.success("product have been updated")
+        toast.success("product updated")
       })
 
       .catch(error => {
@@ -140,7 +142,7 @@ function EditProductLyout(props) {
   }
  
     useEffect(() => {
-      console.log(props.selectedEditProduct)
+      console.log("yes this my be the problem")
       setFormData({
         ...formData,
         id : id,
@@ -159,7 +161,7 @@ function EditProductLyout(props) {
         ratings:ratings,
         reviews:reviews,
         seo:seo,
-        shippingData:shippingInfo,
+        shippingInfo:shippingInfo,
         sizes:sizes,
         tags:tags,
         title:title,
@@ -167,7 +169,7 @@ function EditProductLyout(props) {
        
       })
             
-  }, [props])
+  }, [])
    
     // handle change input
     const handelChange = (event) => {

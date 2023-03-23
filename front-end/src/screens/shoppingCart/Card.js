@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { removeFromCart, addQuantity, subtractQuantity } from "../../features/shopping_cart/cartSlice"
+import { removeFromCart, addQuantity, subtractQuantity, setCartItems } from "../../features/shopping_cart/cartSlice"
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from 'styled-components';
 import EmptyCart from './emptyCart';
@@ -21,10 +21,24 @@ function Card() {
   const [isLoading, setIsLoading] = useState(false)
 
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    
-    }, [])
 
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+     
+
+    }, [])
+  useEffect(() => {
+    getShoppingCart_product()
+  }, [])
+  
+  const updateCart = (products) => {
+      
+      const newCart = cartItems.filter((item) =>
+        products.some((product) => product.id === item.id)
+      );
+      window.localStorage.setItem("cartItems", JSON.stringify(newCart))
+      
+      dispatch(setCartItems(newCart))
+    };
   const getShoppingCart_product = ()=>{
     setIsLoading(true)
     axios.post('/api/get_shopping_cart_products', cartItems)
@@ -33,6 +47,7 @@ function Card() {
         //dispatch(setProducts(response.data.products))
       
          setProducts(response.data.products);
+         updateCart(response.data.products)
          
         
         })
@@ -42,9 +57,9 @@ function Card() {
       });
 
   } 
-  useEffect(() => {
-    getShoppingCart_product()
-  }, [])
+   
+  
+
   
   return (
     <Container>
@@ -71,10 +86,10 @@ function Card() {
 
                         <div className='flex-container'>
 
-                          <div className={products?.find(product => product.id === item.id) ? " first-child " :" first-child skeleton"} >
+                          <div className={products?.find(product => product.id === item.id) ? "first-child" : "first-child skeleton"} >
                           
                             <span>
-                              {products?.find(product => product.id === item.id)?.title}
+                                {products?.find(product => product.id === item.id)?.title}
                             </span>
                             
 

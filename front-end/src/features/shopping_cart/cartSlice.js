@@ -11,6 +11,9 @@ export const cart_Slice = createSlice({
   initialState: initialCartState,
   reducers: {
     // add product to the shopping cart
+    setCartItems(state, action){
+       state.cartItems = action.payload
+    },
     addToCart(state, action) {
 
       const cartItems = JSON.parse(window.localStorage.getItem("cartItems")) || [];
@@ -38,8 +41,6 @@ export const cart_Slice = createSlice({
           selectedSize: action.payload.selectedSize,
           price: parseFloat(action.payload.price),
           subtotal: parseFloat(action.payload.price) * action.payload.selectedQuantity,
-
-
 
         })
         state.cartItems = cartItems
@@ -90,7 +91,6 @@ export const cart_Slice = createSlice({
 
     buyNowItem(state, action) {
       
-       console.log(action.payload)
       state.cartItems = [{
         id: action.payload.id,
         shippingInfo:action.payload.shippingInfo,
@@ -111,5 +111,5 @@ export const cart_Slice = createSlice({
   },
 
 })
-export const { removeFromCart, addQuantity, addToCart, buyNowItem, subtractQuantity } = cart_Slice.actions
+export const { removeFromCart, addQuantity, addToCart,setCartItems, buyNowItem, subtractQuantity } = cart_Slice.actions
 export default cart_Slice.reducer

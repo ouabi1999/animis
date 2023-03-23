@@ -3,6 +3,7 @@ from  datetime import datetime, timedelta
 from ...api import db
 from werkzeug.utils import secure_filename
 import cloudinary.uploader
+from sqlalchemy import desc
 from ..models.models import (
    
     Products, 
@@ -163,19 +164,24 @@ def edit_product(id):
     
         
     if product is not None:
-        color_files = request.files.getlist('colors')
-        pics_details_files = request.files.getlist("pics_info")
+        color_files = request.form.getlist('colors')
+        pics_details_files = request.form.getlist("pics_info")
         color_images_urls = []
         pics_details_urls = []
         description_images_urls = []
         
         if color_files:
+            
             for file in color_files:
                 if isinstance(file, str) and (file.startswith("http://") or file.startswith("https://")):
                     color_images_urls.append(file)
+                  
                 else:
+                    
                     upload_result = cloudinary.uploader.upload(file)
                     color_images_urls.append(upload_result['secure_url'])
+                    
+                    
         if  pics_details_files:
             for file in pics_details_files:
                 if isinstance(file, str) and (file.startswith("http://") or file.startswith("https://")):
@@ -212,5 +218,7 @@ def edit_product(id):
     
 @products_route.route('/api/get_recent_products',methods=['GET'])   
 def get_newLsitedProducts():
-    recent_products = Products.query.filter(Products.created_at >= datetime.utcnow() - timedelta(days=7)).limit(12).all()
+    recent_products = Products.query.filter(Products.created_at >= datetime.utcnow() - timedelta(days=15)).limit(12).all()
+    if recent_products is None :
+        recent_products = Products.query.order_by(desc(Products.id)).limit(10).all()
     return jsonify([*map(productInfo_serializer, recent_products)])

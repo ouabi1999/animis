@@ -41,9 +41,7 @@ export default function ProductsLayout(){
     }
     
     useEffect(() => {
-
         setLoading(true)
-        
         axios.get('/api/get_dashboard_products', { params: {currentPage, per_page: PER_PAGE } })
           .then(response => {
             setLoading(false)
