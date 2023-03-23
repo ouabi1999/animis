@@ -4,6 +4,8 @@
   "private": true,
   "proxy": "https://www.animis.shop",
   "dependencies": {
+    "@cloudinary/react": "^1.11.2",
+    "@cloudinary/url-gen": "^1.9.2",
     "@date-io/date-fns": "^1.3.13",
     "@emotion/styled": "^11.10.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
