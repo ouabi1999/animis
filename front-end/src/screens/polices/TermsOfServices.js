@@ -205,7 +205,9 @@ const Container = styled.div`
        
 
     }
-    
+    a{
+        word-break:break-all;
+    }
     
     h1{
         font-weight:900;

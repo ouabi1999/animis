@@ -317,6 +317,9 @@ const Container = styled.div`
      
 
   }
+  a{
+    word-break:break-all;
+  }
   .list{
     font-size:15px;
     font-weight:500;

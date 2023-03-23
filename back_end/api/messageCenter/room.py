@@ -56,7 +56,7 @@ def joingUserRoom():
         return {"id" : room.id ,'sender': room.sender, "receiver": room.receiver}
                                                          
 
-    else:
+    if sender and receiver:
       
         new_room = Rooms(
             sender  =  sender,

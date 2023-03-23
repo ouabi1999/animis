@@ -6,14 +6,6 @@ function EditMedia({ setFormData, formData}) {
 
   const imgInput = useRef()
   const [imagesPreview, setImagesPreview] = useState([])
-
-  useEffect(() => {
-    if (imagesPreview.length < 1 ){
-      setImagesPreview(formData.colors)
-    }
-    
-  }, [formData])
-  
   const removeImage = (index) => {
       const colors = formData.colors.slice();
       setFormData({
@@ -54,57 +46,55 @@ function EditMedia({ setFormData, formData}) {
     };
 
   
-  
-    
 
 
-    return (
-        <Container>
-            <label htmlFor="Preview image" style={{fontFamily:"sans-serif"}}> Products Images</label>
-            <div className="productImg-container">
-                <input
-                    type="file"
-                    name="colors"
-                    ref={imgInput}
-                    id="file"
-                    style={{ display: "none" }}
-                    accept="image/*"
-                    onChange={handleImageChange}
-                />
-                <div>
-                    <button
-                        className="add-image"
-                        name="imageinput"
-                        id="imageinput"
-                        onClick={handleImageInput}
-                        onChange={handleImageChange}
-                    >
-                        <AddPhotoAlternateIcon className="add_photo_icon" />
-                    </button>
-                </div>
+  return (
+      <Container>
+          <label htmlFor="Preview image" style={{fontFamily:"sans-serif"}}> Products Images</label>
+          <div className="productImg-container">
+              <input
+                  type="file"
+                  name="colors"
+                  ref={imgInput}
+                  id="file"
+                  style={{ display: "none" }}
+                  accept="image/*"
+                  onChange={handleImageChange}
+              />
+              <div>
+                  <button
+                      className="add-image"
+                      name="imageinput"
+                      id="imageinput"
+                      onClick={handleImageInput}
+                      onChange={handleImageChange}
+                  >
+                      <AddPhotoAlternateIcon className="add_photo_icon" />
+                  </button>
+              </div>
 
 
-                {imagesPreview?.map((img) => {
-                    return (
-                        <div key={img.index}>
-                            <img
-                                src={img}
-                                alt="img"
-                                className="imgprview"
-                                onClick={handleImageInput}
-                            />
-                            <span
-                                className="remove_image"
-                                onClick={() => removeImage(img)}
-                            >
-                                x
-                            </span>
-                        </div>
-                    );
-                })}
-            </div>
-        </Container>
-    )
+              {imagesPreview?.map((img) => {
+                  return (
+                      <div key={img.index}>
+                          <img
+                              src={img}
+                              alt="img"
+                              className="imgprview"
+                              onClick={handleImageInput}
+                          />
+                          <span
+                              className="remove_image"
+                              onClick={() => removeImage(img)}
+                          >
+                              x
+                          </span>
+                      </div>
+                  );
+              })}
+          </div>
+      </Container>
+  )
 }
 
 export default EditMedia

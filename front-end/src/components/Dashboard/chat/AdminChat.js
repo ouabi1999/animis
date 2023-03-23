@@ -252,7 +252,7 @@ height:100%;
     border-radius:4px;
     font-size:12px;
     padding:2px 5px;
-    max-width:15vw;
+    max-width:220px;
     white-space:wrap;
     word-wrap: break-word;
 }

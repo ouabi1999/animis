@@ -142,8 +142,7 @@ function Chat(
            <CloseIcon onClick={closeChat} className="close-icon" />
         </div>
       </div>
-          <ChatContainer >
-
+        <ChatContainer >
         {messages?.map(msg => {
           return (
 
@@ -260,7 +259,7 @@ const ChatContainer = styled.div`
         border-radius:4px;
         font-size:12px;
         padding:2px 5px;
-        max-width:15vw;
+        max-width:220px;
         white-space:wrap;
         word-wrap: break-word;
       }

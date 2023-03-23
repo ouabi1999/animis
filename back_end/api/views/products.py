@@ -163,32 +163,32 @@ def edit_product(id):
     
         
     if product is not None:
-        files = request.files.getlist('colors')
+        color_files = request.files.getlist('colors')
         pics_details_files = request.files.getlist("pics_info")
         color_images_urls = []
         pics_details_urls = []
         description_images_urls = []
-    
-        for file in files:
-            if  file.startswith("http://") or  file.startswith("https://"):
-                color_images_urls.append(file)
-            else:
-                upload_result = cloudinary.uploader.upload(file)
-                color_images_urls.append(upload_result['secure_url'])
         
-        for file in pics_details_files:
-            if  file.startswith("http://") or  file.startswith("https://"):
-                pics_details_urls.append(file)
-                
-            else:
-                upload_result = cloudinary.uploader.upload(file)
-                pics_details_urls.append(upload_result['secure_url']) 
+        if color_files:
+            for file in color_files:
+                if isinstance(file, str) and (file.startswith("http://") or file.startswith("https://")):
+                    color_images_urls.append(file)
+                else:
+                    upload_result = cloudinary.uploader.upload(file)
+                    color_images_urls.append(upload_result['secure_url'])
+        if  pics_details_files:
+            for file in pics_details_files:
+                if isinstance(file, str) and (file.startswith("http://") or file.startswith("https://")):
+                    pics_details_urls.append(file)
+                else:
+                    upload_result = cloudinary.uploader.upload(file)
+                    pics_details_urls.append(upload_result['secure_url'])
             
         #set product into database
         product.update(dict(
             title = request.form["title"],
             product_type = request.form["product_type"],
-            colors = request.form.getlist("colors"),
+            colors = color_images_urls,
             sizes = request.form.getlist("sizes"),
             tags = request.form.getlist("tags"),
             price = request.form["price"],
@@ -197,7 +197,7 @@ def edit_product(id):
             description = request.form["description"],
             availability = request.form["availability"],
             category = request.form["category"],
-            pics_info = request.form.getlist("pics_info"),
+            pics_info = pics_details_urls,
             shipping_Method = json.loads(request.form["shipping_Method" ]), 
             coupon = request.form["coupon"],
             series = request.form["series"]
