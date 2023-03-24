@@ -14,6 +14,15 @@ function EditDescription({formData, setFormData, handelChange}) {
         })
     }, [value])
 
+    useEffect(() => {
+      
+      setValue(formData.description)
+
+      
+    
+    }, [formData.description])
+
+
     const handleChange = (content, delta, source, editor) => {
         console.log(editor.getHTML());
         // console.log(JSON.stringify(editor.getContents())); // delta 사용시
@@ -60,7 +69,7 @@ function EditDescription({formData, setFormData, handelChange}) {
                 <label htmlFor="Description" style={{fontFamily:"sans-serif"}} >Description</label>
                 <ReactQuill
                     theme="snow"
-                    value={formData.description}
+                    value={value}
                     onChange={handleChange}
                     modules={modules}
                     formats={formats}
