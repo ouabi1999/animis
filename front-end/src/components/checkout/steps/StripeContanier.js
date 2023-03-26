@@ -12,7 +12,7 @@ import {OrderContext } from "../../../App";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const stripePromise = loadStripe("pk_live_51MmjNCDJSVePKF96sGNBrwMJuUvxbzzCTGZlhhhZrHYh36ndzSHohZfsl7y7kGt8oHgEPIIsk1VOiMvVvtrc5ZCJ005ealqUmZ");
+const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY);
 
 export default function StripeContanier() {
   const [clientSecret, setClientSecret] = useState("");
@@ -20,7 +20,7 @@ export default function StripeContanier() {
   const { activeStepIndex, setActiveStepIndex } =
     useContext(FormContext);
   const {formData, setFormData } =  useContext(OrderContext);
-
+ 
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     fetch("/create-payment", {
