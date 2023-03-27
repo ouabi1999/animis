@@ -53,7 +53,7 @@ export default class AdminProducts extends Component {
                     <div  key={product.id} className="container">
                       <div className="img-container">
                         <a href={"#" + product.id} onClick={() => openModal(product)}>
-                          <img width="80" height="90" src={product.colors[0]} alt="productImage" />
+                          <img width="80" height="90" src={product.pics_info[0]} alt="productImage" />
                         </a>
                         <div className="product-id">
                         <span>{product.id}</span>

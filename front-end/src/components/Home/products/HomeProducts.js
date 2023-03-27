@@ -24,7 +24,7 @@ function HomeProducts(props) {
                   return (
                       <div  key={item.id} className="product_container">
                         <Link   to={"product_details/" + item.id}>
-                          <img src={item.colors[0]} alt="img"/>
+                          <img src={item.pics_info[0]} alt="img"/>
                         </Link>
                       <Product_info>
                     
@@ -101,6 +101,7 @@ const Product_contianer = styled.div`
         border-image: round;
         width:100%;
         height:215px;
+        max-width:220px;
         background-color:rgb(255, 255, 255);
         border-radius: 6px 6px 0 0;
         object-fit:cover;

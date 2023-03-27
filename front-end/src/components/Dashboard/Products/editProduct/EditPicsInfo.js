@@ -39,7 +39,7 @@ export default function EditPicsInfo({ setFormData, formData}) {
           if (reader.readyState === 2) {
             setFormData({
               ...formData,
-              pics_info: [...formData.pics_info, reader.result],
+              pics_info: [reader.result, ...formData.pics_info],
             });
             
           }

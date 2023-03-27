@@ -63,7 +63,7 @@ function ProductCart(props) {
                 <div className="child-container" key = {index}>
                   
                     <div className='img-container'>
-                      <img src={products?.find(product => product.id === item.id)?.colors[0]} alt="" />
+                      <img src={products?.find(product => product.id === item.id)?.colors[item.selectedColor]} alt="" />
                       <div className="quantity">
                       <span>{item.selectedQuantity}</span>
                     </div>
