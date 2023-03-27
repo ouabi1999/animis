@@ -7,7 +7,7 @@ function MostSelling({products, product}) {
       <Container>
           <span>Most selling</span>
           {products.filter(item => {
-              return item.category === product.category
+              return item.orders >= 0
 
           }).slice(0, 4).map((product, index) => {
               return (
