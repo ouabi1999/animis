@@ -79,6 +79,7 @@ def create_app(config_class=ProdConfig):
     from .views.getCustomers import customers_route
     from .views.getOrders import getOrderdProducts_route
     from .views.productFilters import product_filters_route
+    from .views.setRatings import ratings_route
     
     app.register_blueprint(shopping_cart_route)
     app.register_blueprint(products_route)
@@ -86,6 +87,7 @@ def create_app(config_class=ProdConfig):
     app.register_blueprint(customers_route)
     app.register_blueprint(getOrderdProducts_route)
     app.register_blueprint(product_filters_route)
+    app.register_blueprint(ratings_route)
     
     #register messageCenter routes
     app.register_blueprint(get_messages_route)
