@@ -36,7 +36,7 @@ def allowed_file(filename):
 def dashboard_products():
     currentPage = request.args.get('currentPage', 1, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-    products = Products.query.paginate(page=currentPage, per_page=per_page)
+    products = Products.query.filter(((Products.discount - Products.price) // Products.discount * 100) >= 25).paginate(page=currentPage, per_page=per_page)
     return jsonify({
         'products': [*map(productInfo_serializer, products.items)],
         'currentPage': currentPage,

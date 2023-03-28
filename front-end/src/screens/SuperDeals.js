@@ -62,8 +62,8 @@ function SuperDeals() {
         <Wrapper>
           <HeadeSeo title = " Animis - Super deals"/>
              {displayData?.slider?.[parseInt(valueIndex)] ? (
-          <div>
-                <img  style={{width:"100%"}}src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />
+          <div className = "img-cover-container">
+                <img  src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />
           </div>
          ):
          
@@ -83,7 +83,7 @@ function SuperDeals() {
                 return (
                     <div key={index} className="item-container">
                         <Link to={"/product_details/" + product.id}>
-                            <img src={product.colors[0]} alt="" />
+                            <img src={product.pics_info[0]} alt="" />
                         </Link>
                         
                         <div className="product-title">
@@ -96,6 +96,14 @@ function SuperDeals() {
                           </span>
                           
                         </div>
+                        {product.shippingInfo?.map((ship, index)=>{
+                          if(ship.type === "Free"){
+                            return(
+                              <span  key={index} className="shipping"> Free Shipping </span>
+                            )
+                          }
+                        }  
+                      )}
                         
                     </div>
                     
@@ -151,6 +159,22 @@ const Wrapper = styled.div`
       font-family:sans-serif;
       margin-top:8px;
     }
+
+  .img-cover-container{
+    display:flex;
+    justify-content:center;
+   
+  }
+  .img-cover-container>img{
+    width:70%;
+  }
+  @media only screen and (max-width: 490px) {
+ 
+  .img-cover-container>img{
+    width:100%;
+  }
+}
+
 `
 const Container = styled.div`
     display:grid;
@@ -211,6 +235,13 @@ const Container = styled.div`
       border-radius: 6px 6px 0 6px;
       
     }
+    .shipping{
+        font-size:11px;
+        margin-left:4px;
+        margin-top:10px;
+        color:#006622;
+        font-family:'Arial Narrow', Arial, sans-serif;
+  }
 
     @media only screen and (max-width: 1200px) {
  &{
@@ -237,6 +268,9 @@ const Container = styled.div`
  &{
      
     grid-template-columns: repeat(1, auto);
+  }
+  .img-cover-container>img{
+    width:100%;
   }
 }
 
