@@ -3,4 +3,3 @@ Disallow: /checkout/
 Disallow: /admin/
 Disallow: /login
 Disallow: /register
-Disallow: /signup
