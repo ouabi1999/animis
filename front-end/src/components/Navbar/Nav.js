@@ -163,7 +163,7 @@ const Left_section = styled.div`
 
 .logo img{
   width:100%;
-  max-width:130px;
+  max-width:110px;
   min-width:80px;
   height:auto;
   
