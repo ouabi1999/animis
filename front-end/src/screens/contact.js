@@ -33,6 +33,8 @@ function Contact(){
         .then( () => {
             setIsLoading(false)
             toast.success("Email sent")
+            setEmail("")
+            setMessage("")
             
         })
         .catch(message => {
