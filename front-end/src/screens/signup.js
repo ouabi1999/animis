@@ -357,12 +357,11 @@ function Signup() {
 export default Signup
 const Form = styled.form`
     margin:auto;
-    margin-top:15px;
+    margin-top:2%;
     
-    width:40%;
+    width:33%;
     position:relative;
-    max-width:33%;
-    min-width:300px;
+    min-width:360px;
     border-radius:8px;
     border-style:none;
     box-shadow:0px 5px 5px 3px rgba(27, 27, 27, 0.1);
@@ -387,6 +386,13 @@ const Form = styled.form`
         font-size:20px;
     }
 
+    @media only screen and (max-width: 490px) {
+ 
+        &{
+            width:98%;
+            min-width:320px;
+        }
+ }
 
    
 `

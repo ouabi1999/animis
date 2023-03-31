@@ -16,7 +16,7 @@ const SliderProton = (props) => {
         valueLabelDisplay='on'
         step={10}
         marks
-        min={5}
+        min={0}
         max={200}
       />
 

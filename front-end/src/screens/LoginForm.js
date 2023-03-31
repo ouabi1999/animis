@@ -240,8 +240,8 @@ export default LoginForm
 const Form = styled.form`
     margin:auto;
     margin-top:8%;
-    width:30%;
-    min-width:300px;
+    width:33%;
+    min-width:360px;
     min-height:480px;
     border-radius:8px;
     border-style:none;
@@ -251,6 +251,13 @@ const Form = styled.form`
     display:flex;
     flex-direction:column;
     align-items:center;
+    @media only screen and (max-width: 490px) {
+ 
+    &{
+        width:98%;
+        min-width:320px;
+      }
+    }
   
 .logo{
    width:100%;

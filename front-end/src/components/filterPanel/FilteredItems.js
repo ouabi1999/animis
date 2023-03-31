@@ -42,7 +42,9 @@ function FilteredItems(props) {
                 <SeccondSection>
                  
                   <div className="orders">
-                    <span> {item.orders > 1 ?  `${item.orders} orders` : `${item.orders} order`}</span>
+                    <span>
+                      {item.orders + item.ratings.length > 1 ? `${item.orders + item.ratings.length} orders` : `${item.orders + item.ratings.length} order`}
+                    </span>
                   </div>
                    {item.ratings.length > 0 && (
                       <div className="reviews-container">

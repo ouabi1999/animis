@@ -391,7 +391,7 @@
       "isoCode": "064"
     },
     {
-      "name": "Bolivia (Plurinational State of)",
+      "name": "Bolivia",
       "code": "BO",
       "capital": "Sucre",
       "region": "SA",
@@ -682,23 +682,7 @@
       "dialling_code": "+236",
       "isoCode": "140"
     },
-    {
-      "name": "Central African Republic",
-      "code": "CF",
-      "capital": "Bangui",
-      "region": "AF",
-      "currency": {
-        "code": "XAF",
-        "name": "Central African CFA franc",
-        "symbol": "Fr"
-      },
-      "language": {
-        "code": "fr",
-        "name": "French"
-      },
-      "dialling_code": "+236",
-      "isoCode": "140"
-    },
+   
     {
       "name": "Chile",
       "code": "CL",
@@ -787,7 +771,7 @@
       "isoCode": "178"
     },
     {
-      "name": "Congo (Democratic Republic of the)",
+      "name": "Congo",
       "code": "CD",
       "capital": "Kinshasa",
       "region": "AF",
@@ -854,23 +838,7 @@
       "dialling_code": "+385",
       "isoCode": "191"
     },
-    {
-      "name": "Cuba",
-      "code": "CU",
-      "capital": "Havana",
-      "region": "NA",
-      "currency": {
-        "code": "CUC",
-        "name": "Cuban convertible peso",
-        "symbol": "$"
-      },
-      "language": {
-        "code": "es",
-        "name": "Spanish"
-      },
-      "dialling_code": "+53",
-      "isoCode": "192"
-    },
+   
     {
       "name": "Cuba",
       "code": "CU",
@@ -1112,7 +1080,7 @@
       "isoCode": "231"
     },
     {
-      "name": "Falkland Islands (Malvinas)",
+      "name": "Falkland Islands",
       "code": "FK",
       "capital": "Stanley",
       "region": "SA",
@@ -1642,7 +1610,7 @@
       "isoCode": "384"
     },
     {
-      "name": "Iran (Islamic Republic of)",
+      "name": "Iran",
       "code": "IR",
       "capital": "Tehran",
       "region": "AS",
@@ -2033,7 +2001,7 @@
       "isoCode": "446"
     },
     {
-      "name": "Macedonia (the former Yugoslav Republic of)",
+      "name": "Macedonia",
       "code": "MK",
       "capital": "Skopje",
       "region": "EU",
@@ -2254,7 +2222,7 @@
       "isoCode": "484"
     },
     {
-      "name": "Micronesia (Federated States of)",
+      "name": "Micronesia",
       "code": "FM",
       "capital": "Palikir",
       "region": "OC",
@@ -2271,7 +2239,7 @@
       "isoCode": "583"
     },
     {
-      "name": "Moldova (Republic of)",
+      "name": "Moldova",
       "code": "MD",
       "capital": "Chișinău",
       "region": "EU",
@@ -2594,7 +2562,7 @@
       "isoCode": "574"
     },
     {
-      "name": "Korea (Democratic People's Republic of)",
+      "name": "North Korea",
       "code": "KP",
       "capital": "Pyongyang",
       "region": "AS",
@@ -2696,7 +2664,7 @@
       "isoCode": "585"
     },
     {
-      "name": "Palestine, State of",
+      "name": "Palestine",
       "code": "PS",
       "capital": "Ramallah",
       "region": "AS",
@@ -3222,23 +3190,7 @@
       "dialling_code": "+65",
       "isoCode": "702"
     },
-    {
-      "name": "Singapore",
-      "code": "SG",
-      "capital": "Singapore",
-      "region": "AS",
-      "currency": {
-        "code": "SGD",
-        "name": "Singapore dollar",
-        "symbol": "$"
-      },
-      "language": {
-        "code": "en",
-        "name": "English"
-      },
-      "dialling_code": "+65",
-      "isoCode": "702"
-    },
+    
     {
       "name": "Slovakia",
       "code": "SK",
@@ -3327,7 +3279,7 @@
       "isoCode": "710"
     },
     {
-      "name": "Korea (Republic of)",
+      "name": "South Korea",
       "code": "KR",
       "capital": "Seoul",
       "region": "AS",
@@ -3516,7 +3468,7 @@
       "isoCode": "762"
     },
     {
-      "name": "Tanzania, United Republic of",
+      "name": "Tanzania",
       "code": "TZ",
       "capital": "Dodoma",
       "region": "AF",
@@ -3771,7 +3723,7 @@
       "isoCode": "784"
     },
     {
-      "name": "United Kingdom of Great Britain and Northern Ireland",
+      "name": "United Kingdom",
       "code": "GB",
       "capital": "London",
       "region": "EU",
@@ -3788,7 +3740,7 @@
       "isoCode": "826"
     },
     {
-      "name": "United States of America",
+      "name": "United States",
       "code": "US",
       "capital": "Washington, D.C.",
       "region": "NA",
@@ -3858,7 +3810,7 @@
       "isoCode": "548"
     },
     {
-      "name": "Venezuela (Bolivarian Republic of)",
+      "name": "Venezuela",
       "code": "VE",
       "capital": "Caracas",
       "region": "SA",
@@ -3891,23 +3843,7 @@
       "dialling_code": "+84",
       "isoCode": "704"
     },
-    {
-      "name": "Wallis and Futuna",
-      "code": "WF",
-      "capital": "Mata-Utu",
-      "region": "OC",
-      "currency": {
-        "code": "XPF",
-        "name": "CFP franc",
-        "symbol": "Fr"
-      },
-      "language": {
-        "code": "fr",
-        "name": "French"
-      },
-      "dialling_code": "+681",
-      "isoCode": "876"
-    },
+ 
     {
       "name": "Wallis and Futuna",
       "code": "WF",
