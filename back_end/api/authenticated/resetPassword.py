@@ -25,7 +25,7 @@ def reset_password():
         user.token_expiration = datetime.utcnow() + timedelta(minutes = 6)
         db.session.commit()
         msg = Message('Password Reset Request', sender='animis.contact@gmail.com', recipients=[user.email])
-        msg.body = f'To reset your password, please click on this link: http://localhost:3000/reset_password-token/{token}'
+        msg.body = f'To reset your password, please click on this link: https://www.animis.shop/reset_password-token/{token}'
         mail.send(msg)
         return jsonify({'message': "Password reset email sent , Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder."}), 200
     else:
