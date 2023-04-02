@@ -32,13 +32,12 @@ function EditShipping({formData,  setFormData}) {
     }
 
     const remove_ShippingMethod = (method) => {
-        const shipping_Method = formData.shippingData.slice();
+        const shipping_Method = formData.shippingInfo.slice();
         setFormData({
             ...formData,
             shippingInfo: shipping_Method.filter((x) => x !== method),
         });
     };
-
     return (
         <Container>
             <h4 style={{ fontFamily:"sans-serif" }}>Shipping</h4>

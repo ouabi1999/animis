@@ -51,7 +51,15 @@ function DropDownMenu(props) {
           {isOpen && (
           <DropDown_Container>
             <div className='DropDown_Container'>
-             
+                  {user.admin === true ? (
+                     <Link onClick={props.hideMenu} to="/admin" className='profile-container'>
+                     <PersonIcon className="profile-icon" />
+                     <span>
+                        Dashboard
+ 
+                     </span> 
+                   </Link>
+                  ):
                   <Link onClick={props.hideMenu} to="/profile" className='profile-container'>
                     <PersonIcon className="profile-icon" />
                     <span>
@@ -59,6 +67,7 @@ function DropDownMenu(props) {
 
                     </span>
                   </Link>
+                    }
 
                 <button onClick={setLogout} className='logout-container'>
                    <LogoutIcon className="logout-icon"/>

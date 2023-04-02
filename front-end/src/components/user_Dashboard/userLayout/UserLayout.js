@@ -18,7 +18,7 @@ function UserLayout() {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const user = useSelector(state=> state.auth)
+  const user = useSelector(state=> state.auth.user)
   const auth = window.localStorage.getItem("isAuthenticated")
   useEffect(() => {
     if (auth === "false"){
@@ -29,7 +29,9 @@ function UserLayout() {
     
     window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
     
-   
+    if(user.admin === true){
+      navigate("/admin")
+  }
    }, [])
 
   

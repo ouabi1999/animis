@@ -15,7 +15,7 @@ function AdminUsers({
     chatOpend
 
     }){  
-
+    
     const receiverRooms = receiver?.rooms?.filter(room => [sender?.id, receiver?.id].includes(room.sender) && [sender?.id, receiver?.id].includes(room.receiver));
 
     const [isConnected, setIsConnected] = useState(false);
@@ -58,7 +58,8 @@ function AdminUsers({
         }
 
      useEffect(() => {
-        if (!receiverRooms[0] && receiver && sender) {
+        
+        if (!receiverRooms[0] && receiver && sender.admin === false) {
 
             getRoom()
         }

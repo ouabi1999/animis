@@ -38,7 +38,7 @@ cloudinary.config(
   )
 def create_app(config_class=ProdConfig):
     
-    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', instance_relative_config=False) 
+    app = Flask(__name__,  static_folder="../../front-end/build", static_url_path='/', template_folder='../templates', instance_relative_config=True) 
    
     app.config.from_object(config_class)
     bcrypt.init_app(app)
