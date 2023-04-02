@@ -26,10 +26,10 @@ def reset_password():
         db.session.commit()
         msg = Message('Password Reset Request',
                       sender='your_email@gmail.com', recipients=[user.email])
-        reset_url = url_for('reset_password_token',
-                            token=token, _external=True)
         msg.html = render_template(
-            'password_reset_email.html', name=user.name, url=reset_url, expiration=60)
+            'password_reset_email.html',
+            name=user.name, url="https://www.animis.shop/reset_password-token/{token}",
+        )
         mail.send(msg)
         return jsonify({'message': "Password reset email sent , Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder."}), 200
     else:
