@@ -25,7 +25,7 @@ def reset_password():
         user.token_expiration = datetime.utcnow() + timedelta(minutes = 6)
         db.session.commit()
         msg = Message('Password Reset Request',
-                      sender='your_email@gmail.com', recipients=[user.email])
+                      sender='animis.contact@gmail.com', recipients=[user.email])
         msg.html = render_template(
             'password_reset_email.html',
             name=user.firstName, url="https://www.animis.shop/reset_password-token/{token}",
