@@ -27,9 +27,10 @@ def reset_password():
         msg = Message('Password Reset Request',
                       sender='animis.contact@gmail.com', recipients=[user.email])
         msg.html = render_template(
-            'password_reset_email.html',
+             "back_end/api/authenticated/password_reset_email.html",
             name=user.firstName, url="https://www.animis.shop/reset_password-token/{token}",
         )
+       
         mail.send(msg)
         return jsonify({'message': "Password reset email sent , Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder."}), 200
     else:
