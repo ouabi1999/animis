@@ -28,7 +28,7 @@ def reset_password():
                       sender='animis.contact@gmail.com', recipients=[user.email])
         msg.html = render_template(
              "password_reset_email.html",
-            name=user.firstName, url="https://www.animis.shop/reset_password-token/{token}",
+            name=user.firstName, url= f"https://www.animis.shop/reset_password-token/{token}",
         )
        
         mail.send(msg)
