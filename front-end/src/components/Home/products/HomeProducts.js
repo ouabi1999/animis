@@ -150,6 +150,7 @@ const Product_contianer = styled.div`
   .grid-container{
      
     grid-template-columns: repeat(2, 50%);
+    gap:8px;
    
     
     

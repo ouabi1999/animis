@@ -1,4 +1,4 @@
-from flask import request, jsonify, Blueprint, session
+from flask import request, jsonify, Blueprint, session, url_for, render_template
 from flask_mail import  Message
 
 from ...api import db, mail, bcrypt, server_session
@@ -24,8 +24,12 @@ def reset_password():
         user.reset_token = token
         user.token_expiration = datetime.utcnow() + timedelta(minutes = 6)
         db.session.commit()
-        msg = Message('Password Reset Request', sender='animis.contact@gmail.com', recipients=[user.email])
-        msg.body = f'To reset your password, please click on this link: https://www.animis.shop/reset_password-token/{token}'
+        msg = Message('Password Reset Request',
+                      sender='your_email@gmail.com', recipients=[user.email])
+        reset_url = url_for('reset_password_token',
+                            token=token, _external=True)
+        msg.html = render_template(
+            'password_reset_email.html', name=user.name, url=reset_url, expiration=60)
         mail.send(msg)
         return jsonify({'message': "Password reset email sent , Check your email for a link to reset your password. If it doesn’t appear within a few minutes, check your spam folder."}), 200
     else:

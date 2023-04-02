@@ -1,5 +1,5 @@
 User-agent: *
-Disallow: /checkout/
-Disallow: /admin/
-Disallow: /login
-Disallow: /register
+Disallow: https://wwww.animis.shop/checkout/
+Disallow: https://wwww.animis.shop/admin/
+Disallow: https://wwww.animis.shop/login
+Disallow: https://wwww.animis.shop/register
