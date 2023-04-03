@@ -22,13 +22,13 @@ def reset_password():
     if user:
         token = get_uuid()
         user.reset_token = token
-        user.token_expiration = datetime.utcnow() + timedelta(minutes = 6)
+        user.token_expiration = datetime.utcnow() + timedelta(minutes = 15)
         db.session.commit()
         msg = Message('Password Reset Request',
                       sender='animis.contact@gmail.com', recipients=[user.email])
         msg.html = render_template(
              "password_reset_email.html",
-            name=user.firstName, url= f"https://www.animis.shop/reset_password-token/{token}",
+            name = user.firstName, url = f"https://www.animis.shop/reset_password-token/{token}",
         )
        
         mail.send(msg)

@@ -815,6 +815,7 @@ const Product_info = styled.div`
       font-size:20px;
       padding:5px 10px;
       background:none;
+      margin-bottom:6px;
      
     }
 

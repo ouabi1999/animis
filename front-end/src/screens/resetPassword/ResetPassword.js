@@ -98,7 +98,7 @@ const ResetPassword = (props) => {
         <span>
           Changes made to your profile password here,
           will be the password that you will use
-          when  you want login into corazon website
+          when  you want login into animis website
         </span>
 
       </div>
