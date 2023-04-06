@@ -3,42 +3,18 @@ import styled from 'styled-components';
 
 
 import { Button, InputLabel, MenuItem, OutlinedInput, TextField } from '@mui/material';
-import { categoryList } from '../../../../common/categoryList';
+import { categoryList, series, types } from '../../../../common/categoryList';
 
 
 function Organization({formData, setFormData, handelChange}) {
    
-      const types = [
-        "t-shrit",
-        "shirt",
-        "outdore",
-        "handmade",
-        "school",
-        "key-chain",
-        "rings",
-        "earnings",
-        "braclets",
-        "watches",
-        "nickles",
-        "phone case",
-        "earphone case",
-        "other",
-      ];
-      const series = [
-        "one piece",
-        "dr stone",
-        "bleach",
-        "naruto",
-        "vinland saga",
-        "attack on titan",
-        "hunter x hunter",
-        "jujutsu kiesun",
-        "one punch man",
-        "black clover",
-        "baki",
-        "spy x",
-        "other",
-      ];
+      
+     
+      
+      
+      
+      
+      
       
     return (
         <Container>

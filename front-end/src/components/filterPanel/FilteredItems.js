@@ -43,7 +43,7 @@ function FilteredItems(props) {
                  
                   <div className="orders">
                     <span>
-                      {item.orders + item.ratings.length > 1 ? `${item.orders + item.ratings.length} orders` : `${item.orders + item.ratings.length} order`}
+                          {`Orders(${item.orders + item.ratings.length})`}
                     </span>
                   </div>
                    {item.ratings.length > 0 && (
@@ -254,7 +254,8 @@ const SeccondSection = styled.div`
   align-items:center;
   .orders{
     
-    font-size:13px;
+    font-size:0.7em;
+    font-weight:smaller;
     padding:0 5px;
     
 
