@@ -36,7 +36,7 @@ function HomeProducts(props) {
                          
                           <div className="orders">
                             <span>
-                            {item.orders + item.ratings.length > 1 ? `${item.orders + item.ratings.length} orders` : `${item.orders + item.ratings.length} order`}
+                                  {`Orders(${item.orders + item.ratings.length})`}
                             </span>
                           </div>
                            {item.ratings.length > 0 && (
@@ -219,11 +219,12 @@ const FirstSection = styled.div`
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap; 
-      font-size:12px;
+      font-size:0.75rem;
       max-width:220px;
       width:100%;
-      margin-top:0;
+      margin-top:3px;
       padding:0 5px;
+      font-weight:smaller;
     }  
 
 `
@@ -232,7 +233,8 @@ const SeccondSection = styled.div`
   align-items:center;
   .orders{
     
-    font-size:13px;
+    font-size:0.7em;
+    font-weight:smaller;
     padding:0 5px;
     
 

@@ -7,7 +7,7 @@ import Slider from "react-slick"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Pagination } from "swiper";
+import { Autoplay, FreeMode, Navigation, Pagination } from "swiper";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -41,9 +41,17 @@ function NewArrival() {
      <img  className="title" src="./images/newarrivals.svg" alt=""/>
       <div className='container'>
      <Swiper
+        
         slidesPerView={2}
         spaceBetween={10}
         freeMode={true}
+        loop={true}
+        
+          autoplay={{
+            delay: 2500,
+            disableOnInteraction: false,
+          }}
+
         pagination={{
           clickable: true,
         }}
@@ -76,8 +84,8 @@ function NewArrival() {
         }
           
       }
-        modules={[FreeMode]}
-        className="mySwiper"
+      modules={[FreeMode, Navigation, Autoplay]}
+      className="mySwiper"
       >   
      
             {products.length >  0 ? (
@@ -103,12 +111,12 @@ function NewArrival() {
 
               ) :
               <Wrapper>
-                <div className="skeleton"/> 
-                <div className="skeleton"/> 
-                <div className="skeleton"/>
-                <div className="skeleton"/> 
-                <div className="skeleton"/> 
-                <div className="skeleton"/>
+                <div className="skeleton item1"/> 
+                <div className="skeleton item2"/> 
+                <div className="skeleton item3" />
+                <div className="skeleton item4"/> 
+                <div className="skeleton item5"/> 
+                <div className="skeleton item6"/>
               </Wrapper>
             }
           </Swiper>
@@ -175,17 +183,33 @@ const Parent_container = styled.div`
 
    @media only screen and (min-width: 600px) {
     /* For tablets: */
+       .item3 {
+        display:none;
+      }
       
     
   }
-  @media only screen and (max-width: 1022px) {
-    
+
+  @media only screen and (max-width: 480px) {
+    .item1, .item2, .item3, .item4 {
+        display:none;
+        
+        
+      }
+      .skeleton{
+        height:175px;
+        width:140px;
+      }
+      
   }
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     .product-price{
         font-size:15px;
     }
+    .item1, .item2 {
+        display:none;
+      }
    
   }
   

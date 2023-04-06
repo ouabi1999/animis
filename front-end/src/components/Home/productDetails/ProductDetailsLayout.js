@@ -39,10 +39,11 @@ function ProductDetailsLayout() {
 
       dispatch(getProductDetails(params.id))
       window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-      
+      setSelectedColor(0)
+      selectColor(0)
     
        
-    }, [dispatch, params.id, formData])
+    }, [params.id])
 
    
     
@@ -259,9 +260,9 @@ function ProductDetailsLayout() {
                     </span>
                     <span
                       className="reviews-number">
-                      {product.ratings.length > 0 ?  `${product.ratings.length} Reviews` : `${product.ratings.length} Review`}
+                          {product.ratings.length > 0 ?  `${product.ratings.length} Reviews` : `${product.ratings.length} Review`}
                     </span>
-                    <span className="orders-number"> {product.orders + product.ratings.length > 1 ?  `${product.orders + product.ratings.length} orders` : `${product.orders + product.ratings.length} order`}</span>
+                    <span className="orders-number"> {product.orders + product.ratings.length > 1 ?  `${product.orders + product.ratings.length} Orders` : `${product.orders + product.ratings.length} Order`}</span>
                   </Reveiwes_container>
 
                   <div className='price-info-container'>
