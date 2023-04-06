@@ -1,15 +1,12 @@
 import React from 'react'
 import styled from "styled-components"
 import {Link } from "react-router-dom"
-function Recommended({products, product}) {
+function Recommended({products, isLoading}) {
     return (
         <RecommendedForYou>
             <span>Recommended For You </span>
-            <div >
-                {products.filter(item => {
-                    return item.category === product.category
-
-                }).slice(0, 3).map((product, index ) => {
+            <div>
+                {products?.map((product, index ) => {
                     return (
                         <div key={index} className="recommended-container">
                             <Link to={"/product_details/" + product.id}>
@@ -19,9 +16,18 @@ function Recommended({products, product}) {
                         </div>
                     )
                 })}
-
             </div>
+             {isLoading &&(
+                       [1, 2, 3].map((index ) => {
+                        return (
+                            <div key={index} style={{width:"140px", marginBottom:"8px", height:"145px"}} 
+                                className="recommended-container skeleton"
+                              >            
 
+                            </div>
+                        )
+                    })
+             )}
         </RecommendedForYou>
     )
 }

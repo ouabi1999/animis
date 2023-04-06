@@ -19,41 +19,71 @@ import DescriptionProduct from './DescriptionProduct';
 import { v4 as uuidv4 } from "uuid";
 import { faIR } from 'date-fns/locale';
 import HeadeSeo from '../../../common/Heade';
+import axios from "axios"
 
 function ProductDetailsLayout() {
-
+  const index = uuidv4();
   const dispatch = useDispatch()
-
   const params = useParams()
   const [maxOrderWorning, setMaxOrderWorning] = useState(false)
   const auth = window.localStorage.getItem("isAuthenticated")
-  const [formData, setFormData] = useState({
-      items: 12,
-      rating: 0,
-      IndexRating: 0,
-      stars: 1,
-      
-    })
-    const index = uuidv4();
+  const [recommendedLoading, setRecommendedLoading]   = useState(false)
+  const [mostSellingLoading, setMostSellingLoading]   = useState(false)
+  const [mostSellingProducts, setMostSellingProducts] = useState([])
+  const [recommendedProducts, setRecommendedProducts] = useState([])
+  const {product, hasError, isLoaded} = useSelector(state => state.productDetails)
+  const user = useSelector(state=> state.auth.user)
+  const products = useSelector(state=> state.products.products)
+  const [isLoading, setIsLoading] = useState(false)
+  const [newRatings, setNewRatings ] = useState(null)
+  const [required,  setRequired] = useState(false)
+  const navigate = useNavigate()
+
     useLayoutEffect(() => {
 
       dispatch(getProductDetails(params.id))
       window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
       setSelectedColor(0)
-      selectColor(0)
-    
+      setSelectedSize(0)
+      handleSubmit_filter_by_category()
+      handleSubmit_filter_by_mostSelling()
        
     }, [params.id])
 
-   
+
+    const handleSubmit_filter_by_category = (category) => {
+      setRecommendedLoading(true)
+      axios.get('/api/get_filtred_by_category', {
+        params: {
+          category: category,
+          
+         }
+      }).then(response => {
+     
+        setRecommendedProducts(response.data.products)
+        setRecommendedLoading(false)
+      }).catch(error => {
+        // handle error
+        setRecommendedLoading(false)
+        console.log(error)
+      });
+    }
+    const handleSubmit_filter_by_mostSelling = () => {
+      setMostSellingLoading(true)
+      axios.get("/api/get_filtred_by_most-selling").then(response => {
+      
+
+        setMostSellingProducts(response.data.products)
+        setMostSellingLoading(false)
+      }).catch(error => {
+        // handle error
+        
+        setMostSellingLoading(false)
+        console.log(error)
+      });
+    }
     
-    const {product, hasError, isLoaded} = useSelector(state => state.productDetails)
-    const user = useSelector(state=> state.auth.user)
-    const products = useSelector(state=> state.products.products)
-    const [isLoading, setIsLoading] = useState(false)
-    const [newRatings, setNewRatings ] = useState(null)
-    const [required,  setRequired] = useState(false)
-    const navigate = useNavigate()
+    
 
     const [selected, setSelected] = useState({
       isDescription:true,
@@ -105,9 +135,26 @@ function ProductDetailsLayout() {
     }
   }
 
+ useLayoutEffect(() => {
 
+      dispatch(getProductDetails(params.id))
+      window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+      setSelectedColor(0)
+      setSelectedSize(0)
+      
+       
+    }, [params.id])
   
+  useEffect(() => {
+    if (product !== null){
 
+      handleSubmit_filter_by_category(product?.category)
+  
+      handleSubmit_filter_by_mostSelling()
+    }
+    
+  }, [product])
+  
   
     
 
@@ -414,7 +461,7 @@ function ProductDetailsLayout() {
 
                 </CenterSide>
                 <RightSide>
-                  <Recommended products = {products} product = {product} />
+                  <Recommended  isLoading = {recommendedLoading} products = {recommendedProducts} />
                
                 </RightSide>
                  
@@ -423,7 +470,7 @@ function ProductDetailsLayout() {
 
             <Wrapper>
               
-                <MostSelling products={products} product={product} />
+                <MostSelling  isLoading = {mostSellingLoading} products={mostSellingProducts}/>
               
               <div className='description-container'>
                 <div className='headers'>

@@ -1,7 +1,7 @@
 from flask import  Flask, Blueprint, jsonify, request, json
 import math
 from ...api import db
-from sqlalchemy import or_ 
+from sqlalchemy import or_ , desc
 from sqlalchemy import text
 from sqlalchemy.sql import func
 from werkzeug.utils import secure_filename
@@ -74,3 +74,26 @@ def get_products():
         'total_products': total_products 
         
         })
+    
+
+
+@product_filters_route.route('/api/get_filtred_by_category')
+def get_products_by_category():
+    category = request.args.get('category')
+    
+    # Build the filter conditions
+    if category:
+        products = Products.query.filter_by(category = category).limit(3)
+        return jsonify({"products" :[*map(productInfo_serializer, products)]})
+    
+    return jsonify({"products" :[]})
+
+@product_filters_route.route('/api/get_filtred_by_most-selling')
+def get_most_Selling_products():
+   
+   
+    products = Products.query.order_by(desc(Products.orders.any())).limit(4).all()
+    
+   
+    
+    return jsonify({"products" :[*map(productInfo_serializer, products)]})

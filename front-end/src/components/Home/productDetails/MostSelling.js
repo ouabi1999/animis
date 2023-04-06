@@ -2,14 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-function MostSelling({products, product}) {
+function MostSelling({products, isLoading}) {
   return (
       <Container>
-          <span>Most selling</span>
-          {products.filter(item => {
-              return item.orders >= 0
-
-          }).slice(0, 4).map((product, index) => {
+          <span> Most selling</span>
+          {products?.map((product, index) => {
               return (
                   <div key={index}>
                       <Link to={"/product_details/" + product.id}>
@@ -19,6 +16,17 @@ function MostSelling({products, product}) {
                   </div>
               )
           })}
+        {isLoading &&(
+                       [1, 2, 3].map((index ) => {
+                        return (
+                            <div key={index} style={{width:"140px", marginBottom:"8px", height:"145px"}} 
+                                className="recommended-container skeleton"
+                              >            
+
+                            </div>
+                        )
+                    })
+             )}
       </Container>
   )
 }
