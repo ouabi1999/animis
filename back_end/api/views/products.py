@@ -3,7 +3,7 @@ from  datetime import datetime, timedelta
 from ...api import db
 from werkzeug.utils import secure_filename
 import cloudinary.uploader
-from sqlalchemy import desc
+from sqlalchemy import desc, asc
 from ..models.models import (
    
     Products, 
@@ -50,7 +50,7 @@ def dashboard_products():
 def get_home_products():
     start = request.args.get('start', 0, type=int)
     per_page = request.args.get('per_page', 10, type=int)
-    products = Products.query.offset(start).limit(per_page).all()
+    products = Products.query.order_by(desc(Products.orders.any())).offset(start).limit(per_page).all()
     total_products = Products.query.count()
     return jsonify({
         'products': [*map(productInfo_serializer, products)],
@@ -218,7 +218,6 @@ def edit_product(id):
     
 @products_route.route('/api/get_recent_products',methods=['GET'])   
 def get_newLsitedProducts():
-    recent_products = Products.query.filter(Products.created_at >= datetime.utcnow() - timedelta(days=15)).limit(12).all()
-    if recent_products is None :
-        recent_products = Products.query.order_by(desc(Products.id)).limit(10).all()
+    recent_products = Products.query.order_by(desc(Products.created_at)).limit(12)
+    
     return jsonify([*map(productInfo_serializer, recent_products)])

@@ -39,16 +39,7 @@ function ProductDetailsLayout() {
   const [required,  setRequired] = useState(false)
   const navigate = useNavigate()
 
-    useLayoutEffect(() => {
-
-      dispatch(getProductDetails(params.id))
-      window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-      setSelectedColor(0)
-      setSelectedSize(0)
-      handleSubmit_filter_by_category()
-      handleSubmit_filter_by_mostSelling()
-       
-    }, [params.id])
+   
 
 
     const handleSubmit_filter_by_category = (category) => {
@@ -146,12 +137,12 @@ function ProductDetailsLayout() {
     }, [params.id])
   
   useEffect(() => {
-    if (product !== null){
-
+    
+      
       handleSubmit_filter_by_category(product?.category)
   
       handleSubmit_filter_by_mostSelling()
-    }
+    
     
   }, [product])
   

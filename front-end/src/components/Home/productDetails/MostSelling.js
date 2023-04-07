@@ -16,7 +16,7 @@ function MostSelling({products, isLoading}) {
                   </div>
               )
           })}
-        {isLoading &&(
+          {isLoading &&(
                        [1, 2, 3].map((index ) => {
                         return (
                             <div key={index} style={{width:"140px", marginBottom:"8px", height:"145px"}} 
