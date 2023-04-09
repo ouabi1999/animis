@@ -41,13 +41,12 @@ function HomeProducts(props) {
                           </div>
                            {item.ratings.length > 0 && (
                               <div className="reviews-container">
-                                  <span>
-                                  <StarIcon className='star-icon' />
-                                  </span>
-                                   <span className="reviews">
-                                  {(item.ratings.reduce((total, value) => total += value.stars, 0) / item.ratings.length).toFixed(1)}
-                                  
-                                    </span>
+                                  <div>
+                                      <StarIcon className='star-icon' />
+                                  </div>
+                                   <div className="reviews">
+                                        {(item.ratings.reduce((total, value) => total += value.stars, 0) / item.ratings.length).toFixed(1)}
+                                    </div>
                                    
                               </div> 
 
@@ -233,6 +232,7 @@ const FirstSection = styled.div`
 const SeccondSection = styled.div`
   display:flex;
   align-items:center;
+  justify-content:space-between;
   .orders{
     
     font-size:0.7em;
@@ -244,24 +244,27 @@ const SeccondSection = styled.div`
 
 .reviews-container{
   
-  position:absolute;
-  right:10px;
+  
   display:flex;
   align-items:center;
+  margin-right:8px;
+  justify-content:center;
   
   
 }
 .reviews{
   font-size:12px;
+
   
    
 }
 .star-icon{
   color:#1f1f2e;
   font-size:14px;
-  float:right;
-  margin-left:2px;
-  margin-bottom:1px;
+  margin-top:2.5px;
+  margin-right:2px;
+  background:orange;
+ 
 
   
   
