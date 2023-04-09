@@ -26,8 +26,9 @@ function Description({ formData, setFormData }) {
   };
   const modules = {
     toolbar: [
-      //[{ 'font': [] }],
-      [{ header: [1, 2, false] }],
+      [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],
+      [{size: []}],
+      
       ["bold", "italic", "underline", "strike", "blockquote"],
       [
         { list: "ordered" },
@@ -42,7 +43,7 @@ function Description({ formData, setFormData }) {
   };
   
   const formats = [
-    //'font',
+    'font',
     "header",
     "bold",
     "italic",
@@ -57,6 +58,9 @@ function Description({ formData, setFormData }) {
     "align",
     "color",
     "background",
+    "table",
+    "size",
+    
   ];
     return (
         <Container>
@@ -77,7 +81,9 @@ function Description({ formData, setFormData }) {
 export default Description
 
 const Container = styled.div`
-
+     background-color:#fff;
+     min-height:150px;
+     padding:10px;
     .wrapper-class {
         padding: 1rem;
         border: 1px solid #ccc;

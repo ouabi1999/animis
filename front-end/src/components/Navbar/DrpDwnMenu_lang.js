@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components"
 import Flag from 'react-world-flags'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -8,17 +8,24 @@ function DrpDwnMenu_lang() {
     const [isActive, setIsActive] = useState(false)
     const [language, setLanguage] = useState("")
     const [currency, setCureency] = useState("")
-    const [country, setCountry] = useState(window.localStorage.getItem("country") || "us")
-    
+    const [country, setCountry] = useState(window.localStorage.getItem("country") || "us" )
 
     const DropDown =  () =>{
         setIsActive(!isActive)
     }
-    const save = ()=>{
-         
-    }
    
-       
+    useEffect(() => {
+        if(!window.localStorage.getItem("country")){
+            fetch("https://ipinfo.io/json?token=ced98efb100ff5")
+            .then(response => response.json())
+            .then(data => {
+              setCountry(data.country)
+              console.log(data)
+              window.localStorage.setItem("country", data.country)
+             })
+            .catch(error => console.log(error));
+        }
+      }, []);
     
   return (
     <OutsideClickHandler

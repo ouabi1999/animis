@@ -478,7 +478,7 @@ function ProductDetailsLayout() {
                     onClick={() =>
                       setSelected({isDescription: false, isReviews: true })}
                   >
-                    Reviews
+                    {`Customer Reviews(${product.ratings?.length})`}
                   </button>
                 </div>
                 
@@ -955,8 +955,8 @@ const Wrapper =  styled.div`
   .headers button{
     margin-right:15px;
     padding:10px 4px;
-    font-size:19px;
-    font-family:Helvetica, sans-serif
+    font-size:16px;
+    font-family:'Arial Narrow', Arial,  Helvetica, sans-serif
   }
 
   

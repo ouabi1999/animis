@@ -1,33 +1,36 @@
 import React from 'react'
 import styled from "styled-components"
-import {Link } from "react-router-dom"
-function Recommended({products, isLoading}) {
-    return (
-        <RecommendedForYou>
-            <span>Recommended For You </span>
-            <div>
-                {products?.map((product, index ) => {
-                    return (
-                        <div key={index} className="recommended-container">
-                            <Link to={"/product_details/" + product.id}>
-                                <img src={product.colors[0]} alt="" />
-                            </Link>
-                            <span className="product-price">${product.price}</span>
-                        </div>
-                    )
-                })}
-            </div>
-             {isLoading &&(
-                       [1, 2, 3].map((index ) => {
-                        return (
-                            <div key={index} style={{width:"140px", marginBottom:"8px", height:"145px"}} 
-                                className="recommended-container skeleton"
-                              >            
+import { Link } from "react-router-dom"
+function Recommended({ products, isLoading }) {
+  return (
+    <RecommendedForYou>
+      <span>Recommended For You </span>
 
-                            </div>
-                        )
-                    })
-             )}
+      {isLoading ? (
+        [1, 2, 3].map((index) => {
+          return (
+            <div key={index} style={{ width: "140px", marginBottom: "8px", height: "145px" }}
+              className="recommended-container skeleton"
+            >
+
+            </div>
+          )
+        })
+      ) :
+        <div>
+          {products?.map((product, index) => {
+            return (
+              <div key={index} className="recommended-container">
+                <Link to={"/product_details/" + product.id}>
+                  <img src={product.colors[0]} alt="" />
+                </Link>
+                <span className="product-price">${product.price}</span>
+              </div>
+            )
+          })}
+        </div>
+
+      }
         </RecommendedForYou>
     )
 }

@@ -6,17 +6,8 @@ function MostSelling({products, isLoading}) {
   return (
       <Container>
           <span> Most selling</span>
-          {products?.map((product, index) => {
-              return (
-                  <div key={index}>
-                      <Link to={"/product_details/" + product.id}>
-                          <img src={product.colors[0]} alt="" />
-                      </Link>
-                      <span className="product-price">${product.price}</span>
-                  </div>
-              )
-          })}
-          {isLoading &&(
+          
+          {isLoading ?(
                        [1, 2, 3].map((index ) => {
                         return (
                             <div key={index} style={{width:"140px", marginBottom:"8px", height:"145px"}} 
@@ -26,7 +17,19 @@ function MostSelling({products, isLoading}) {
                             </div>
                         )
                     })
-             )}
+             ):
+             products?.map((product, index) => {
+              return (
+                  <div key={index}>
+                      <Link to={"/product_details/" + product.id}>
+                          <img src={product.colors[0]} alt="" />
+                      </Link>
+                      <span className="product-price">${product.price}</span>
+                  </div>
+              )
+          })
+             
+             }
       </Container>
   )
 }

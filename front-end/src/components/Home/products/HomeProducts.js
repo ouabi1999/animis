@@ -41,12 +41,14 @@ function HomeProducts(props) {
                           </div>
                            {item.ratings.length > 0 && (
                               <div className="reviews-container">
-                           
+                                  <span>
+                                  <StarIcon className='star-icon' />
+                                  </span>
                                    <span className="reviews">
                                   {(item.ratings.reduce((total, value) => total += value.stars, 0) / item.ratings.length).toFixed(1)}
                                   
                                     </span>
-                                   <StarIcon className='star-icon' />
+                                   
                               </div> 
 
                            )}
@@ -256,10 +258,10 @@ const SeccondSection = styled.div`
 }
 .star-icon{
   color:#1f1f2e;
-  font-size:15px;
+  font-size:14px;
   float:right;
   margin-left:2px;
-  margin-bottom:2px;
+  margin-bottom:1px;
 
   
   
