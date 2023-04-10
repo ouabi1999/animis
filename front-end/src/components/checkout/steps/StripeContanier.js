@@ -9,6 +9,7 @@ import { FormContext } from "../CheckoutContainer";
 import Skeleton from "../Skeleton";
 import SkeletonLoader from "../Skeleton";
 import {OrderContext } from "../../../App";
+import { useSelector } from "react-redux";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
@@ -17,9 +18,10 @@ const stripePromise = loadStripe("pk_live_51MmjNCDJSVePKF96sGNBrwMJuUvxbzzCTGZlh
 export default function StripeContanier() {
   const [clientSecret, setClientSecret] = useState("");
   const [isLoading, setIsLoading] = useState(false)
-  const { activeStepIndex, setActiveStepIndex } =
-    useContext(FormContext);
+  const { activeStepIndex, setActiveStepIndex } = useContext(FormContext);
   const {formData, setFormData } =  useContext(OrderContext);
+  const cartItems =  useSelector((state) => state.cart.cartItems)
+  
  
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
@@ -43,7 +45,7 @@ export default function StripeContanier() {
         deliveryTime : formData.deliveryTime,
         totalPrice: formData.totalPrice,
         currency:"usd",
-        ordered_products:JSON.stringify(formData.ordered_products)
+        ordered_products:JSON.stringify(cartItems)
 
       }),
     })

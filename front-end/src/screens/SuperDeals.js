@@ -18,7 +18,7 @@ function SuperDeals() {
     const [filtredProducts, setFiltredProducts] = useState([]);
 
     const [loading, setLoading] = useState(false);
-    const valueIndex = window.localStorage.getItem("selectedImageSlider")
+    const valueIndex = window.localStorage.getItem("selectedImageSlider") || 0
     const [currentPage, setCurrentPage] = useState(1);
     const PER_PAGE = 20;
     const [totalProucts, setTotalProucts] = useState(0)
@@ -60,7 +60,10 @@ function SuperDeals() {
   
     return (
         <Wrapper>
-          <HeadeSeo title = " Animis - Super deals"/>
+          <HeadeSeo 
+              title = "Animis - Super deals"
+              description = "Shop the Best Deals on Anime Figurines, Clothing, and Accessories at Animis: Your One-Stop-Shop for All Things Anime"
+           />
              {displayData?.slider?.[parseInt(valueIndex)] ? (
           <div className = "img-cover-container">
                 <img  src={displayData?.slider[parseInt(valueIndex)]} alt="slider" />
