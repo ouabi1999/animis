@@ -211,7 +211,28 @@ function ProductDetailsLayout() {
     }
   }
 
-
+   const buyNow = (product)=>{
+    if (auth === "true"){
+      navigate("/checkout")
+      dispatch(buyNowItem(
+        { 
+          
+          id:product.id,
+          shippingInfo:product.shippingInfo,
+          price:product.price,
+          selectedColor:selectedColor, 
+          selectedSize:selectedSize,
+          selectedQuantity : quantity,
+          index : index
+        } 
+      ))
+    }
+    else{
+      navigate("/register")
+     }
+     
+  
+   }
 
     const stars = Array(5).fill(0);
     const fiveStars = product?.ratings.length > 0 ? product?.ratings.filter(item => item.stars === 5).reduce((total, value) => {
@@ -407,26 +428,10 @@ function ProductDetailsLayout() {
                   <Buttons_container>
                     <button
                       className="buy-button"
-                      type="button" onClick={() => {
-                        
-
-                          dispatch(buyNowItem(
-                            { 
-                              
-                              id:product.id,
-                              shippingInfo:product.shippingInfo,
-                              price:product.price,
-                              selectedColor:selectedColor, 
-                              selectedSize:selectedSize,
-                              selectedQuantity : quantity,
-                              index : index
-                            } 
-                          ))
-                          
-                          navigate("/checkout")
-                      
-                      }}>
-                      Buy Now
+                      type="button" 
+                      onClick={() => buyNow(product)}
+                      >
+                       Buy Now
                     </button>
 
                     <button

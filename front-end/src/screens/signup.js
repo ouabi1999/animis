@@ -132,7 +132,7 @@ function Signup() {
       
                   dispatch(register(result))
                   setFormData({...formData, isLoading : false })
-                  navigate(-2);
+                  navigate(-1);
                 }
       
       

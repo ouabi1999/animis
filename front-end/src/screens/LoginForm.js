@@ -78,7 +78,7 @@ function LoginForm() {
           setIsLoading(false);
          
           
-          navigate(-1);
+          navigate(-2);
 
           
         }

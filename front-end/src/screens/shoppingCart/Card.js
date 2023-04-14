@@ -39,6 +39,8 @@ function Card() {
       
       dispatch(setCartItems(newCart))
     };
+
+    
   const getShoppingCart_product = ()=>{
     setIsLoading(true)
     axios.post('/api/get_shopping_cart_products', cartItems)

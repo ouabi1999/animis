@@ -9,12 +9,12 @@ function ProductSubtotal(props) {
     const auth = window.localStorage.getItem("isAuthenticated")
     const location = window.locationbar
     const navigateTo = ()=>{
-        console.log(location)
+     
         if (auth === "true"){
             navigate("/checkout")
         }
         else{
-            navigate("/login")
+            navigate("/register")
         }
     }
   return (
