@@ -136,15 +136,20 @@ function ProductDetailsLayout() {
        
     }, [params.id])
   
-  useEffect(() => {
+    useEffect(() => {
     
       
       handleSubmit_filter_by_category(product?.category)
   
       handleSubmit_filter_by_mostSelling()
+      return () => {
+        setRecommendedProducts([])
+        setMostSellingProducts([])
+      } 
     
     
-  }, [product])
+    }, [product])
+ 
   
   
     
@@ -230,7 +235,7 @@ function ProductDetailsLayout() {
    
     return (
      <Product_details_Wrapp>
-      <HeadeSeo title= " Animis - Product details"/>
+      <HeadeSeo title= " Animis - Product details" description = {product?.title}/>
         {isLoaded === false && product !== null  ? (
           
           <>

@@ -12,7 +12,7 @@ import MainFilter from '../components/Navbar/mainFilter'
 import HeadeSeo from '../common/Heade'
 
 
-function Home() {
+function Home({newArrivalsProducts}) {
   useEffect(() => {
  
      // 👇️ scroll to top on page load
@@ -27,7 +27,7 @@ function Home() {
         <Banner/>
         <Categories/>
         
-        <NewArrival/>
+        <NewArrival newArrivalsProducts= {newArrivalsProducts}/>
         <ProductsLyout/>
         <Services/>
         

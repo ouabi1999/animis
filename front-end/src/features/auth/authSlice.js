@@ -37,6 +37,7 @@ export const authSlice = createSlice({
       logout(state, action) {
         state.user = null
         window.localStorage.setItem('isAuthenticated', false)
+        window.location.href="/"
       },
     },
     extraReducers: {

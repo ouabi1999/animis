@@ -27,7 +27,6 @@ function DropDownMenu(props) {
     ).then(response => {
       if (response.ok) {
         dispatch(logout())
-        window.location.href = "/"
         return response.json()
     }
   }).catch(error=> console.log(error))   

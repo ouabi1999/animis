@@ -15,25 +15,7 @@ import "swiper/css/pagination";
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-function NewArrival() {
-
-   const [products, setProducts] = useState([])
-
-  
-   useEffect(() => {
-    axios.get('/api/get_recent_products')
-      .then(response => {
-        // Handle the JSON data returned from the Flask back-end
-        setProducts(response.data);
-      })
-      .catch(error => {
-        // Handle any errors that occurred
-        console.log(error);
-      });
-
-
-    }, [])
-    
+function NewArrival({newArrivalsProducts}) {
 
   return (
 
@@ -88,8 +70,8 @@ function NewArrival() {
       className="mySwiper"
       >   
      
-            {products.length >  0 ? (
-                  products?.map((item, index) => {
+            {newArrivalsProducts.length >  0 ? (
+                  newArrivalsProducts?.map((item, index) => {
                     return (
                      
                      <SwiperSlide key={index}>

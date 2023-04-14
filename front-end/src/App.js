@@ -43,13 +43,14 @@ import PageNoteFound from './common/PageNotFound';
 import Orders from './components/Dashboard/Orders';
 import Email from './components/Dashboard/Email';
 import Customers from './components/Dashboard/Customers';
+import axios from 'axios';
 
 
 export const OrderContext = createContext();
 function App() {
  const dispatch = useDispatch()
  const cartItems = useSelector(state=> state.cart.cartItems)
- 
+ const [newArrivalsProducts, setNewArrivalsProducts] = useState([])
   const [formData, setFormData ] = useState({
     firstName: "",
     lastName:"",
@@ -71,24 +72,21 @@ function App() {
 
 });
 
-  /* getUser = () =>{
-     fetch("/user")
-     .then( response =>
-       {if (!response.ok) {
- 
-         throw Error(response.status +' '+ response.statusText)
-         
-     }else{
-       
-       return response.json()
-       
-     }
-   })
-     .then(data =>  this.props.dispatch(login(data)))
-     
-     .catch(error=> console.log(error))
-   }*/
+  
+useEffect(() => {
+  axios.get('/api/get_recent_products')
+    .then(response => {
+      // Handle the JSON data returned from the Flask back-end
+      setNewArrivalsProducts(response.data);
+    })
+    .catch(error => {
+      // Handle any errors that occurred
+      console.log(error);
+    });
 
+
+  }, [])
+  
 
   // fetch product info from the backend or server
   useEffect(() => {
@@ -114,7 +112,7 @@ function App() {
           <Routes>
             <Route path = "/successful-order"  element={<SuccessfulOrder/>}/>
             <Route   path = "/"                   element={<> <Header /> <Nav outlet ={<Outlet/>}/><Footer/></>}>
-              <Route path = "/"                   element = {<Home />} />
+              <Route path = "/"                   element = {<Home newArrivalsProducts = {newArrivalsProducts} />} />
               <Route path = "contact-us"          element = {<Contact />} />
               <Route path = "about-us"            element = {<About />} />
               <Route path = "shopping-cart"       element = {<Card />} />
