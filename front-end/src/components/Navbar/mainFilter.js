@@ -1,24 +1,32 @@
 import React from 'react'
 import styled from "styled-components"
 import SearchInput from './SearchInput'
-
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import SupportAgentIcon from '@mui/icons-material/SupportAgent';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 function MainFilter() {
   return (
     <Container>
-      <Wrapp>
-           <img className="skeleton" src="./logos/onepunch.png" alt=""/>
-        </Wrapp>
      
-        
-        
-        
-        <Wrapp>
-           <img className="skeleton" src="./logos/One_Piece_Logo.png" alt="" />
-        </Wrapp>
-        <Wrapp>
-           <img className="skeleton" src="./logos/Dragon_Ball_Logo.png" alt="" />
-        </Wrapp>
-        <Wrapp>
+      <MinWrap>
+          <MonetizationOnIcon className="icon"/>
+          <span>
+            Money back guarantee
+          </span>
+      </MinWrap>
+      <MinWrap>
+        <VerifiedUserIcon className= "icon"/>
+        <span>Safe & reliable payments</span>
+      </MinWrap>
+      <MinWrap>
+          <SupportAgentIcon className= "icon"/>
+          <span> 24/7 Customer service</span>
+      </MinWrap>
+      
+
+     <div className="series-container">
+
+      <Wrapp>
            <img  className="skeleton" src="./logos/baki.png" alt="" />
         </Wrapp>
         <Wrapp>
@@ -27,8 +35,16 @@ function MainFilter() {
         <Wrapp>
            <img className="skeleton" src="./logos/Attack-on-Titan-Logo.png" alt="" />
         </Wrapp>
-        
-        
+      <Wrapp>
+           <img className="skeleton" src="https://res.cloudinary.com/dzpzy1o1y/image/upload/v1681526190/naruto-37644_fb2gcy.png" alt=""/>
+      </Wrapp>
+        <Wrapp>
+           <img className="skeleton" src="./logos/One_Piece_Logo.png" alt="" />
+        </Wrapp>
+        <Wrapp>
+           <img className="skeleton" src="./logos/Dragon_Ball_Logo.png" alt="" />
+        </Wrapp>
+     </div>
     </Container>
   )
 }
@@ -36,8 +52,8 @@ function MainFilter() {
 export default MainFilter
 const Container = styled.div`
      display:flex;
-     justify-content:flex-end;
      align-items:center;
+     justify-content:space-between;
      padding-right:10px;
      padding:8px;
      color:rgba(60, 60, 60, 0.9);
@@ -49,9 +65,14 @@ const Container = styled.div`
          height:100%;
          
        }
-     @media only screen and (max-width:768px) {
-    &{
-      display:none;
+       .series-container{
+        display:flex;
+         align-items:center;
+
+       }
+     @media only screen and (max-width:1115px) {
+      .series-container{
+        display:none;
       
      
       
@@ -96,5 +117,23 @@ const Wrapp = styled.div`
   }
 }
 
+
+`
+const MinWrap = styled.div`
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    display:flex;
+    align-items:center;
+    padding: 2px 5px ;
+    flex-wrap:nowrap;
+    border-left:1px solid rgba(60, 64, 67, 0.1);
+
+     span{
+       font-size:1rem;
+       color:#000;
+     }
+    .icon{
+      color:#e65c00;
+      margin-right:3px;
+    }
 
 `

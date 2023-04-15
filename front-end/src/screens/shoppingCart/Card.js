@@ -13,8 +13,6 @@ import HeadeSeo from '../../common/Heade';
 
 function Card() {
 
-  
-
   const dispatch = useDispatch()
   const [products, setProducts] = useState([])
   const cartItems =  useSelector((state) => state.cart.cartItems)

@@ -51,7 +51,7 @@ const Container =  styled.div`
     
     
     min-width:320px;
-    min-height:49vh;
+    height:49vh;
     
     
     display:grid;
