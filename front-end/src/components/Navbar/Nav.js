@@ -10,7 +10,6 @@ import { connect, useSelector } from 'react-redux';
 import "../../App.css"
 
 //import component
-import LoginForm from "../../screens/LoginForm"
 import { logout } from "../../features/auth/authSlice"
 import DropDownMenu from './dropDownMenu';
 import DrpDwnMenu_lang from './DrpDwnMenu_lang';

@@ -6,8 +6,7 @@ import Contact from "./screens/contact"
 import About from "./screens/about"
 import Card from "./screens/shoppingCart/Card"
 import Header from './components/Header/Header'
-import LoginForm from './screens/LoginForm'
-import Signup from './screens/signup'
+
 import Dashboard from './components/Dashboard/Dashboard'
 import Chart from './components/Dashboard/Chart'
 import DashLayout from './components/Dashboard/DashLayout'
@@ -44,6 +43,7 @@ import Orders from './components/Dashboard/Orders';
 import Email from './components/Dashboard/Email';
 import Customers from './components/Dashboard/Customers';
 import axios from 'axios';
+import Auth from './screens/auth/Auth';
 
 
 export const OrderContext = createContext();
@@ -124,9 +124,8 @@ useEffect(() => {
               <Route path= "super_deals/:id"      element = {<SuperDeals/>}/>
               
             </Route>
-            <Route path = "/login"              element = {<LoginForm />} />
-            <Route path = "/register"         element = {<Signup />} />
-            <Route path = "/checkout"           element = {<CheckoutContainer/>} />
+            <Route path = "/register"          element = {<Auth/>} />
+            <Route path = "/checkout"          element = {<CheckoutContainer/>} />
             
             <Route     path = "/profile"       element = {<UserLayout />} >
                 <Route path = "/profile"       element = {<Profile />} />
@@ -135,7 +134,6 @@ useEffect(() => {
                 <Route path = "help-center"    element = {<HelpCenter />} />
                 <Route path = "notifications"  element = {<Notifications />} />
             </Route>
-              <Route path='/forget-password'   element={<ForgotPassword/>}/>
 
               <Route path='/reset_password-token/:id' element={<ResetPassword/>}/>
 

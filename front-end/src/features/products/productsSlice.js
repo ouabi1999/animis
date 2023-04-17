@@ -17,8 +17,12 @@ export const products_Slice = createSlice({
        
         
        
-        setNextStart(state, action){},
-        setTotalProducts(state, action){}
+        setNextStart(state, action){
+
+        },
+        setTotalProducts(state, action){
+            
+        }
         
     }
 })

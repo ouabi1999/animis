@@ -61,7 +61,7 @@ function ForgotPassword() {
     return (
 
         <Container>
-            <HeadeSeo title = "Forget password"/>
+            <HeadeSeo title = "Forgot password"/>
         <PopUpEdit onSubmit={formik.handleSubmit}>
 
                 {hasError === true && (
