@@ -46,7 +46,7 @@ function MainMenu(props) {
 
               : 
               
-              <Link to ="/login" className="sign_in_button" >
+              <Link to ="/register" className="sign_in_button" >
                 <span>
                   <PersonIcon />
                 </span>

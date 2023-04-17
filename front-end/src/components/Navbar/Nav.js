@@ -73,7 +73,7 @@ function Nav(props) {
 
               : 
 
-              <NavLink to ="/login" className="sign_in_button" >
+              <NavLink to ="/register" className="sign_in_button" >
                 <span>
                   <PersonIcon />
                 </span>
