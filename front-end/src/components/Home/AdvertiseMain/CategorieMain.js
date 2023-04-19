@@ -60,14 +60,20 @@ const Container =  styled.div`
   
 
    #link , div{
-      background-size: cover;
+      background-size: contain;
+      background-repeat:no-repeat;
+      background-position: center;
+
       border-radius: 4px;
-      background-color: lightblue;
+      background-color:#e3e3e3;
       box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-      animation: skeleton-loading 1s linear infinite alternate;
+     
+  }
+  div{
+     animation: skeleton-loading 1s linear infinite alternate;
       -webkit-animation: skeleton-loading 1s linear infinite alternate;
       animation: skeleton-loading 1s linear infinite alternate;
-}
+  }
 
 @-webkit-keyframes skeleton-loading {
   0% {
