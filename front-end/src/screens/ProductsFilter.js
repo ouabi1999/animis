@@ -36,6 +36,7 @@ function ProductsFilter() {
     minPrice,
     maxPrice,
     search,
+    searchChange
     } = useSelector((state) => state.filteredProduct);
     const [products, setProducts] = useState([]);
     const [paginateClicked, setPaginateClicked] = useState("")
@@ -100,17 +101,25 @@ function ProductsFilter() {
     setPaginateClicked(value)
     
   }
+  useEffect(()=>{
+    return () => {
 
+      dispatch(setSearch(""))
+    }
+  },[])
+ 
  useEffect(() => {
   setCurrentPage(1)
+ 
   
  }, [   
         ratings,
-        product_type_list,category,
+        product_type_list,
+        category,
         productType,
         minPrice,
         maxPrice,
-        search
+        searchChange
     ])
  
   useEffect(() => {
@@ -125,7 +134,7 @@ function ProductsFilter() {
         productType,
         minPrice,
         maxPrice,
-        search,
+        searchChange,
         paginateClicked
     ])
   

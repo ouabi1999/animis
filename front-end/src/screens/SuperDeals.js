@@ -8,6 +8,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import HeadeSeo from '../common/Heade';
+import HomeProducts from "../components/Home/products/HomeProducts"
 
 function SuperDeals() {
     
@@ -81,43 +82,9 @@ function SuperDeals() {
         </div>
         
         {!loading ? (
-        <Container>
-           {filtredProducts?.map((product, index )=> {
-                return (
-                    <div key={index} className="item-container">
-                        <Link to={"/product_details/" + product.id}>
-                            <img src={product.pics_info[0]} alt="" />
-                        </Link>
-                        
-                        <div className="product-title">
-                            <span> {product.title}</ span>
-                        </div>
-                        <div className='second-child'>
-                          <span className="product-price"> US ${product.price}</span>
-                          <span className={ product.discount > product.price && product.discount && "product-discount"}>{product.discount > product.price ? `- ${((  product.discount - product.price  )  / product.discount * 100).toFixed(0)}% `  : ""}
-
-                          </span>
-                          
-                        </div>
-                        {product.shippingInfo?.map((ship, index)=>{
-                          if(ship.type === "Free"){
-                            return(
-                              <span  key={index} className="shipping"> Free Shipping </span>
-                            )
-                          }
-                        }  
-                      )}
-                        
-                    </div>
-                    
-                    )
-                })}
-            
-        </Container>
-
         
-
-     
+          <HomeProducts products = {filtredProducts}/>
+        
          ):
          <Container >
          {[0,1, 1, 1, 4, 4, 4, 4, 4, 4].map((_, index)=>{

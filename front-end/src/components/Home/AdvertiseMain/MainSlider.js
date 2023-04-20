@@ -136,7 +136,7 @@ const Container = styled.div`
 
  img{
     border-radius: 4px;
-    object-fit: cover;
+    object-fit: fill;
     min-width:200px;
     height:100%;
     width:100%;

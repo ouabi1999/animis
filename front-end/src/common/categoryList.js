@@ -1,17 +1,18 @@
 export const categoryList = [
   { id: 1, label: "Clothing", value: "clothing" },
   { id: 2, label: "Electronics", value: "electronics" },
-  { id: 3, label: "Home & Garden", value: "home & garden" },
-  { id: 4, label: "Posters", value: "posters" },
-  { id: 5, label: "Bags", value: "bags" },
-  { id: 6, label: "Accessories", value: "accessories" },
-  { id: 7, label: "Notebooks", value: "notebooks" },
-  { id: 8, label: "Stickers", value: "stickers" },
-  { id: 9, label: "Figures", value: "figures" },
-  { id: 10, label: "Plushies", value: "plushies" },
-  { id: 11, label: "Cosplay", value: "cosplay" },
-  { id: 12, label: "Art Supplies", value: "art supplies" },
-  { id: 13, label: "Books & Manga", value: "books & manga" },
+  { id: 3, label: "Posters", value: "posters" },
+  { id: 4, label: "Bags", value: "bags" },
+  { id: 5, label: "Accessories", value: "accessories" },
+  { id: 6, label: "Notebooks", value: "notebooks" },
+  { id: 7, label: "Stickers", value: "stickers" },
+  { id: 8, label: "Figures", value: "figures" },
+  { id: 9, label: "Plushies", value: "plushies" },
+  { id: 10, label: "Cosplay", value: "cosplay" },
+  { id: 11, label: "Books & Manga", value: "books & manga" },
+  { id: 12, label: "Home & Garden", value: "home & garden" },
+  { id: 13, label: "Art Supplies", value: "art supplies" },
+
 ];
 
 export const series = [

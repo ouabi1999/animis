@@ -80,12 +80,10 @@ const Categories = () => {
             <Accessories_container  data = {displayData?.category?.[3]} className='box-shadow'>
             <h2>{displayData?.category?.[3]?.categoryName}</h2>
                 
-                    <Link to ="/category" onClick={()=> filter(displayData?.category?.[3]?.categoryName)}>
+                <Link to ="/category" onClick={()=> filter(displayData?.category?.[3]?.categoryName)}>
                     <Wrapp className='accessories box-shadow'>
                     </Wrapp>  
-                    </Link>
-                
-
+                </Link>
             </Accessories_container>
             <Poster_container className='box-shadow'>
             <h2>{displayData?.category?.[4]?.categoryName}</h2>
@@ -220,7 +218,10 @@ const Accessories_container = styled.div`
         background-image:url(${props => props?.data?.img1});
         width:100%;
         height:270px;
-        background-size:cover;
+        background-size:contain;
+        background-position:center;
+        background-repeat:no-repeat;
+        background-color:#ffff;
         border-radius:8px;
         box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1),
         0px 2px 5px 0px rgba(50, 50, 93, 0.1),

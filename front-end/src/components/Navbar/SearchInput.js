@@ -2,7 +2,7 @@ import React , {useState} from 'react'
 import styled from 'styled-components'
 import Fade from 'react-reveal/Fade';
 import SearchIcon from '@mui/icons-material/Search';
-import {setCategory, setProductType, setRatings, setSearch} from '../../features/categories/categorySlice';
+import {setCategory, setSearchChange, setProductType, setRatings, setSearch} from '../../features/categories/categorySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -10,19 +10,20 @@ import { Navigate, useNavigate } from "react-router-dom";
 function SearchInput() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [searchValue, setSearchValue] = useState("")
+  const search  = useSelector((state) => state.filteredProduct.search);
   const [required, setRequired] = useState(false)
+  
 
   const handleChange = (value) => {
-     setSearchValue(value)
+     dispatch(setSearch(value))
 
   }
   const handleSearchSubmit =()=>{
-    if (searchValue !== ""){
-      dispatch(setCategory(""))
-      dispatch(setProductType(""))
-      dispatch(setRatings(""))
-      dispatch(setSearch(searchValue))
+    if (search !== ""){
+      dispatch(setCategory(null))
+      dispatch(setProductType(null))
+      dispatch(setRatings(null))
+      dispatch(setSearchChange(search))
       navigate("/category")
     }else{
       setRequired(true)
@@ -38,7 +39,7 @@ function SearchInput() {
       <Fade top >
         
           <input type="search" className='input' style={required ? {border:"1px solid red"}:{}}
-            value={searchValue}
+            value={search}
             onChange={(e) => handleChange(e.target.value)}
             onMouseDown={()=> setRequired(false)}
             placeholder="Search For Product"
@@ -56,7 +57,7 @@ function SearchInput() {
       <Fade top >
         <div className='mobile-input'>
           <input type="search" className='input'
-               value={searchValue}
+               value={search}
                onChange={(e) => handleChange(e.target.value)}
                placeholder="Search For Product"
             

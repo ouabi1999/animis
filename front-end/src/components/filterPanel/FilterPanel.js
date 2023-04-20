@@ -61,7 +61,7 @@ function FilterPanel(props){
                <div>
                 
                 <div className='category-input-group'>
-                    <p className='label'>Category</p>
+                    <p className='label'>Categories</p>
                     <FilterCategoryToggle
                       selectedCategory = {selectedCategory}
                       handleSelectCategory={handleSelectCategory}

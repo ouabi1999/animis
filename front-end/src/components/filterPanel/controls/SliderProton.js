@@ -17,7 +17,7 @@ const SliderProton = (props) => {
         step={10}
         marks
         min={0}
-        max={200}
+        max={500}
       />
 
     </Container>

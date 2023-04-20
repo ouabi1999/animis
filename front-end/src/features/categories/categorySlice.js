@@ -32,6 +32,7 @@ const initialState = {
     minPrice: 0,
     maxPrice: 200,
     search: null,
+    searchChange:"",
     currentPage: 1,
       
 
@@ -45,12 +46,10 @@ export const category_Slice = createSlice({
         // FILTER SPECIFIC PRODUCT BY CATEGORY
         setCategory: (state, action) => {
             state.category = action.payload;
-            console.log(action.payload)
           },
 
           setProductType: (state, action) => {
             state.productType = action.payload;
-            console.log(action.payload)
             const CheckedProduct_type = state.product_type_list.map((item) =>
             item.id === action.payload ? { ...item, checked: !item.checked } : item
                 );
@@ -61,22 +60,26 @@ export const category_Slice = createSlice({
 
           setMinPrice: (state, action) => {
             state.minPrice = action.payload;
-            console.log(action.payload)
+            
           },
 
           setMaxPrice: (state, action) => {
             state.maxPrice = action.payload;
-            console.log(action.payload)
+            
           },
 
           setSearch: (state, action) => {
             state.search = action.payload;
-            console.log(action.payload)
+            
+            
+          },
+          setSearchChange : (state, action) => {
+            state.searchChange = action.payload
           },
 
           setRatings: (state, action) => {
             state.ratings = action.payload;
-            console.log(action.payload)
+            
           },
 
         
@@ -112,7 +115,8 @@ export const {
             setMaxPrice,
             setSearch,
             setRatings,
-            setFiltredData
+            setFiltredData,
+            setSearchChange
 
              } = category_Slice.actions
 export default category_Slice.reducer
