@@ -31,7 +31,7 @@ const initialState = {
     productType: null,
     minPrice: 0,
     maxPrice: 200,
-    search: null,
+    search: "",
     searchChange:"",
     currentPage: 1,
       
