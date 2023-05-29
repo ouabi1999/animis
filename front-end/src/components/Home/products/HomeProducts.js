@@ -23,7 +23,7 @@ function HomeProducts(props) {
                 {products?.map(item => {
                   return (
                       <div  key={item.id} className="product_container">
-                        <Link   to={"product_details/" + item.id}>
+                        <Link   to={"/product_details/" + item.id}>
                           <img src={item.pics_info[0]} alt="img"/>
                         </Link>
                       <Product_info>

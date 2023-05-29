@@ -17,8 +17,6 @@ import Recommended from './Recommended';
 import MostSelling from './MostSelling';
 import DescriptionProduct from './DescriptionProduct';
 import { v4 as uuidv4 } from "uuid";
-import { faIR } from 'date-fns/locale';
-import HeadeSeo from '../../../common/Heade';
 import axios from "axios"
 
 function ProductDetailsLayout() {
@@ -256,7 +254,6 @@ function ProductDetailsLayout() {
    
     return (
      <Product_details_Wrapp>
-      <HeadeSeo title= " Animis - Product details" description = {product?.title}/>
         {isLoaded === false && product !== null  ? (
           
           <>
