@@ -5,7 +5,7 @@ import styled from "styled-components"
 import AdminChat from './AdminChat'
 import Users from './Users'
 import io from "socket.io-client";
-let endPoint = "https://wwww.animis.shop";
+let endPoint = "https://dolphin-app-bmmxt.ondigitalocean.app";
 let socket = io.connect(`${endPoint}`);
 function ChatLayout() {
     const AllUsers = useSelector(state => state.customers.customers)
