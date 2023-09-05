@@ -2,7 +2,7 @@
   "name": "animis",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://dolphin-app-bmmxt.ondigitalocean.app",
+  "proxy": "https://animis.onrender.com",
   "dependencies": {
     "@cloudinary/react": "^1.11.2",
     "@cloudinary/url-gen": "^1.9.2",

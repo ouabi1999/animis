@@ -7,7 +7,7 @@ import Chat from './Chat';
 import AdminUsers from './AdminUsers';
 import HeadeSeo from '../../../common/Heade';
 
-let endPoint = "https://dolphin-app-bmmxt.ondigitalocean.app";
+let endPoint = "https://animis.onrender.com";
 let socket = io.connect(`${endPoint}`);
 function ClientChatLayout() {
   const AllUsers = useSelector(state => state.customers.customers)
