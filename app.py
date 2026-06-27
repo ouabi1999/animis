@@ -1,5 +1,4 @@
-from gevent import monkey
-monkey.patch_all()
+
 
 from back_end.api import create_app
 from back_end.api import socketio
@@ -11,7 +10,7 @@ import os
 
 
 app = create_app()
-
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 @app.route("/")
 
 def serve():
